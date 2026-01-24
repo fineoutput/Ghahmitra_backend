@@ -525,7 +525,7 @@ dt {
   padding-left: 55px;
 }
 .submenu li.active > a {
-  color: #ed3338;
+  color: #72ddb4;
   background-color: #ffffff;
 }
 .topbar {
@@ -3220,36 +3220,36 @@ span.main-boxx{
 
 
 .navbar-custom, .button-menu-mobile {
-  background-color: #ed3338 !important;
+  background-color: #cde7dd !important;
 }
 
 #sidebar-menu > ul > li > a.active {
-  color: #ed3338 !important;
+  color: #99eece !important;
   background-color: #f9f9f9;
 }
 
 #sidebar-menu > ul > li > a:hover, #sidebar-menu > ul > li > a:focus, #sidebar-menu > ul > li > a:active {
-  color: #ed3338;
+  color: #cde7dd;
   text-decoration: none;
 }
 .btn-info {
   color: #fff;
-  background-color: #ed3338 !important;
-  border: 1px solid #ed3338;
+  background-color: #cde7dd !important;
+  border: 1px solid #cde7dd;
 }
 
 .right-w3l input[type="submit"] {
   color: #fff;
-  background: #aa2724 !important;
+  background: #cde7dd !important;
 }
 i.fa.fa-hand-o-down {
-  color: #ad2624;
+  color: #cde7dd;
 }
 
 .btn-info {
     color: #fff;
-    background-color: #ed3338 !important;
-    border: 1px solid #ed3338;
+    background-color: #cde7dd !important;
+    border: 1px solid #cde7dd;
 }
 
 li.list-style {
@@ -3431,7 +3431,7 @@ margin-right: 11px !important;
 
 .navbar-custom,
 .button-menu-mobile {
-    background-color: #ed3338 !important;
+    background-color: #cde7dd !important;
 }
 
 .app-search .form_control,

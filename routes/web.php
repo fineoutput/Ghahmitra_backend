@@ -12,6 +12,11 @@ use App\Http\Controllers\Admin\ContactUsController;
 use App\Http\Controllers\Admin\CrmController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Auth\adminlogincontroller;
+use App\Http\Controllers\Admin\CustomersController;
+use App\Http\Controllers\Admin\ServicesController;
+use App\Http\Controllers\Admin\Services2Controller;
+use App\Http\Controllers\Admin\Services3Controller;
+use App\Http\Controllers\Admin\AvailabilityController;
 
 /*
 |--------------------------------------------------------------------------
@@ -70,6 +75,52 @@ Route::get('/update_settings/{id}', [CrmController::class, 'update_settings'])->
 Route::post('/add_settings_process', [CrmController::class, 'add_settings_process'])->name('add_settings_process');
 Route::post('/update_settings_process/{id}', [CrmController::class, 'update_settings_process'])->name('update_settings_process');
 Route::get('/deletesetting/{id}', [CrmController::class, 'deletesetting'])->name('deletesetting');
+
+
+Route::get('/customers/index', [CustomersController::class, 'index'])->name('customers.index');
+Route::patch('customers/update-status/{id}', [CustomersController::class, 'updateStatus'])->name('customers.updateStatus');
+
+
+Route::get('/services/index', [ServicesController::class, 'index'])->name('services.index');
+Route::get('/services/create', [ServicesController::class, 'create'])->name('services.create');
+Route::post('/services/store', [ServicesController::class, 'store'])->name('services.store');
+Route::patch('services/update-status/{id}', [ServicesController::class, 'updateStatus'])->name('services.updateStatus');
+Route::get('services/{id}/edit', [ServicesController::class, 'edit'])->name('services.edit');
+Route::put('services/{id}', [ServicesController::class, 'update'])->name('services.update');
+Route::delete('services/{id}', [ServicesController::class, 'destroy'])->name('services.destroy');
+
+Route::get('/services2/index', [Services2Controller::class, 'index'])->name('services2.index');
+Route::get('/services2/create', [Services2Controller::class, 'create'])->name('services2.create');
+Route::post('/services2/store', [Services2Controller::class, 'store'])->name('services2.store');
+Route::patch('services2/update-status/{id}', [Services2Controller::class, 'updateStatus'])->name('services2.updateStatus');
+Route::get('services2/{id}/edit', [Services2Controller::class, 'edit'])->name('services2.edit');
+Route::put('services2/{id}', [Services2Controller::class, 'update'])->name('services2.update');
+Route::delete('services2/{id}', [Services2Controller::class, 'destroy'])->name('services2.destroy');
+
+
+Route::get('/services3/index', [Services3Controller::class, 'index'])->name('services3.index');
+Route::get('/services3/create', [Services3Controller::class, 'create'])->name('services3.create');
+Route::post('/services3/store', [Services3Controller::class, 'store'])->name('services3.store');
+Route::patch('services3/update-status/{id}', [Services3Controller::class, 'updateStatus'])->name('services3.updateStatus');
+Route::get('/get-services-se', [Services3Controller::class, 'getServicesSe'])->name('get.services_se');
+
+Route::get('services3/{id}/delete-image/{imageName}',[Services3Controller::class, 'deleteImage'])->name('services3.deleteImage');
+
+Route::get('services3/{id}/edit', [Services3Controller::class, 'edit'])->name('services3.edit');
+Route::put('services3/{id}', [Services3Controller::class, 'update'])->name('services3.update');
+Route::delete('services3/{id}', [Services3Controller::class, 'destroy'])->name('services3.destroy');
+
+
+
+Route::get('/availability/index/{id}', [AvailabilityController::class, 'index'])->name('availability.index');
+Route::get('/availability/create/{id}', [AvailabilityController::class, 'create'])->name('availability.create');
+Route::post('/availability/store/{id}', [AvailabilityController::class, 'store'])->name('availability.store');
+Route::patch('availability/update-status/{id}', [AvailabilityController::class, 'updateStatus'])->name('availability.updateStatus');
+
+Route::get('availability/{id}/edit', [AvailabilityController::class, 'edit'])->name('availability.edit');
+Route::put('availability/{id}', [AvailabilityController::class, 'update'])->name('availability.update');
+Route::delete('availability/{id}', [AvailabilityController::class, 'destroy'])->name('availability.destroy');
+
 
     });
 
