@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\ServicesController;
 use App\Http\Controllers\Admin\Services2Controller;
 use App\Http\Controllers\Admin\Services3Controller;
 use App\Http\Controllers\Admin\AvailabilityController;
+use App\Http\Controllers\Admin\ServicePartnerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -121,6 +122,11 @@ Route::get('availability/{id}/edit', [AvailabilityController::class, 'edit'])->n
 Route::put('availability/{id}', [AvailabilityController::class, 'update'])->name('availability.update');
 Route::delete('availability/{id}', [AvailabilityController::class, 'destroy'])->name('availability.destroy');
 
+
+Route::get('/service-partner/index', [ServicePartnerController::class, 'index'])->name('service-partner.index');
+Route::patch('service-partner/update-status/{id}', [ServicePartnerController::class, 'updateStatus'])->name('service-partner.updateStatus');
+
+Route::get('/service-partner-document/index/{id}', [ServicePartnerController::class, 'document'])->name('service-partner-document.index');
 
     });
 

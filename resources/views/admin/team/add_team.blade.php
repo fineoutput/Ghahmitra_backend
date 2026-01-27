@@ -87,8 +87,8 @@
                                         <select class="form-control" name="power" id="power" required>
                                             <option value="1">Please select Type</option>
                                             <option value="1">Super Admin</option>
-                                            <option value="2">Admin</option>
-                                            <option value="3">Manager</option>
+                                            <option value="2">Operations Manager</option>
+                                            <option value="3">Support Executive</option>
                                         </select>
                                         <div class="form-floating">
                                             @error('power')
