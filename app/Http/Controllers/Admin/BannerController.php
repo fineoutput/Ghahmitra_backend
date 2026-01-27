@@ -11,38 +11,38 @@ use App\adminmodel\Order1Modal;
 use App\adminmodel\UserModal;
 use App\adminmodel\CategoryModal;
 use App\adminmodel\ProductModal;
-use App\Models\Services;
+use App\Models\Banner;
 
-class ServicesController extends Controller
+class BannerController extends Controller
 {
 
     public function index(Request $request)
     {
-        $Services = Services::orderBy('id', 'DESC')->get();
-        return view('admin.services.index', compact('Services'));
+        $Banner = Banner::orderBy('id', 'DESC')->get();
+        return view('admin.Banner.index', compact('Banner'));
     }
     public function create(Request $request)
     {
-        $tital =  'Services';
-        return view('admin.services.create', compact('tital'));
+        $tital =  'Banner';
+        return view('admin.Banner.create', compact('tital'));
     }
 
     public function edit($id)
     {
-        $service = Services::findOrFail($id);
-        $tital = 'Service';
+        $Banner = Banner::findOrFail($id);
+        $tital = 'Banner';
 
-        return view('admin.services.edit', compact('service', 'tital'));
+        return view('admin.Banner.edit', compact('Banner', 'tital'));
     }
 
 
     public function update(Request $request, $id)
     {
-        $service = Services::findOrFail($id);
+        $service = Banner::findOrFail($id);
 
         $request->validate([
-            'name'        => 'required',
-            'description' => 'nullable',
+            'title'        => 'required',
+            'type'        => 'required',
             'image'       => 'nullable',
         ]);
 
@@ -55,24 +55,24 @@ class ServicesController extends Controller
 
             $image = $request->file('image');
             $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('uploads/services'), $imageName);
-            $service->image = 'uploads/services/' . $imageName;
+            $image->move(public_path('uploads/Banner'), $imageName);
+            $service->image = 'uploads/Banner/' . $imageName;
         }
 
         $service->update([
-            'name'        => $request->name,
-            'description' => $request->description,
+            'title'        => $request->title,
+            'type'        => $request->type,
             // 'status'      => $request->status,
         ]);
 
-        return redirect()->route('services.index')->with('success', 'Record updated successfully.');
+        return redirect()->route('Banner.index')->with('success', 'Record updated successfully.');
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'name'        => 'required',
-            'description' => 'nullable',
+            'title'        => 'required',
+            'type'        => 'required',
             'image'       => 'required',
         ]);
 
@@ -85,19 +85,19 @@ class ServicesController extends Controller
             $imagePath = 'uploads/services/' . $imageName;
         }
 
-        Services::create([
-            'name'        => $request->name,
-            'description' => $request->description,
+        Banner::create([
+            'title'        => $request->title,
+            'type'        => $request->type,
             'image'       => $imagePath,
             'status'      => 1,
         ]);
 
-        return redirect()->route('services.index')->with('success', 'Record added successfully.');
+        return redirect()->route('Banner.index')->with('success', 'Record added successfully.');
     }
 
     public function destroy($id)
     {
-        $service = Services::findOrFail($id);
+        $service = Banner::findOrFail($id);
 
         if ($service->image && file_exists(public_path($service->image))) {
             unlink(public_path($service->image));
@@ -110,16 +110,16 @@ class ServicesController extends Controller
 
     public function updateStatus(Request $request, $id)
     {
-        $customer = Services::find($id);
+        $customer = Banner::find($id);
 
         if (!$customer) {
-            return redirect()->back()->with('error', 'services not found.');
+            return redirect()->back()->with('error', 'Banner not found.');
         }
 
         $customer->status = $request->status;
         $customer->save();
 
-        return redirect()->back()->with('success', 'services status updated successfully.');
+        return redirect()->back()->with('success', 'Banner status updated successfully.');
     }
 
 

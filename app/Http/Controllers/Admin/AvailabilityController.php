@@ -21,7 +21,7 @@ class AvailabilityController extends Controller
 
     public function index(Request $request, $id)
     {
-        $Availability  = Availability::where('services_id', $id)->get();
+        $Availability  = Availability::where('services_id', $id)->orderBy('id', 'DESC')->get();
         $thservices = Th_Services::findOrFail($id);
         return view('admin.Availability.index', compact('Availability','thservices'));
     }

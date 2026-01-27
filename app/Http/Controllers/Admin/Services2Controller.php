@@ -19,7 +19,7 @@ class Services2Controller extends Controller
 
     public function index(Request $request)
     {
-        $Services = ServicesSe::all();
+        $Services = ServicesSe::orderBy('id', 'DESC')->get();
         return view('admin.services2.index', compact('Services'));
     }
     public function create(Request $request)

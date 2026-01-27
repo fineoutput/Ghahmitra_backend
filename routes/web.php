@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\Services2Controller;
 use App\Http\Controllers\Admin\Services3Controller;
 use App\Http\Controllers\Admin\AvailabilityController;
 use App\Http\Controllers\Admin\ServicePartnerController;
+use App\Http\Controllers\Admin\BannerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -127,6 +128,17 @@ Route::get('/service-partner/index', [ServicePartnerController::class, 'index'])
 Route::patch('service-partner/update-status/{id}', [ServicePartnerController::class, 'updateStatus'])->name('service-partner.updateStatus');
 
 Route::get('/service-partner-document/index/{id}', [ServicePartnerController::class, 'document'])->name('service-partner-document.index');
+
+
+
+Route::get('/banner/index', [BannerController::class, 'index'])->name('Banner.index');
+Route::get('/banner/create', [BannerController::class, 'create'])->name('Banner.create');
+Route::post('/banner/store', [BannerController::class, 'store'])->name('Banner.store');
+Route::patch('banner/update-status/{id}', [BannerController::class, 'updateStatus'])->name('Banner.updateStatus');
+Route::get('banner/{id}/edit', [BannerController::class, 'edit'])->name('Banner.edit');
+Route::put('banner/{id}', [BannerController::class, 'update'])->name('Banner.update');
+Route::delete('banner/{id}', [BannerController::class, 'destroy'])->name('Banner.destroy');
+
 
     });
 

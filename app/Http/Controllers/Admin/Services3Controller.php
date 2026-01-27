@@ -20,7 +20,7 @@ class Services3Controller extends Controller
 
     public function index(Request $request)
     {
-        $services  = Th_Services::all();
+        $services  = Th_Services::orderBy('id', 'DESC')->get();
         return view('admin.services3.index', compact('services'));
     }
     public function create(Request $request)
