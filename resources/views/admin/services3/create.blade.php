@@ -47,7 +47,7 @@
                                 <div class="form-group row">
 
                                     {{-- Services --}}
-                                    <div class="col-sm-6 mt-3">
+                                    {{-- <div class="col-sm-6 mt-3">
                                         <label>Services <span style="color:red">*</span></label>
                                         <select name="services_id" id="services_id" class="form-control" required>
                                             <option selected disabled value="">Select Services</option>
@@ -56,17 +56,27 @@
                                             @endforeach
                                         </select>
                                         @error('services_id') <div style="color:red">{{ $message }}</div> @enderror
-                                    </div>
+                                    </div> --}}
 
-                                    {{-- ServicesSe (Filtered via AJAX) --}}
                                     <div class="col-sm-6 mt-3">
-                                        <label>Services Subcategory <span style="color:red">*</span></label>
+                                        <label>Services <span style="color:red">*</span></label>
                                         <select name="services_se_id" id="services_se_id" class="form-control" required>
-                                            <option selected disabled value="">Select Subcategory</option>
-                                            {{-- AJAX will populate this --}}
+                                            <option selected disabled value="">Select Services</option>
+                                            @foreach ($ServicesSe as $service)
+                                                <option value="{{ $service->id }}">{{ $service->name }}</option>
+                                            @endforeach
                                         </select>
                                         @error('services_se_id') <div style="color:red">{{ $message }}</div> @enderror
                                     </div>
+
+                                    {{-- ServicesSe (Filtered via AJAX) --}}
+                                    {{-- <div class="col-sm-6 mt-3">
+                                        <label>Services Subcategory <span style="color:red">*</span></label>
+                                        <select name="services_se_id" id="services_se_id" class="form-control" required>
+                                            <option selected disabled value="">Select Subcategory</option>
+                                        </select>
+                                        @error('services_se_id') <div style="color:red">{{ $message }}</div> @enderror
+                                    </div> --}}
 
                                     {{-- Name --}}
                                     <div class="col-sm-6 mt-3">
@@ -90,17 +100,27 @@
                                     </div>
 
                                     {{-- Commission Percentage --}}
-                                    <div class="col-sm-6 mt-3">
+                                    {{-- <div class="col-sm-6 mt-3">
                                         <label>Commission (%) <span style="color:red">*</span></label>
                                         <input type="number" class="form-control" name="commission_percentage" value="{{ old('commission_percentage') }}" required>
                                         @error('commission_percentage') <div style="color:red">{{ $message }}</div> @enderror
-                                    </div>
+                                    </div> --}}
 
                                     {{-- Description --}}
                                     <div class="col-sm-12 mt-3">
-                                        <label>Description</label>
+                                        <label>Description 1</label>
                                         <textarea id="description" name="description" class="form-control">{{ old('description') }}</textarea>
                                         @error('description') <div style="color:red">{{ $message }}</div> @enderror
+                                    </div>
+                                    <div class="col-sm-12 mt-3">
+                                        <label>Description 2</label>
+                                        <textarea id="description_2" name="description_2" class="form-control">{{ old('description_2') }}</textarea>
+                                        @error('description_2') <div style="color:red">{{ $message }}</div> @enderror
+                                    </div>
+                                    <div class="col-sm-12 mt-3">
+                                        <label>Description 3</label>
+                                        <textarea id="description_3" name="description_3" class="form-control">{{ old('description_3') }}</textarea>
+                                        @error('description_3') <div style="color:red">{{ $message }}</div> @enderror
                                     </div>
 
                                     {{-- Image --}}
@@ -129,6 +149,28 @@
 <script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
 <script>
     CKEDITOR.replace('description', {
+        toolbar: [
+            { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat'] },
+            { name: 'paragraph', items: ['NumberedList', 'BulletedList'] },
+            { name: 'insert', items: ['Link', 'Unlink'] },
+            { name: 'styles', items: ['Format', 'FontSize'] },
+            { name: 'colors', items: ['TextColor', 'BGColor'] },
+            { name: 'tools', items: ['Maximize'] }
+        ],
+        height: 200
+    });
+    CKEDITOR.replace('description_2', {
+        toolbar: [
+            { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat'] },
+            { name: 'paragraph', items: ['NumberedList', 'BulletedList'] },
+            { name: 'insert', items: ['Link', 'Unlink'] },
+            { name: 'styles', items: ['Format', 'FontSize'] },
+            { name: 'colors', items: ['TextColor', 'BGColor'] },
+            { name: 'tools', items: ['Maximize'] }
+        ],
+        height: 200
+    });
+    CKEDITOR.replace('description_3', {
         toolbar: [
             { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat'] },
             { name: 'paragraph', items: ['NumberedList', 'BulletedList'] },

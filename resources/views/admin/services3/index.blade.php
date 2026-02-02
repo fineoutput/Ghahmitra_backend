@@ -63,15 +63,18 @@
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
-                    <th>Service</th>
+                    {{-- <th>Service</th> --}}
                     <th>Service 2</th>
                     <th>Price</th>
                     <th>MRP</th>
-                    <th>Commission Percentage</th>
-                    <th>Description</th>
+                    {{-- <th>Commission Percentage</th> --}}
+                    <th>Description 1</th>
+                    <th>Description 2</th>
+                    <th>Description 3</th>
                     <th>Image</th>
                     <th>Created At</th>
                     <th>Action</th>
+                    <th>Register Availability</th>
                     <th>Availability</th>
                 </tr>
             </thead>
@@ -80,12 +83,14 @@
                     <tr>
                         <td>{{ $key+1 }}</td>
                         <td>{{ $Services->name }}</td>
-                        <td>{{ $Services->service->name ?? '' }}</td>
+                        {{-- <td>{{ $Services->service->name ?? '' }}</td> --}}
                         <td>{{ $Services->serviceSe->name ?? '' }}</td>
                         <td>{{ $Services->price ?? '' }}</td>
                         <td>{{ $Services->mrp ?? '' }}</td>
-                        <td>{{ $Services->commission_percentage ?? '' }}</td>
+                        {{-- <td>{{ $Services->commission_percentage ?? '' }}</td> --}}
                         <td>{!! $Services->description !!}</td>
+                        <td>{!! $Services->description_2 !!}</td>
+                        <td>{!! $Services->description_3 !!}</td>
                         <td>
                             @if($Services->image && is_array($Services->image))
                                 @foreach($Services->image as $img)
@@ -112,6 +117,22 @@
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger mt-2"
                                     onclick="return confirm('Are you sure you want to delete this service?')">Delete</button>
+                            </form>
+
+                        </td>
+                        <td>
+                            <form action="{{ route('services3.register_availability', $Services->id) }}" method="POST">
+                              @csrf
+                              @method('PUT')
+
+                              <input type="hidden" name="register_availability"
+                                  value="{{ $Services->register_availability == 1 ? 0 : 1 }}">
+
+                              <button type="submit"
+                                  class="btn {{ $Services->register_availability == 1 ? 'btn-success' : 'btn-danger' }}">
+                                  {{ $Services->register_availability == 1 ? 'Active' : 'Inactive' }}
+                              </button>
+                          </form>
 
                         </td>
                         <td>

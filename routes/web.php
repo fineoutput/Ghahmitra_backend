@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\Services3Controller;
 use App\Http\Controllers\Admin\AvailabilityController;
 use App\Http\Controllers\Admin\ServicePartnerController;
 use App\Http\Controllers\Admin\BannerController;
+use App\Http\Controllers\Admin\PartnerServicesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -103,7 +104,14 @@ Route::delete('services2/{id}', [Services2Controller::class, 'destroy'])->name('
 Route::get('/services3/index', [Services3Controller::class, 'index'])->name('services3.index');
 Route::get('/services3/create', [Services3Controller::class, 'create'])->name('services3.create');
 Route::post('/services3/store', [Services3Controller::class, 'store'])->name('services3.store');
+
 Route::patch('services3/update-status/{id}', [Services3Controller::class, 'updateStatus'])->name('services3.updateStatus');
+
+Route::put(
+    'services3/update-register_availability/{id}',
+    [Services3Controller::class, 'updateStatusregister_availability']
+)->name('services3.register_availability');
+
 Route::get('/get-services-se', [Services3Controller::class, 'getServicesSe'])->name('get.services_se');
 
 Route::get('services3/{id}/delete-image/{imageName}',[Services3Controller::class, 'deleteImage'])->name('services3.deleteImage');
@@ -124,7 +132,18 @@ Route::put('availability/{id}', [AvailabilityController::class, 'update'])->name
 Route::delete('availability/{id}', [AvailabilityController::class, 'destroy'])->name('availability.destroy');
 
 
+Route::get('/partner-services/index/{id}', [PartnerServicesController::class, 'index'])->name('partnerservice.index');
+
+
+Route::patch('partnerservices/update-status/{id}', [PartnerServicesController::class, 'updateStatus'])->name('partnerservices.updateStatus');
+
+Route::patch('service-partner/update-commission/{id}', [PartnerServicesController::class, 'updateCommission'])
+    ->name('service-partner.updateCommission');
+
 Route::get('/service-partner/index', [ServicePartnerController::class, 'index'])->name('service-partner.index');
+Route::get('/active-service-partner/index', [ServicePartnerController::class, 'activeindex'])->name('activeservice-partner.index');
+Route::get('/block-service-partner/index', [ServicePartnerController::class, 'blockindex'])->name('blockservice-partner.index');
+
 Route::patch('service-partner/update-status/{id}', [ServicePartnerController::class, 'updateStatus'])->name('service-partner.updateStatus');
 
 Route::get('/service-partner-document/index/{id}', [ServicePartnerController::class, 'document'])->name('service-partner-document.index');

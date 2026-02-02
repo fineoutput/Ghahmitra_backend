@@ -50,47 +50,46 @@ class Services3Controller extends Controller
     }
 
 
-  public function update(Request $request, $id)
-    {
-        $service = Th_Services::findOrFail($id);
+public function update(Request $request, $id)
+{
+    $service = Th_Services::findOrFail($id);
 
-        $request->validate([
-            'name'        => 'required',
-            'services_se_id' => 'required',
-            'services_id' => 'required',
-            'price'       => 'required',
-            'mrp'         => 'required',
-            'commission_percentage' => 'required',
-            'description' => 'nullable',
-        ]);
+    $request->validate([
+        'name'             => 'required',
+        'services_se_id'   => 'required',
+        'price'            => 'required',
+        'mrp'              => 'required',
+        'description'      => 'nullable',
+        'images.*'         => 'image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+    ]);
 
-        // Existing images (JSON → array)
-        $existingImages = $service->image ?? [];
+    // Keep existing images
+    $existingImages = $service->image ?? [];
 
-        // New images upload
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-                $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
-                $image->move(public_path('uploads/services'), $imageName);
-                $existingImages[] = 'uploads/services/' . $imageName;
-            }
+    // Upload new images if any
+    if ($request->hasFile('images')) {
+        foreach ($request->file('images') as $image) {
+            $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('uploads/services'), $imageName);
+            $existingImages[] = 'uploads/services/' . $imageName;
         }
-
-        $service->update([
-            'name'        => $request->name,
-            'services_se_id' => $request->services_se_id,
-            'price'       => $request->price,
-            'mrp'         => $request->mrp,
-            'commission_percentage' => $request->commission_percentage,
-            'services_id' => $request->services_id,
-            'description' => $request->description,
-            'image'       => $existingImages, // auto JSON via cast
-        ]);
-
-        return redirect()
-            ->route('services3.index')
-            ->with('success', 'Record updated successfully.');
     }
+
+    $service->update([
+        'name'                  => $request->name,
+        'services_se_id'        => $request->services_se_id,
+        'services_id'           => $request->services_id,
+        'price'                 => $request->price,
+        'mrp'                   => $request->mrp,
+        'commission_percentage' => $request->commission_percentage,
+        'description'           => $request->description,
+        'description_2'         => $request->description_2,
+        'description_3'         => $request->description_3,
+        'image'                 => $existingImages, // Model cast handles JSON
+    ]);
+
+    return redirect()->route('services3.index')->with('success', 'Record updated successfully.');
+}
 
 
 public function deleteImage($id, $imageName)
@@ -120,51 +119,53 @@ public function deleteImage($id, $imageName)
 
 
   public function store(Request $request)
-    {
-        $request->validate([
-            'name'        => 'required',
-            'services_se_id' => 'required',
-            'services_id' => 'required',
-            'price'       => 'required',
-            'mrp'         => 'required',
-            'commission_percentage' => 'required',
-            'description' => 'nullable',
-        ]);
+{
+    $request->validate([
+        'name'             => 'required',
+        'services_se_id'   => 'required',
+        'price'            => 'required',
+        'mrp'              => 'required',
+        'description'      => 'nullable',
+        'images.*'         => 'image|mimes:jpeg,png,jpg,gif,webp|max:2048', // Optional validation for images
+    ]);
 
-        $imagePaths = [];
+    $imagePaths = [];
 
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-                $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
-                $image->move(public_path('uploads/services'), $imageName);
-                $imagePaths[] = 'uploads/services/' . $imageName;
-            }
+    if ($request->hasFile('images')) {
+        foreach ($request->file('images') as $image) {
+            $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('uploads/services'), $imageName);
+            $imagePaths[] = 'uploads/services/' . $imageName;
         }
-
-        Th_Services::create([
-            'name'        => $request->name,
-            'services_se_id' => $request->services_se_id,
-            'price'       => $request->price,
-            'mrp'         => $request->mrp,
-            'commission_percentage' => $request->commission_percentage,
-            'services_id' => $request->services_id,
-            'description' => $request->description,
-            'image'       => json_encode($imagePaths),
-            'status'      => 1,
-        ]);
-
-        return redirect()->route('services3.index')
-                        ->with('success', 'Record added successfully.');
     }
+
+    Th_Services::create([
+        'name'                  => $request->name,
+        'services_se_id'        => $request->services_se_id,
+        'services_id'           => $request->services_id,
+        'price'                 => $request->price,
+        'mrp'                   => $request->mrp,
+        'commission_percentage' => $request->commission_percentage,
+        'description'           => $request->description,
+        'description_2'         => $request->description_2,
+        'description_3'         => $request->description_3,
+        'image'                 => $imagePaths, // Model cast handles JSON
+        'status'                => 1,
+        'register_availability' => 1,
+    ]);
+
+    return redirect()->route('services3.index')->with('success', 'Record added successfully.');
+}
+
 
 
     public function destroy($id)
     {
         $service = Th_Services::findOrFail($id);
 
-        if ($service->image && file_exists(public_path($service->image))) {
-            unlink(public_path($service->image));
-        }
+        // if ($service->image && file_exists(public_path($service->image))) {
+        //     unlink(public_path($service->image));
+        // }
 
         $service->delete();
 
@@ -183,6 +184,23 @@ public function deleteImage($id, $imageName)
         $customer->save();
 
         return redirect()->back()->with('success', 'services status updated successfully.');
+    }
+
+    public function updateStatusregister_availability(Request $request, $id)
+    {
+        $customer = Th_Services::find($id);
+
+        if (!$customer) {
+            return redirect()->back()->with('error', 'Register Availability not found.');
+        }
+
+        $customer->register_availability = $request->register_availability;
+        $customer->save();
+
+        return redirect()->back()->with(
+            'success',
+            'Register Availability updated successfully.'
+        );
     }
 
 

@@ -23,7 +23,18 @@ class ServicePartnerController extends Controller
 
     public function index(Request $request)
     {
-        $ServicePartner  = ServicePartner::orderBy('id', 'DESC')->get();
+        $ServicePartner  = ServicePartner::where('status',0)->orderBy('id', 'DESC')->get();
+        return view('admin.ServicePartner.index', compact('ServicePartner'));
+    }
+    public function activeindex(Request $request)
+    {
+        $ServicePartner  = ServicePartner::where('status',1)->orderBy('id', 'DESC')->get();
+        return view('admin.ServicePartner.index', compact('ServicePartner'));
+    }
+  
+    public function blockindex(Request $request)
+    {
+        $ServicePartner  = ServicePartner::where('status',2)->orderBy('id', 'DESC')->get();
         return view('admin.ServicePartner.index', compact('ServicePartner'));
     }
   

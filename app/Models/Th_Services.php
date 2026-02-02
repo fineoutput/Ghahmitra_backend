@@ -17,9 +17,12 @@ class Th_Services extends Model
             'services_se_id',  
             'name',  
             'description',  
+            'description_2',  
+            'description_3',  
             'price',  
             'mrp',  
             'commission_percentage',  
+            'register_availability',  
             'image', 
             'status',
         ];
