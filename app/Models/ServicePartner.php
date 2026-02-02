@@ -15,6 +15,7 @@ class ServicePartner extends Model
             'email',  
             'phone',  
             'address',  
+            'rank',  
             'status',  
         ];
         

@@ -148,7 +148,8 @@ Route::patch('service-partner/update-status/{id}', [ServicePartnerController::cl
 
 Route::get('/service-partner-document/index/{id}', [ServicePartnerController::class, 'document'])->name('service-partner-document.index');
 
-
+Route::patch('partner-rank/update-commission/{id}', [ServicePartnerController::class, 'updaterank'])
+    ->name('partner.rank');
 
 Route::get('/banner/index', [BannerController::class, 'index'])->name('Banner.index');
 Route::get('/banner/create', [BannerController::class, 'create'])->name('Banner.create');

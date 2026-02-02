@@ -68,6 +68,7 @@
                     <th>Address</th>
                     <th>Created At</th>
                     <th>Action</th>
+                    <th>Rank</th>
                 </tr>
             </thead>
             <tbody>
@@ -120,6 +121,21 @@
                             <br>
                             <a href="{{ route('partnerservice.index', $Services->id) }}" class="btn btn-primary mt-2">Partner Services</a>
                           
+                        </td>
+                        <td>
+                          <form action="{{ route('partner.rank', $Services->id) }}" method="POST"
+                            style="display:flex; gap:5px; align-items:center;">
+                            @csrf
+                            @method('PATCH')
+
+                            <select name="rank" class="form-select form-select-sm" style="width:120px;">
+                                <option value="1" {{ $Services->rank == 1 ? 'selected' : '' }}>Beginner</option>
+                                <option value="2" {{ $Services->rank == 2 ? 'selected' : '' }}>Intermediate</option>
+                                <option value="3" {{ $Services->rank == 3 ? 'selected' : '' }}>Expert</option>
+                            </select>
+
+                            <button type="submit" class="btn btn-sm btn-primary">Update</button>
+                        </form>
                         </td>
                     </tr>
                     @endforeach

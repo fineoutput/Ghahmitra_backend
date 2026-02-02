@@ -45,6 +45,21 @@ class ServicePartnerController extends Controller
     }
   
 
+    
+    public function updaterank(Request $request, $id)
+    {
+        $request->validate([
+            'rank' => 'required',
+        ]);
+
+        $service = ServicePartner::findOrFail($id);
+        $service->rank = $request->rank;
+        $service->save();
+
+        return redirect()->back()->with('success', 'Rank updated successfully.');
+    }
+
+
     public function updateStatus(Request $request, $id)
     {
         $customer = ServicePartner::find($id);
