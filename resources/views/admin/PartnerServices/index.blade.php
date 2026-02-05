@@ -83,7 +83,7 @@
                                 
                                 <input type="number" 
                                     name="commission_percentage" 
-                                    value="{{ $Services->commission_percentage }}" 
+                                    value="{{ $Services->commission_percentage ?? 0 }}" 
                                     min="0" 
                                     max="100" 
                                     step="0.01" 
