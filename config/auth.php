@@ -44,6 +44,20 @@ return [
             'driver' => 'session',
             'provider' => 'admins',
         ],
+        'partner_api' => [
+            'driver' => 'token', 
+            'provider' => 'partner',
+            'input_key' => 'auth',
+            'storage_key' => 'auth',
+            'hash' => false,
+        ],
+        'customer_api' => [
+            'driver' => 'token', 
+            'provider' => 'customer',
+            'input_key' => 'auth',
+            'storage_key' => 'auth',
+            'hash' => false,
+        ],
     ],
 
     /*
@@ -71,6 +85,15 @@ return [
         'admins' => [
             'driver' => 'eloquent',
             'model' => App\adminmodel\Team::class,
+        ],
+         'partner' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\ServicePartner::class,
+        ],
+        'customer' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Customers::class,
+            // 'table' => 'employee',    
         ],
 
         // 'users' => [

@@ -6,8 +6,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\adminmodel\Team;
 use App\Models\City;
+use App\Models\Otp;
 use App\Models\ServicePartner;
 use App\Models\State;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -51,15 +54,15 @@ class AuthController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'email' => 'required',
-            'phone' => 'required',
+            'email' => 'required|email|unique:service_partner,email',
+            'phone' => 'required|unique:service_partner,phone|regex:/^[0-9]{10}$/',
             'address' => 'required',
             'district' => 'required',
             'state_id' => 'required',
             'city_id' => 'required',
         ]);
 
-        $partner = ServicePartner::created([
+        $partner = ServicePartner::create([
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
@@ -68,6 +71,7 @@ class AuthController extends Controller
             'state_id' => $request->state_id,
             'city_id' => $request->city_id,
             'status' => 0,
+            'rank' => 1,
         ]);
 
         return response()->json([
@@ -77,5 +81,117 @@ class AuthController extends Controller
         ]);
         
     }
+
+    public function Partnerlogin(Request $request)
+    {
+        $request->validate([
+            'contact_no' => 'required|regex:/^[0-9]{10}$/'
+        ]);
+
+        $partner = ServicePartner::where('phone', $request->contact_no)->first();
+
+        if (!$partner) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Partner not registered'
+            ], 404);
+        }
+
+        if ($partner->status != 1) {
+            return response()->json([
+                'status' => 403,
+                'message' => 'Account not approved'
+            ], 403);
+        }
+
+        $otp = rand(100000, 999999);
+
+        Otp::updateOrCreate(
+            ['contact_no' => $request->contact_no],
+            [
+                'name' => $partner->name,
+                'email' => $partner->email,
+                'otp' => $otp,
+                'ip' => $request->ip(),
+                'is_active' => 1,
+                'date' => now()
+            ]
+        );
+
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'OTP sent successfully',
+            'otp' => $otp 
+        ]);
+    }
+
+
+   public function verifyPartnerOtp(Request $request)
+    {
+        $request->validate([
+            'contact_no' => 'required|regex:/^[0-9]{10}$/',
+            'otp' => 'required|digits:6'
+        ]);
+
+        $otpRow = Otp::where('contact_no', $request->contact_no)
+            ->where('otp', $request->otp)
+            ->where('is_active', 1)
+            ->first();
+
+        if (!$otpRow) {
+            return response()->json([
+                'status' => 401,
+                'message' => 'Invalid or expired OTP'
+            ], 401);
+        }
+
+        $partner = ServicePartner::where('phone', $request->contact_no)
+            ->where('status', 1)
+            ->first();
+
+        if (!$partner) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Partner not found'
+            ], 404);
+        }
+
+        $authToken = Str::random(64);
+        $partner->update(['auth' => $authToken]);
+        $otpRow->update(['is_active' => 0]);
+
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Login successful',
+            'data' => [
+                'partner_id' => $partner->id,
+                'name' => $partner->name,
+                'phone' => $partner->phone,
+                'token' => $authToken
+            ]
+        ]);
+    }
+
+   function logoutPartner(Request $request)
+    {
+        $partner = Auth::guard('partner_api')->user();
+
+        if ($partner) {
+            $partner->update(['auth' => null]);
+
+            return response()->json([
+                'status' => 200,
+                'message' => 'Logout successful'
+            ]);
+        } else {
+            return response()->json([
+                'status' => 401,
+                'message' => 'Unauthorized'
+            ], 401);
+        }
+    }
+
 
 }

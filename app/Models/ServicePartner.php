@@ -12,9 +12,13 @@ class ServicePartner extends Model
     
         protected $fillable = [
             'name',  
+            'auth',  
             'email',  
             'phone',  
             'address',  
+            'district',  
+            'city_id',  
+            'state_id',  
             'rank',  
             'status',  
         ];
