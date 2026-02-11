@@ -13,6 +13,7 @@ use App\Models\ServicePartner;
 use App\Models\Services;
 use App\Models\ServicesSe;
 use App\Models\State;
+use App\Models\Th_Services;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 
@@ -85,5 +86,42 @@ class HomeController extends Controller
                 'data' => $Services
             ]);
         }
+
+  public function ServicesTh(Request $request)
+    {
+        $Services = Th_Services::where('status', 1)
+            ->where('services_se_id', $request->services_se_id)
+            ->get();
+
+        $Services = $Services->map(function ($Service) {
+
+            $images = [];
+
+            if (!empty($Service->image) && is_array($Service->image)) {
+                $images = array_map(function ($img) {
+                    return url($img);
+                }, $Service->image);
+            }
+
+            return [
+                'id' => $Service->id,
+                'name' => $Service->name,
+                'description' => strip_tags($Service->description),
+                'description_2' => strip_tags($Service->description_2),
+                'description_3' => strip_tags($Service->description_3),
+                'price' => $Service->price,
+                'mrp' => $Service->mrp,
+                'images' => $images,
+            ];
+        });
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Services retrieved successfully',
+            'data' => $Services
+        ]);
+    }
+
+
 
 }
