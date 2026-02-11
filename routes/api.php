@@ -31,6 +31,8 @@ use App\Http\Controllers\Api\HomeController;
 
 
     Route::get('/banner', [HomeController::class, 'banner']);
+    Route::get('/services', [HomeController::class, 'services']);
+    Route::post('/services-se', [HomeController::class, 'ServicesSe']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     // return $request->user();
