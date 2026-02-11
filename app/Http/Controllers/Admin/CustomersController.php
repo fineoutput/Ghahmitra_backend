@@ -18,7 +18,13 @@ class CustomersController extends Controller
 
     public function index(Request $request)
     {
-        $customers = Customers::orderBy('id', 'DESC')->get();
+        $customers = Customers::where('status',0)->orderBy('id', 'DESC')->get();
+        return view('admin.customers.index', compact('customers'));
+    }
+
+    public function activeindex(Request $request)
+    {
+        $customers = Customers::where('status',1)->orderBy('id', 'DESC')->get();
         return view('admin.customers.index', compact('customers'));
     }
 

@@ -84,8 +84,8 @@
                                 <input type="hidden" name="status" value="{{ $customer->status == 1 ? 0 : 1 }}">
 
                                 <button type="submit"
-                                    class="btn {{ $customer->status == 1 ? 'btn-success' : 'btn-danger' }}">
-                                    {{ $customer->status == 1 ? 'Active' : 'Inactive' }}
+                                    class="btn {{ $customer->status == 1 ? 'btn-danger' : 'btn-success' }}">
+                                    {{ $customer->status == 1 ? 'Inactive' : 'Active' }}
                                 </button>
                             </form>
 

@@ -80,7 +80,8 @@ Route::post('/update_settings_process/{id}', [CrmController::class, 'update_sett
 Route::get('/deletesetting/{id}', [CrmController::class, 'deletesetting'])->name('deletesetting');
 
 
-Route::get('/customers/index', [CustomersController::class, 'index'])->name('customers.index');
+Route::get('/customers/index-panding', [CustomersController::class, 'index'])->name('customers.index');
+Route::get('/customers/index-active', [CustomersController::class, 'activeindex'])->name('customers.index.active');
 Route::patch('customers/update-status/{id}', [CustomersController::class, 'updateStatus'])->name('customers.updateStatus');
 
 
