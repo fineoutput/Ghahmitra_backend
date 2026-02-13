@@ -310,13 +310,15 @@ public function verifyRegisterOtp(Request $request)
         ], 404);
     }
 
-    // Move data to customers table
+    $authToken = Str::random(64);
+    
     $customer = Customers::create([
         'name' => $unverified->name,
         'email' => $unverified->email,
         'mobile_no' => $unverified->mobile_no,
         'image' => $unverified->image,
-        'status' => 1
+        'status' => 1,
+        'token' => $authToken
     ]);
 
     // Deactivate OTP
