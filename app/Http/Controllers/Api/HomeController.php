@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\adminmodel\Team;
 use App\Models\AboutUs;
+use App\Models\Availability;
 use App\Models\Banner;
 use App\Models\City;
 use App\Models\Customers;
@@ -193,6 +194,33 @@ class HomeController extends Controller
                 'title' => $tc->title,
                 'content' => strip_tags($tc->content),
             ]
+        ]);
+    }
+
+
+
+  public function servicesavAvailability(Request $request)
+    {
+        $serviceId = $request->input('service_id');
+
+        $availability = Availability::where('services_id', $serviceId)
+            ->where('status', 1)
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'availability_id' => $item->id,
+                    'day' => $item->day,
+                    'start_time' => $item->start_time,
+                    'end_time' => $item->end_time,
+                    'description' => strip_tags($item->description),
+                    'is_active' => $item->status,
+                ];
+            });
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Service availability checked successfully',
+            'data' => $availability,
         ]);
     }
 

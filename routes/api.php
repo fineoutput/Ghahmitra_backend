@@ -34,6 +34,7 @@ use App\Http\Controllers\Api\HomeController;
     Route::get('/services', [HomeController::class, 'services']);
     Route::post('/services-se', [HomeController::class, 'ServicesSe']);
     Route::post('/services-th', [HomeController::class, 'ServicesTh']);
+    Route::post('/services-availability', [HomeController::class, 'servicesavAvailability']);
     Route::get('/about-us', [HomeController::class, 'aboutUs']);
     Route::get('/privacy-policy', [HomeController::class, 'PrivacyPolicy']);
     Route::get('/terms-condition', [HomeController::class, 'tc']);
@@ -56,5 +57,9 @@ Route::middleware('customer.auth')->prefix('customer')->group(function () {
  Route::post('/add-customer-address', [CustomerController::class, 'addcustomeraddress']);
  Route::post('/get-customer-address', [CustomerController::class, 'getcustomeraddress']);
  Route::post('/edit-customer-address', [CustomerController::class, 'editcustomeraddress']);
+
+ Route::post('/add-wallet', [CustomerController::class, 'addWallet']);
+ Route::get('/wallet', [CustomerController::class, 'getWallet']);
+ Route::get('/wallet-history', [CustomerController::class, 'walletHistory']);
       
 });

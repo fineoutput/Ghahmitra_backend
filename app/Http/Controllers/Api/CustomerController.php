@@ -13,6 +13,9 @@ use App\Models\ServicePartner;
 use App\Models\State;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use App\Models\Wallet;
+use App\Models\WalletTransactions;
 
 class CustomerController extends Controller
 {
@@ -168,6 +171,181 @@ class CustomerController extends Controller
             'status' => 200,
             'message' => 'Address updated successfully',
             'data' => $address
+        ]);
+    }
+
+
+
+  public function addWallet(Request $request)
+    {
+        $customer = Auth::guard('customer_api')->user();
+
+        if (!$customer) {
+            return response()->json([
+                'status' => 401,
+                'message' => 'Unauthorized'
+            ], 401);
+        }
+
+        $request->validate([
+            'amount' => 'required|numeric|min:1',
+            'payment_method' => 'required|string|max:50',
+            'transaction_id' => 'required|string|max:100|unique:wallet_transactions,transaction_id',
+            'type' => 'required|in:credit,debit',
+        ]);
+
+        DB::beginTransaction();
+
+        try {
+
+            // Lock wallet for update (safe for concurrency)
+            $wallet = Wallet::where('user_id', $customer->id)
+                            ->lockForUpdate()
+                            ->first();
+
+            if (!$wallet) {
+                $wallet = Wallet::create([
+                    'user_id' => $customer->id,
+                    'balance' => 0,
+                    'currency' => 'INR',
+                    'status' => 'active'
+                ]);
+            }
+
+            $openingBalance = $wallet->balance;
+            $amount = $request->amount;
+
+            // 💰 CREDIT
+            if ($request->type == 'credit') {
+                $closingBalance = $openingBalance + $amount;
+            }
+
+            // 💸 DEBIT
+            if ($request->type == 'debit') {
+
+                if ($openingBalance < $amount) {
+                    return response()->json([
+                        'status' => 400,
+                        'message' => 'Insufficient wallet balance'
+                    ], 400);
+                }
+
+                $closingBalance = $openingBalance - $amount;
+            }
+
+            // Create Transaction
+            $transaction = WalletTransactions::create([
+                'wallet_id' => $wallet->id,
+                'user_id' => $customer->id,
+                'transaction_id' => $request->transaction_id,
+                'type' => $request->type,
+                'amount' => $amount,
+                'opening_balance' => $openingBalance,
+                'closing_balance' => $closingBalance,
+                'transaction_for' => $request->type == 'credit' ? 'wallet_topup' : 'wallet_debit',
+                'reference_id' => null,
+                'description' => $request->type == 'credit' ? 'Wallet credited' : 'Wallet debited',
+                'status' => 'success',
+                'payment_method' => $request->payment_method,
+                'ip_address' => $request->ip(),
+            ]);
+
+            // Update Wallet
+            $wallet->update([
+                'balance' => $closingBalance
+            ]);
+
+            DB::commit();
+
+            return response()->json([
+                'status' => 200,
+                'message' => 'Wallet transaction successful',
+                'data' => [
+                    'wallet_balance' => $wallet->balance,
+                    'transaction' => $transaction
+                ]
+            ]);
+
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+
+            return response()->json([
+                'status' => 500,
+                'message' => 'Something went wrong',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+
+
+
+    public function getWallet()
+    {
+        $customer = Auth::guard('customer_api')->user();
+
+        if (!$customer) {
+            return response()->json([
+                'status' => 401,
+                'message' => 'Unauthorized'
+            ], 401);
+        }
+
+        $wallet = Wallet::where('user_id', $customer->id)->first();
+
+        if (!$wallet) {
+            return response()->json([
+                'status' => 200,
+                'message' => 'Wallet not found',
+                'data' => [
+                    'balance' => 0,
+                    'currency' => 'INR'
+                ]
+            ]);
+        }
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Wallet fetched successfully',
+            'data' => [
+                'wallet_id' => $wallet->id,
+                'balance' => $wallet->balance,
+                'currency' => $wallet->currency,
+                'status' => $wallet->status
+            ]
+        ]);
+    }
+
+
+    public function walletHistory(Request $request)
+    {
+        $customer = Auth::guard('customer_api')->user();
+
+        if (!$customer) {
+            return response()->json([
+                'status' => 401,
+                'message' => 'Unauthorized'
+            ], 401);
+        }
+
+        $wallet = Wallet::where('user_id', $customer->id)->first();
+
+        if (!$wallet) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Wallet not found'
+            ], 404);
+        }
+
+        $transactions = WalletTransactions::where('wallet_id', $wallet->id)
+            ->orderBy('id', 'desc')
+            ->paginate(10); // 10 per page
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Wallet history fetched successfully',
+            'data' => $transactions
         ]);
     }
 
