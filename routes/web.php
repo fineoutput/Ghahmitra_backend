@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AboutUsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\TeamController; 
@@ -20,6 +21,8 @@ use App\Http\Controllers\Admin\AvailabilityController;
 use App\Http\Controllers\Admin\ServicePartnerController;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\PartnerServicesController;
+use App\Http\Controllers\Admin\PrivacyPolicyController;
+use App\Http\Controllers\Admin\TCController;
 
 /*
 |--------------------------------------------------------------------------
@@ -159,6 +162,33 @@ Route::patch('banner/update-status/{id}', [BannerController::class, 'updateStatu
 Route::get('banner/{id}/edit', [BannerController::class, 'edit'])->name('Banner.edit');
 Route::put('banner/{id}', [BannerController::class, 'update'])->name('Banner.update');
 Route::delete('banner/{id}', [BannerController::class, 'destroy'])->name('Banner.destroy');
+
+
+
+Route::get('/about-us/index', [AboutUsController::class, 'index'])->name('aboutUs.index');
+Route::get('/about-us/create', [AboutUsController::class, 'create'])->name('aboutUs.create');
+Route::post('/about-us/store', [AboutUsController::class, 'store'])->name('aboutUs.store');
+Route::patch('about-us/update-status/{id}', [AboutUsController::class, 'updateStatus'])->name('aboutUs.updateStatus');
+Route::get('about-us/{id}/edit', [AboutUsController::class, 'edit'])->name('aboutUs.edit');
+Route::put('about-us/{id}', [AboutUsController::class, 'update'])->name('aboutUs.update');
+Route::delete('about-us/{id}', [AboutUsController::class, 'destroy'])->name('aboutUs.destroy');
+
+Route::get('/privacy-policy/index', [PrivacyPolicyController::class, 'index'])->name('PrivacyPolicy.index');
+Route::get('/privacy-policy/create', [PrivacyPolicyController::class, 'create'])->name('PrivacyPolicy.create');
+Route::post('/privacy-policy/store', [PrivacyPolicyController::class, 'store'])->name('PrivacyPolicy.store');
+Route::patch('privacy-policy/update-status/{id}', [PrivacyPolicyController::class, 'updateStatus'])->name('PrivacyPolicy.updateStatus');
+Route::get('privacy-policy/{id}/edit', [PrivacyPolicyController::class, 'edit'])->name('PrivacyPolicy.edit');
+Route::put('privacy-policy/{id}', [PrivacyPolicyController::class, 'update'])->name('PrivacyPolicy.update');
+Route::delete('privacy-policy/{id}', [PrivacyPolicyController::class, 'destroy'])->name('PrivacyPolicy.destroy');
+
+
+Route::get('/tc/index', [TCController::class, 'index'])->name('tc.index');
+Route::get('/tc/create', [TCController::class, 'create'])->name('tc.create');
+Route::post('/tc/store', [TCController::class, 'store'])->name('tc.store');
+Route::patch('tc/update-status/{id}', [TCController::class, 'updateStatus'])->name('tc.updateStatus');
+Route::get('tc/{id}/edit', [TCController::class, 'edit'])->name('tc.edit');
+Route::put('tc/{id}', [TCController::class, 'update'])->name('tc.update');
+Route::delete('tc/{id}', [TCController::class, 'destroy'])->name('tc.destroy');
 
 
     });
