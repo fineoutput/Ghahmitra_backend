@@ -85,6 +85,7 @@ Route::get('/deletesetting/{id}', [CrmController::class, 'deletesetting'])->name
 
 Route::get('/customers/index-panding', [CustomersController::class, 'index'])->name('customers.index');
 Route::get('/customers/index-active', [CustomersController::class, 'activeindex'])->name('customers.index.active');
+Route::get('/customers/wallet-history/{id}', [CustomersController::class, 'wallethistory'])->name('customers.wallet-history');
 Route::patch('customers/update-status/{id}', [CustomersController::class, 'updateStatus'])->name('customers.updateStatus');
 
 

@@ -6,10 +6,10 @@
     <div class="row">
       <div class="col-sm-12">
         <div class="page-title-box">
-          <h4 class="page-title">View Customers</h4>
+          <h4 class="page-title">View Wallet</h4>
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="javascript:void(0);">Customers</a></li>
-            <li class="breadcrumb-item active">View Customers</li>
+            <li class="breadcrumb-item"><a href="javascript:void(0);">Wallet</a></li>
+            <li class="breadcrumb-item active">View Wallet</li>
           </ol>
         </div>
       </div>
@@ -49,10 +49,12 @@
         @endif
               <!-- End show success and error messages -->
               <div class="row">
-                <div class="col-md-10">
-                  <h4 class="mt-0 header-title">View Customers List</h4>
+                <div class="col-md-8">
+                  <h4 class="mt-0 header-title">View Wallet List</h4>
                 </div>
-                
+                <div class="col-md-4">
+                   <h2 class="text-success">₹{{$Wallet->balance ?? 0}}</h2>
+                </div>
               </div>
               <hr style="margin-bottom: 50px;background-color: darkgrey;">
               <div class="table-rep-plugin">
@@ -61,38 +63,34 @@
             <thead class="table-success">
                 <tr>
                     <th>ID</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Created At</th>
+                    <th>Wallet_id</th>
+                    <th>Transaction Id</th>
+                    <th>Type</th>
+                    <th>Amount</th>
+                    <th>Opening Balance</th>
+                    <th>Closing Balance</th>
+                    <th>Transaction For</th>
+                    <th>Description</th>
                     <th>Status</th>
+                    <th>Payment Method</th>
+                    <th>Ip Address</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($customers as $key => $customer)
+                @foreach($WalletTransactions as $key => $customer)
                     <tr>
                         <td>{{ $key+1 }}</td>
-                        <td>{{ $customer->name }}</td>
-                        <td>{{ $customer->email }}</td>
-                        <td>{{ $customer->mobile_no }}</td>
-                        <td>{{ $customer->created_at }}</td>
-                        <td>
-                            <form action="{{ route('customers.updateStatus', $customer->id) }}" method="POST">
-                                @csrf
-                                @method('PATCH')
-
-                                <input type="hidden" name="status" value="{{ $customer->status == 1 ? 0 : 1 }}">
-
-                                <button type="submit"
-                                    class="btn {{ $customer->status == 1 ? 'btn-danger' : 'btn-success' }}">
-                                    {{ $customer->status == 1 ? 'Inactive' : 'Active' }}
-                                </button>
-                            </form>
-
-                              <a class="btn btn-success mt-2" href="{{ route('customers.wallet-history', $customer->id) }}">
-                                Wallet-history</a>
-
-                        </td>
+                        <td>{{ $customer->wallet_id }}</td>
+                        <td>{{ $customer->transaction_id }}</td>
+                        <td>{{ $customer->type }}</td>
+                        <td>{{ $customer->amount }}</td>
+                        <td>{{ $customer->opening_balance }}</td>
+                        <td>{{ $customer->closing_balance }}</td>
+                        <td>{{ $customer->transaction_for }}</td>
+                        <td>{{ $customer->description }}</td>
+                        <td>{{ $customer->status }}</td>
+                        <td>{{ $customer->payment_method }}</td>
+                        <td>{{ $customer->ip_address }}</td>
                     </tr>
                     @endforeach
             </tbody>

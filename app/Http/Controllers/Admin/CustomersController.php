@@ -12,6 +12,8 @@ use App\adminmodel\UserModal;
 use App\adminmodel\CategoryModal;
 use App\adminmodel\ProductModal;
 use App\Models\Customers;
+use App\Models\Wallet;
+use App\Models\WalletTransactions;
 
 class CustomersController extends Controller
 {
@@ -26,6 +28,13 @@ class CustomersController extends Controller
     {
         $customers = Customers::where('status',1)->orderBy('id', 'DESC')->get();
         return view('admin.customers.index', compact('customers'));
+    }
+
+    public function wallethistory(Request $request,$id)
+    {
+        $data['WalletTransactions'] = WalletTransactions::where('user_id',$id)->orderBy('id', 'DESC')->get();
+        $data['Wallet'] = Wallet::where('user_id',$id)->orderBy('id', 'DESC')->first();
+        return view('admin.customers.wallet', $data);
     }
 
     public function updateStatus(Request $request, $id)
