@@ -41,7 +41,7 @@
                             <h4 class="mt-0 header-title">{{ isset($interest) ? 'Edit' : 'Add' }} {{$tital}} Form</h4>
 
                             <hr style="margin-bottom: 50px;background-color: darkgrey;">
-                           <form action="{{ route('PrivacyPolicy.store') }}" method="POST" enctype="multipart/form-data">
+                           <form action="{{ route('tc.store') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
 
                                 <div class="form-group row">

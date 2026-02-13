@@ -5,14 +5,17 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\adminmodel\Team;
+use App\Models\AboutUs;
 use App\Models\Banner;
 use App\Models\City;
 use App\Models\Customers;
 use App\Models\Otp;
+use App\Models\PrivacyPolicy;
 use App\Models\ServicePartner;
 use App\Models\Services;
 use App\Models\ServicesSe;
 use App\Models\State;
+use App\Models\TC;
 use App\Models\Th_Services;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
@@ -123,5 +126,74 @@ class HomeController extends Controller
     }
 
 
+    public function aboutUs()
+    {
+        $aboutUs = AboutUs::where('status', 1)->first();
+
+        if (!$aboutUs) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'About Us information not found',
+                'data' => null
+            ]);
+        }
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'About Us retrieved successfully',
+            'data' => [
+                'id' => $aboutUs->id,
+                'title' => $aboutUs->title,
+                'content' => strip_tags($aboutUs->content),
+            ]
+        ]);
+    }
+
+    public function PrivacyPolicy()
+    {
+        $privacyPolicy = PrivacyPolicy::where('status', 1)->first();
+
+        if (!$privacyPolicy) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Privacy Policy information not found',
+                'data' => null
+            ]);
+        }
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Privacy Policy retrieved successfully',
+            'data' => [
+                'id' => $privacyPolicy->id,
+                'title' => $privacyPolicy->title,
+                'content' => strip_tags($privacyPolicy->content),
+            ]
+        ]);
+    }
+
+
+    public function tc()
+    {
+        $tc = TC::where('status', 1)->first();
+
+        if (!$tc) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Terms & Conditions information not found',
+                'data' => null
+            ]);
+        }
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Terms & Conditions retrieved successfully',
+            'data' => [
+                'id' => $tc->id,
+                'title' => $tc->title,
+                'content' => strip_tags($tc->content),
+            ]
+        ]);
+    }
 
 }

@@ -34,6 +34,9 @@ use App\Http\Controllers\Api\HomeController;
     Route::get('/services', [HomeController::class, 'services']);
     Route::post('/services-se', [HomeController::class, 'ServicesSe']);
     Route::post('/services-th', [HomeController::class, 'ServicesTh']);
+    Route::get('/about-us', [HomeController::class, 'aboutUs']);
+    Route::get('/privacy-policy', [HomeController::class, 'PrivacyPolicy']);
+    Route::get('/terms-condition', [HomeController::class, 'tc']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     // return $request->user();
