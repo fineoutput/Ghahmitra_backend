@@ -10,6 +10,7 @@ use App\Models\Customers;
 use App\Models\Otp;
 use App\Models\ServicePartner;
 use App\Models\State;
+use App\Models\UnverifiedCustomer;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 
@@ -194,38 +195,143 @@ class AuthController extends Controller
         }
     }
 
+    // public function register_customer(Request $request)
+    // {
+    //     $request->validate([
+    //         'name' => 'required',
+    //         'email' => 'required|email|unique:customers,email',
+    //         'mobile_no' => 'required|unique:customers,mobile_no|regex:/^[0-9]{10}$/',
+    //         'image' => 'required|image|mimes:jpg,jpeg,png|max:2048'
+    //     ]);
+
+    //     // Handle Image Upload
+    //     $imageName = null;
+
+    //     if ($request->hasFile('image')) {
+    //         $image = $request->file('image');
+    //         $imageName = time() . '_' . $image->getClientOriginalName();
+    //         $image->move(public_path('customer_images'), $imageName);
+    //     }
+
+    //     $customer = Customers::create([
+    //         'name' => $request->name,
+    //         'email' => $request->email,
+    //         'mobile_no' => $request->mobile_no,
+    //         'status' => 1,
+    //         'image' => $imageName
+    //     ]);
+
+    //     return response()->json([
+    //         'status' => 200,
+    //         'message' => 'Customer registered successfully',
+    //         'data' => $customer
+    //     ]);
+    // }
+
     public function register_customer(Request $request)
-    {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:customers,email',
-            'mobile_no' => 'required|unique:customers,mobile_no|regex:/^[0-9]{10}$/',
-            'image' => 'required|image|mimes:jpg,jpeg,png|max:2048'
-        ]);
+{
+    $request->validate([
+        'name' => 'required',
+        'email' => 'required|email|unique:customers,email',
+        'mobile_no' => 'required|unique:customers,mobile_no|regex:/^[0-9]{10}$/',
+        'image' => 'required|image|mimes:jpg,jpeg,png|max:2048'
+    ]);
 
-        // Handle Image Upload
-        $imageName = null;
+    // Handle Image Upload
+    $imageName = null;
 
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = time() . '_' . $image->getClientOriginalName();
-            $image->move(public_path('customer_images'), $imageName);
-        }
+    if ($request->hasFile('image')) {
+        $image = $request->file('image');
+        $imageName = time() . '_' . $image->getClientOriginalName();
+        $image->move(public_path('customer_images'), $imageName);
+    }
 
-        $customer = Customers::create([
+    // Save into unverified_customers table
+    $unverified = UnverifiedCustomer::updateOrCreate(
+        ['mobile_no' => $request->mobile_no],
+        [
             'name' => $request->name,
             'email' => $request->email,
             'mobile_no' => $request->mobile_no,
-            'status' => 1,
-            'image' => $imageName
-        ]);
+            'image' => $imageName,
+        ]
+    );
 
+    // Generate OTP
+    $otp = rand(100000, 999999);
+
+    Otp::updateOrCreate(
+        ['contact_no' => $request->mobile_no],
+        [
+            'name' => $request->name,
+            'email' => $request->email,
+            'otp' => $otp,
+            'ip' => $request->ip(),
+            'is_active' => 1,
+            'date' => now()
+        ]
+    );
+
+    // 👉 Yaha SMS API se OTP bhejna hai
+
+    return response()->json([
+        'status' => 200,
+        'message' => 'OTP sent successfully. Please verify.',
+    ]);
+}
+
+
+
+public function verifyRegisterOtp(Request $request)
+{
+    $request->validate([
+        'mobile_no' => 'required|regex:/^[0-9]{10}$/',
+        'otp' => 'required|digits:6'
+    ]);
+
+    $otpRow = Otp::where('contact_no', $request->mobile_no)
+        ->where('otp', $request->otp)
+        ->where('is_active', 1)
+        ->first();
+
+    if (!$otpRow) {
         return response()->json([
-            'status' => 200,
-            'message' => 'Customer registered successfully',
-            'data' => $customer
-        ]);
+            'status' => 401,
+            'message' => 'Invalid or expired OTP'
+        ], 401);
     }
+
+    $unverified = UnverifiedCustomer::where('mobile_no', $request->mobile_no)->first();
+
+    if (!$unverified) {
+        return response()->json([
+            'status' => 404,
+            'message' => 'User data not found'
+        ], 404);
+    }
+
+    // Move data to customers table
+    $customer = Customers::create([
+        'name' => $unverified->name,
+        'email' => $unverified->email,
+        'mobile_no' => $unverified->mobile_no,
+        'image' => $unverified->image,
+        'status' => 1
+    ]);
+
+    // Deactivate OTP
+    $otpRow->update(['is_active' => 0]);
+
+    // Delete unverified record
+    $unverified->delete();
+
+    return response()->json([
+        'status' => 200,
+        'message' => 'Customer registered successfully',
+        'data' => $customer
+    ]);
+}
+
 
 
 

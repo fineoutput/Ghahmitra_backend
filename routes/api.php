@@ -26,6 +26,7 @@ use App\Http\Controllers\Api\HomeController;
 
 
     Route::post('/register-customer', [AuthController::class, 'register_customer']);
+    Route::post('/register-customer-verify', [AuthController::class, 'verifyRegisterOtp']);
     Route::post('/login-customers', [AuthController::class, 'customerslogin']);
     Route::post('/verify-customers-otp', [AuthController::class, 'verifycustomersOtp']);
 
