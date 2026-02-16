@@ -497,13 +497,13 @@ public function verifyRegisterOtp(Request $request)
                         'message' => 'Unauthorized'
                     ], 401);
                 }
-
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:customers,email,' . $customer->id,
-            'mobile_no' => 'required|regex:/^[0-9]{10}$/|unique:customers,mobile_no,' . $customer->id,
-            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
-        ]);
+                
+ $request->validate([
+        'name' => 'sometimes|string|max:255',
+        'email' => 'sometimes|email|unique:customers,email,' . $customer->id,
+        'mobile_no' => 'sometimes|regex:/^[0-9]{10}$/|unique:customers,mobile_no,' . $customer->id,
+        'image' => 'sometimes|image|mimes:jpg,jpeg,png|max:2048'
+    ]);
 
         if ($request->hasFile('image')) {
 
