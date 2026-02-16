@@ -126,6 +126,61 @@ class HomeController extends Controller
         ]);
     }
 
+    
+public function ServicesDetails(Request $request)
+{
+    $service = Th_Services::where('status', 1)
+        ->where('id', $request->services_id)
+        ->first();
+
+    if (!$service) {
+        return response()->json([
+            'status' => 404,
+            'message' => 'Service not found',
+            'data' => null
+        ]);
+    }
+
+    $serviceavailability = Availability::where('services_id', $request->services_id)
+        ->where('status', 1)
+        ->get();
+
+    $images = [];
+
+    if (!empty($service->image) && is_array($service->image)) {
+        $images = array_map(function ($img) {
+            return url($img);
+        }, $service->image);
+    }
+
+    $availabilityArray = $serviceavailability->map(function ($item) {
+        return [
+            'id' => $item->id,
+            'day' => $item->day ?? null,
+            'start_time' => $item->start_time ?? null,
+            'end_time' => $item->end_time ?? null,
+            'description' => strip_tags($item->description) ?? null,
+        ];
+    });
+
+    $data = [
+        'id' => $service->id,
+        'name' => $service->name,
+        'description' => strip_tags($service->description),
+        'description_2' => strip_tags($service->description_2),
+        'description_3' => strip_tags($service->description_3),
+        'price' => $service->price,
+        'mrp' => $service->mrp,
+        'images' => $images,
+        'availability' => $availabilityArray, // 👈 Added here
+    ];
+
+    return response()->json([
+        'status' => 200,
+        'message' => 'Service retrieved successfully',
+        'data' => $data
+    ]);
+}
 
     public function aboutUs()
     {

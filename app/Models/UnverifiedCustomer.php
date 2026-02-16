@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class UnverifiedCustomer extends Model
 {
     use HasFactory;
-        protected $table = 'Unverified_customer';
+        protected $table = 'unverified_customer';
         protected $fillable = [
             'auth',  
             'name',  
