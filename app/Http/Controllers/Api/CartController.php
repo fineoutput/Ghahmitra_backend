@@ -8,6 +8,7 @@ use App\adminmodel\Team;
 use App\Models\Cart;
 use App\Models\City;
 use App\Models\Customers;
+use App\Models\Feedback;
 use App\Models\Otp;
 use App\Models\ServicePartner;
 use App\Models\State;
@@ -172,6 +173,36 @@ public function updateCart(Request $request)
         'status' => 200,
         'message' => 'Cart updated successfully',
         'cart' => $cart
+    ]);
+}
+
+
+public function storeFeedback(Request $request)
+{
+    $customer = Auth::guard('customer_api')->user();
+
+    if (!$customer) {
+        return response()->json([
+            'status' => 401,
+            'message' => 'Unauthorized'
+        ], 401);
+    }
+
+    $request->validate([
+        'description' => 'required|string|max:1000',
+    ]);
+
+    $feedback = Feedback::create([
+        'user_id' => $customer->id,
+        'description' => $request->description,
+        'star' => $request->star,
+        'status' => 1, // active
+    ]);
+
+    return response()->json([
+        'status' => 201,
+        'message' => 'Feedback submitted successfully',
+        'data' => $feedback
     ]);
 }
 

@@ -68,5 +68,6 @@ Route::middleware('customer.auth')->prefix('customer')->group(function () {
  Route::post('/add-cart', [CartController::class, 'addtocart']);
  Route::post('/get-cart', [CartController::class, 'getcart']);
  Route::post('/update-cart', [CartController::class, 'updatecart']);
+ Route::post('feedback/store', [CartController::class, 'storeFeedback']);
       
 });
