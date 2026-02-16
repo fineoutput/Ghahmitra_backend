@@ -318,7 +318,7 @@ public function verifyRegisterOtp(Request $request)
         'mobile_no' => $unverified->mobile_no,
         'image' => $unverified->image,
         'status' => 1,
-        'token' => $authToken
+        'auth' => $authToken
     ]);
 
     // Deactivate OTP
