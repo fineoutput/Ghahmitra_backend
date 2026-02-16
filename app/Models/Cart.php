@@ -28,7 +28,7 @@ class Cart extends Model
         }
          public function service()
         {
-            return $this->belongsTo(Th_Services::class, 'services_id');
+            return $this->hasOne(Th_Services::class, 'id', 'service_id');
         }
 
          public function availability()

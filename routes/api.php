@@ -65,6 +65,8 @@ Route::middleware('customer.auth')->prefix('customer')->group(function () {
  Route::get('/wallet', [CustomerController::class, 'getWallet']);
  Route::get('/wallet-history', [CustomerController::class, 'walletHistory']);
 
- Route::post('/add-cart', [CartController::class, 'addCart']);
+ Route::post('/add-cart', [CartController::class, 'addtocart']);
+ Route::post('/get-cart', [CartController::class, 'getcart']);
+ Route::post('/update-cart', [CartController::class, 'updatecart']);
       
 });
