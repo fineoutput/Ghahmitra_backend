@@ -486,59 +486,68 @@ public function verifyRegisterOtp(Request $request)
         ]);
     }
 
+public function updateCustomerProfile(Request $request)
+{
+    $customer = Auth::guard('customer_api')->user();
 
-    public function updateCustomerProfile(Request $request)
-    {
-        $customer = Auth::guard('customer_api')->user();
+    if (!$customer) {
+        return response()->json([
+            'status' => 401,
+            'message' => 'Unauthorized'
+        ], 401);
+    }
 
-                if (!$customer) {
-                    return response()->json([
-                        'status' => 401,
-                        'message' => 'Unauthorized'
-                    ], 401);
-                }
-                
- $request->validate([
+    $request->validate([
         'name' => 'sometimes|string|max:255',
         'email' => 'sometimes|email|unique:customers,email,' . $customer->id,
         'mobile_no' => 'sometimes|regex:/^[0-9]{10}$/|unique:customers,mobile_no,' . $customer->id,
         'image' => 'sometimes|image|mimes:jpg,jpeg,png|max:2048'
     ]);
 
-        if ($request->hasFile('image')) {
+    // Update only if present in request
+    if ($request->has('name')) {
+        $customer->name = $request->name;
+    }
 
-            if ($customer->image && file_exists(public_path('customer_images/' . $customer->image))) {
-                unlink(public_path('customer_images/' . $customer->image));
-            }
+    if ($request->has('email')) {
+        $customer->email = $request->email;
+    }
 
-            $image = $request->file('image');
-            $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('customer_images'), $imageName);
+    if ($request->has('mobile_no')) {
+        $customer->mobile_no = $request->mobile_no;
+    }
 
-            $customer->image = $imageName;
+    if ($request->hasFile('image')) {
+
+        if ($customer->image && file_exists(public_path('customer_images/' . $customer->image))) {
+            unlink(public_path('customer_images/' . $customer->image));
         }
 
-        $customer->name = $request->name;
-        $customer->email = $request->email;
-        $customer->mobile_no = $request->mobile_no;
-        $customer->save();
+        $image = $request->file('image');
+        $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+        $image->move(public_path('customer_images'), $imageName);
 
-        return response()->json([
-            'status' => 200,
-            'message' => 'Profile updated successfully',
-            'data' => [
-                'id' => $customer->id,
-                'name' => $customer->name,
-                'email' => $customer->email,
-                'mobile_no' => $customer->mobile_no,
-                'image' => $customer->image,
-                'image_url' => $customer->image 
-                    ? url('customer_images/' . $customer->image)
-                    : null,
-                'status' => $customer->status,
-            ]
-        ]);
+        $customer->image = $imageName;
     }
+
+    $customer->save();
+
+    return response()->json([
+        'status' => 200,
+        'message' => 'Profile updated successfully',
+        'data' => [
+            'id' => $customer->id,
+            'name' => $customer->name,
+            'email' => $customer->email,
+            'mobile_no' => $customer->mobile_no,
+            'image' => $customer->image,
+            'image_url' => $customer->image 
+                ? url('customer_images/' . $customer->image)
+                : null,
+            'status' => $customer->status,
+        ]
+    ]);
+}
 
 
 
