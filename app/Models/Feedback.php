@@ -20,7 +20,7 @@ class Feedback extends Model
         
          public function customers()
         {
-            return $this->belongsTo(Customers::class, 'customers_id');
+            return $this->belongsTo(Customers::class, 'user_id');
         }
 
 }

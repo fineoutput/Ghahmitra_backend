@@ -12,6 +12,7 @@ use App\adminmodel\UserModal;
 use App\adminmodel\CategoryModal;
 use App\adminmodel\ProductModal;
 use App\Models\Customers;
+use App\Models\Feedback;
 use App\Models\Wallet;
 use App\Models\WalletTransactions;
 
@@ -22,6 +23,12 @@ class CustomersController extends Controller
     {
         $customers = Customers::where('status',0)->orderBy('id', 'DESC')->get();
         return view('admin.customers.index', compact('customers'));
+    }
+
+    public function feedback(Request $request)
+    {
+        $Feedback = Feedback::orderBy('id', 'DESC')->get();
+        return view('admin.Feedback.index', compact('Feedback'));
     }
 
     public function activeindex(Request $request)

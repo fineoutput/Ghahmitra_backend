@@ -192,6 +192,8 @@ Route::put('tc/{id}', [TCController::class, 'update'])->name('tc.update');
 Route::delete('tc/{id}', [TCController::class, 'destroy'])->name('tc.destroy');
 
 
+Route::get('/feedback/index', [CustomersController::class, 'feedback'])->name('FeedBacks.index');
+
     });
 
 });

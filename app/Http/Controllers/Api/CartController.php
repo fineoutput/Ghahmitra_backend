@@ -10,11 +10,15 @@ use App\Models\City;
 use App\Models\Customers;
 use App\Models\Feedback;
 use App\Models\Otp;
+use App\Models\PartnerServices;
 use App\Models\ServicePartner;
 use App\Models\State;
+use App\Models\SubOrder;
 use App\Models\UnverifiedCustomer;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+
 
 class CartController extends Controller
 {
@@ -37,6 +41,14 @@ class CartController extends Controller
         'availability_id' => 'required',
         'quantity' => 'required|integer|min:1',
     ]);
+
+    $PartnerServices = PartnerServices::where('service_id', $request->service_id)->exists();
+    if(!$PartnerServices){
+        return response()->json([
+            'status' => 404,
+            'message' => 'Service Curently Unavailable'
+        ], 404);
+    }
 
     $existingCart = Cart::where('customers_id', $customer->id)
         ->where('service_id', $request->service_id)
@@ -173,6 +185,66 @@ public function updateCart(Request $request)
         'status' => 200,
         'message' => 'Cart updated successfully',
         'cart' => $cart
+    ]);
+}
+
+
+
+public function calculate(Request $request)
+{
+    $customer = Auth::guard('customer_api')->user();
+
+    if (!$customer) {
+        return response()->json([
+            'status' => 401,
+            'message' => 'Unauthorized'
+        ], 401);
+    }
+
+    $cartItems = Cart::with('service')
+        ->where('customers_id', $customer->id)
+        ->where('status', 1)
+        ->get();
+
+    if ($cartItems->isEmpty()) {
+        return response()->json([
+            'status' => 400,
+            'message' => 'Cart is empty'
+        ]);
+    }
+
+    $grandTotal = 0;
+    $items = [];
+
+    foreach ($cartItems as $item) {
+
+        if (!$item->service) {
+            continue;
+        }
+
+        $price = $item->service->price;
+        $quantity = $item->quantity;
+        $total = $price * $quantity;
+
+        $grandTotal += $total;
+
+        $items[] = [
+            'cart_id' => $item->id,
+            'service_id' => $item->service_id,
+            'availability_id' => $item->availability_id,
+            'quantity' => $quantity,
+            'price' => $price,
+            'total' => $total,
+        ];
+    }
+
+    return response()->json([
+        'status' => 200,
+        'message' => 'Cart calculated successfully',
+        'data' => [
+            'items' => $items,
+            'grand_total' => $grandTotal
+        ]
     ]);
 }
 
