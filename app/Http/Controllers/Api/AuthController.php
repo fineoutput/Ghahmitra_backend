@@ -8,10 +8,12 @@ use App\adminmodel\Team;
 use App\Models\City;
 use App\Models\Customers;
 use App\Models\Otp;
+use App\Models\PartnerServices;
 use App\Models\ServicePartner;
 use App\Models\State;
 use App\Models\UnverifiedCustomer;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
@@ -52,18 +54,30 @@ class AuthController extends Controller
         ]);
     }
 
-    function register_partner(Request $request)
-    {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:service_partner,email',
-            'phone' => 'required|unique:service_partner,phone|regex:/^[0-9]{10}$/',
-            'address' => 'required',
-            'district' => 'required',
-            'state_id' => 'required',
-            'city_id' => 'required',
-        ]);
+  use App\Models\ServicePartner;
+use App\Models\PartnerServices;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
+public function register_partner(Request $request)
+{
+    $request->validate([
+        'name' => 'required',
+        'email' => 'required|email|unique:service_partner,email',
+        'phone' => 'required|unique:service_partner,phone|regex:/^[0-9]{10}$/',
+        'address' => 'required',
+        'district' => 'required',
+        'state_id' => 'required',
+        'city_id' => 'required',
+        'service_ids' => 'required|array',
+        'service_ids.*' => 'required|exists:services,id',
+    ]);
+
+    DB::beginTransaction();
+
+    try {
+
+        // 1️⃣ Create Partner
         $partner = ServicePartner::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -76,13 +90,36 @@ class AuthController extends Controller
             'rank' => 1,
         ]);
 
+        // 2️⃣ Insert Partner Services
+        foreach ($request->service_ids as $service_id) {
+            PartnerServices::create([
+                'partner_id' => $partner->id,
+                'service_id' => $service_id,
+                'commission_percentage' => 0.00,
+                'status' => 0,
+            ]);
+        }
+
+        DB::commit();
+
         return response()->json([
             'status' => 200,
             'message' => 'Partner registered successfully',
             'data' => $partner
         ]);
-        
+
+    } catch (\Exception $e) {
+
+        DB::rollBack();
+
+        return response()->json([
+            'status' => 500,
+            'message' => 'Something went wrong',
+            'error' => $e->getMessage()
+        ]);
     }
+}
+
 
     public function Partnerlogin(Request $request)
     {

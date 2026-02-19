@@ -75,7 +75,7 @@
                         <td>{{ $Services->partner->name ?? '' }}</td>
                         <td>{{ $Services->document_type ?? '' }}</td>
                         <td>
-                            <img src="{{ $Services->document_file ?? '' }}" alt="No Image" width="100" height="100">
+                            <img src="{{ asset($Services->document_file) ?? '' }}" alt="No Image" width="100" height="100">
                         </td>
                         <td>{{ $Services->created_at }}</td>
 

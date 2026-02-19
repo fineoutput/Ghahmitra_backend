@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CustomerController;
 use App\Http\Controllers\Api\HomeController;
 use App\Http\Controllers\Api\CartController;
+use App\Http\Controllers\Api\PartnerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,6 +50,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::middleware('partnerapi.auth')->prefix('partner')->group(function () {
     Route::post('/partner-logout', [AuthController::class, 'logoutPartner']);
+    Route::post('/delete-account', [PartnerController::class, 'deleteaccount']);
+    Route::post('/add-document', [PartnerController::class, 'document']);
+
       
 });
 
