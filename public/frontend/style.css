@@ -168,3 +168,51 @@ footer .footer-links a:hover {
 .border-light-custom {
     border: 1px solid #00000012 !important;
 }
+
+/* ================= LOADER OVERLAY (added) ================= */
+.loader-wrapper {
+  position: fixed;
+  inset: 0;
+  background: #f3f3f3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 9999;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+.loader-wrapper.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.loader-wrapper .logo {
+  font-size: 22px;
+  margin-bottom: 25px;
+  font-weight: 500;
+}
+
+.progress-bar {
+  width: 220px;
+  height: 3px;
+  background: #ddd;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: #6c5ce7;
+  transition: width 0.2s ease;
+}
+
+/* optional: hide demo content until loader removed (if needed) */
+.content {
+  transition: opacity 0.3s ease;
+}
+.loader-wrapper.hidden + .content {
+  opacity: 1;
+}

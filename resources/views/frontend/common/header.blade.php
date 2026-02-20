@@ -39,6 +39,13 @@
   
 </head>
 <body>
+    {{-- Loader overlay (injected) --}}
+    <div class="loader-wrapper" id="loader">
+      <div class="logo">Grah Mitra</div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progress"></div>
+      </div>
+    </div>
     <!-- Header Start -->
 <header class="border-bottom bg-white py-2">
   <div class="container px-4">
@@ -212,3 +219,4 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.3/dist/js/splide.min.js"></script>
 <script src="{{ asset('frontend/script.js') }}"></script>
+<script src="{{ asset('frontend/loader.js') }}"></script>

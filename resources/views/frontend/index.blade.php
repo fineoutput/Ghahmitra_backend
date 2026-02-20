@@ -16,7 +16,7 @@
 <!-- ================= SERVICE CATEGORIES ================= -->
 
 
-<section class="py-4 bg-light">
+<section class="py-4 bg-light mb-5">
   <div class="container">
 
     <div class="row text-center g-3">
@@ -69,7 +69,7 @@
 </section>
 
 <!-- ================= PROMO SLIDER ================= -->
-<section class="py-4">
+<section class="py-4 mb-5">
   <div class="container">
     <div id="promoSlider" class="splide">
       <div class="splide__track">
