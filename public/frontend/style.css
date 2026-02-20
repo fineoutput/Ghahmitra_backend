@@ -59,8 +59,8 @@ footer .footer-links a:hover {
 }
 
 .modal-content {
-  max-width: 420px;
-  margin: auto;
+    max-width: 560px;
+    margin: auto;
 }
 
 .modal-backdrop.show {

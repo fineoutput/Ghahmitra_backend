@@ -191,5 +191,24 @@
     </div>
   </div>
 </div>
+
+<!-- ================= CATEGORIES MODAL ================= -->
+<div class="modal fade" id="categoriesModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content border-0 rounded-4 p-4">
+      <!-- Close Button -->
+      <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal"></button>
+      
+      <!-- Title -->
+      <h4 class="fw-bold mb-4" id="categoryTitle">Select Service</h4>
+      
+      <!-- Categories Grid -->
+      <div class="row g-3" id="categoriesGrid">
+        <!-- Will be populated by JS -->
+      </div>
+    </div>
+  </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.3/dist/js/splide.min.js"></script>
 <script src="{{ asset('frontend/script.js') }}"></script>

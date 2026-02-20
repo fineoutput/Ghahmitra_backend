@@ -22,45 +22,45 @@
     <div class="row text-center g-3">
 
       <div class="col-6 col-md-3 col-lg-2">
-        <div class="service-box p-3 bg-white rounded shadow-sm">
+        <button class="service-box p-3 bg-white rounded shadow-sm border-0 w-100" data-bs-toggle="modal" data-bs-target="#categoriesModal" data-service="Salon Services" style="cursor: pointer;">
           <img src="{{ asset('frontend/images/services/premium-service.png') }}" alt="">
           <h6 class="mb-0">Salon Services</h6>
-        </div>
+        </button>
       </div>
 
       <div class="col-6 col-md-3 col-lg-2">
-        <div class="service-box p-3 bg-white rounded shadow-sm">
+        <button class="service-box p-3 bg-white rounded shadow-sm border-0 w-100" data-bs-toggle="modal" data-bs-target="#categoriesModal" data-service="Appliance Repair" style="cursor: pointer;">
           <img src="{{ asset('frontend/images/services/microwave-oven.png') }}" alt="">
           <h6 class="mb-0">Appliance Repair</h6>
-        </div>
+        </button>
       </div>
 
       <div class="col-6 col-md-3 col-lg-2">
-        <div class="service-box p-3 bg-white rounded shadow-sm">
+        <button class="service-box p-3 bg-white rounded shadow-sm border-0 w-100" data-bs-toggle="modal" data-bs-target="#categoriesModal" data-service="Home Cleaning" style="cursor: pointer;">
           <img src="{{ asset('frontend/images/services/house-cleaning.png') }}" alt="">  
           <h6 class="mb-0">Home Cleaning</h6>
-        </div>
+        </button>
       </div>
 
       <div class="col-6 col-md-3 col-lg-2">
-        <div class="service-box p-3 bg-white rounded shadow-sm">
+        <button class="service-box p-3 bg-white rounded shadow-sm border-0 w-100" data-bs-toggle="modal" data-bs-target="#categoriesModal" data-service="Pest Control" style="cursor: pointer;">
           <img src="{{ asset('frontend/images/services/bug-spray.png') }}" alt="">
           <h6 class="mb-0">Pest Control</h6>
-        </div>
+        </button>
       </div>
 
       <div class="col-6 col-md-3 col-lg-2">
-        <div class="service-box p-3 bg-white rounded shadow-sm">
+        <button class="service-box p-3 bg-white rounded shadow-sm border-0 w-100" data-bs-toggle="modal" data-bs-target="#categoriesModal" data-service="Plumbing" style="cursor: pointer;">
           <img src="{{ asset('frontend/images/services/water-heater.png') }}" alt="">
           <h6 class="mb-0">Plumbing</h6>
-        </div>
+        </button>
       </div>
 
       <div class="col-6 col-md-3 col-lg-2"> 
-        <div class="service-box p-3 bg-white rounded shadow-sm">
+        <button class="service-box p-3 bg-white rounded shadow-sm border-0 w-100" data-bs-toggle="modal" data-bs-target="#categoriesModal" data-service="Painting" style="cursor: pointer;">
           <img src="{{ asset('frontend/images/services/house-painting.png') }}" alt="">
           <h6 class="mb-0">Painting</h6>
-        </div>
+        </button>
       </div>
 
     </div>
