@@ -68,39 +68,68 @@
   </div>
 </section>
 
-
-<!-- ================= PROMO BANNERS ================= -->
+<!-- ================= PROMO SLIDER ================= -->
 <section class="py-4">
   <div class="container">
-    <div class="row g-4">
+    <div id="promoSlider" class="splide">
+      <div class="splide__track">
+        <ul class="splide__list">
 
-      <div class="col-md-4">
-        <div class="promo-card p-4 text-white rounded"
-             style="background: linear-gradient(135deg,#3b5bdb,#5c7cfa);">
-          <h5>Full House Cleaning</h5>
-          <p>Starting at ₹1299</p>
-          <a href="#" class="btn btn-light btn-sm">Book Now</a>
-        </div>
+          <!-- Slide 1 -->
+          <li class="splide__slide">
+            <div class="promo-card" style="background-image:url('https://images.unsplash.com/photo-1562259949-e8e7689d7828');">
+              <div class="promo-content">
+                <h4>Home painting & waterproofing</h4>
+                <p>Pay after 100% satisfaction</p>
+                <button class="btn btn-dark btn-sm">Book now</button>
+              </div>
+            </div>
+          </li>
+
+          <!-- Slide 2 -->
+          <li class="splide__slide">
+            <div class="promo-card green" style="background-image:url('https://images.unsplash.com/photo-1581578731548-c64695cc6952');">
+              <div class="promo-content text-white">
+                <h4>Shine your bathroom deserves</h4>
+                <button class="btn btn-light btn-sm">Book now</button>
+              </div>
+            </div>
+          </li>
+
+          <!-- Slide 3 -->
+          <li class="splide__slide">
+            <div class="promo-card pink" style="background-image:url('https://images.unsplash.com/photo-1598514982586-df7e0cdd87b0');">
+              <div class="promo-content text-white">
+                <span class="badge bg-light text-dark mb-2">25% OFF</span>
+                <h4>Valentine’s Special Packages</h4>
+                <p>Curated for the season of love</p>
+                <button class="btn btn-light btn-sm">Book now</button>
+              </div>
+            </div>
+          </li>
+          <li class="splide__slide">
+            <div class="promo-card pink" style="background-image:url('https://images.unsplash.com/photo-1598514982586-df7e0cdd87b0');">
+              <div class="promo-content text-white">
+                <span class="badge bg-light text-dark mb-2">25% OFF</span>
+                <h4>Valentine’s Special Packages</h4>
+                <p>Curated for the season of love</p>
+                <button class="btn btn-light btn-sm">Book now</button>
+              </div>
+            </div>
+          </li>
+          <li class="splide__slide">
+            <div class="promo-card pink" style="background-image:url('https://images.unsplash.com/photo-1598514982586-df7e0cdd87b0');">
+              <div class="promo-content text-white">
+                <span class="badge bg-light text-dark mb-2">25% OFF</span>
+                <h4>Valentine’s Special Packages</h4>
+                <p>Curated for the season of love</p>
+                <button class="btn btn-light btn-sm">Book now</button>
+              </div>
+            </div>
+          </li>
+
+        </ul>
       </div>
-
-      <div class="col-md-4">
-        <div class="promo-card p-4 text-white rounded"
-             style="background: linear-gradient(135deg,#12b886,#38d9a9);">
-          <h5>Plumbing Services</h5>
-          <p>Starting at ₹299</p>
-          <a href="#" class="btn btn-light btn-sm">Book Now</a>
-        </div>
-      </div>
-
-      <div class="col-md-4">
-        <div class="promo-card p-4 text-white rounded"
-             style="background: linear-gradient(135deg,#7048e8,#9775fa);">
-          <h5>Carpentry Services</h5>
-          <p>Starting at ₹399</p>
-          <a href="#" class="btn btn-light btn-sm">Book Now</a>
-        </div>
-      </div>
-
     </div>
   </div>
 </section>

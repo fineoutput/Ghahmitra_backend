@@ -34,6 +34,9 @@
   <!-- Add Toastr JS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
+  
 </head>
 <body>
     <!-- Header Start -->
@@ -86,7 +89,8 @@
           <i class="fa-solid fa-cart-shopping fs-5"></i>
         </a>
         <a href="#" class="text-dark">
-          <i class="fa-regular fa-user fs-5"></i>
+          <i class="fa-regular fa-user fs-5" data-bs-toggle="modal" data-bs-target="#loginModal"></i>
+       
         </a>
       </div>
 
@@ -105,3 +109,87 @@
   </div>
 </header>
 <!-- Header End -->
+
+
+{{-- ////////////// Login modal --}}
+<!-- ================= LOGIN MODAL ================= -->
+<!-- ================= LOGIN MODAL ================= -->
+<div class="modal fade" id="loginModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 rounded-4 p-4 position-relative">
+
+      <!-- Close Button -->
+      <button type="button" class="btn-close position-absolute top-0 end-0 m-3"
+              data-bs-dismiss="modal"></button>
+
+      <!-- STEP 1 : PHONE SECTION -->
+      <div id="phoneSection">
+
+        <div class="mb-3">
+          <i class="fa-solid fa-phone fa-2x text-primary"></i>
+        </div>
+
+        <h4 class="fw-bold mb-2">Enter your phone number</h4>
+        <p class="text-muted small">
+          We'll send you a text with a verification code.
+        </p>
+
+        <div class="input-group mb-3 mt-3">
+          <select class="form-select w-auto flex-grow-0" style="max-width:90px;">
+            <option selected>+91</option>
+          </select>
+          <input type="tel" id="phoneInput" class="form-control"
+                 placeholder="Enter your phone number" maxlength="10">
+        </div>
+
+        <button id="continueBtn"
+                class="btn btn-secondary w-100 rounded-3"
+                disabled>
+          Continue
+        </button>
+
+        <p class="small text-muted mt-3 mb-0">
+          By continuing, you agree to our 
+          <a href="#">T&C</a> and 
+          <a href="#">Privacy policy</a>.
+        </p>
+      </div>
+
+      <!-- STEP 2 : OTP SECTION (Hidden Initially) -->
+      <!-- STEP 2 : OTP SECTION -->
+<div id="otpSection" style="display:none;">
+
+  <div class="mb-3">
+    <i class="fa-solid fa-shield-halved fa-2x text-primary"></i>
+  </div>
+
+  <h4 class="fw-bold mb-2">Enter OTP</h4>
+  <p class="text-muted small">
+    We sent a code to <span id="displayNumber"></span>
+  </p>
+
+  <!-- OTP BOXES -->
+  <div class="d-flex justify-content-between gap-2 my-4" id="otpInputs">
+    <input type="text" maxlength="1" class="otp-box form-control text-center">
+    <input type="text" maxlength="1" class="otp-box form-control text-center">
+    <input type="text" maxlength="1" class="otp-box form-control text-center">
+    <input type="text" maxlength="1" class="otp-box form-control text-center">
+    <input type="text" maxlength="1" class="otp-box form-control text-center">
+    <input type="text" maxlength="1" class="otp-box form-control text-center">
+  </div>
+
+  <button id="verifyBtn" class="btn btn-secondary w-100 rounded-3" disabled>
+    Verify & Continue
+  </button>
+
+  <p class="small text-muted mt-3 text-center">
+    Didn’t receive code? <a href="#">Resend</a>
+  </p>
+
+</div>
+
+    </div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.3/dist/js/splide.min.js"></script>
+<script src="{{ asset('frontend/script.js') }}"></script>
