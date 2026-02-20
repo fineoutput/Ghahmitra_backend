@@ -18,5 +18,10 @@ class HomeController extends Controller
      
         return view('frontend/index')->withTitle('home');
     }
+    public function services(Request $req)
+    {
+     
+        return view('frontend/services')->withTitle('services');
+    }
     
 }

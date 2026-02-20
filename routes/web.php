@@ -46,6 +46,8 @@ use App\Http\Controllers\Admin\TCController;
 
 Route::group(['prefix' => '/'], function () {
     Route::get('/', [HomeController::class, 'index'])->name('/');
+    Route::get('/services', [HomeController::class, 'services'])->name('services');
+
 });
 
 //======================================= ADMIN ===================================================

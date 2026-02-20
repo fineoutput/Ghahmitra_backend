@@ -146,3 +146,25 @@ footer .footer-links a:hover {
 .splide__arrow svg {
   fill: #000;
 }
+
+
+.card {
+  border-radius: 16px !important;
+}
+
+.card h6, .card h5 {
+  letter-spacing: 0.3px;
+}
+
+.btn-dark {
+  background: #000;
+  border: none;
+}
+
+.btn-dark:hover {
+  background: #222;
+}
+
+.border-light-custom {
+    border: 1px solid #00000012 !important;
+}
