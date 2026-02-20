@@ -16,7 +16,7 @@ class HomeController extends Controller
     public function index(Request $req)
     {
      
-        return view('welcome')->withTitle('');
+        return view('frontend/index')->withTitle('home');
     }
     
 }

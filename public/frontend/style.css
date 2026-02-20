@@ -1,0 +1,14 @@
+header .form-control:focus,
+header .form-select:focus {
+    box-shadow: none;
+    border-color: #ced4da;
+}
+
+header .input-group-text {
+    border-right: 0;
+}
+
+header .form-control,
+header .form-select {
+    border-left: 0;
+}
