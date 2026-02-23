@@ -52,7 +52,8 @@ Route::middleware('partnerapi.auth')->prefix('partner')->group(function () {
     Route::post('/partner-logout', [AuthController::class, 'logoutPartner']);
     Route::post('/delete-account', [PartnerController::class, 'deleteaccount']);
     Route::post('/add-document', [PartnerController::class, 'document']);
-
+  Route::get('/profile', [PartnerController::class, 'getProfile']);
+    Route::post('/profile/update', [PartnerController::class, 'updateProfile']);
       
 });
 

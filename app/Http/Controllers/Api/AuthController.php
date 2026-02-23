@@ -54,11 +54,7 @@ class AuthController extends Controller
         ]);
     }
 
-  use App\Models\ServicePartner;
-use App\Models\PartnerServices;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-
+ 
 public function register_partner(Request $request)
 {
     $request->validate([
@@ -90,7 +86,6 @@ public function register_partner(Request $request)
             'rank' => 1,
         ]);
 
-        // 2️⃣ Insert Partner Services
         foreach ($request->service_ids as $service_id) {
             PartnerServices::create([
                 'partner_id' => $partner->id,
