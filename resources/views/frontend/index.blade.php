@@ -7,7 +7,7 @@
     <div class="container">
         <h1 class="fw-bold mb-3">Welcome to Grah Mitra</h1>
         <p class="lead fw-semibold mb-0">
-            Your one-stop solution for all home services. 
+            Your one-stop solution for all home services. <br>
             Book trusted professionals for cleaning, repairs, beauty, and more.
         </p>
     </div>
