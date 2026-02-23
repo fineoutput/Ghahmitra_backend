@@ -3,7 +3,7 @@
 @section('content')
 
 <!-- ================= Title Section ================= -->
-<section class="py-5 bg-light mb-4 text-center">
+<section class="py-5 bg-light mb-4 text-center nameset">
     <div class="container">
         <h1 class="fw-bold mb-3">Welcome to Grah Mitra</h1>
         <p class="lead fw-semibold mb-0">

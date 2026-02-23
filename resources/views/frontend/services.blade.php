@@ -1,6 +1,15 @@
 @extends('frontend.common.app')
 @section('title','Services')
 @section('content')
+<style>
+  .services-left { max-height: calc(100vh - 140px); overflow-y: auto; padding-right: 12px; }
+  .services-right { position: sticky; top: 20px; align-self: flex-start; }
+  .qty-counter { gap: 8px; }
+  .cart-item { border-bottom: 1px solid #eef0f3; padding-bottom: 12px; margin-bottom: 12px; }
+  .cart-item .item-title { font-size: 0.95rem; }
+  .cart-summary { font-weight: 600; }
+</style>
+
 <!-- ================= SERVICE PAGE ================= -->
 <section class="py-5 bg-light">
   <div class="container">
@@ -69,7 +78,7 @@
       </div> --}}
 
       <!-- ================= MIDDLE: SERVICE LISTINGS ================= -->
-      <div class="col-lg-8">
+      <div class="col-lg-8 services-left">
 
         <!-- Service Card 1 -->
         <div class="card border-light-custom shadow-sm rounded-4 p-3 mb-4">
@@ -159,13 +168,35 @@
       </div>
 
       <!-- ================= RIGHT: CART & OFFERS ================= -->
-      <div class="col-lg-4">
+      <div class="col-lg-4 services-right">
 
-        <!-- Cart Card -->
+        <!-- Cart Card (pre-populated with one item) -->
         <div class="card border-light-custom shadow-sm rounded-4 p-4 mb-4">
-          <div class="text-center mb-4">
-            <div style="font-size: 3rem;">🛒</div>
-            <p class="text-muted mb-0">No items in your cart</p>
+          <div class="mb-3">
+            <div style="font-size: 1.8rem; display:inline-block;">🛒</div>
+            <span class="ms-2 fw-bold">Your Cart</span>
+          </div>
+
+          <div class="cart-item d-flex justify-content-between align-items-start">
+            <div class="me-3">
+              <div class="item-title">3 BHK Deep Furnished Apartment Full Home Cleaning</div>
+              <div class="text-muted small">Starts at ₹5,199</div>
+            </div>
+            <div class="text-end">
+              <div class="mb-2">
+                <div class="qty-counter d-inline-flex align-items-center">
+                  <button type="button" class="btn btn-sm btn-outline-primary qty-decrease" data-target="cart">-</button>
+                  <span class="qty-number mx-2">1</span>
+                  <button type="button" class="btn btn-sm btn-primary qty-increase" data-target="cart">+</button>
+                </div>
+              </div>
+              <div class="fw-bold">₹5,199</div>
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-between align-items-center mt-3">
+            <div class="cart-summary">₹<span >5199</span></div>
+            <a href="#" class="btn btn-primary">View Cart</a>
           </div>
         </div>
 
@@ -185,23 +216,23 @@
 
         <!-- UC Promise -->
         <div class="card border-light-custom shadow-sm rounded-4 p-4">
-          <h6 class="fw-bold mb-3">UC Promise</h6>
+          <h6 class="fw-bold mb-3">Why Home Triangle?</h6>
           <div class="d-flex gap-3 align-items-start mb-3">
             <div style="font-size: 1.5rem;">✓</div>
             <div>
-              <small class="fw-semibold d-block">4.5+ Rated Therapists</small>
+              <small class="fw-semibold d-block">Verified & Vetted professionals</small>
             </div>
           </div>
           <div class="d-flex gap-3 align-items-start mb-3">
             <div style="font-size: 1.5rem;">✓</div>
             <div>
-              <small class="fw-semibold d-block">Relaxation Assured</small>
+              <small class="fw-semibold d-block">Matched to your Needs.</small>
             </div>
           </div>
           <div class="d-flex gap-3 align-items-start">
             <div style="font-size: 1.5rem;">✓</div>
             <div>
-              <small class="fw-semibold d-block">Specialized Premium Oils</small>
+              <small class="fw-semibold d-block">Customer support at every step.</small>
             </div>
           </div>
         </div>
@@ -320,7 +351,7 @@
               <span class="fs-5 fw-bold text-primary">₹${pkg.price}</span>
               <small class="text-muted text-decoration-line-through ms-2">₹${pkg.original}</small>
             </div>
-            <button class="btn btn-sm btn-primary rounded-2 w-100">Add</button>
+            <button class="btn btn-sm btn-primary package-select-btn rounded-2 w-100">Add</button>
           </div>
         `;
         container.appendChild(col);
@@ -349,6 +380,112 @@
     const modal = bootstrap.Modal.getInstance(document.getElementById('packageModal'));
     modal.hide();
   }
+  
+  // Replace Add buttons with quantity counters
+  function replaceWithCounter(btn, initialCount = 1) {
+    const originalBtn = btn.cloneNode(true);
+    const container = document.createElement('div');
+    container.className = 'qty-counter d-inline-flex align-items-center';
+    container.style.gap = '6px';
+
+    const dec = document.createElement('button');
+    dec.type = 'button';
+    dec.className = 'btn btn-sm btn-outline-primary qty-decrease';
+    dec.textContent = '-';
+
+    const num = document.createElement('span');
+    num.className = 'qty-number';
+    num.textContent = initialCount;
+
+    const inc = document.createElement('button');
+    inc.type = 'button';
+    inc.className = 'btn btn-sm btn-primary qty-increase';
+    inc.textContent = '+';
+
+    container.appendChild(dec);
+    container.appendChild(num);
+    container.appendChild(inc);
+
+    btn.replaceWith(container);
+
+    dec.addEventListener('click', function () {
+      let n = parseInt(num.textContent, 10);
+      n--;
+      if (n < 1) {
+        container.replaceWith(originalBtn);
+      } else {
+        num.textContent = n;
+      }
+    });
+
+    inc.addEventListener('click', function () {
+      let n = parseInt(num.textContent, 10);
+      n++;
+      num.textContent = n;
+    });
+  }
+
+  // Delegate clicks: transform Add buttons to counters on click
+  document.addEventListener('click', function (e) {
+    const addBtn = e.target.closest('.add-to-cart-btn, .package-select-btn');
+    if (addBtn) {
+      // if already a counter child, ignore
+      if (addBtn.closest('.qty-counter')) return;
+      // allow default behaviour (like opening modal) first
+      setTimeout(() => replaceWithCounter(addBtn, 1), 10);
+    }
+  });
+
+  // Cart helpers: update subtotal and wire cart qty buttons
+  function updateCartSubtotal() {
+    let subtotal = 0;
+    document.querySelectorAll('.cart-item').forEach(item => {
+      const priceText = item.querySelector('.fw-bold')?.textContent || '';
+      const price = parseInt(priceText.replace(/[^0-9]/g, ''), 10) || 0;
+      const qty = parseInt(item.querySelector('.qty-number')?.textContent || '0', 10) || 0;
+      subtotal += price * qty;
+    });
+    document.getElementById('cartSubtotal').textContent = subtotal.toLocaleString('en-IN');
+  }
+
+  // wire existing cart counter buttons
+  document.addEventListener('click', function (e) {
+    const inc = e.target.closest('.qty-increase');
+    const dec = e.target.closest('.qty-decrease');
+    if (inc) {
+      const container = inc.closest('.qty-counter');
+      const num = container.querySelector('.qty-number');
+      let n = parseInt(num.textContent, 10) || 0;
+      n++;
+      num.textContent = n;
+      updateCartSubtotal();
+    }
+    if (dec) {
+      const container = dec.closest('.qty-counter');
+      const num = container.querySelector('.qty-number');
+      let n = parseInt(num.textContent, 10) || 0;
+      n--;
+      const parent = dec.closest('.cart-item');
+      if (n < 1) {
+        // replace cart item counter with Add button inside the cart-item
+        const addBtn = document.createElement('button');
+        addBtn.type = 'button';
+        addBtn.className = 'btn btn-outline-primary btn-sm add-to-cart-btn';
+        addBtn.textContent = 'Add';
+        // attach attributes so it opens modal if needed later
+        addBtn.setAttribute('data-bs-toggle', 'modal');
+        addBtn.setAttribute('data-bs-target', '#packageModal');
+        parent.querySelector('.qty-counter').replaceWith(addBtn);
+        updateCartSubtotal();
+        return;
+      }
+      num.textContent = n;
+      updateCartSubtotal();
+    }
+  });
+
+  // initial subtotal calc
+  updateCartSubtotal();
 </script>
 
 @endsection
