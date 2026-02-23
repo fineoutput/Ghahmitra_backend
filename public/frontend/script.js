@@ -186,3 +186,10 @@ document.addEventListener('mouseout', function(e) {
     e.target.closest('.category-item').style.transform = '';
   }
 });
+
+// Redirect to services page on category click
+document.addEventListener('click', function(e) {
+  if (e.target.closest('.category-item')) {
+    window.location.href = '/services';
+  }
+});
