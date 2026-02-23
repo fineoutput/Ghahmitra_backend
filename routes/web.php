@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\TeamController; 
 use App\Http\Controllers\Frontend\HomeController;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\CategoryController;
@@ -47,6 +48,17 @@ use App\Http\Controllers\Admin\TCController;
 Route::group(['prefix' => '/'], function () {
     Route::get('/', [HomeController::class, 'index'])->name('/');
     Route::get('/services', [HomeController::class, 'services'])->name('services');
+    Route::get('/cart', [HomeController::class, 'cart'])->name('cart');
+    Route::get('/my-requests', [HomeController::class, 'my_requests'])->name('my_requests');
+    Route::get('/profile', [HomeController::class, 'profile'])->name('profile');
+    Route::get('/payment-history', [HomeController::class, 'payment-history'])->name('payment-history');
+    Route::get('/wallet', [HomeController::class, 'wallet'])->name('wallet');
+    // User pages
+    // Route::get('/my-requests', function () { return view('my-requests'); })->name('my-requests');
+    // Route::get('/profile', function () { return view('profile'); })->name('profile');
+    // Route::get('/payment-history', function () { return view('frontend.payment_history'); })->name('payment.history');
+    // Route::get('/wallet', function () { return view('frontend.wallet'); })->name('user.wallet');
+    Route::get('/logout-user', function () { Auth::logout(); return redirect('/'); })->name('user.logout');
 
 });
 

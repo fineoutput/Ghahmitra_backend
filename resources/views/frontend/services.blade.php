@@ -196,7 +196,7 @@
 
           <div class="d-flex justify-content-between align-items-center mt-3">
             <div class="cart-summary">₹<span >5199</span></div>
-            <a href="#" class="btn btn-primary">View Cart</a>
+            <a href="{{ route('cart') }}" class="btn btn-primary">View Cart</a>
           </div>
         </div>
 

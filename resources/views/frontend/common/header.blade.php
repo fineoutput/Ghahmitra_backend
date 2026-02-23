@@ -91,14 +91,58 @@
       </div>
 
       <!-- Right: Icons -->
-      <div class="d-flex align-items-center gap-4">
+      <div class="d-flex align-items-center gap-3">
         <a href="#" class="text-dark position-relative">
           <i class="fa-solid fa-cart-shopping fs-5"></i>
         </a>
+        <!-- Test profile dropdown (always visible for testing) -->
+        <div class="dropdown d-inline-block">
+          <a class="d-flex align-items-center text-dark text-decoration-none" href="#" id="testProfileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <div class="rounded-circle bg-secondary text-white d-inline-flex justify-content-center align-items-center" style="width:28px;height:28px">R</div>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end p-0 shadow" aria-labelledby="testProfileDropdown" style="min-width:220px;">
+            <li class="px-3 py-3">
+              <div class="fw-semibold">Raj</div>
+              <div class="small text-muted">9461937396</div>
+            </li>
+            <li><hr class="dropdown-divider my-0"></li>
+            <li><a class="dropdown-item" href="{{ route('my_requests') }}"><i class="fa-regular fa-square-list me-2"></i>My requests</a></li>
+            {{-- <li><a class="dropdown-item" href="{{ route('profile') }}"><i class="fa-regular fa-user me-2"></i>Profile</a></li> --}}
+            <li><a class="dropdown-item" href="{{ route('payment-history') }}"><i class="fa-solid fa-wallet me-2"></i>Payment History</a></li>
+            <li><a class="dropdown-item" href="{{ route('wallet') }}"><i class="fa-solid fa-coins me-2"></i>Wallet</a></li>
+            <li><hr class="dropdown-divider my-0"></li>
+            <li><a class="dropdown-item text-danger" href="{{ route('user.logout') }}"><i class="fa-solid fa-arrow-right-from-bracket me-2"></i>Sign out</a></li>
+          </ul>
+        </div>  
+        {{-- Profile dropdown: shows when user is authenticated, otherwise opens login modal --}}
+        @auth
+        <div class="dropdown">
+          <a class="d-flex align-items-center text-dark text-decoration-none" href="#" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <div class="rounded-circle bg-primary text-white d-inline-flex justify-content-center align-items-center" style="width:34px;height:34px">{{ strtoupper(substr(auth()->user()->name ?? 'U',0,1)) }}</div>
+            <div class="ms-2 d-none d-md-block text-start">
+              <div class="fw-bold small">{{ auth()->user()->name ?? 'User' }}</div>
+              <div class="small text-muted">{{ auth()->user()->phone ?? '9461937396' }}</div>
+            </div>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end p-0 shadow" aria-labelledby="profileDropdown" style="min-width:220px;">
+            <li class="px-3 py-3">
+              <div class="fw-semibold">{{ auth()->user()->name ?? 'User' }}</div>
+              <div class="small text-muted">{{ auth()->user()->phone ?? '9461937396' }}</div>
+            </li>
+            <li><hr class="dropdown-divider my-0"></li>
+            <li><a class="dropdown-item" href="{{ route('my_requests') }}"><i class="fa-regular fa-square-list me-2"></i>My requests</a></li>
+            {{-- <li><a class="dropdown-item" href="{{ route('profile') }}"><i class="fa-regular fa-user me-2"></i>Profile</a></li> --}}
+            <li><a class="dropdown-item" href="{{ route('payment-history') }}"><i class="fa-solid fa-wallet me-2"></i>Payment History</a></li>
+            <li><a class="dropdown-item" href="{{ route('wallet') }}"><i class="fa-solid fa-coins me-2"></i>Wallet</a></li> 
+            <li><hr class="dropdown-divider my-0"></li>
+            <li><a class="dropdown-item text-danger" href="{{ route('user.logout') }}"><i class="fa-solid fa-arrow-right-from-bracket me-2"></i>Sign out</a></li>
+          </ul>
+        </div>
+        @else
         <a href="#" class="text-dark">
           <i class="fa-regular fa-user fs-5" data-bs-toggle="modal" data-bs-target="#loginModal"></i>
-       
         </a>
+        @endauth
       </div>
 
     </div>

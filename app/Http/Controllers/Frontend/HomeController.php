@@ -23,5 +23,31 @@ class HomeController extends Controller
      
         return view('frontend/services')->withTitle('services');
     }
+    public function cart(Request $req)
+    {
+     
+        return view('frontend/cart')->withTitle('cart');
+    }
+    public function my_requests(Request $req)
+    {
+     
+        return view('frontend/my_requests')->withTitle('my_requests');
+    }
+  
+    public function profile(Request $req)
+    {
+     
+        return view('frontend/profile')->withTitle('profile');
+    }
+    public function payment_history(Request $req)
+    {
+     
+        return view('frontend/payment_history')->withTitle('payment_history');
+    }
+    public function wallet(Request $req)
+    {
+     
+        return view('frontend/wallet')->withTitle('wallet');
+    }
     
 }
