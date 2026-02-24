@@ -50,5 +50,10 @@ class HomeController extends Controller
      
         return view('frontend/wallet')->withTitle('wallet');
     }
+    public function request_detail(Request $req)
+    {
+     
+        return view('frontend/request_detail')->withTitle('request_detail');
+    }
     
 }

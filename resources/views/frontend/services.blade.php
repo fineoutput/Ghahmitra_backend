@@ -216,7 +216,7 @@
 
         <!-- UC Promise -->
         <div class="card border-light-custom shadow-sm rounded-4 p-4">
-          <h6 class="fw-bold mb-3">Why Home Triangle?</h6>
+          <h6 class="fw-bold mb-3">Why Grah Mitra?</h6>
           <div class="d-flex gap-3 align-items-start mb-3">
             <div style="font-size: 1.5rem;">✓</div>
             <div>

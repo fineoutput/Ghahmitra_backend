@@ -36,9 +36,11 @@
         </div>
 
         <div class="order-bottom">
+          <a href="{{ route('request_detail') }}">
             <button class="view-btn">
                 View Details →
             </button>
+            </a>
         </div>
 
     </div>
