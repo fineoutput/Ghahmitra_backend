@@ -6,12 +6,12 @@
     padding:30px 0;
 }
 
-.card-box{
-    background:#fff;
-    border-radius:14px;
-    padding:20px;
-    box-shadow:0 5px 18px rgba(0,0,0,0.05);
-    margin-bottom:20px;
+.card-box {
+    background: #fff;
+    border-radius: 14px;
+    padding: 20px;
+    box-shadow: 0 5px 18px rgb(0 0 0 / 17%);
+    margin-bottom: 20px;
 }
 
 .section-title{
