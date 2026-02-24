@@ -20,7 +20,7 @@
           <span class="input-group-text bg-white">
             <i class="fa-solid fa-location-dot text-muted"></i>
           </span>
-          <select class="form-select border-start-0">
+          <select style="padding: 20px" class="form-select border-start-0">
             <option>Ashok Nagar, Jaipur</option>
             <option>Delhi</option>
             <option>Mumbai</option>
@@ -32,7 +32,7 @@
           <span class="input-group-text bg-white">
             <i class="fa-solid fa-magnifying-glass text-muted"></i>
           </span>
-          <input type="text" class="form-control border-start-0" placeholder="Search for 'Kitchen cleaning'">
+          <input style="padding: 20px" type="text" class="form-control border-start-0" placeholder="Search for 'Kitchen cleaning'">
         </div>
 
       </div>
