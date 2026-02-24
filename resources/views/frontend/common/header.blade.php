@@ -53,7 +53,7 @@
 
       <!-- Left: Logo -->
       <div class="d-flex align-items-center gap-3">
-        <a href="#" class="d-flex align-items-center text-decoration-none">
+        <a href="{{ route('/') }}" class="d-flex align-items-center text-decoration-none">
           <div class="bg-dark text-white px-2 py-1 fw-bold rounded me-2">
             GM
           </div>
@@ -62,11 +62,11 @@
             <div class="fw-bold text-dark" style="line-height: 1;">Mitra</div>
           </div>
         </a>
-        <span class="text-muted small">Native</span>
+        {{-- <span class="text-muted small">Native</span> --}}
       </div>
 
       <!-- Center: Location + Search -->
-      <div class="d-none d-lg-flex align-items-center gap-3 w-50">
+      {{-- <div class="d-none d-lg-flex align-items-center gap-3 w-50">
 
         <!-- Location -->
         <div class="input-group">
@@ -88,7 +88,7 @@
           <input type="text" class="form-control border-start-0" placeholder="Search for 'Kitchen cleaning'">
         </div>
 
-      </div>
+      </div> --}}
 
       <!-- Right: Icons -->
       <div class="d-flex align-items-center gap-3">
@@ -110,7 +110,7 @@
             <!-- Menu Items -->
             <div class="d-flex flex-column gap-2">
               <a href="{{ route('my_requests') }}" class="dropdown-item rounded-2 px-3 py-2 text-dark text-decoration-none" style="transition:all 0.2s;display:flex;align-items:center;gap:0.75rem;">
-                <i class="fa-regular fa-square-list" style="width:18px;text-align:center;"></i>
+                <i class="fa-solid fa-list" style="width:18px;text-align:center;"></i>
                 <span style="font-size:0.95rem;">My requests</span>
               </a>
               <a href="{{ route('profile') }}" class="dropdown-item rounded-2 px-3 py-2 text-dark text-decoration-none" style="transition:all 0.2s;display:flex;align-items:center;gap:0.75rem;">
@@ -118,7 +118,7 @@
                 <span style="font-size:0.95rem;">Profile</span>
               </a>
               <a href="{{ route('payment-history') }}" class="dropdown-item rounded-2 px-3 py-2 text-dark text-decoration-none" style="transition:all 0.2s;display:flex;align-items:center;gap:0.75rem;">
-                <i class="fa-solid fa-wallet" style="width:18px;text-align:center;"></i>
+                <i class="fa-regular fa-credit-card" style="width:18px;text-align:center;"></i>
                 <span style="font-size:0.95rem;">Payment History</span>
               </a>
               <a href="{{ route('wallet') }}" class="dropdown-item rounded-2 px-3 py-2 text-dark text-decoration-none" style="transition:all 0.2s;display:flex;align-items:center;gap:0.75rem;">

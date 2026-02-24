@@ -12,7 +12,31 @@
         </p>
     </div>
 </section>
+<div class="d-flex align-items-center justify-content-center mb-5">
+<div class="d-none d-lg-flex align-items-center gap-3 w-50">
 
+        <!-- Location -->
+        <div class="input-group">
+          <span class="input-group-text bg-white">
+            <i class="fa-solid fa-location-dot text-muted"></i>
+          </span>
+          <select class="form-select border-start-0">
+            <option>Ashok Nagar, Jaipur</option>
+            <option>Delhi</option>
+            <option>Mumbai</option>
+          </select>
+        </div>
+
+        <!-- Search -->
+        <div class="input-group">
+          <span class="input-group-text bg-white">
+            <i class="fa-solid fa-magnifying-glass text-muted"></i>
+          </span>
+          <input type="text" class="form-control border-start-0" placeholder="Search for 'Kitchen cleaning'">
+        </div>
+
+      </div>
+      </div>
 <!-- ================= SERVICE CATEGORIES ================= -->
 
 

@@ -81,7 +81,7 @@
       <div class="col-lg-8 services-left">
 
         <!-- Service Card 1 -->
-        <div class="card border-light-custom shadow-sm rounded-4 p-3 mb-4">
+        <div class="card service-card border-light-custom shadow-sm rounded-4 p-3 mb-4" style="cursor:pointer; transition:all 0.3s;">
           <div class="row g-3 align-items-center">
             
             <!-- Image -->
@@ -121,7 +121,7 @@
         </div>
 
         <!-- Service Card 2 -->
-        <div class="card border-light-custom shadow-sm rounded-4 p-3 mb-4">
+        <div class="card service-card border-light-custom shadow-sm rounded-4 p-3 mb-4" style="cursor:pointer; transition:all 0.3s;">
           <div class="row g-3 align-items-center">
             
             <!-- Image -->
@@ -248,7 +248,7 @@
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content border-0 rounded-4 p-4">
       <!-- Close Button -->
-      <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal"></button>
+      <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
       
       <!-- Service Header -->
       <div class="mb-4 pb-3 border-bottom">
@@ -306,6 +306,15 @@
 </div>
 
 <script>
+  // Initialize packageModal instance once
+  let packageModalInstance = null;
+  function getPackageModal() {
+    if (!packageModalInstance) {
+      packageModalInstance = new bootstrap.Modal(document.getElementById('packageModal'));
+    }
+    return packageModalInstance;
+  }
+
   // Package data for different services
   const packageData = {
     'Pack of 4': [
@@ -373,14 +382,78 @@
       e.target.closest('.package-option').style.borderColor = '';
     }
   });
-
   // Add to cart function
   function addToCart() {
     alert('Service added to cart!');
-    const modal = bootstrap.Modal.getInstance(document.getElementById('packageModal'));
-    modal.hide();
+    getPackageModal().hide();
   }
+
+  // Clean up backdrop when modal is hidden
+  document.getElementById('packageModal').addEventListener('hidden.bs.modal', function () {
+    // Remove any lingering backdrops
+    document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+    document.body.classList.remove('modal-open');
+  });
   
+  // Handle clicks on entire service card
+  document.addEventListener('click', function(e) {
+    const serviceCard = e.target.closest('.service-card');
+    if (serviceCard && !e.target.closest('.qty-counter')) {
+      const addBtn = serviceCard.querySelector('.add-to-cart-btn');
+      if (addBtn) {
+        // Get data attributes from the Add button
+        const serviceName = addBtn.getAttribute('data-service-name');
+        const servicePrice = addBtn.getAttribute('data-service-price');
+        const serviceRating = addBtn.getAttribute('data-service-rating');
+        const serviceReviews = addBtn.getAttribute('data-service-reviews');
+        
+        // Update modal content
+        document.getElementById('modalServiceName').textContent = serviceName;
+        document.getElementById('modalServiceRating').textContent = serviceRating;
+        document.getElementById('modalServiceReviews').textContent = serviceReviews;
+        
+        // Generate package options
+        const packages = packageData[serviceName] || packageData['Pack of 4'];
+        const container = document.getElementById('packageOptionsContainer');
+        container.innerHTML = '';
+        
+        packages.forEach(pkg => {
+          const col = document.createElement('div');
+          col.className = 'col-md-6';
+          col.innerHTML = `
+            <div class="card border-2 rounded-3 p-3 text-center package-option" style="cursor: pointer; transition: all 0.3s;">
+              <h6 class="fw-semibold mb-2">${pkg.duration}</h6>
+              <div class="mb-2">
+                <span class="fs-5 fw-bold text-primary">₹${pkg.price}</span>
+                <small class="text-muted text-decoration-line-through ms-2">₹${pkg.original}</small>
+              </div>
+              <button class="btn btn-sm btn-primary package-select-btn rounded-2 w-100">Add</button>
+            </div>
+          `;
+          container.appendChild(col);
+        });
+        
+        // Open the modal using the singleton instance
+        getPackageModal().show();
+      }
+    }
+  });
+
+  // Add hover effect to service cards
+  document.addEventListener('mouseover', function(e) {
+    if (e.target.closest('.service-card')) {
+      e.target.closest('.service-card').style.boxShadow = '0 8px 20px rgba(0,0,0,0.12)';
+      e.target.closest('.service-card').style.transform = 'translateY(-4px)';
+    }
+  });
+
+  document.addEventListener('mouseout', function(e) {
+    if (e.target.closest('.service-card')) {
+      e.target.closest('.service-card').style.boxShadow = '';
+      e.target.closest('.service-card').style.transform = '';
+    }
+  });
+
   // Replace Add buttons with quantity counters
   function replaceWithCounter(btn, initialCount = 1) {
     const originalBtn = btn.cloneNode(true);
@@ -425,14 +498,14 @@
     });
   }
 
-  // Delegate clicks: transform Add buttons to counters on click
+  // Delegate clicks: transform package selection buttons to counters on click
   document.addEventListener('click', function (e) {
-    const addBtn = e.target.closest('.add-to-cart-btn, .package-select-btn');
-    if (addBtn) {
+    const selectBtn = e.target.closest('.package-select-btn');
+    if (selectBtn) {
       // if already a counter child, ignore
-      if (addBtn.closest('.qty-counter')) return;
-      // allow default behaviour (like opening modal) first
-      setTimeout(() => replaceWithCounter(addBtn, 1), 10);
+      if (selectBtn.closest('.qty-counter')) return;
+      // replace package select button with counter
+      replaceWithCounter(selectBtn, 1);
     }
   });
 
