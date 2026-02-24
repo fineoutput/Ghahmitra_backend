@@ -249,7 +249,10 @@
     <div class="modal-content border-0 rounded-4 p-4">
       <!-- Close Button -->
       <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
-      
+      <div class=""></div>
+      <div class="modal_image">
+        <img class="modal_g63" src="https://images.unsplash.com/photo-1598901986949-f593ff2a31a6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fFN3ZWRpc2glMjBNYXNzYWdlfGVufDB8fDB8fHww" alt="">
+      </div>
       <!-- Service Header -->
       <div class="mb-4 pb-3 border-bottom">
         <div class="row align-items-center">
@@ -352,15 +355,15 @@
 
       packages.forEach(pkg => {
         const col = document.createElement('div');
-        col.className = 'col-md-6';
+        col.className = 'col-md-4';
         col.innerHTML = `
-          <div class="card border-2 rounded-3 p-3 text-center package-option" style="cursor: pointer; transition: all 0.3s;">
+          <div class="card border-2 rounded-3 p-3 text-left package-option" style="cursor: pointer; transition: all 0.3s;">
             <h6 class="fw-semibold mb-2">${pkg.duration}</h6>
             <div class="mb-2">
               <span class="fs-5 fw-bold text-primary">₹${pkg.price}</span>
               <small class="text-muted text-decoration-line-through ms-2">₹${pkg.original}</small>
             </div>
-            <button class="btn btn-sm btn-primary package-select-btn rounded-2 w-100">Add</button>
+            <button class="btn btn-sm btn-primary package-select-btn rounded-2" style='width:40%'>Add</button>
           </div>
         `;
         container.appendChild(col);
@@ -419,15 +422,15 @@
         
         packages.forEach(pkg => {
           const col = document.createElement('div');
-          col.className = 'col-md-6';
+          col.className = 'col-md-4';
           col.innerHTML = `
-            <div class="card border-2 rounded-3 p-3 text-center package-option" style="cursor: pointer; transition: all 0.3s;">
+            <div class="card border-2 rounded-3 p-3 text-left package-option" style="cursor: pointer; transition: all 0.3s;">
               <h6 class="fw-semibold mb-2">${pkg.duration}</h6>
               <div class="mb-2">
                 <span class="fs-5 fw-bold text-primary">₹${pkg.price}</span>
                 <small class="text-muted text-decoration-line-through ms-2">₹${pkg.original}</small>
               </div>
-              <button class="btn btn-sm btn-primary package-select-btn rounded-2 w-100">Add</button>
+              <button class="btn btn-sm btn-primary package-select-btn rounded-2" style='width:40%'>Add</button>
             </div>
           `;
           container.appendChild(col);
