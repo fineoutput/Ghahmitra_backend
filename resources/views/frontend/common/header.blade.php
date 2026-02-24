@@ -100,7 +100,7 @@
           <a class="d-flex align-items-center text-dark text-decoration-none" href="#" id="testProfileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
             <div class="rounded-circle bg-primary text-white d-inline-flex justify-content-center align-items-center" style="width:32px;height:32px;font-weight:600;">R</div>
           </a>
-          <div class="dropdown-menu dropdown-menu-end p-4 shadow-lg rounded-4" aria-labelledby="testProfileDropdown" style="min-width:280px; border:none;">
+          <div class="dropdown-menu dropdown-menu-end p-4 shadow-lg rounded-4 raaz" aria-labelledby="testProfileDropdown" style="min-width:280px; border:none;">
             <!-- Header Section -->
             <div class="mb-3 pb-3 border-bottom">
               <h6 class="fw-bold mb-1" style="font-size:0.95rem;">Raj</h6>

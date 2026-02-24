@@ -377,7 +377,14 @@ max-width: 730px;
     display:flex;
     justify-content:start;
 }
-
+.nameset{
+  background-image: url('./images/backs.avif');
+  background-size: cover;
+  background-position: center;
+}
+.raaz{
+  transform: translate(120px, 34px) !important;
+}
 .view-btn {
     background: linear-gradient(135deg,#5f9df7,#3b6fe0);
     color: #fff;

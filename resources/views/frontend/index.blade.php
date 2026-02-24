@@ -4,14 +4,14 @@
 
 <!-- ================= Title Section ================= -->
 <section class="py-5 bg-light mb-4 text-center nameset">
-    <div class="container">
+    <div class="container mb-5">
         <h1 class="fw-bold mb-3">Welcome to Grah Mitra</h1>
         <p class="lead mb-0">
             Your one-stop solution for all home services. <br>
             Book trusted professionals for cleaning, repairs, beauty, and more.
         </p>
     </div>
-</section>
+
 <div class="d-flex align-items-center justify-content-center mb-5">
 <div class="d-none d-lg-flex align-items-center gap-3 w-50">
 
@@ -37,6 +37,7 @@
 
       </div>
       </div>
+      </section>
 <!-- ================= SERVICE CATEGORIES ================= -->
 
 
