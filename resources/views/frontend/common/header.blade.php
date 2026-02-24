@@ -98,45 +98,91 @@
         <!-- Test profile dropdown (always visible for testing) -->
         <div class="dropdown d-inline-block">
           <a class="d-flex align-items-center text-dark text-decoration-none" href="#" id="testProfileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-            <div class="rounded-circle bg-secondary text-white d-inline-flex justify-content-center align-items-center" style="width:28px;height:28px">R</div>
+            <div class="rounded-circle bg-primary text-white d-inline-flex justify-content-center align-items-center" style="width:32px;height:32px;font-weight:600;">R</div>
           </a>
-          <ul class="dropdown-menu dropdown-menu-end p-0 shadow" aria-labelledby="testProfileDropdown" style="min-width:220px;">
-            <li class="px-3 py-3">
-              <div class="fw-semibold">Raj</div>
-              <div class="small text-muted">9461937396</div>
-            </li>
-            <li><hr class="dropdown-divider my-0"></li>
-            <li><a class="dropdown-item" href="{{ route('my_requests') }}"><i class="fa-regular fa-square-list me-2"></i>My requests</a></li>
-            {{-- <li><a class="dropdown-item" href="{{ route('profile') }}"><i class="fa-regular fa-user me-2"></i>Profile</a></li> --}}
-            <li><a class="dropdown-item" href="{{ route('payment-history') }}"><i class="fa-solid fa-wallet me-2"></i>Payment History</a></li>
-            <li><a class="dropdown-item" href="{{ route('wallet') }}"><i class="fa-solid fa-coins me-2"></i>Wallet</a></li>
-            <li><hr class="dropdown-divider my-0"></li>
-            <li><a class="dropdown-item text-danger" href="{{ route('user.logout') }}"><i class="fa-solid fa-arrow-right-from-bracket me-2"></i>Sign out</a></li>
-          </ul>
+          <div class="dropdown-menu dropdown-menu-end p-4 shadow-lg rounded-4" aria-labelledby="testProfileDropdown" style="min-width:280px; border:none;">
+            <!-- Header Section -->
+            <div class="mb-3 pb-3 border-bottom">
+              <h6 class="fw-bold mb-1" style="font-size:0.95rem;">Raj</h6>
+              <small class="text-muted d-block">9461937396</small>
+            </div>
+            
+            <!-- Menu Items -->
+            <div class="d-flex flex-column gap-2">
+              <a href="{{ route('my_requests') }}" class="dropdown-item rounded-2 px-3 py-2 text-dark text-decoration-none" style="transition:all 0.2s;display:flex;align-items:center;gap:0.75rem;">
+                <i class="fa-regular fa-square-list" style="width:18px;text-align:center;"></i>
+                <span style="font-size:0.95rem;">My requests</span>
+              </a>
+              <a href="{{ route('profile') }}" class="dropdown-item rounded-2 px-3 py-2 text-dark text-decoration-none" style="transition:all 0.2s;display:flex;align-items:center;gap:0.75rem;">
+                <i class="fa-regular fa-user" style="width:18px;text-align:center;"></i>
+                <span style="font-size:0.95rem;">Profile</span>
+              </a>
+              <a href="{{ route('payment-history') }}" class="dropdown-item rounded-2 px-3 py-2 text-dark text-decoration-none" style="transition:all 0.2s;display:flex;align-items:center;gap:0.75rem;">
+                <i class="fa-solid fa-wallet" style="width:18px;text-align:center;"></i>
+                <span style="font-size:0.95rem;">Payment History</span>
+              </a>
+              <a href="{{ route('wallet') }}" class="dropdown-item rounded-2 px-3 py-2 text-dark text-decoration-none" style="transition:all 0.2s;display:flex;align-items:center;gap:0.75rem;">
+                <i class="fa-solid fa-coins" style="width:18px;text-align:center;"></i>
+                <span style="font-size:0.95rem;">Wallet</span>
+              </a>
+            </div>
+            
+            <!-- Divider -->
+            <hr class="my-3">
+            
+            <!-- Sign Out -->
+            <a href="{{ route('user.logout') }}" class="dropdown-item rounded-2 px-3 py-2 text-danger text-decoration-none" style="transition:all 0.2s;display:flex;align-items:center;gap:0.75rem;">
+              <i class="fa-solid fa-arrow-right-from-bracket" style="width:18px;text-align:center;"></i>
+              <span style="font-size:0.95rem;">Sign out</span>
+            </a>
+          </div>
         </div>  
         {{-- Profile dropdown: shows when user is authenticated, otherwise opens login modal --}}
         @auth
         <div class="dropdown">
           <a class="d-flex align-items-center text-dark text-decoration-none" href="#" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-            <div class="rounded-circle bg-primary text-white d-inline-flex justify-content-center align-items-center" style="width:34px;height:34px">{{ strtoupper(substr(auth()->user()->name ?? 'U',0,1)) }}</div>
+            <div class="rounded-circle bg-primary text-white d-inline-flex justify-content-center align-items-center" style="width:34px;height:34px;font-weight:600;">{{ strtoupper(substr(auth()->user()->name ?? 'U',0,1)) }}</div>
             <div class="ms-2 d-none d-md-block text-start">
               <div class="fw-bold small">{{ auth()->user()->name ?? 'User' }}</div>
               <div class="small text-muted">{{ auth()->user()->phone ?? '9461937396' }}</div>
             </div>
           </a>
-          <ul class="dropdown-menu dropdown-menu-end p-0 shadow" aria-labelledby="profileDropdown" style="min-width:220px;">
-            <li class="px-3 py-3">
-              <div class="fw-semibold">{{ auth()->user()->name ?? 'User' }}</div>
-              <div class="small text-muted">{{ auth()->user()->phone ?? '9461937396' }}</div>
-            </li>
-            <li><hr class="dropdown-divider my-0"></li>
-            <li><a class="dropdown-item" href="{{ route('my_requests') }}"><i class="fa-regular fa-square-list me-2"></i>My requests</a></li>
-            {{-- <li><a class="dropdown-item" href="{{ route('profile') }}"><i class="fa-regular fa-user me-2"></i>Profile</a></li> --}}
-            <li><a class="dropdown-item" href="{{ route('payment-history') }}"><i class="fa-solid fa-wallet me-2"></i>Payment History</a></li>
-            <li><a class="dropdown-item" href="{{ route('wallet') }}"><i class="fa-solid fa-coins me-2"></i>Wallet</a></li> 
-            <li><hr class="dropdown-divider my-0"></li>
-            <li><a class="dropdown-item text-danger" href="{{ route('user.logout') }}"><i class="fa-solid fa-arrow-right-from-bracket me-2"></i>Sign out</a></li>
-          </ul>
+          <div class="dropdown-menu dropdown-menu-end p-4 shadow-lg rounded-4" aria-labelledby="profileDropdown" style="min-width:280px; border:none;">
+            <!-- Header Section -->
+            <div class="mb-3 pb-3 border-bottom">
+              <h6 class="fw-bold mb-1" style="font-size:0.95rem;">{{ auth()->user()->name ?? 'User' }}</h6>
+              <small class="text-muted d-block">{{ auth()->user()->phone ?? '9461937396' }}</small>
+            </div>
+            
+            <!-- Menu Items -->
+            <div class="d-flex flex-column gap-2">
+              <a href="{{ route('my_requests') }}" class="dropdown-item rounded-2 px-3 py-2 text-dark text-decoration-none" style="transition:all 0.2s;display:flex;align-items:center;gap:0.75rem;">
+                <i class="fa-regular fa-square-list" style="width:18px;text-align:center;"></i>
+                <span style="font-size:0.95rem;">My requests</span>
+              </a>
+              <a href="{{ route('profile') }}" class="dropdown-item rounded-2 px-3 py-2 text-dark text-decoration-none" style="transition:all 0.2s;display:flex;align-items:center;gap:0.75rem;">
+                <i class="fa-regular fa-user" style="width:18px;text-align:center;"></i>
+                <span style="font-size:0.95rem;">Profile</span>
+              </a>
+              <a href="{{ route('payment-history') }}" class="dropdown-item rounded-2 px-3 py-2 text-dark text-decoration-none" style="transition:all 0.2s;display:flex;align-items:center;gap:0.75rem;">
+                <i class="fa-solid fa-wallet" style="width:18px;text-align:center;"></i>
+                <span style="font-size:0.95rem;">Payment History</span>
+              </a>
+              <a href="{{ route('wallet') }}" class="dropdown-item rounded-2 px-3 py-2 text-dark text-decoration-none" style="transition:all 0.2s;display:flex;align-items:center;gap:0.75rem;">
+                <i class="fa-solid fa-coins" style="width:18px;text-align:center;"></i>
+                <span style="font-size:0.95rem;">Wallet</span>
+              </a>
+            </div>
+            
+            <!-- Divider -->
+            <hr class="my-3">
+            
+            <!-- Sign Out -->
+            <a href="{{ route('user.logout') }}" class="dropdown-item rounded-2 px-3 py-2 text-danger text-decoration-none" style="transition:all 0.2s;display:flex;align-items:center;gap:0.75rem;">
+              <i class="fa-solid fa-arrow-right-from-bracket" style="width:18px;text-align:center;"></i>
+              <span style="font-size:0.95rem;">Sign out</span>
+            </a>
+          </div>
         </div>
         @else
         <a href="#" class="text-dark">
