@@ -164,7 +164,7 @@
 <div class="row">
 
     <!-- LEFT SECTION -->
-    <div class="col-lg-8">
+    <div class="col-lg-6">
 
         <!-- Contact -->
         <div class="cart-card d-flex justify-content-between align-items-center">
@@ -203,7 +203,7 @@
 
 
     <!-- RIGHT SECTION -->
-    <div class="col-lg-4">
+    <div class="col-lg-6">
 
         <!-- Product -->
         <div class="cart-card d-flex justify-content-between align-items-center">

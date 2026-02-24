@@ -92,7 +92,7 @@
 
       <!-- Right: Icons -->
       <div class="d-flex align-items-center gap-3">
-        <a href="#" class="text-dark position-relative">
+        <a href="{{ route('cart') }}" class="text-dark position-relative">
           <i class="fa-solid fa-cart-shopping fs-5"></i>
         </a>
         <!-- Test profile dropdown (always visible for testing) -->
