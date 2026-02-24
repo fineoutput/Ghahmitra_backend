@@ -269,4 +269,133 @@
 </section>
 
 
+<!-- ================= BANNER 1: TWO COLUMN LAYOUT ================= -->
+<section class="py-5 mb-5">
+  <div class="container">
+    <div class="row g-4">
+      <!-- Left Column -->
+      <div class="col-md-6">
+        <div class="p-5 text-white rounded-4 h-100" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; flex-direction: column; justify-content: center;">
+          <h3 class="fw-bold mb-3">Premium Home Repairs</h3>
+          <p class="mb-4">Expert technicians for all your home repair needs. Fast, reliable, and affordable.</p>
+          <div>
+            <span class="badge bg-light text-primary mb-3">20% OFF</span>
+          </div>
+          <a href="#" class="btn btn-light btn-lg rounded-3">Book Service</a>
+        </div>
+      </div>
+      <!-- Right Column -->
+      <div class="col-md-6">
+        <div class="rounded-4 h-100 overflow-hidden shadow-lg">
+          <img src="https://images.unsplash.com/photo-1562259929-b4e1fd3aef09?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aG9tZSUyMHJlcGFpcnxlbnwwfHwwfHx8MA%3D%3D" alt="Home Repairs" class="w-100 h-100" style="object-fit: cover;">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ================= BANNER 2: GRID CARDS LAYOUT ================= -->
+<section class="py-5 mb-5 bg-light">
+  <div class="container">
+    <h4 class="fw-bold mb-5 text-center">Exclusive Offers</h4>
+    <div class="row g-4">
+      <!-- Card 1 -->
+      <div class="col-md-4">
+        <div class="card border-0 shadow-sm rounded-4 overflow-hidden h-100">
+          <div style="background-image: url('https://plus.unsplash.com/premium_photo-1661603771539-faa0e3ed7ca6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8U3BhJTIwJTI2JTIwTWFzc2FnZXxlbnwwfHwwfHx8MA%3D%3D'); background-size: cover; background-position: center; height: 180px; position: relative;">
+            <div class="position-absolute top-0 end-0 p-3">
+              <span class="badge bg-warning text-dark fs-6">50% OFF</span>
+            </div>
+          </div>
+          <div class="card-body p-4">
+            <h6 class="fw-bold mb-2">Spa & Massage</h6>
+            <p class="text-muted small mb-3">Relax with our premium spa services at home</p>
+            <a href="#" class="btn btn-outline-primary btn-sm rounded-3">Explore</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="col-md-4">
+        <div class="card border-0 shadow-sm rounded-4 overflow-hidden h-100">
+          <div style="background-image: url('https://images.unsplash.com/photo-1759772238012-9d5ad59ae637?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8QUMlMjAlMjYlMjBDb29saW5nfGVufDB8fDB8fHww'); background-size: cover; background-position: center; height: 180px; position: relative;">
+            <div class="position-absolute top-0 end-0 p-3">
+              <span class="badge bg-success text-white fs-6">Extra Saving</span>
+            </div>
+          </div>
+          <div class="card-body p-4">
+            <h6 class="fw-bold mb-2">AC & Cooling</h6>
+            <p class="text-muted small mb-3">Professional AC repair, cleaning & maintenance</p>
+            <a href="#" class="btn btn-outline-primary btn-sm rounded-3">Explore</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="col-md-4">
+        <div class="card border-0 shadow-sm rounded-4 overflow-hidden h-100">
+          <div style="background-image: url('https://plus.unsplash.com/premium_photo-1678766819153-b3f7307c5127?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8RWxlY3RyaWNhbCUyMFdvcmt8ZW58MHx8MHx8fDA%3D'); background-size: cover; background-position: center; height: 180px; position: relative;">
+            <div class="position-absolute top-0 end-0 p-3">
+              <span class="badge bg-info text-white fs-6">Limited Time</span>
+            </div>
+          </div>
+          <div class="card-body p-4">
+            <h6 class="fw-bold mb-2">Electrical Work</h6>
+            <p class="text-muted small mb-3">Certified electricians for safe & quick fixes</p>
+            <a href="#" class="btn btn-outline-primary btn-sm rounded-3">Explore</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TRUST & SAFETY FEATURES ================= -->
+<section class="py-5 mb-5">
+  <div class="container">
+    <h4 class="fw-bold mb-5 text-center">Your Safety, Our Priority</h4>
+    <div class="row g-4">
+      <!-- Feature 1: Job Verification -->
+      <div class="col-md-4">
+        <div class="card border-0 shadow-sm rounded-4 p-4 text-center h-100">
+          <div class="mb-4">
+            <div class="rounded-circle bg-primary bg-opacity-10 d-inline-flex justify-content-center align-items-center" style="width:80px;height:80px;">
+              <i class="fa-solid fa-check-double fa-2x text-primary"></i>
+            </div>
+          </div>
+          <h6 class="fw-bold mb-2">Job Verification</h6>
+          <p class="text-muted small mb-0">Every service professional is thoroughly verified and background checked to ensure quality and safety in your home.</p>
+        </div>
+      </div>
+
+      <!-- Feature 2: OTP to Start Service -->
+      <div class="col-md-4">
+        <div class="card border-0 shadow-sm rounded-4 p-4 text-center h-100">
+          <div class="mb-4">
+            <div class="rounded-circle bg-success bg-opacity-10 d-inline-flex justify-content-center align-items-center" style="width:80px;height:80px;">
+              <i class="fa-solid fa-lock fa-2x text-success"></i>
+            </div>
+          </div>
+          <h6 class="fw-bold mb-2">OTP to Start Service</h6>
+          <p class="text-muted small mb-0">Service begins only after a secure OTP verification. You remain in complete control of when the work starts.</p>
+        </div>
+      </div>
+
+      <!-- Feature 3: OTP to End Service -->
+      <div class="col-md-4">
+        <div class="card border-0 shadow-sm rounded-4 p-4 text-center h-100">
+          <div class="mb-4">
+            <div class="rounded-circle bg-danger bg-opacity-10 d-inline-flex justify-content-center align-items-center" style="width:80px;height:80px;">
+              <i class="fa-solid fa-shield-halved fa-2x text-danger"></i>
+            </div>
+          </div>
+          <h6 class="fw-bold mb-2">OTP to End Service</h6>
+          <p class="text-muted small mb-0">Service concludes only with your OTP confirmation. Complete transparency and security throughout the process.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 @endsection
