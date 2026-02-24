@@ -50,7 +50,7 @@ Route::group(['prefix' => '/'], function () {
     Route::get('/services', [HomeController::class, 'services'])->name('services');
     Route::get('/cart', [HomeController::class, 'cart'])->name('cart');
     Route::get('/my-requests', [HomeController::class, 'my_requests'])->name('my_requests');
-    Route::get('/profile', [HomeController::class, 'profile'])->name('profile');
+    Route::get('/profile-user', [HomeController::class, 'profile'])->name('profile');
     Route::get('/payment-history', [HomeController::class, 'payment-history'])->name('payment-history');
     Route::get('/wallet', [HomeController::class, 'wallet'])->name('wallet');
     // User pages

@@ -39,6 +39,7 @@ class HomeController extends Controller
      
         return view('frontend/profile')->withTitle('profile');
     }
+    
     public function payment_history(Request $req)
     {
      
