@@ -305,3 +305,96 @@ footer .footer-links a:hover {
 .container-custom{
 max-width: 730px;
 }
+
+
+
+.my-orders-section{
+    padding:30px 0;
+}
+
+.orders-title{
+    font-size:28px;
+    font-weight:600;
+    margin-bottom:25px;
+}
+
+.order-card {
+    width: 360px;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 10px 25px rgb(0 0 0 / 14%);
+    overflow: hidden;
+}
+
+.order-top{
+    display:flex;
+    justify-content:space-between;
+    padding:20px;
+}
+
+.badge-closed{
+    background:#e9edf2;
+    color:#555;
+    font-size:12px;
+    padding:4px 10px;
+    border-radius:12px;
+    display:inline-block;
+    margin-bottom:10px;
+}
+
+.service-name{
+    font-weight:600;
+    margin-bottom:10px;
+}
+
+.status-pill {
+    /* background: #e7f7f2; */
+    color: #1c9c7a;
+    font-size: 13px;
+    padding: 6px 0;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+.order-date{
+    font-size:13px;
+    color:#888;
+}
+
+.order-image img{
+    width:80px;
+    height:80px;
+    object-fit:cover;
+    border-radius:12px;
+}
+
+.order-bottom{
+    background:#f7f9fc;
+    padding:18px;
+    display:flex;
+    justify-content:start;
+}
+
+.view-btn {
+    background: linear-gradient(135deg,#5f9df7,#3b6fe0);
+    color: #fff;
+    border: none;
+    padding: 5px 11px;
+    border-radius: 25px;
+    font-weight: 500;
+    transition: 0.3s;
+    font-size: 12px;
+}
+.order-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    text-align: start;
+}
+.view-btn:hover{
+    opacity:0.9;
+}

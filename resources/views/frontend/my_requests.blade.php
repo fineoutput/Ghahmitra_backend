@@ -3,10 +3,48 @@
 @section('content')
 <section class="py-5">
   <div class="container">
-    <h4 class="mb-4">My requests</h4>
-    <div class="card p-4">
-      <p class="text-muted">You have no requests yet.</p>
+   
+
+    
+<div class="my-orders-section">
+
+    <h2 class="orders-title">My Orders</h2>
+
+    <div class="order-card">
+
+        <div class="order-top">
+            <div class="order-left">
+
+                <span class="badge-closed">CLOSED</span>
+
+                <h5 class="service-name">Electricians</h5>
+
+                <div class="status-pill">
+                    <span class="icon">🧰</span>
+                    Not Yet Connected
+                </div>
+
+                <div class="order-date">
+                    📅 Feb 23, 2026
+                </div>
+
+            </div>
+
+            <div class="order-image">
+                <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952" alt="">
+            </div>
+        </div>
+
+        <div class="order-bottom">
+            <button class="view-btn">
+                View Details →
+            </button>
+        </div>
+
     </div>
+
+</div>
   </div>
+
 </section>
 @endsection
