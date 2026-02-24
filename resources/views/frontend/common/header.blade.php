@@ -38,7 +38,7 @@
   
   
 </head>
-<body>
+<body data-services-route="{{ route('services') }}">
     {{-- Loader overlay (injected) --}}
     <div class="loader-wrapper" id="loader">
       <div class="logo">Grah Mitra</div>
