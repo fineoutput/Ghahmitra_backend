@@ -6,7 +6,7 @@
 <section class="py-5 bg-light mb-4 text-center nameset">
     <div class="container">
         <h1 class="fw-bold mb-3">Welcome to Grah Mitra</h1>
-        <p class="lead fw-semibold mb-0">
+        <p class="lead mb-0">
             Your one-stop solution for all home services. <br>
             Book trusted professionals for cleaning, repairs, beauty, and more.
         </p>
