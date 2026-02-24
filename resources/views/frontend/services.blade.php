@@ -126,7 +126,7 @@
             
             <!-- Image -->
             <div class="col-5">
-              <img src="https://images.unsplash.com/photo-1590080876-d98be0cd32db?w=400&h=300&fit=crop" alt="Swedish Massage" class="img-fluid rounded-3 h-100" style="object-fit: cover;">
+              <img src="https://images.unsplash.com/photo-1598901986949-f593ff2a31a6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fFN3ZWRpc2glMjBNYXNzYWdlfGVufDB8fDB8fHww" alt="Swedish Massage" class="img-fluid rounded-3 h-100" style="object-fit: cover;">
             </div>
 
             <!-- Details -->
