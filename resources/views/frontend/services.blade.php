@@ -77,9 +77,114 @@
         </div>
       </div> --}}
 
+      <!-- ================= SERVICE CATEGORIES SECTION ================= -->
+      
+
       <!-- ================= MIDDLE: SERVICE LISTINGS ================= -->
       <div class="col-lg-8 services-left">
+        <div class="services-left mb-5">
+        <div class="card border-light-custom shadow-sm rounded-4 p-4">
+          <h5 class="fw-bold mb-4">What service do you need ?</h5>
+          
+          <div class="row g-3">
+            <!-- Waxing -->
+            <div class="col-6 col-sm-4">
+              <div class="text-center p-3 rounded-3 border border-light-custom" style="cursor: pointer; transition: all 0.3s;" onmouseover="this.style.boxShadow='0 4px 15px rgba(0,0,0,0.1)'" onmouseout="this.style.boxShadow='none'">
+                <img src="https://plus.unsplash.com/premium_photo-1661431392914-e3fc8ff0e51a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8V2F4aW5nfGVufDB8fDB8fHww" alt="Waxing" class="img-fluid rounded-2 mb-2" style="height: 80px; object-fit: cover;">
+                <p class="mb-0 fw-semibold small">Waxing</p>
+              </div>
+            </div>
 
+            <!-- Premium Waxing -->
+            <div class="col-6 col-sm-4">
+              <div class="text-center p-3 rounded-3 border border-light-custom" style="cursor: pointer; transition: all 0.3s;" onmouseover="this.style.boxShadow='0 4px 15px rgba(0,0,0,0.1)'" onmouseout="this.style.boxShadow='none'">
+                <img src="https://plus.unsplash.com/premium_photo-1675898142438-a18bc5f683d7?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8UHJlbWl1bSUyMFdheGluZ3xlbnwwfHwwfHx8MA%3D%3D" alt="Premium Waxing" class="img-fluid rounded-2 mb-2" style="height: 80px; object-fit: cover;">
+                <p class="mb-0 fw-semibold small">Premium waxing</p>
+              </div>
+            </div>
+
+            <!-- Facial -->
+            <div class="col-6 col-sm-4">
+              <div class="text-center p-3 rounded-3 border border-light-custom" style="cursor: pointer; transition: all 0.3s;" onmouseover="this.style.boxShadow='0 4px 15px rgba(0,0,0,0.1)'" onmouseout="this.style.boxShadow='none'">
+                <img src="https://plus.unsplash.com/premium_photo-1732576711143-c4e619fe7ac6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8S29yZWFuJTIwRmFjaWFsfGVufDB8fDB8fHww" alt="Facial" class="img-fluid rounded-2 mb-2" style="height: 80px; object-fit: cover;">
+                <p class="mb-0 fw-semibold small">Facial</p>
+              </div>
+            </div>
+
+            <!-- Korean Facial -->
+            <div class="col-6 col-sm-4">
+              <div class="text-center p-3 rounded-3 border border-light-custom" style="cursor: pointer; transition: all 0.3s;" onmouseover="this.style.boxShadow='0 4px 15px rgba(0,0,0,0.1)'" onmouseout="this.style.boxShadow='none'">
+                <img src="https://plus.unsplash.com/premium_photo-1732576711152-590d19fe767d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8S29yZWFuJTIwRmFjaWFsfGVufDB8fDB8fHww" alt="Korean Facial" class="img-fluid rounded-2 mb-2" style="height: 80px; object-fit: cover;">
+                <p class="mb-0 fw-semibold small">Korean Facial</p>
+              </div>
+            </div>
+
+            <!-- Clean Up -->
+            <div class="col-6 col-sm-4">
+              <div class="text-center p-3 rounded-3 border border-light-custom" style="cursor: pointer; transition: all 0.3s;" onmouseover="this.style.boxShadow='0 4px 15px rgba(0,0,0,0.1)'" onmouseout="this.style.boxShadow='none'">
+                <img src="https://plus.unsplash.com/premium_photo-1661776092454-c950768cd4e4?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Q2xlYW4lMjBVcCUyMGZhY2V8ZW58MHx8MHx8fDA%3D" alt="Clean Up" class="img-fluid rounded-2 mb-2" style="height: 80px; object-fit: cover;">
+                <p class="mb-0 fw-semibold small">Clean Up</p>
+              </div>
+            </div>
+
+            <!-- Mani Pedi -->
+            <div class="col-6 col-sm-4">
+              <div class="text-center p-3 rounded-3 border border-light-custom" style="cursor: pointer; transition: all 0.3s;" onmouseover="this.style.boxShadow='0 4px 15px rgba(0,0,0,0.1)'" onmouseout="this.style.boxShadow='none'">
+                <img src="https://plus.unsplash.com/premium_photo-1661497566854-7a75d3e98996?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8TWFuaWN1cmV8ZW58MHx8MHx8fDA%3D" alt="Mani Pedi" class="img-fluid rounded-2 mb-2" style="height: 80px; object-fit: cover;">
+                <p class="mb-0 fw-semibold small">Mani Pedi</p>
+              </div>
+            </div>
+
+            <!-- Body Scrub -->
+            <div class="col-6 col-sm-4">
+              <div class="text-center p-3 rounded-3 border border-light-custom" style="cursor: pointer; transition: all 0.3s;" onmouseover="this.style.boxShadow='0 4px 15px rgba(0,0,0,0.1)'" onmouseout="this.style.boxShadow='none'">
+                <img src="https://plus.unsplash.com/premium_photo-1677849925842-92267d6b4293?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Qm9keSUyMFNjcnVifGVufDB8fDB8fHww" alt="Body Scrub" class="img-fluid rounded-2 mb-2" style="height: 80px; object-fit: cover;">
+                <p class="mb-0 fw-semibold small">Body Scrub</p>
+              </div>
+            </div>
+
+            <!-- Treatment -->
+            <div class="col-6 col-sm-4">
+              <div class="text-center p-3 rounded-3 border border-light-custom" style="cursor: pointer; transition: all 0.3s;" onmouseover="this.style.boxShadow='0 4px 15px rgba(0,0,0,0.1)'" onmouseout="this.style.boxShadow='none'">
+                <img src="https://plus.unsplash.com/premium_photo-1661680271644-00e5bdf97627?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8ZmFjaWFsJTIwVHJlYXRtZW50fGVufDB8fDB8fHww" alt="Treatment" class="img-fluid rounded-2 mb-2" style="height: 80px; object-fit: cover;">
+                <p class="mb-0 fw-semibold small">Treatment</p>
+              </div>
+            </div>
+
+            <!-- Detan & Bleach -->
+            <div class="col-6 col-sm-4">
+              <div class="text-center p-3 rounded-3 border border-light-custom" style="cursor: pointer; transition: all 0.3s;" onmouseover="this.style.boxShadow='0 4px 15px rgba(0,0,0,0.1)'" onmouseout="this.style.boxShadow='none'">
+                <img src="https://plus.unsplash.com/premium_photo-1661589976754-f1a669f19e68?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8QmxlYWNofGVufDB8fDB8fHww" alt="Detan & Bleach" class="img-fluid rounded-2 mb-2" style="height: 80px; object-fit: cover;">
+                <p class="mb-0 fw-semibold small">Detan & Bleach</p>
+              </div>
+            </div>
+
+            <!-- Threading & Face Wax -->
+            <div class="col-6 col-sm-4">
+              <div class="text-center p-3 rounded-3 border border-light-custom" style="cursor: pointer; transition: all 0.3s;" onmouseover="this.style.boxShadow='0 4px 15px rgba(0,0,0,0.1)'" onmouseout="this.style.boxShadow='none'">
+                <img src="https://images.unsplash.com/photo-1519415387722-a1c3bbef716c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8VGhyZWFkaW5nfGVufDB8fDB8fHww" alt="Threading & Face Wax" class="img-fluid rounded-2 mb-2" style="height: 80px; object-fit: cover;">
+                <p class="mb-0 fw-semibold small">Threading & Face Wax</p>
+              </div>
+            </div>
+
+            <!-- Hair Colour Application -->
+            <div class="col-6 col-sm-4">
+              <div class="text-center p-3 rounded-3 border border-light-custom" style="cursor: pointer; transition: all 0.3s;" onmouseover="this.style.boxShadow='0 4px 15px rgba(0,0,0,0.1)'" onmouseout="this.style.boxShadow='none'">
+                <img src="https://plus.unsplash.com/premium_photo-1661668935701-2429eb4da878?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8SGFpciUyMENvbG91cnxlbnwwfHwwfHx8MA%3D%3D" alt="Hair Colour Application" class="img-fluid rounded-2 mb-2" style="height: 80px; object-fit: cover;">
+                <p class="mb-0 fw-semibold small">Hair Colour Application</p>
+              </div>
+            </div>
+
+            <!-- Massage -->
+            <div class="col-6 col-sm-4">
+              <div class="text-center p-3 rounded-3 border border-light-custom" style="cursor: pointer; transition: all 0.3s;" onmouseover="this.style.boxShadow='0 4px 15px rgba(0,0,0,0.1)'" onmouseout="this.style.boxShadow='none'">
+                <img src="https://plus.unsplash.com/premium_photo-1677849925842-92267d6b4293?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Qm9keSUyMFNjcnVifGVufDB8fDB8fHww" alt="Massage" class="img-fluid rounded-2 mb-2" style="height: 80px; object-fit: cover;">
+                <p class="mb-0 fw-semibold small">Massage</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
         <!-- Service Card 1 -->
         <div class="card service-card border-light-custom shadow-sm rounded-4 p-3 mb-4" style="cursor:pointer; transition:all 0.3s;">
           <div class="row g-3 align-items-center">
