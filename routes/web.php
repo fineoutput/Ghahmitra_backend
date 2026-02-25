@@ -161,7 +161,11 @@ Route::patch('service-partner/update-commission/{id}', [PartnerServicesControlle
     ->name('service-partner.updateCommission');
 
 Route::get('/service-partner/index', [ServicePartnerController::class, 'index'])->name('service-partner.index');
+
 Route::get('/active-service-partner/index', [ServicePartnerController::class, 'activeindex'])->name('activeservice-partner.index');
+
+Route::get('/partner-leave/index/{id}', [ServicePartnerController::class, 'leaveindex'])->name('partner-leave.index');
+
 Route::get('/block-service-partner/index', [ServicePartnerController::class, 'blockindex'])->name('blockservice-partner.index');
 
 Route::patch('service-partner/update-status/{id}', [ServicePartnerController::class, 'updateStatus'])->name('service-partner.updateStatus');

@@ -49,6 +49,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::middleware('partnerapi.auth')->prefix('partner')->group(function () {
+
+
+    Route::post('/add-leave-req', [PartnerController::class, 'LeaveReq']);
+    Route::get('/get-leave-req', [PartnerController::class, 'getLeaveReq']);
+
     Route::post('/partner-logout', [AuthController::class, 'logoutPartner']);
     Route::post('/delete-account', [PartnerController::class, 'deleteaccount']);
     Route::post('/add-document', [PartnerController::class, 'document']);

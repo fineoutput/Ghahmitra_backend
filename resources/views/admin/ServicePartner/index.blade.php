@@ -120,6 +120,8 @@
                             <a href="{{ route('service-partner-document.index', $Services->id) }}" class="btn btn-primary mt-2">Partner Document</a>
                             <br>
                             <a href="{{ route('partnerservice.index', $Services->id) }}" class="btn btn-primary mt-2">Partner Services</a>
+                            <br>
+                            <a href="{{ route('partner-leave.index', $Services->id) }}" class="btn btn-primary mt-2">Leave Request</a>
                           
                         </td>
                         <td>
