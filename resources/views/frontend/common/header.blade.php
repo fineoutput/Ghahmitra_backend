@@ -31,6 +31,49 @@
   <link rel="icon" href="{{ asset('frontend/images/black.png') }}" type="image/x-icon">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet"/>
 
+  <style>
+    /* Mobile header topbar */
+    .mobile-topbar-row { display: flex; gap: 10px; align-items: center; justify-content: space-between; }
+    .mobile-location { display:flex; align-items:center; gap:8px; }
+    .mobile-location .loc-text { font-weight:700; }
+    .mobile-search { margin-top:10px; }
+    .mobile-cart-btn { position: relative; }
+    .mobile-cart-badge { position:absolute; top:-6px; right:-6px; background:#ff4d4f; color:#fff; font-size:11px; padding:3px 7px; border-radius:12px; }
+
+    /* Bottom navigation */
+    .bottom-nav { position: fixed; left: 0; right: 0; bottom: 0; background: #fff; border-top: 1px solid #eee; display: none; z-index: 1050; }
+    .bottom-nav-inner { max-width: 960px; margin: 0 auto; display:flex; gap:6px; padding:8px 12px; }
+    .bottom-nav-item { flex:1; text-align:center; padding:6px 4px; font-size:13px; color:#444; }
+    .bottom-nav-item .icon { font-size:18px; display:block; margin-bottom:4px; }
+    .bottom-nav-item.active { color:#4a7ff3; }
+
+    @media (max-width: 991px) {
+      .bottom-nav { display:block; }
+      body { padding-bottom: 70px; }
+    }
+
+    /* Address Picker Modal */
+    .address-picker-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff; z-index: 2000; display: none; flex-direction: column; overflow: hidden; }
+    .address-picker-modal.show { display: flex; }
+    .address-picker-header { display: flex; align-items: center; gap: 12px; padding: 16px; border-bottom: 1px solid #eee; }
+    .address-picker-header .back-btn { background: none; border: none; font-size: 20px; cursor: pointer; }
+    .address-picker-header input { flex: 1; border: 1px solid #ddd; border-radius: 8px; padding: 10px 12px; font-size: 14px; }
+    .address-picker-body { flex: 1; overflow-y: auto; padding: 16px; }
+    .address-section { margin-bottom: 24px; }
+    .address-section-title { font-weight: 700; font-size: 14px; margin-bottom: 12px; color: #333; }
+    .address-item { display: flex; gap: 12px; padding: 12px; border-radius: 8px; cursor: pointer; margin-bottom: 8px; }
+    .address-item:hover { background: #f5f5f5; }
+    .address-item-icon { font-size: 20px; color: #999; flex-shrink: 0; }
+    .address-item-content { flex: 1; }
+    .address-item-name { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+    .address-item-detail { font-size: 12px; color: #999; }
+    .use-current-location { color: #667eea; font-weight: 600; display: flex; align-items: center; gap: 8px; padding: 12px; cursor: pointer; margin-bottom: 16px; }
+    .use-current-location i { font-size: 16px; }
+    .address-view-more { color: #667eea; font-weight: 600; cursor: pointer; }
+    .address-picker-footer { padding: 12px 16px; border-top: 1px solid #eee; text-align: center; font-size: 12px; color: #999; }
+    .address-picker-footer img { height: 14px; }
+  </style>
+
   <!-- Add Toastr JS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
@@ -49,7 +92,7 @@
     <!-- Header Start -->
 <header class="border-bottom bg-white py-2">
   <div class="container px-4">
-    <div class="d-flex align-items-center justify-content-between">
+    <div class="d-none d-lg-flex align-items-center justify-content-between">
 
       <!-- Left: Logo -->
       <div class="d-flex align-items-center gap-3">
@@ -91,7 +134,7 @@
       </div> --}}
 
       <!-- Right: Icons -->
-      <div class="d-flex align-items-center gap-3">
+      <div class="d-none d-lg-flex align-items-center gap-3">
         <a href="{{ route('cart') }}" class="text-dark position-relative">
           <i class="fa-solid fa-cart-shopping fs-5"></i>
         </a>
@@ -193,13 +236,31 @@
 
     </div>
 
-    <!-- Mobile Search (Visible on small devices) -->
+    <!-- Mobile Topbar (Visible on small devices) -->
     <div class="d-lg-none mt-3">
-      <div class="input-group">
-        <span class="input-group-text bg-white">
-          <i class="fa-solid fa-magnifying-glass text-muted"></i>
-        </span>
-        <input type="text" class="form-control" placeholder="Search services...">
+      <div class="mobile-topbar-row">
+        <div class="mobile-location small text-muted" onclick="openAddressPicker()" style="cursor:pointer; flex:1;">
+          <i class="fa-solid fa-location-dot text-muted"></i>
+          <div>
+            <div class="loc-text">Home</div>
+            <div class="small text-muted">19,New Sanganer Rd, Kalyanpuri Colony</div>
+          </div>
+        </div>
+        <div class="mobile-cart-btn">
+          <a href="{{ route('cart') }}" class="btn btn-light rounded-circle" style="width:42px;height:42px;display:inline-flex;align-items:center;justify-content:center;">
+            <i class="fa-solid fa-cart-shopping"></i>
+          </a>
+          <span class="mobile-cart-badge">2</span>
+        </div>
+      </div>
+
+      <div class="mobile-search">
+        <div class="input-group">
+          <span class="input-group-text bg-white">
+            <i class="fa-solid fa-magnifying-glass text-muted"></i>
+          </span>
+          <input type="text" class="form-control" placeholder="Search for 'AC service'">
+        </div>
       </div>
     </div>
 
@@ -208,7 +269,140 @@
 <!-- Header End -->
 
 
+<!-- Address Picker Modal -->
+<div class="address-picker-modal" id="addressPickerModal">
+  <div class="address-picker-header">
+    <button class="back-btn" onclick="closeAddressPicker()">
+      <i class="fa-solid fa-arrow-left"></i>
+    </button>
+    <input type="text" class="address-search-input" placeholder="Search for your location/society/apartment" id="addressSearch">
+  </div>
+
+  <div class="address-picker-body">
+    <!-- Use Current Location -->
+    <div class="use-current-location" onclick="useCurrentLocation()">
+      <i class="fa-solid fa-location-dot"></i>
+      <span>Use current location</span>
+    </div>
+
+    <!-- Saved Addresses Section -->
+    <div class="address-section">
+      <div class="address-section-title">Saved</div>
+      <div class="address-item" onclick="selectAddress(this)">
+        <div class="address-item-icon">
+          <i class="fa-solid fa-home"></i>
+        </div>
+        <div class="address-item-content">
+          <div class="address-item-name">Home</div>
+          <div class="address-item-detail">19, New Sanganer Rd, Kalyanpuri Colony, Sodala, Jaipur, Rajasthan 302019, India</div>
+        </div>
+      </div>
+
+      <div class="address-item" onclick="selectAddress(this)">
+        <div class="address-item-icon">
+          <i class="fa-solid fa-home"></i>
+        </div>
+        <div class="address-item-content">
+          <div class="address-item-name">Home</div>
+          <div class="address-item-detail">19, Kalawala, Chokhi Dhani, Sukhdeopura Nohara, Jaipur, Shyosinghpura at Kallawala, Rajasthan 302029, ...</div>
+        </div>
+      </div>
+
+      <div class="address-view-more" onclick="viewMoreAddresses()">View more</div>
+    </div>
+
+    <!-- Recents Section -->
+    <div class="address-section">
+      <div class="address-section-title">Recents</div>
+      <div class="address-item" onclick="selectAddress(this)">
+        <div class="address-item-icon">
+          <i class="fa-solid fa-clock"></i>
+        </div>
+        <div class="address-item-content">
+          <div class="address-item-name">Fineoutput</div>
+          <div class="address-item-detail">New Sanganer Road, Kalyanpuri Colony, Sodala, Jaipur, Rajasthan, India</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="address-picker-footer">
+    powered by <img src="https://www.gstatic.com/images/branding/product/1x/maps_64dp.png" alt="Google"> 
+  </div>
+</div>
+
+
+<!-- Mobile Profile Modal -->
+<div class="modal fade" id="mobileProfileModal" tabindex="-1">
+  <div class="modal-dialog modal-fullscreen-sm-down">
+    <div class="modal-content border-0 rounded-0 h-100">
+      <div class="modal-header border-0">
+        <h5 class="modal-title fw-bold">Profile</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body py-0">
+        <div class="p-4">
+          <!-- Header Section -->
+          <div class="mb-3 pb-3 border-bottom">
+            <h6 class="fw-bold mb-1" style="font-size:0.95rem;">{{ auth()->user()->name ?? 'Guest' }}</h6>
+            <small class="text-muted d-block">{{ auth()->user()->phone ?? '' }}</small>
+          </div>
+
+          <!-- Menu Items -->
+          <div class="d-flex flex-column gap-2 mt-3">
+            <a href="{{ route('my_requests') }}" class="btn btn-light text-start rounded-3 py-3">
+              <i class="fa-solid fa-list me-2"></i> My requests
+            </a>
+            <a href="{{ route('profile') }}" class="btn btn-light text-start rounded-3 py-3">
+              <i class="fa-regular fa-user me-2"></i> Profile
+            </a>
+            <a href="{{ route('payment-history') }}" class="btn btn-light text-start rounded-3 py-3">
+              <i class="fa-regular fa-credit-card me-2"></i> Payment History
+            </a>
+            <a href="{{ route('wallet') }}" class="btn btn-light text-start rounded-3 py-3">
+              <i class="fa-solid fa-coins me-2"></i> Wallet
+            </a>
+          </div>
+
+          <hr class="my-4">
+
+          @auth
+          <a href="{{ route('user.logout') }}" class="btn btn-danger w-100">Sign out</a>
+          @else
+          <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#loginModal" data-bs-dismiss="modal">Sign in / Sign up</button>
+          @endauth
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 {{-- ////////////// Login modal --}}
+<!-- Bottom Navigation (mobile) -->
+<nav class="bottom-nav d-lg-none" aria-label="Mobile navigation">
+  <div class="bottom-nav-inner container d-flex justify-content-between">
+    <a href="{{ route('/') }}" class="bottom-nav-item text-center" style="text-decoration: none;">
+      <span class="icon"><i class="fa-solid fa-house"></i></span>
+      <span class="small">GM</span>
+    </a>
+
+    <a href="#" class="bottom-nav-item text-center" style="text-decoration: none;">
+      <span class="icon"><i class="fa-solid fa-question-circle"></i></span>
+      <span class="small">Help</span>
+    </a>
+
+    <a href="{{ route('services') }}" style="text-decoration: none;" class="bottom-nav-item text-center active">
+      <span class="icon position-relative"><i class="fa-solid fa-store"></i></span>
+      <span class="small">Servicees</span>
+    </a>
+
+    <a href="{{ route('profile') }}" style="text-decoration: none;" class="bottom-nav-item text-center">
+      <span class="icon"><i class="fa-regular fa-user"></i></span>
+      <span class="small">Account</span>
+    </a>
+  </div>
+</nav>
 <!-- ================= LOGIN MODAL ================= -->
 <!-- ================= LOGIN MODAL ================= -->
 <div class="modal fade" id="loginModal" tabindex="-1">
@@ -310,3 +504,83 @@
 <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.3/dist/js/splide.min.js"></script>
 <script src="{{ asset('frontend/script.js') }}"></script>
 <script src="{{ asset('frontend/loader.js') }}"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  // Profile modal open on mobile
+  function openMobileProfile(e){
+    if(window.innerWidth <= 991){
+      e.preventDefault();
+      var modalEl = document.getElementById('mobileProfileModal');
+      if(modalEl){
+        var m = new bootstrap.Modal(modalEl);
+        m.show();
+      }
+    }
+  }
+  var test = document.getElementById('testProfileDropdown');
+  if(test) test.addEventListener('click', openMobileProfile);
+  var profile = document.getElementById('profileDropdown');
+  if(profile) profile.addEventListener('click', openMobileProfile);
+
+  // Address search filter
+  var searchInput = document.getElementById('addressSearch');
+  if(searchInput){
+    searchInput.addEventListener('input', function(e){
+      var query = e.target.value.toLowerCase();
+      var items = document.querySelectorAll('.address-item');
+      items.forEach(function(item){
+        var text = item.innerText.toLowerCase();
+        item.style.display = text.includes(query) ? 'flex' : 'none';
+      });
+    });
+  }
+});
+
+// Open address picker
+function openAddressPicker(){
+  var modal = document.getElementById('addressPickerModal');
+  if(modal) modal.classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+// Close address picker
+function closeAddressPicker(){
+  var modal = document.getElementById('addressPickerModal');
+  if(modal) modal.classList.remove('show');
+  document.body.style.overflow = 'auto';
+}
+
+// Use current location
+function useCurrentLocation(){
+  alert('Getting your current location...');
+  // Add geolocation logic here
+}
+
+// Select address
+function selectAddress(elem){
+  var name = elem.querySelector('.address-item-name').innerText;
+  var detail = elem.querySelector('.address-item-detail').innerText;
+  
+  // Truncate address to keep it small (max 50 chars)
+  var truncatedDetail = detail.length > 50 ? detail.substring(0, 50) + '...' : detail;
+  
+  // Update mobile location display with proper selectors
+  var locElement = document.querySelector('.mobile-location .loc-text');
+  var detailElement = document.querySelector('.mobile-location > div > .small.text-muted');
+  
+  if(locElement) locElement.innerText = name;
+  if(detailElement) detailElement.innerText = truncatedDetail;
+  
+  // Close modal
+  closeAddressPicker();
+  
+  console.log('Selected address: ' + name + ' - ' + detail);
+}
+
+// View more addresses
+function viewMoreAddresses(){
+  alert('View more addresses');
+  // Navigate to full address list or show more modal
+}
+</script>

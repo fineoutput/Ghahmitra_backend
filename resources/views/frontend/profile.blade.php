@@ -11,4 +11,23 @@
     </div>
   </div>
 </section>
+
+<section class="mobile_options d-lg-none ">
+  <div class="container">
+    <div class="d-flex flex-column gap-2 mt-3">
+            <a href="{{ route('my_requests') }}" class="btn btn-light text-start rounded-3 py-3">
+              <i class="fa-solid fa-list me-2"></i> My requests
+            </a>
+            <a href="{{ route('profile') }}" class="btn btn-light text-start rounded-3 py-3">
+              <i class="fa-regular fa-user me-2"></i> Profile
+            </a>
+            <a href="{{ route('payment-history') }}" class="btn btn-light text-start rounded-3 py-3">
+              <i class="fa-regular fa-credit-card me-2"></i> Payment History
+            </a>
+            <a href="{{ route('wallet') }}" class="btn btn-light text-start rounded-3 py-3">
+              <i class="fa-solid fa-coins me-2"></i> Wallet
+            </a>
+          </div>
+  </div>
+</section>
 @endsection
