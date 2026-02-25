@@ -232,6 +232,114 @@
     border-radius:8px;
     font-weight:600;
 }
+
+.confirm-btn.enabled{
+    background:#4a7ff3;
+    color:#fff;
+    cursor:pointer;
+}
+
+.confirm-btn:disabled{
+    background:#e3e6ea;
+    color:#999;
+    cursor:not-allowed;
+}
+
+/* Confirmation Animation Styles */
+.booking-confirmation-modal .modal-content {
+    border-radius: 16px;
+    text-align: center;
+}
+
+.booking-confirmation-modal .modal-body {
+    padding: 40px 30px;
+}
+
+.confirmation-animation {
+    position: relative;
+    margin: 30px auto;
+    width: 120px;
+    height: 120px;
+}
+
+.checkmark {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #4a7ff3;
+    margin: 0 auto 20px;
+    animation: scaleIn 0.6s ease-out forwards;
+}
+
+.checkmark::after {
+    content: '✓';
+    color: white;
+    font-size: 60px;
+    font-weight: bold;
+    animation: checkmarkDraw 0.8s ease-out 0.3s forwards;
+    opacity: 0;
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes checkmarkDraw {
+    to {
+        opacity: 1;
+    }
+}
+
+.confirmation-text {
+    animation: slideUp 0.6s ease-out 0.5s forwards;
+    opacity: 0;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.booking-details-confirmation {
+    background: #f5f7fb;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: left;
+    margin-top: 20px;
+    animation: slideUp 0.6s ease-out 0.7s forwards;
+    opacity: 0;
+}
+
+.booking-details-confirmation .detail-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    font-size: 14px;
+}
+
+.booking-details-confirmation .detail-row:last-child {
+    margin-bottom: 0;
+}
+
+.booking-details-confirmation strong {
+    color: #333;
+}
 </style>
 <div class="container py-5">
 <div class="row">
@@ -259,7 +367,7 @@
         <div class="cart-card">
             <div class="section-title">Cash on Service</div>
             <p class="text-muted small">(Pay after service via UPI, cash, card, or other payment methods.)</p>
-            <button class="confirm-btn">Confirm & Book Now</button>
+            <button class="confirm-btn" id="confirmBookBtn" disabled onclick="confirmAndBook()">Confirm & Book Now</button>
         </div>
 
         <!-- Service Process -->
@@ -515,6 +623,53 @@
 </div>
 
 
+<!-- BOOKING CONFIRMATION MODAL -->
+<div class="modal fade" id="bookingConfirmationModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content booking-confirmation-modal">
+
+      <div class="modal-body">
+        
+        <div class="confirmation-animation">
+          <div class="checkmark"></div>
+        </div>
+
+        <div class="confirmation-text">
+          <h4 class="fw-semibold mb-2">Booking Confirmed!</h4>
+          <p class="text-muted mb-0">Your service booking has been confirmed. Our professional will arrive soon.</p>
+        </div>
+
+        <div class="booking-details-confirmation">
+          <div class="detail-row">
+            <strong>Address:</strong>
+            <span id="confirmationAddress">-</span>
+          </div>
+          <div class="detail-row">
+            <strong>Date & Time:</strong>
+            <span id="confirmationDateTime">-</span>
+          </div>
+          <div class="detail-row">
+            <strong>Service Duration:</strong>
+            <span>2 hrs 10 mins</span>
+          </div>
+          <div class="detail-row">
+            <strong>Total Amount:</strong>
+            <span>₹3,999</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="modal-footer border-0 d-flex gap-2">
+        <button type="button" class="btn btn-secondary rounded-2 flex-grow-1" data-bs-dismiss="modal">Back</button>
+        <a href="{{ route('my_requests') }}"><button type="button" class="btn btn-primary rounded-2 flex-grow-1">View Booking</button></a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
 <script>
 // Store selected address
 let selectedAddressData = {
@@ -636,10 +791,15 @@ function checkIfComplete() {
     const selectedDate = document.querySelector('.date-btn.active');
     const selectedTime = document.querySelector('.time-btn.active');
     const proceedBtn = document.getElementById('proceedCheckoutBtn');
+    const confirmBtn = document.getElementById('confirmBookBtn');
     
     if (selectedDate && selectedTime && selectedAddressData.tag) {
         proceedBtn.disabled = false;
         proceedBtn.classList.add('enabled');
+        
+        // Enable confirm button
+        confirmBtn.disabled = false;
+        confirmBtn.classList.add('enabled');
         
         // Show selected info in modal
         document.getElementById('selectedInfo').classList.remove('d-none');
@@ -658,6 +818,8 @@ function checkIfComplete() {
     } else {
         proceedBtn.disabled = true;
         proceedBtn.classList.remove('enabled');
+        confirmBtn.disabled = true;
+        confirmBtn.classList.remove('enabled');
     }
 }
 
@@ -697,5 +859,30 @@ document.getElementById('selectSlotModal').addEventListener('shown.bs.modal', fu
         document.getElementById('selectedAddressText').textContent = selectedAddressData.tag + ' - ' + selectedAddressData.fullAddress;
     }
 });
+
+// Confirm and Book function with animation
+function confirmAndBook() {
+    const selectedDate = document.querySelector('.date-btn.active');
+    const selectedTime = document.querySelector('.time-btn.active');
+    
+    // Only proceed if all selections are made
+    if (!selectedDate || !selectedTime || !selectedAddressData.tag) {
+        alert('Please select address and time slot first');
+        return;
+    }
+    
+    // Get the booking details
+    const dayNum = selectedDate.querySelectorAll('div')[1].textContent;
+    const dayName = selectedDate.querySelector('div').textContent;
+    const selectedTime_val = selectedTime.getAttribute('data-time');
+    
+    // Populate confirmation modal
+    document.getElementById('confirmationAddress').textContent = selectedAddressData.tag + ' - ' + selectedAddressData.fullAddress;
+    document.getElementById('confirmationDateTime').textContent = dayName + ' ' + dayNum + ' at ' + selectedTime_val;
+    
+    // Show confirmation modal with animation
+    const confirmationModal = new bootstrap.Modal(document.getElementById('bookingConfirmationModal'));
+    confirmationModal.show();
+}
 </script>
 @endsection
