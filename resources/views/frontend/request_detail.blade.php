@@ -77,6 +77,80 @@
 .dot{
     margin:0 6px;
 }
+
+.action-container{
+    display:flex;
+    gap:10px;
+    margin-top:20px;
+}
+
+.action-btn{
+    flex:1;
+    padding:12px 16px;
+    border-radius:8px;
+    border:none;
+    font-weight:600;
+    cursor:pointer;
+    transition:all 0.3s;
+    font-size:14px;
+}
+
+.action-btn.start{
+    background:#4a7ff3;
+    color:#fff;
+}
+
+.action-btn.start:hover{
+    background:#3b6fe0;
+}
+
+.action-btn.end{
+    background:#ff6b6b;
+    color:#fff;
+}
+
+.action-btn.end:hover{
+    background:#e63946;
+}
+
+.otp-modal-content{
+    text-align:center;
+}
+
+.otp-inputs{
+    display:flex;
+    gap:8px;
+    justify-content:center;
+    margin:20px 0;
+}
+
+.otp-box{
+    width:50px;
+    height:50px;
+    font-size:24px;
+    text-align:center;
+    border:2px solid #ddd;
+    border-radius:8px;
+}
+
+.otp-box:focus{
+    border-color:#4a7ff3;
+    outline:none;
+}
+
+.otp-timer{
+    font-size:12px;
+    color:#999;
+    margin-top:12px;
+}
+
+.otp-resend{
+    color:#4a7ff3;
+    cursor:pointer;
+    font-weight:600;
+    text-decoration:none;
+}
+
 </style>
 <div class="container">
 
@@ -110,6 +184,16 @@
                 <div class="service-item d-flex justify-content-between">
                     <div>2. Fan Installation & Repair</div>
                     <div class="price">Starts at ₹249</div>
+                </div>
+
+                <!-- Service Action Buttons -->
+                <div class="action-container">
+                    <button class="action-btn start" onclick="sendOtpForStartService()">
+                        <i class="fa-solid fa-play me-2"></i> Start Service
+                    </button>
+                    <button class="action-btn end" onclick="sendOtpForEndService()">
+                        <i class="fa-solid fa-stop me-2"></i> End Service
+                    </button>
                 </div>
             </div>
 
@@ -198,4 +282,196 @@
 
 </div>
 </div>
+
+<!-- Start Service OTP Modal -->
+<div class="modal fade" id="startServiceOtpModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 rounded-4 p-4">
+      <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal"></button>
+      
+      <div class="otp-modal-content">
+        <h4 class="fw-bold mb-2">Verify OTP to Start Service</h4>
+        <p class="text-muted small mb-4">Enter the 6-digit OTP sent to your phone</p>
+        
+        <div class="otp-inputs" id="startServiceOtpInputs">
+          <input type="text" class="otp-box" maxlength="1" inputmode="numeric">
+          <input type="text" class="otp-box" maxlength="1" inputmode="numeric">
+          <input type="text" class="otp-box" maxlength="1" inputmode="numeric">
+          <input type="text" class="otp-box" maxlength="1" inputmode="numeric">
+          <input type="text" class="otp-box" maxlength="1" inputmode="numeric">
+          <input type="text" class="otp-box" maxlength="1" inputmode="numeric">
+        </div>
+
+        <div class="otp-timer">
+          Resend OTP in <span id="startServiceTimer">30</span>s | <a href="#" class="otp-resend" onclick="resendOtpStartService(event)">Resend Now</a>
+        </div>
+
+        <button class="btn btn-primary w-100 mt-4 rounded-3" onclick="verifyOtpStartService()">Verify & Start Service</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- End Service OTP Modal -->
+<div class="modal fade" id="endServiceOtpModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 rounded-4 p-4">
+      <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal"></button>
+      
+      <div class="otp-modal-content">
+        <h4 class="fw-bold mb-2">Verify OTP to End Service</h4>
+        <p class="text-muted small mb-4">Enter the 6-digit OTP sent to your phone</p>
+        
+        <div class="otp-inputs" id="endServiceOtpInputs">
+          <input type="text" class="otp-box" maxlength="1" inputmode="numeric">
+          <input type="text" class="otp-box" maxlength="1" inputmode="numeric">
+          <input type="text" class="otp-box" maxlength="1" inputmode="numeric">
+          <input type="text" class="otp-box" maxlength="1" inputmode="numeric">
+          <input type="text" class="otp-box" maxlength="1" inputmode="numeric">
+          <input type="text" class="otp-box" maxlength="1" inputmode="numeric">
+        </div>
+
+        <div class="otp-timer">
+          Resend OTP in <span id="endServiceTimer">30</span>s | <a href="#" class="otp-resend" onclick="resendOtpEndService(event)">Resend Now</a>
+        </div>
+
+        <button class="btn btn-danger w-100 mt-4 rounded-3" onclick="verifyOtpEndService()">Verify & End Service</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // OTP timers
+  let startServiceTimerInterval;
+  let endServiceTimerInterval;
+
+  // Send OTP for Start Service
+  function sendOtpForStartService(){
+    console.log('Sending OTP for Start Service...');
+    alert('OTP sent to your registered phone number');
+    
+    // Show modal
+    var modal = new bootstrap.Modal(document.getElementById('startServiceOtpModal'));
+    modal.show();
+    
+    // Start timer
+    startOtpTimer('startServiceTimer', 30);
+    
+    // Setup OTP input navigation
+    setupOtpInputNavigation('startServiceOtpInputs');
+  }
+
+  // Send OTP for End Service
+  function sendOtpForEndService(){
+    console.log('Sending OTP for End Service...');
+    alert('OTP sent to your registered phone number');
+    
+    // Show modal
+    var modal = new bootstrap.Modal(document.getElementById('endServiceOtpModal'));
+    modal.show();
+    
+    // Start timer
+    startOtpTimer('endServiceTimer', 30);
+    
+    // Setup OTP input navigation
+    setupOtpInputNavigation('endServiceOtpInputs');
+  }
+
+  // Start OTP countdown timer
+  function startOtpTimer(elementId, duration){
+    let remaining = duration;
+    clearInterval(startServiceTimerInterval);
+    clearInterval(endServiceTimerInterval);
+    
+    const timerElement = document.getElementById(elementId);
+    const updateTimer = () => {
+      timerElement.innerText = remaining;
+      if(remaining <= 0){
+        clearInterval(startServiceTimerInterval);
+        clearInterval(endServiceTimerInterval);
+        timerElement.innerText = '00';
+      }
+      remaining--;
+    };
+    
+    const intervalId = setInterval(updateTimer, 1000);
+    if(elementId.includes('startService')) startServiceTimerInterval = intervalId;
+    else endServiceTimerInterval = intervalId;
+  }
+
+  // Setup OTP input navigation
+  function setupOtpInputNavigation(containerId){
+    const container = document.getElementById(containerId);
+    const inputs = container.querySelectorAll('.otp-box');
+    
+    inputs.forEach((input, index) => {
+      input.addEventListener('input', function(e){
+        if(e.target.value.length === 1 && index < inputs.length - 1){
+          inputs[index + 1].focus();
+        }
+      });
+      
+      input.addEventListener('keydown', function(e){
+        if(e.key === 'Backspace' && e.target.value === '' && index > 0){
+          inputs[index - 1].focus();
+        }
+      });
+    });
+  }
+
+  // Verify OTP for Start Service
+  function verifyOtpStartService(){
+    const container = document.getElementById('startServiceOtpInputs');
+    const otp = Array.from(container.querySelectorAll('.otp-box')).map(input => input.value).join('');
+    
+    if(otp.length !== 6){
+      alert('Please enter all 6 digits of OTP');
+      return;
+    }
+    
+    console.log('Verifying OTP for Start Service: ' + otp);
+    alert('Service started successfully!');
+    
+    // Close modal
+    bootstrap.Modal.getInstance(document.getElementById('startServiceOtpModal')).hide();
+    
+    // You can make an API call here to start the service
+  }
+
+  // Verify OTP for End Service
+  function verifyOtpEndService(){
+    const container = document.getElementById('endServiceOtpInputs');
+    const otp = Array.from(container.querySelectorAll('.otp-box')).map(input => input.value).join('');
+    
+    if(otp.length !== 6){
+      alert('Please enter all 6 digits of OTP');
+      return;
+    }
+    
+    console.log('Verifying OTP for End Service: ' + otp);
+    alert('Service ended successfully!');
+    
+    // Close modal
+    bootstrap.Modal.getInstance(document.getElementById('endServiceOtpModal')).hide();
+    
+    // You can make an API call here to end the service
+  }
+
+  // Resend OTP for Start Service
+  function resendOtpStartService(e){
+    e.preventDefault();
+    console.log('Resending OTP for Start Service...');
+    alert('OTP resent to your phone');
+    startOtpTimer('startServiceTimer', 30);
+  }
+
+  // Resend OTP for End Service
+  function resendOtpEndService(e){
+    e.preventDefault();
+    console.log('Resending OTP for End Service...');
+    alert('OTP resent to your phone');
+    startOtpTimer('endServiceTimer', 30);
+  }
+</script>
 @endsection
