@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\adminmodel\Team;
 use App\Models\City;
 use App\Models\Customers;
+use App\Models\LeaveReq;
 use App\Models\Otp;
 use App\Models\PartnerDocuments;
 use App\Models\ServicePartner;
@@ -158,6 +159,54 @@ public function getProfile()
         'data' => $data
     ]);
 }
+
+
+
+    public function LeaveReq(Request $request)
+    {
+        $partner = Auth::guard('partner_api')->user();
+
+        if (!$partner) {
+            return response()->json(['message' => 'Partner not found'], 404);
+        }
+
+        $request->validate([
+            'description' => 'required|string',
+        ]);
+
+        $leaveReq = LeaveReq::create([
+            'partner_id' => $partner->id,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+            'description' => $request->description,
+            'status' => 1,
+        ]);
+
+        return response()->json([
+            'message' => 'Leave request submitted successfully',
+            'status' => 200,
+            'data' => $leaveReq,
+        ]);
+    }
+
+
+
+    public function getLeaveReq(Request $request)
+    {
+        $partner = Auth::guard('partner_api')->user();
+
+        if (!$partner) {
+            return response()->json(['message' => 'Partner not found'], 404);
+        }
+
+        $leaveReqs = LeaveReq::where('partner_id', $partner->id)->get();
+
+        return response()->json([
+            'message' => 'Leave requests fetched successfully',
+            'status' => 200,
+            'data' => $leaveReqs,
+        ]);
+    }
 
         
 }

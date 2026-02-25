@@ -15,6 +15,7 @@ use App\Models\Services;
 use App\Models\ServicesSe;
 use App\Models\Th_Services;
 use App\Models\Availability;
+use App\Models\LeaveReq;
 use App\Models\PartnerDocuments;
 use App\Models\ServicePartner;
 
@@ -44,6 +45,12 @@ class ServicePartnerController extends Controller
         return view('admin.ServicePartner.document.index', compact('ServicePartner'));
     }
   
+    public function leaveindex(Request $request,$id)
+    {
+        $ServicePartner  = ServicePartner::find($id);
+        $leaveReq = LeaveReq::orderBy('id', 'DESC')->where('partner_id', $id)->get();
+        return view('admin.ServicePartner.leave.index', compact('leaveReq','ServicePartner'));
+    }
 
     
     public function updaterank(Request $request, $id)
