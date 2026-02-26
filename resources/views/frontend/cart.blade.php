@@ -340,12 +340,105 @@
 .booking-details-confirmation strong {
     color: #333;
 }
+
+/* Mobile two-step flow */
+.mobile-stepper {
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.mobile-stepper .step-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.mobile-stepper .step-circle {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid #d0d4e4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    background: #fff;
+    color: #6c757d;
+}
+
+.mobile-stepper .step-circle.active {
+    border-color: #4a7ff3;
+    background: #4a7ff3;
+    color: #fff;
+}
+
+.mobile-stepper .step-circle.completed {
+    border-color: #28a745;
+    background: #28a745;
+    color: #fff;
+}
+
+.mobile-stepper .step-label {
+    font-size: 0.75rem;
+    margin-top: 4px;
+    color: #6c757d;
+    white-space: nowrap;
+}
+
+.mobile-step {
+    /* will be overridden per breakpoint */
+}
+
+@media (max-width: 767.98px) {
+    .mobile-stepper {
+        display: flex;
+        margin-bottom: 16px;
+    }
+
+    .mobile-step-1 {
+        display: block;
+    }
+
+    .mobile-step-2 {
+        display: none;
+    }
+
+    .mobile-step-1.mobile-step-hidden {
+        display: none;
+    }
+
+    .mobile-step-2.mobile-step-active {
+        display: block;
+    }
+}
+
+@media (min-width: 768px) {
+    .mobile-step-1,
+    .mobile-step-2 {
+        display: block !important;
+    }
+}
 </style>
 <div class="container py-5">
+
+<div class="mobile-stepper d-md-none">
+    <div class="step-item" id="stepIndicator1">
+        <div class="step-circle active">1</div>
+        <div class="step-label">Address & slot</div>
+    </div>
+    <div class="flex-grow-1 mx-2" style="border-top:1px dashed #d0d4e4;"></div>
+    <div class="step-item" id="stepIndicator2">
+        <div class="step-circle">2</div>
+        <div class="step-label">Review & pay</div>
+    </div>
+</div>
+
 <div class="row">
 
     <!-- LEFT SECTION -->
-    <div class="col-lg-6">
+    <div class="col-lg-6 mobile-step mobile-step-1">
 
         <!-- Contact -->
         <div class="cart-card d-flex justify-content-between align-items-center">
@@ -384,7 +477,7 @@
 
 
     <!-- RIGHT SECTION -->
-    <div class="col-lg-6">
+    <div class="col-lg-6 mobile-step mobile-step-2">
 
         <!-- Product -->
         <div class="cart-card d-flex justify-content-between align-items-center">
@@ -407,7 +500,7 @@
 
             <div class="summary-row">
                 <span>Item Total</span>
-                <span>₹3,999</span>
+                <span id="itemTotalAmount">₹3,999</span>
             </div>
 
             <div class="summary-row">
@@ -415,11 +508,16 @@
                 <span>₹0</span>
             </div>
 
+            <div class="summary-row" id="promoRow" style="display:none;">
+                <span>Promo discount</span>
+                <span id="promoDiscountText" class="text-success">-₹0</span>
+            </div>
+
             <hr>
 
             <div class="summary-row summary-total">
                 <span>Total Estimated</span>
-                <span>₹3,999</span>
+                <span id="totalEstimatedAmount">₹3,999</span>
             </div>
 
             <div class="summary-row mt-3">
@@ -461,6 +559,22 @@
                 <li>No advance payment required at the time of booking.</li>
             </ul>
         </div>
+
+        <!-- Promo code trigger -->
+        <div class="cart-card d-flex justify-content-between align-items-center">
+            <div>
+                <div class="section-title mb-1">Have a promo code?</div>
+                <small class="text-muted">Apply a coupon to save on your booking.</small>
+            </div>
+            <button class="btn btn-outline-primary ms-3" data-bs-toggle="modal" data-bs-target="#promoCodeModal">
+                Add promo code
+            </button>
+        </div>
+
+        <!-- Mobile: continue to payment (second tab) -->
+        <button class="primary-btn d-md-none mt-2" id="mobileContinueBtn" disabled>
+            Continue to payment
+        </button>
 
     </div>
 
@@ -669,8 +783,40 @@
   </div>
 </div>
 
+<!-- PROMO CODE MODAL -->
+<div class="modal fade" id="promoCodeModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <div class="modal-header border-0">
+        <h5 class="modal-title fw-semibold">Apply promo code</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="promoCodeInput" class="form-label small fw-semibold">Enter promo code</label>
+          <input type="text" id="promoCodeInput" class="form-control" placeholder="Enter code (e.g. WELCOME50)">
+        </div>
+        <div class="small text-muted">
+          Example: <span class="fw-semibold">WELCOME50</span> – flat ₹200 off on this booking.
+        </div>
+      </div>
+
+      <div class="modal-footer border-0 d-flex gap-2">
+        <button type="button" class="btn btn-outline-secondary rounded-2 flex-grow-1" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary rounded-2 flex-grow-1" onclick="applyPromoCode()">Apply</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 
 <script>
+const BASE_PRICE_PER_UNIT = 3999;
+let promoDiscount = 0;
+
 // Store selected address
 let selectedAddressData = {
     tag: '',
@@ -690,12 +836,61 @@ function changeQty(value){
     current += value;
     if(current < 1) current = 1;
     qty.innerText = current;
+    updateTotals();
 }
 
 function enableProceed(){
     let btn = document.getElementById("proceedBtn");
     btn.disabled = false;
     btn.classList.add("enabled");
+}
+
+function updateTotals() {
+    const qtyEl = document.getElementById('qty');
+    const itemTotalEl = document.getElementById('itemTotalAmount');
+    const totalEstimatedEl = document.getElementById('totalEstimatedAmount');
+    const promoRow = document.getElementById('promoRow');
+    const promoDiscountText = document.getElementById('promoDiscountText');
+
+    if (!qtyEl || !itemTotalEl || !totalEstimatedEl) return;
+
+    const qtyVal = parseInt(qtyEl.innerText) || 1;
+    const gross = BASE_PRICE_PER_UNIT * qtyVal;
+    const discount = Math.min(promoDiscount, gross);
+    const net = gross - discount;
+
+    itemTotalEl.textContent = `₹${gross.toLocaleString('en-IN')}`;
+    totalEstimatedEl.textContent = `₹${net.toLocaleString('en-IN')}`;
+
+    if (discount > 0 && promoRow && promoDiscountText) {
+        promoRow.style.display = 'flex';
+        promoDiscountText.textContent = `-₹${discount.toLocaleString('en-IN')}`;
+    } else if (promoRow) {
+        promoRow.style.display = 'none';
+    }
+}
+
+function applyPromoCode() {
+    const input = document.getElementById('promoCodeInput');
+    if (!input) return;
+
+    const code = input.value.trim().toUpperCase();
+
+    if (!code) {
+        alert('Please enter a promo code.');
+        return;
+    }
+
+    // Simple demo logic: WELCOME50 gives flat ₹200 off
+    if (code === 'WELCOME50') {
+        promoDiscount = 200;
+        updateTotals();
+        const modalInstance = bootstrap.Modal.getInstance(document.getElementById('promoCodeModal'));
+        if (modalInstance) modalInstance.hide();
+        alert('Promo code applied successfully! ₹200 discount added.');
+    } else {
+        alert('Invalid promo code. Please try again.');
+    }
 }
 
 function selectTag(el){
@@ -792,6 +987,7 @@ function checkIfComplete() {
     const selectedTime = document.querySelector('.time-btn.active');
     const proceedBtn = document.getElementById('proceedCheckoutBtn');
     const confirmBtn = document.getElementById('confirmBookBtn');
+    const mobileContinueBtn = document.getElementById('mobileContinueBtn');
     
     if (selectedDate && selectedTime && selectedAddressData.tag) {
         proceedBtn.disabled = false;
@@ -815,11 +1011,25 @@ function checkIfComplete() {
         
         document.getElementById('displaySelectedAddress').textContent = selectedAddressData.tag + ' - ' + selectedAddressData.fullAddress;
         document.getElementById('displaySelectedDateTime').textContent = dayName + ' ' + dayNum + ' at ' + selectedTime_val;
+
+        // Enable mobile continue button when selections are ready
+        if (mobileContinueBtn) {
+            mobileContinueBtn.disabled = false;
+        }
+
+        // On small screens, automatically move to step 2 once step 1 is complete
+        if (window.innerWidth < 768) {
+            goToMobileStep2();
+        }
     } else {
         proceedBtn.disabled = true;
         proceedBtn.classList.remove('enabled');
         confirmBtn.disabled = true;
         confirmBtn.classList.remove('enabled');
+
+        if (mobileContinueBtn) {
+            mobileContinueBtn.disabled = true;
+        }
     }
 }
 
@@ -884,5 +1094,38 @@ function confirmAndBook() {
     const confirmationModal = new bootstrap.Modal(document.getElementById('bookingConfirmationModal'));
     confirmationModal.show();
 }
+
+// Mobile two-step flow helpers
+function goToMobileStep2() {
+    const step1 = document.querySelector('.mobile-step-1');
+    const step2 = document.querySelector('.mobile-step-2');
+    const stepCircle1 = document.querySelector('#stepIndicator1 .step-circle');
+    const stepCircle2 = document.querySelector('#stepIndicator2 .step-circle');
+
+    if (step1 && step2) {
+        step1.classList.add('mobile-step-hidden');
+        step2.classList.add('mobile-step-active');
+    }
+
+    if (stepCircle1 && stepCircle2) {
+        stepCircle1.classList.remove('active');
+        stepCircle1.classList.add('completed');
+        stepCircle2.classList.add('active');
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    updateTotals();
+
+    const mobileContinueBtn = document.getElementById('mobileContinueBtn');
+    if (mobileContinueBtn) {
+        mobileContinueBtn.addEventListener('click', function () {
+            if (!mobileContinueBtn.disabled) {
+                // On mobile second tab, treat this as final action
+                confirmAndBook();
+            }
+        });
+    }
+});
 </script>
 @endsection
