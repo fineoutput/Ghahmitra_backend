@@ -21,9 +21,9 @@
             <a href="{{ route('profile') }}" class="btn btn-light text-start rounded-3 py-3">
               <i class="fa-regular fa-user me-2"></i> Profile
             </a>
-            <a href="{{ route('payment-history') }}" class="btn btn-light text-start rounded-3 py-3">
+            {{-- <a href="{{ route('payment-history') }}" class="btn btn-light text-start rounded-3 py-3">
               <i class="fa-regular fa-credit-card me-2"></i> Payment History
-            </a>
+            </a> --}}
             <a href="{{ route('wallet') }}" class="btn btn-light text-start rounded-3 py-3">
               <i class="fa-solid fa-coins me-2"></i> Wallet
             </a>

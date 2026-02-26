@@ -160,10 +160,10 @@
                 <i class="fa-regular fa-user" style="width:18px;text-align:center;"></i>
                 <span style="font-size:0.95rem;">Profile</span>
               </a>
-              <a href="{{ route('payment-history') }}" class="dropdown-item rounded-2 px-3 py-2 text-dark text-decoration-none" style="transition:all 0.2s;display:flex;align-items:center;gap:0.75rem;">
+              {{-- <a href="{{ route('payment-history') }}" class="dropdown-item rounded-2 px-3 py-2 text-dark text-decoration-none" style="transition:all 0.2s;display:flex;align-items:center;gap:0.75rem;">
                 <i class="fa-regular fa-credit-card" style="width:18px;text-align:center;"></i>
                 <span style="font-size:0.95rem;">Payment History</span>
-              </a>
+              </a> --}}
               <a href="{{ route('wallet') }}" class="dropdown-item rounded-2 px-3 py-2 text-dark text-decoration-none" style="transition:all 0.2s;display:flex;align-items:center;gap:0.75rem;">
                 <i class="fa-solid fa-coins" style="width:18px;text-align:center;"></i>
                 <span style="font-size:0.95rem;">Wallet</span>
