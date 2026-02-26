@@ -130,10 +130,10 @@
         
         <!-- Service Card 1 -->
         <div class="card service-card border-light-custom shadow-sm rounded-4 p-4 mb-4" style="cursor:pointer; transition:all 0.3s;">
-          <div class="d-flex justify-content-between align-items-flex-start">
+          <div class="d-flex flex-column flex-md-row justify-content-between align-items-start">
             
             <!-- Left: Details Section -->
-            <div class="flex-grow-1 pe-4">
+            <div class="flex-grow-1 pe-md-4 order-2 order-md-1 mt-3 mt-md-0">
               <!-- Service Title -->
               <h6 class="fw-bold mb-2">Pack of 4</h6>
               
@@ -167,7 +167,7 @@
             </div>
             
             <!-- Right: Image & Button Section -->
-            <div class="text-end" style="min-width: 150px;">
+            <div class="order-1 order-md-2 text-center text-md-end" style="min-width: 150px;">
               <!-- Image -->
               <div class="mb-3">
                 <img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8U3dlZGlzaCUyME1hc3NhZ2V8ZW58MHx8MHx8fDA%3D" alt="Massage" class="img-fluid rounded-3" style="height: 120px; width: 100%; object-fit: cover;">
@@ -187,10 +187,10 @@
 
         <!-- Service Card 2 -->
         <div class="card service-card border-light-custom shadow-sm rounded-4 p-4 mb-4" style="cursor:pointer; transition:all 0.3s;">
-          <div class="d-flex justify-content-between align-items-flex-start">
+          <div class="d-flex flex-column flex-md-row justify-content-between align-items-start">
             
             <!-- Left: Details Section -->
-            <div class="flex-grow-1 pe-4">
+            <div class="flex-grow-1 pe-md-4 order-2 order-md-1 mt-3 mt-md-0">
               <!-- Service Title -->
               <h6 class="fw-bold mb-2">Pack of 4 (Swedish Massage)</h6>
               
@@ -224,7 +224,7 @@
             </div>
             
             <!-- Right: Image & Button Section -->
-            <div class="text-end" style="min-width: 150px;">
+            <div class="order-1 order-md-2 text-center text-md-end" style="min-width: 150px;">
               <!-- Image -->
               <div class="mb-3">
                 <img src="https://images.unsplash.com/photo-1598901986949-f593ff2a31a6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fFN3ZWRpc2glMjBNYXNzYWdlfGVufDB8fDB8fHww" alt="Swedish Massage" class="img-fluid rounded-3" style="height: 120px; width: 100%; object-fit: cover;">
@@ -242,10 +242,10 @@
           </div>
         </div>
         <div class="card service-card border-light-custom shadow-sm rounded-4 p-4 mb-4" style="cursor:pointer; transition:all 0.3s;">
-          <div class="d-flex justify-content-between align-items-flex-start">
+          <div class="d-flex flex-column flex-md-row justify-content-between align-items-start">
             
             <!-- Left: Details Section -->
-            <div class="flex-grow-1 pe-4">
+            <div class="flex-grow-1 pe-md-4 order-2 order-md-1 mt-3 mt-md-0">
               <!-- Service Title -->
               <h6 class="fw-bold mb-2">Pack of 4 (Swedish Massage)</h6>
               
@@ -279,7 +279,7 @@
             </div>
             
             <!-- Right: Image & Button Section -->
-            <div class="text-end" style="min-width: 150px;">
+            <div class="order-1 order-md-2 text-center text-md-end" style="min-width: 150px;">
               <!-- Image -->
               <div class="mb-3">
                 <img src="https://images.unsplash.com/photo-1598901986949-f593ff2a31a6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fFN3ZWRpc2glMjBNYXNzYWdlfGVufDB8fDB8fHww" alt="Swedish Massage" class="img-fluid rounded-3" style="height: 120px; width: 100%; object-fit: cover;">
@@ -297,10 +297,10 @@
           </div>
         </div>
         <div class="card service-card border-light-custom shadow-sm rounded-4 p-4 mb-4" style="cursor:pointer; transition:all 0.3s;">
-          <div class="d-flex justify-content-between align-items-flex-start">
+          <div class="d-flex flex-column flex-md-row justify-content-between align-items-start">
             
             <!-- Left: Details Section -->
-            <div class="flex-grow-1 pe-4">
+            <div class="flex-grow-1 pe-md-4 order-2 order-md-1 mt-3 mt-md-0">
               <!-- Service Title -->
               <h6 class="fw-bold mb-2">Pack of 4 (Swedish Massage)</h6>
               
@@ -334,7 +334,7 @@
             </div>
             
             <!-- Right: Image & Button Section -->
-            <div class="text-end" style="min-width: 150px;">
+            <div class="order-1 order-md-2 text-center text-md-end" style="min-width: 150px;">
               <!-- Image -->
               <div class="mb-3">
                 <img src="https://images.unsplash.com/photo-1598901986949-f593ff2a31a6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fFN3ZWRpc2glMjBNYXNzYWdlfGVufDB8fDB8fHww" alt="Swedish Massage" class="img-fluid rounded-3" style="height: 120px; width: 100%; object-fit: cover;">
@@ -352,10 +352,10 @@
           </div>
         </div>
         <div class="card service-card border-light-custom shadow-sm rounded-4 p-4 mb-4" style="cursor:pointer; transition:all 0.3s;">
-          <div class="d-flex justify-content-between align-items-flex-start">
+          <div class="d-flex flex-column flex-md-row justify-content-between align-items-start">
             
             <!-- Left: Details Section -->
-            <div class="flex-grow-1 pe-4">
+            <div class="flex-grow-1 pe-md-4 order-2 order-md-1 mt-3 mt-md-0">
               <!-- Service Title -->
               <h6 class="fw-bold mb-2">Pack of 4 (Swedish Massage)</h6>
               
@@ -389,7 +389,7 @@
             </div>
             
             <!-- Right: Image & Button Section -->
-            <div class="text-end" style="min-width: 150px;">
+            <div class="order-1 order-md-2 text-center text-md-end" style="min-width: 150px;">
               <!-- Image -->
               <div class="mb-3">
                 <img src="https://images.unsplash.com/photo-1598901986949-f593ff2a31a6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fFN3ZWRpc2glMjBNYXNzYWdlfGVufDB8fDB8fHww" alt="Swedish Massage" class="img-fluid rounded-3" style="height: 120px; width: 100%; object-fit: cover;">
@@ -407,10 +407,10 @@
           </div>
         </div>
         <div class="card service-card border-light-custom shadow-sm rounded-4 p-4 mb-4" style="cursor:pointer; transition:all 0.3s;">
-          <div class="d-flex justify-content-between align-items-flex-start">
+          <div class="d-flex flex-column flex-md-row justify-content-between align-items-start">
             
             <!-- Left: Details Section -->
-            <div class="flex-grow-1 pe-4">
+            <div class="flex-grow-1 pe-md-4 order-2 order-md-1 mt-3 mt-md-0">
               <!-- Service Title -->
               <h6 class="fw-bold mb-2">Pack of 4 (Swedish Massage)</h6>
               
@@ -444,7 +444,7 @@
             </div>
             
             <!-- Right: Image & Button Section -->
-            <div class="text-end" style="min-width: 150px;">
+            <div class="order-1 order-md-2 text-center text-md-end" style="min-width: 150px;">
               <!-- Image -->
               <div class="mb-3">
                 <img src="https://images.unsplash.com/photo-1598901986949-f593ff2a31a6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fFN3ZWRpc2glMjBNYXNzYWdlfGVufDB8fDB8fHww" alt="Swedish Massage" class="img-fluid rounded-3" style="height: 120px; width: 100%; object-fit: cover;">
@@ -462,10 +462,10 @@
           </div>
         </div>
         <div class="card service-card border-light-custom shadow-sm rounded-4 p-4 mb-4" style="cursor:pointer; transition:all 0.3s;">
-          <div class="d-flex justify-content-between align-items-flex-start">
+          <div class="d-flex flex-column flex-md-row justify-content-between align-items-start">
             
             <!-- Left: Details Section -->
-            <div class="flex-grow-1 pe-4">
+            <div class="flex-grow-1 pe-md-4 order-2 order-md-1 mt-3 mt-md-0">
               <!-- Service Title -->
               <h6 class="fw-bold mb-2">Pack of 4 (Swedish Massage)</h6>
               
@@ -499,7 +499,7 @@
             </div>
             
             <!-- Right: Image & Button Section -->
-            <div class="text-end" style="min-width: 150px;">
+            <div class="order-1 order-md-2 text-center text-md-end" style="min-width: 150px;">
               <!-- Image -->
               <div class="mb-3">
                 <img src="https://images.unsplash.com/photo-1598901986949-f593ff2a31a6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fFN3ZWRpc2glMjBNYXNzYWdlfGVufDB8fDB8fHww" alt="Swedish Massage" class="img-fluid rounded-3" style="height: 120px; width: 100%; object-fit: cover;">
@@ -517,10 +517,10 @@
           </div>
         </div>
         <div class="card service-card border-light-custom shadow-sm rounded-4 p-4 mb-4" style="cursor:pointer; transition:all 0.3s;">
-          <div class="d-flex justify-content-between align-items-flex-start">
+          <div class="d-flex flex-column flex-md-row justify-content-between align-items-start">
             
             <!-- Left: Details Section -->
-            <div class="flex-grow-1 pe-4">
+            <div class="flex-grow-1 pe-md-4 order-2 order-md-1 mt-3 mt-md-0">
               <!-- Service Title -->
               <h6 class="fw-bold mb-2">Pack of 4 (Swedish Massage)</h6>
               
@@ -554,7 +554,7 @@
             </div>
             
             <!-- Right: Image & Button Section -->
-            <div class="text-end" style="min-width: 150px;">
+            <div class="order-1 order-md-2 text-center text-md-end" style="min-width: 150px;">
               <!-- Image -->
               <div class="mb-3">
                 <img src="https://images.unsplash.com/photo-1598901986949-f593ff2a31a6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fFN3ZWRpc2glMjBNYXNzYWdlfGVufDB8fDB8fHww" alt="Swedish Massage" class="img-fluid rounded-3" style="height: 120px; width: 100%; object-fit: cover;">
