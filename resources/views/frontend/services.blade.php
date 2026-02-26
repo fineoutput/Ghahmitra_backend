@@ -946,7 +946,7 @@
 
       packages.forEach(pkg => {
         const col = document.createElement('div');
-        col.className = 'col-md-4';
+        col.className = 'col-6 col-md-4';
         col.innerHTML = `
           <div class="card border-2 rounded-3 p-3 text-left package-option" style="cursor: pointer; transition: all 0.3s;">
             <h6 class="fw-semibold mb-2">${pkg.duration}</h6>
@@ -1013,7 +1013,7 @@
         
         packages.forEach(pkg => {
           const col = document.createElement('div');
-          col.className = 'col-md-4';
+          col.className = 'col-6 col-md-4';
           col.innerHTML = `
             <div class="card border-2 rounded-3 p-3 text-left package-option" style="cursor: pointer; transition: all 0.3s;">
               <h6 class="fw-semibold mb-2">${pkg.duration}</h6>
