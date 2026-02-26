@@ -236,33 +236,35 @@
 
     </div>
 
-    <!-- Mobile Topbar (Visible on small devices) -->
-    <div class="d-lg-none mt-3">
-      <div class="mobile-topbar-row">
-        <div class="mobile-location small text-muted" onclick="openAddressPicker()" style="cursor:pointer; flex:1;">
-          <i class="fa-solid fa-location-dot text-muted"></i>
-          <div>
-            <div class="loc-text">Home</div>
-            <div class="small text-muted">19,New Sanganer Rd, Kalyanpuri Colony</div>
+    <!-- Mobile Topbar (Visible on small devices, home page only) -->
+    @if (request()->routeIs('/'))
+      <div class="d-lg-none mt-3">
+        <div class="mobile-topbar-row">
+          <div class="mobile-location small text-muted" onclick="openAddressPicker()" style="cursor:pointer; flex:1;">
+            <i class="fa-solid fa-location-dot text-muted"></i>
+            <div>
+              <div class="loc-text">Home</div>
+              <div class="small text-muted">19,New Sanganer Rd, Kalyanpuri Colony</div>
+            </div>
+          </div>
+          <div class="mobile-cart-btn">
+            <a href="{{ route('cart') }}" class="btn btn-light rounded-circle" style="width:42px;height:42px;display:inline-flex;align-items:center;justify-content:center;">
+              <i class="fa-solid fa-cart-shopping"></i>
+            </a>
+            <span class="mobile-cart-badge">2</span>
           </div>
         </div>
-        <div class="mobile-cart-btn">
-          <a href="{{ route('cart') }}" class="btn btn-light rounded-circle" style="width:42px;height:42px;display:inline-flex;align-items:center;justify-content:center;">
-            <i class="fa-solid fa-cart-shopping"></i>
-          </a>
-          <span class="mobile-cart-badge">2</span>
-        </div>
-      </div>
 
-      <div class="mobile-search">
-        <div class="input-group">
-          <span class="input-group-text bg-white">
-            <i class="fa-solid fa-magnifying-glass text-muted"></i>
-          </span>
-          <input type="text" class="form-control" placeholder="Search for 'AC service'">
+        <div class="mobile-search">
+          <div class="input-group">
+            <span class="input-group-text bg-white">
+              <i class="fa-solid fa-magnifying-glass text-muted"></i>
+            </span>
+            <input type="text" class="form-control" placeholder="Search for 'AC service'">
+          </div>
         </div>
       </div>
-    </div>
+    @endif
 
   </div>
 </header>
