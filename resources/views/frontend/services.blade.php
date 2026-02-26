@@ -18,7 +18,7 @@
       <!-- ================= LEFT: SERVICE SELECTOR ================= -->
       <div class="col-lg-3">
         <div class="services-left mb-5">
-        <div class="card border-light-custom shadow-sm rounded-4 p-4">
+        <div class="card border-light-custom shadow-sm rounded-4">
           <h5 class="fw-bold mb-4">What service do you need ?</h5>
           
           <div class="row g-3">
