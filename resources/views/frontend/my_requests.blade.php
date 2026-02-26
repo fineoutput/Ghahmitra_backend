@@ -15,18 +15,18 @@
         <div class="order-top">
             <div class="order-left">
 
-                <span class="badge-closed">CLOSED</span>
-
                 <h5 class="service-name">Electricians</h5>
-
+                
+                <div class="order-date">
+                    📅 Feb 23, 2026
+                </div>
+                
                 <div class="status-pill">
                     <span class="icon">🧰</span>
                     Not Yet Connected
                 </div>
+                <span class="badge-closed">CLOSED</span>
 
-                <div class="order-date">
-                    📅 Feb 23, 2026
-                </div>
 
             </div>
 

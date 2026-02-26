@@ -451,9 +451,9 @@
         <!-- Address -->
         <div class="cart-card">
             <div class="section-title">Address</div>
-            <button class="primary-btn" data-bs-toggle="modal" data-bs-target="#savedAddressModal">
-    Select an address
-</button>
+            <button class="primary-btn" data-bs-toggle="modal" data-bs-target="#selectSlotModal">
+                Select date & time
+            </button>
         </div>
 
         <!-- Payment -->
@@ -613,7 +613,7 @@
       </div>
 
       <div class="modal-footer border-0">
-        <button class="proceed-btn" id="proceedBtn" disabled data-bs-toggle="modal" data-bs-target="#selectSlotModal" data-bs-dismiss="modal">Proceed</button>
+        <button class="proceed-btn" id="proceedBtn" disabled data-bs-dismiss="modal">Done</button>
       </div>
 
     </div>
@@ -675,8 +675,8 @@
 
       <div class="modal-footer border-0">
         <button type="button" class="btn btn-secondary rounded-2" data-bs-dismiss="modal">Back</button>
-        <button type="button" class="btn btn-primary rounded-2" id="proceedCheckoutBtn" onclick="proceedToCheckout()" disabled>
-          Proceed to checkout
+        <button type="button" class="btn btn-primary rounded-2" id="proceedCheckoutBtn" onclick="openAddressAfterSlot()" disabled>
+          Select address
         </button>
       </div>
 
@@ -843,6 +843,8 @@ function enableProceed(){
     let btn = document.getElementById("proceedBtn");
     btn.disabled = false;
     btn.classList.add("enabled");
+    // Re-check completion after address selection
+    checkIfComplete();
 }
 
 function updateTotals() {
@@ -988,15 +990,25 @@ function checkIfComplete() {
     const proceedBtn = document.getElementById('proceedCheckoutBtn');
     const confirmBtn = document.getElementById('confirmBookBtn');
     const mobileContinueBtn = document.getElementById('mobileContinueBtn');
-    
+
+    // Enable "Select address" button as soon as slot is chosen
+    if (proceedBtn) {
+        if (selectedDate && selectedTime) {
+            proceedBtn.disabled = false;
+            proceedBtn.classList.add('enabled');
+        } else {
+            proceedBtn.disabled = true;
+            proceedBtn.classList.remove('enabled');
+        }
+    }
+
+    // Enable confirm/continue only when slot + address both selected
     if (selectedDate && selectedTime && selectedAddressData.tag) {
-        proceedBtn.disabled = false;
-        proceedBtn.classList.add('enabled');
-        
-        // Enable confirm button
-        confirmBtn.disabled = false;
-        confirmBtn.classList.add('enabled');
-        
+        if (confirmBtn) {
+            confirmBtn.disabled = false;
+            confirmBtn.classList.add('enabled');
+        }
+
         // Show selected info in modal
         document.getElementById('selectedInfo').classList.remove('d-none');
         document.getElementById('selectedAddressText').textContent = selectedAddressData.tag + ' - ' + selectedAddressData.fullAddress;
@@ -1012,20 +1024,19 @@ function checkIfComplete() {
         document.getElementById('displaySelectedAddress').textContent = selectedAddressData.tag + ' - ' + selectedAddressData.fullAddress;
         document.getElementById('displaySelectedDateTime').textContent = dayName + ' ' + dayNum + ' at ' + selectedTime_val;
 
-        // Enable mobile continue button when selections are ready
         if (mobileContinueBtn) {
             mobileContinueBtn.disabled = false;
         }
 
-        // On small screens, automatically move to step 2 once step 1 is complete
+        // On small screens, automatically move to step 2 once everything is ready
         if (window.innerWidth < 768) {
             goToMobileStep2();
         }
     } else {
-        proceedBtn.disabled = true;
-        proceedBtn.classList.remove('enabled');
-        confirmBtn.disabled = true;
-        confirmBtn.classList.remove('enabled');
+        if (confirmBtn) {
+            confirmBtn.disabled = true;
+            confirmBtn.classList.remove('enabled');
+        }
 
         if (mobileContinueBtn) {
             mobileContinueBtn.disabled = true;
@@ -1033,13 +1044,29 @@ function checkIfComplete() {
     }
 }
 
-// Proceed to checkout
-function proceedToCheckout() {
-    const selectedDate = document.querySelector('.date-btn.active').getAttribute('data-date');
-    const selectedTime = document.querySelector('.time-btn.active').getAttribute('data-time');
-    
-    alert('Proceeding to Checkout\nAddress: ' + selectedAddressData.fullAddress + '\nDate: ' + selectedDate + '\nTime: ' + selectedTime);
-    // You can submit form or redirect to payment page here
+// After selecting slot, open address selection modal
+function openAddressAfterSlot() {
+    // Ensure a slot is actually selected
+    const selectedDate = document.querySelector('.date-btn.active');
+    const selectedTime = document.querySelector('.time-btn.active');
+    if (!selectedDate || !selectedTime) {
+        alert('Please select a date and time first.');
+        return;
+    }
+
+    const slotModalEl = document.getElementById('selectSlotModal');
+    if (slotModalEl) {
+        const slotModal = bootstrap.Modal.getInstance(slotModalEl);
+        if (slotModal) {
+            slotModal.hide();
+        }
+    }
+
+    const addressModalEl = document.getElementById('savedAddressModal');
+    if (addressModalEl) {
+        const addressModal = new bootstrap.Modal(addressModalEl);
+        addressModal.show();
+    }
 }
 
 // Edit address
