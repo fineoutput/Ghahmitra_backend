@@ -710,21 +710,38 @@
   </div>
 </section>
 
+<!-- Splide CSS for modal slider -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css">
+
 <!-- ================= PACKAGE DETAILS MODAL ================= -->
 <div class="modal fade" id="packageModal" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content border-0 rounded-4 p-4">
       <!-- Close Button -->
       <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
-      <div class=""></div>
-      <div class="modal_image">
-        <img class="modal_g63" src="https://images.unsplash.com/photo-1598901986949-f593ff2a31a6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fFN3ZWRpc2glMjBNYXNzYWdlfGVufDB8fDB8fHww" alt="">
+      <div class="mb-4">
+        <!-- Splide slider inside modal -->
+        <div id="serviceModalSplide" class="splide">
+          <div class="splide__track">
+            <ul class="splide__list">
+              <li class="splide__slide">
+                <img class="w-100 rounded-3" src="https://images.unsplash.com/photo-1598901986949-f593ff2a31a6?w=800&auto=format&fit=crop&q=80&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fFN3ZWRpc2glMjBNYXNzYWdlfGVufDB8fDB8fHww" alt="Massage Image 1">
+              </li>
+              <li class="splide__slide">
+                <img class="w-100 rounded-3" src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=800&auto=format&fit=crop&q=80&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8U3dlZGlzaCUyME1hc3NhZ2V8ZW58MHx8MHx8fDA%3D" alt="Massage Image 2">
+              </li>
+              <li class="splide__slide">
+                <img class="w-100 rounded-3" src="https://images.unsplash.com/photo-1598901986903-99a9afbb60fc?w=800&auto=format&fit=crop&q=80&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8U3dlZGlzaCUyME1hc3NhZ2V8ZW58MHx8MHx8fDA%3D" alt="Massage Image 3">
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
       <!-- Service Header -->
       <div class="mb-4 pb-3 border-bottom">
         <div class="row align-items-center">
           <div class="col-auto">
-            <div style="font-size: 3rem;">💆</div>
+            {{-- <div style="font-size: 3rem;">💆</div> --}}
           </div>
           <div class="col">
             <h5 class="fw-bold mb-1" id="modalServiceName">Service Name</h5>
@@ -766,6 +783,96 @@
         <small class="text-muted d-block">• Non-transferable and non-refundable</small>
       </div>
 
+      <!-- Reviews Section -->
+      <div class="mb-4">
+        <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center mb-4 gap-3">
+          <div>
+            <div class="d-flex align-items-center mb-1">
+              <span class="me-2" style="font-size: 1.6rem;">★</span>
+              <span class="fw-bold" style="font-size: 1.6rem;">4.82</span>
+            </div>
+            <small class="text-muted">246K reviews</small>
+          </div>
+          <div class="flex-grow-1 w-100">
+            <!-- Rating distribution -->
+            <div class="d-flex align-items-center mb-1">
+              <small class="me-2">5</small>
+              <div class="progress flex-grow-1 me-2" style="height: 6px;">
+                <div class="progress-bar bg-success" style="width: 90%;"></div>
+              </div>
+              <small class="text-muted">228K</small>
+            </div>
+            <div class="d-flex align-items-center mb-1">
+              <small class="me-2">4</small>
+              <div class="progress flex-grow-1 me-2" style="height: 6px;">
+                <div class="progress-bar bg-success" style="width: 4%;"></div>
+              </div>
+              <small class="text-muted">10K</small>
+            </div>
+            <div class="d-flex align-items-center mb-1">
+              <small class="me-2">3</small>
+              <div class="progress flex-grow-1 me-2" style="height: 6px;">
+                <div class="progress-bar bg-success" style="width: 2%;"></div>
+              </div>
+              <small class="text-muted">4K</small>
+            </div>
+            <div class="d-flex align-items-center mb-1">
+              <small class="me-2">2</small>
+              <div class="progress flex-grow-1 me-2" style="height: 6px;">
+                <div class="progress-bar bg-warning" style="width: 1%;"></div>
+              </div>
+              <small class="text-muted">2K</small>
+            </div>
+            <div class="d-flex align-items-center">
+              <small class="me-2">1</small>
+              <div class="progress flex-grow-1 me-2" style="height: 6px;">
+                <div class="progress-bar bg-danger" style="width: 1%;"></div>
+              </div>
+              <small class="text-muted">3K</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h6 class="fw-bold mb-0">All reviews</h6>
+          <a href="#" class="text-primary small text-decoration-none">Filter</a>
+        </div>
+
+        <div class="d-flex flex-wrap gap-2 mb-3">
+          <button type="button" class="btn btn-sm btn-outline-dark rounded-pill">Most detailed</button>
+          <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill">In my area</button>
+          <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill">Frequent users</button>
+        </div>
+
+        <!-- Sample review 1 -->
+        <div class="border rounded-3 p-3 mb-3">
+          <div class="d-flex justify-content-between align-items-start mb-1">
+            <div>
+              <div class="fw-semibold">Shraddha Ramteke</div>
+              <small class="text-muted">Feb 23, 2026 • For 60 mins</small>
+            </div>
+            <span class="badge bg-success rounded-pill" style="min-width: 32px;">5</span>
+          </div>
+          <small class="text-muted d-block">
+            Santilata is excellent in her work. Her hands are amazing in massage. Thank you Santilata and thank you Urban Pro for best massage services in Kalwa.
+          </small>
+        </div>
+
+        <!-- Sample review 2 -->
+        <div class="border rounded-3 p-3">
+          <div class="d-flex justify-content-between align-items-start mb-1">
+            <div>
+              <div class="fw-semibold">Lavina</div>
+              <small class="text-muted">Feb 23, 2026 • For 60 mins, Winter Add‑on, Face Massage - 20 mins</small>
+            </div>
+            <span class="badge bg-success rounded-pill" style="min-width: 32px;">5</span>
+          </div>
+          <small class="text-muted d-block">
+            Mayuri did an excellent job, she understood my pain areas and accordingly ensured to provide the right massage and pressure. She was extremely professional and polite.
+          </small>
+        </div>
+      </div>
+
       <!-- Action Buttons -->
       <div class="d-flex gap-2">
         <button type="button" class="btn btn-outline-secondary rounded-3 flex-grow-1" data-bs-dismiss="modal">Cancel</button>
@@ -775,7 +882,22 @@
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+
 <script>
+  // Initialize Splide slider for modal images
+  document.addEventListener('DOMContentLoaded', function () {
+    const splideEl = document.getElementById('serviceModalSplide');
+    if (splideEl) {
+      new Splide('#serviceModalSplide', {
+        type: 'loop',
+        perPage: 1,
+        arrows: true,
+        pagination: true,
+      }).mount();
+    }
+  });
+
   // Initialize packageModal instance once
   let packageModalInstance = null;
   function getPackageModal() {
