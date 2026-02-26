@@ -565,7 +565,7 @@ function selectAddress(elem){
   var detail = elem.querySelector('.address-item-detail').innerText;
   
   // Truncate address to keep it small (max 50 chars)
-  var truncatedDetail = detail.length > 50 ? detail.substring(0, 50) + '...' : detail;
+  var truncatedDetail = detail.length > 20 ? detail.substring(0, 20) + '...' : detail;
   
   // Update mobile location display with proper selectors
   var locElement = document.querySelector('.mobile-location .loc-text');
