@@ -6,7 +6,9 @@
   .services-right { position: sticky; top: 20px; align-self: flex-start; }
   .qty-counter { gap: 8px; }
   .cart-item { border-bottom: 1px solid #eef0f3; padding-bottom: 12px; margin-bottom: 12px; }
-  .cart-item .item-title { font-size: 0.95rem; }
+  .cart-item .item-title {
+    font-size: 0.80rem;
+}
   .cart-summary { font-weight: 600; }
 </style>
 
@@ -640,8 +642,8 @@
         <!-- Cart Card (pre-populated with one item) -->
         <div class="card border-light-custom shadow-sm rounded-4 p-4 mb-4">
           <div class="mb-3">
-            <div style="font-size: 1.8rem; display:inline-block;">🛒</div>
             <span class="ms-2 fw-bold">Your Cart</span>
+            <div style="font-size: 1.8rem; display:inline-block;">🛒</div>
           </div>
 
           <div class="cart-item d-flex justify-content-between align-items-start">
