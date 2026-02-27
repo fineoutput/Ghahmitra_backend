@@ -218,14 +218,20 @@
                     <div class="price">Starts at ₹249</div>
                 </div>
 
-                <!-- Service Action Buttons -->
-                <div class="action-container">
-                    <button class="action-btn start" id="startServiceBtn" onclick="sendOtpForStartService()">
-                        <i class="fa-solid fa-play me-2"></i> Start Service
-                    </button>
-                    <button class="action-btn end" id="endServiceBtn" onclick="sendOtpForEndService()" disabled>
-                        <i class="fa-solid fa-stop me-2"></i> End Service
-                    </button>
+                <!-- Service status & OTP info (read-only) -->
+                <div class="mt-3 p-3 bg-light rounded-3">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <div class="small text-muted">Start OTP</div>
+                        <div class="fw-semibold" id="startOtpDisplay">123456</div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <div class="small text-muted">Current status</div>
+                        <span class="badge bg-success" id="serviceStatusBadge">Service ongoing</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="small text-muted">End OTP</div>
+                        <div class="fw-semibold" id="endOtpDisplay">—</div>
+                    </div>
                 </div>
             </div>
 
@@ -315,256 +321,57 @@
 </div>
 </div>
 
-<!-- Start Service OTP Modal -->
-<div class="modal fade" id="startServiceOtpModal" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content border-0 rounded-4 p-4">
-      <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal"></button>
-      
-      <div class="otp-modal-content">
-        <h4 class="fw-bold mb-2">Verify OTP to Start Service</h4>
-        <p class="text-muted small mb-4">Enter the 6-digit OTP sent to your phone</p>
-        
-        <div class="otp-inputs" id="startServiceOtpInputs">
-          <input type="text" class="otp-box" maxlength="1" inputmode="numeric">
-          <input type="text" class="otp-box" maxlength="1" inputmode="numeric">
-          <input type="text" class="otp-box" maxlength="1" inputmode="numeric">
-          <input type="text" class="otp-box" maxlength="1" inputmode="numeric">
-          <input type="text" class="otp-box" maxlength="1" inputmode="numeric">
-          <input type="text" class="otp-box" maxlength="1" inputmode="numeric">
-        </div>
+<!-- Inline Review Section (shown after end OTP is available) -->
+<div class="container mb-5">
+  <div class="card-box mt-3" id="reviewSection" style="display:none;">
+    <h5 class="section-title">Rate your service</h5>
+    <p class="text-muted small mb-3">How was your experience with the professional?</p>
 
-        <div class="otp-timer">
-          Resend OTP in <span id="startServiceTimer">30</span>s | <a href="#" class="otp-resend" onclick="resendOtpStartService(event)">Resend Now</a>
-        </div>
-
-        <button class="btn btn-primary w-100 mt-4 rounded-3" onclick="verifyOtpStartService()">Verify & Start Service</button>
-      </div>
+    <div class="rating-stars" id="ratingStars">
+      <span class="star" data-value="1">★</span>
+      <span class="star" data-value="2">★</span>
+      <span class="star" data-value="3">★</span>
+      <span class="star" data-value="4">★</span>
+      <span class="star" data-value="5">★</span>
     </div>
-  </div>
-</div>
 
-<!-- End Service OTP + Review Modal -->
-<div class="modal fade" id="endServiceOtpModal" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content border-0 rounded-4 p-4">
-      <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal"></button>
-      
-      <!-- Step 1: Verify OTP to end service -->
-      <div class="otp-modal-content" id="endOtpStep">
-        <h4 class="fw-bold mb-2">Verify OTP to End Service</h4>
-        <p class="text-muted small mb-4">Enter the 6-digit OTP sent to your phone</p>
-        
-        <div class="otp-inputs" id="endServiceOtpInputs">
-          <input type="text" class="otp-box" maxlength="1" inputmode="numeric">
-          <input type="text" class="otp-box" maxlength="1" inputmode="numeric">
-          <input type="text" class="otp-box" maxlength="1" inputmode="numeric">
-          <input type="text" class="otp-box" maxlength="1" inputmode="numeric">
-          <input type="text" class="otp-box" maxlength="1" inputmode="numeric">
-          <input type="text" class="otp-box" maxlength="1" inputmode="numeric">
-        </div>
+    <textarea class="form-control review-textarea mb-3" id="reviewComment" placeholder="Share your feedback (optional)"></textarea>
 
-        <div class="otp-timer">
-          Resend OTP in <span id="endServiceTimer">30</span>s | <a href="#" class="otp-resend" onclick="resendOtpEndService(event)">Resend Now</a>
-        </div>
-
-        <button class="btn btn-danger w-100 mt-4 rounded-3" onclick="verifyOtpEndService()">Verify & End Service</button>
-      </div>
-
-      <!-- Step 2: Review and rating -->
-      <div class="otp-modal-content d-none" id="reviewStep">
-        <h4 class="fw-bold mb-2">Rate your service</h4>
-        <p class="text-muted small mb-3">How was your experience with the professional?</p>
-
-        <div class="rating-stars" id="ratingStars">
-          <span class="star" data-value="1">★</span>
-          <span class="star" data-value="2">★</span>
-          <span class="star" data-value="3">★</span>
-          <span class="star" data-value="4">★</span>
-          <span class="star" data-value="5">★</span>
-        </div>
-
-        <textarea class="form-control review-textarea mb-3" id="reviewComment" placeholder="Share your feedback (optional)"></textarea>
-
-        <button class="btn btn-primary w-100 rounded-3" onclick="submitReview()">Submit review</button>
-      </div>
-    </div>
+    <button class="btn btn-primary w-100 rounded-3" onclick="submitReview()">Submit review</button>
   </div>
 </div>
 
 <script>
-  // OTP timers & service state
-  let startServiceTimerInterval;
-  let endServiceTimerInterval;
-  let serviceInProgress = false;
   let selectedRating = 0;
 
-  // Send OTP for Start Service
-  function sendOtpForStartService(){
-    if (serviceInProgress) {
-      alert('Service is already in progress.');
-      return;
+  // Functions you can call when OTPs are received from backend
+  function setStartOtp(code) {
+    const el = document.getElementById('startOtpDisplay');
+    if (el) el.textContent = code;
+    const status = document.getElementById('serviceStatusBadge');
+    if (status) {
+      status.textContent = 'Service ongoing';
+      status.classList.remove('bg-secondary', 'bg-danger');
+      status.classList.add('bg-success');
     }
-    console.log('Sending OTP for Start Service...');
-    alert('OTP sent to your registered phone number');
-    
-    // Show modal
-    var modal = new bootstrap.Modal(document.getElementById('startServiceOtpModal'));
-    modal.show();
-    
-    // Start timer
-    startOtpTimer('startServiceTimer', 30);
-    
-    // Setup OTP input navigation
-    setupOtpInputNavigation('startServiceOtpInputs');
   }
 
-  // Send OTP for End Service
-  function sendOtpForEndService(){
-    if (!serviceInProgress) {
-      alert('Please start the service first.');
-      return;
+  function setEndOtp(code) {
+    const el = document.getElementById('endOtpDisplay');
+    if (el) el.textContent = code;
+    const status = document.getElementById('serviceStatusBadge');
+    if (status) {
+      status.textContent = 'Service completed';
+      status.classList.remove('bg-success');
+      status.classList.add('bg-secondary');
     }
-    console.log('Sending OTP for End Service...');
-    alert('OTP sent to your registered phone number');
-    
-    // Show modal
-    var modal = new bootstrap.Modal(document.getElementById('endServiceOtpModal'));
-    modal.show();
-    
-    // Start timer
-    startOtpTimer('endServiceTimer', 30);
-    
-    // Setup OTP input navigation
-    setupOtpInputNavigation('endServiceOtpInputs');
-  }
-
-  // Start OTP countdown timer
-  function startOtpTimer(elementId, duration){
-    let remaining = duration;
-    clearInterval(startServiceTimerInterval);
-    clearInterval(endServiceTimerInterval);
-    
-    const timerElement = document.getElementById(elementId);
-    const updateTimer = () => {
-      timerElement.innerText = remaining;
-      if(remaining <= 0){
-        clearInterval(startServiceTimerInterval);
-        clearInterval(endServiceTimerInterval);
-        timerElement.innerText = '00';
-      }
-      remaining--;
-    };
-    
-    const intervalId = setInterval(updateTimer, 1000);
-    if(elementId.includes('startService')) startServiceTimerInterval = intervalId;
-    else endServiceTimerInterval = intervalId;
-  }
-
-  // Setup OTP input navigation
-  function setupOtpInputNavigation(containerId){
-    const container = document.getElementById(containerId);
-    const inputs = container.querySelectorAll('.otp-box');
-    
-    inputs.forEach((input, index) => {
-      input.addEventListener('input', function(e){
-        if(e.target.value.length === 1 && index < inputs.length - 1){
-          inputs[index + 1].focus();
-        }
-      });
-      
-      input.addEventListener('keydown', function(e){
-        if(e.key === 'Backspace' && e.target.value === '' && index > 0){
-          inputs[index - 1].focus();
-        }
-      });
-    });
-  }
-
-  // Verify OTP for Start Service
-  function verifyOtpStartService(){
-    const container = document.getElementById('startServiceOtpInputs');
-    const otp = Array.from(container.querySelectorAll('.otp-box')).map(input => input.value).join('');
-    
-    if(otp.length !== 6){
-      alert('Please enter all 6 digits of OTP');
-      return;
-    }
-    
-    console.log('Verifying OTP for Start Service: ' + otp);
-    alert('Service started successfully!');
-    serviceInProgress = true;
-
-    // Update buttons
-    const startBtn = document.getElementById('startServiceBtn');
-    const endBtn = document.getElementById('endServiceBtn');
-    if (startBtn) {
-      startBtn.disabled = true;
-      startBtn.textContent = 'Service in progress';
-    }
-    if (endBtn) {
-      endBtn.disabled = false;
-    }
-    
-    // Close modal
-    bootstrap.Modal.getInstance(document.getElementById('startServiceOtpModal')).hide();
-    
-    // You can make an API call here to start the service
-  }
-
-  // Verify OTP for End Service
-  function verifyOtpEndService(){
-    const container = document.getElementById('endServiceOtpInputs');
-    const otp = Array.from(container.querySelectorAll('.otp-box')).map(input => input.value).join('');
-    
-    if(otp.length !== 6){
-      alert('Please enter all 6 digits of OTP');
-      return;
-    }
-    
-    console.log('Verifying OTP for End Service: ' + otp);
-    alert('Service ended successfully!');
-    serviceInProgress = false;
-
-    // Reset buttons
-    const startBtn = document.getElementById('startServiceBtn');
-    const endBtn = document.getElementById('endServiceBtn');
-    if (startBtn) {
-      startBtn.disabled = true;
-    }
-    if (endBtn) {
-      endBtn.disabled = true;
-    }
-
-    // Move to review step inside the same modal
-    const otpStep = document.getElementById('endOtpStep');
-    const reviewStep = document.getElementById('reviewStep');
-    if (otpStep && reviewStep) {
-      otpStep.classList.add('d-none');
-      reviewStep.classList.remove('d-none');
+    const reviewSection = document.getElementById('reviewSection');
+    if (reviewSection) {
+      reviewSection.style.display = 'block';
       initRatingStars();
     }
-
-    // You can make an API call here to end the service before showing review
   }
 
-  // Resend OTP for Start Service
-  function resendOtpStartService(e){
-    e.preventDefault();
-    console.log('Resending OTP for Start Service...');
-    alert('OTP resent to your phone');
-    startOtpTimer('startServiceTimer', 30);
-  }
-
-  // Resend OTP for End Service
-  function resendOtpEndService(e){
-    e.preventDefault();
-    console.log('Resending OTP for End Service...');
-    alert('OTP resent to your phone');
-    startOtpTimer('endServiceTimer', 30);
-  }
-
-  // Init rating stars interaction
   function initRatingStars(){
     const starsContainer = document.getElementById('ratingStars');
     if (!starsContainer) return;
@@ -599,7 +406,6 @@
     });
   }
 
-  // Submit review after service end
   function submitReview(){
     if (!selectedRating){
       alert('Please select a star rating.');
@@ -611,11 +417,6 @@
 
     console.log('Review submitted', { rating: selectedRating, comment });
     alert('Thank you for your feedback!');
-
-    // Close modal and optionally reset steps
-    const modalEl = document.getElementById('endServiceOtpModal');
-    const modalInstance = bootstrap.Modal.getInstance(modalEl);
-    if (modalInstance) modalInstance.hide();
   }
 </script>
 @endsection
