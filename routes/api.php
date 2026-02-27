@@ -37,6 +37,9 @@ use App\Http\Controllers\Api\PartnerController;
     Route::get('/services', [HomeController::class, 'services']);
     Route::post('/services-se', [HomeController::class, 'ServicesSe']);
     Route::post('/services-th', [HomeController::class, 'ServicesTh']);
+
+    Route::get('/home', [HomeController::class, 'homeData']);
+
     Route::post('/services-details', [HomeController::class, 'ServicesDetails']);
     Route::post('/services-availability', [HomeController::class, 'servicesavAvailability']);
     Route::get('/about-us', [HomeController::class, 'aboutUs']);
