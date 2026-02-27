@@ -141,8 +141,10 @@
               
               <!-- Rating -->
               <div class="d-flex align-items-center gap-2 mb-2">
+                <a style="text-decoration: none; color: #666;" class="open-reviews-modal">
                 <span class="text-warning">★</span>
                 <small><strong>4.82</strong> (1666 reviews)</small>
+              </a>
               </div>
               
               <!-- Price & Duration -->
@@ -165,7 +167,7 @@
               </ul>
               
               <!-- Show More Link -->
-              <a href="#" class="text-primary text-decoration-none small fw-semibold">Show more ▼</a>
+              <a href="#" class="text-primary text-decoration-none small fw-semibold open-details-modal">Show more ▼</a>
             </div>
             
             <!-- Right: Image & Button Section -->
@@ -198,7 +200,67 @@
               
               <!-- Rating -->
               <div class="d-flex align-items-center gap-2 mb-2">
+                <a style="text-decoration: none; color: #666;" class="open-reviews-modal">
                 <span class="text-warning">★</span>
+                <small><strong>4.82</strong> (2441 reviews)</small>
+              </a>
+              </div>
+              
+              <!-- Price & Duration -->
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <div>
+                  <small class="text-muted d-block">Starts at</small>
+                  <span class="fw-bold text-dark">₹999</span>
+                </div>
+                <div class="text-muted">•</div>
+                <div>
+                  <small class="text-muted d-block">Duration</small>
+                  <span class="fw-bold text-dark">60 mins</span>
+                </div>
+              </div>
+              
+              <!-- Description Bullet Points -->
+              <ul class="small mb-3 ps-3" style="list-style: disc; color: #666;">
+                <li class="mb-2">Professional Swedish massage for complete body relaxation</li>
+                <li class="mb-2">Valid for 6 months with flexible booking options</li>
+              </ul>
+              
+              <!-- Show More Link -->
+              <a href="#" class="text-primary text-decoration-none small fw-semibold open-details-modal">Show more ▼</a>
+            </div>
+            
+            <!-- Right: Image & Button Section -->
+            <div class="order-1 order-md-2 text-center text-md-end" style="min-width: 150px;">
+              <!-- Image -->
+              <div class="mb-3">
+                <img src="https://images.unsplash.com/photo-1598901986949-f593ff2a31a6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fFN3ZWRpc2glMjBNYXNzYWdlfGVufDB8fDB8fHww" alt="Swedish Massage" class="img-fluid rounded-3" style="height: 120px; width: 100%; object-fit: cover;">
+              </div>
+              
+              <!-- Add Button -->
+              <button class="btn btn-primary btn-sm add-to-cart-btn w-100" data-bs-toggle="modal" data-bs-target="#packageModal" 
+                data-service-name="Pack of 4 (Swedish Massage)" 
+                data-service-price="999" 
+                data-service-original="1299"
+                data-service-rating="4.82"
+                data-service-reviews="2441">Add</button>
+            </div>
+
+          </div>
+        </div>
+        <div class="card service-card border-light-custom shadow-sm rounded-4 p-4 mb-4" style="cursor:pointer; transition:all 0.3s;">
+          <div class="d-flex flex-column flex-md-row justify-content-between align-items-start">
+            
+            <!-- Left: Details Section -->
+            <div class="flex-grow-1 pe-md-4 order-2 order-md-1 mt-3 mt-md-0">
+              <!-- Service Title -->
+              <h6 class="fw-bold mb-2">Pack of 4 (Swedish Massage)</h6>
+              
+              <!-- Rating -->
+              <div class="d-flex align-items-center gap-2 mb-2">
+                <a style="text-decoration: none; color: #666;" class="open-reviews-modal">
+                <span class="text-warning">★</span>
+                <small><strong>4.82</strong> (2441 reviews)</small>
+              </a>
                 <small><strong>4.82</strong> (2441 reviews)</small>
               </div>
               
@@ -222,7 +284,122 @@
               </ul>
               
               <!-- Show More Link -->
-              <a href="#" class="text-primary text-decoration-none small fw-semibold">Show more ▼</a>
+              <a href="#" class="text-primary text-decoration-none small fw-semibold open-details-modal">Show more ▼</a>
+            </div>
+            
+            <!-- Right: Image & Button Section -->
+            <div class="order-1 order-md-2 text-center text-md-end" style="min-width: 150px;">
+              <!-- Image -->
+              <div class="mb-3">
+                <img src="https://images.unsplash.com/photo-1598901986949-f593ff2a31a6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fFN3ZWRpc2glMjBNYXNzYWdlfGVufDB8fDB8fHww" alt="Swedish Massage" class="img-fluid rounded-3" style="height: 120px; width: 100%; object-fit: cover;">
+              </div>
+              
+              <!-- Add Button -->
+              <button class="btn btn-primary btn-sm add-to-cart-btn w-100" data-bs-toggle="modal" data-bs-target="#packageModal" 
+                data-service-name="Pack of 4 (Swedish Massage)" 
+                data-service-price="999" 
+                data-service-original="1299"
+                data-service-rating="4.82"
+                data-service-reviews="2441">Add</button>
+            </div>
+
+          </div>
+        </div>
+        <div class="card service-card border-light-custom shadow-sm rounded-4 p-4 mb-4" style="cursor:pointer; transition:all 0.3s;">
+          <div class="d-flex flex-column flex-md-row justify-content-between align-items-start">
+            
+            <!-- Left: Details Section -->
+            <div class="flex-grow-1 pe-md-4 order-2 order-md-1 mt-3 mt-md-0">
+              <!-- Service Title -->
+              <h6 class="fw-bold mb-2">Pack of 4 (Swedish Massage)</h6>
+              
+              <!-- Rating -->
+              <div class="d-flex align-items-center gap-2 mb-2">
+                <a style="text-decoration: none; color: #666;" class="open-reviews-modal">
+                <span class="text-warning">★</span>
+                <small><strong>4.82</strong> (2441 reviews)</small>
+              </a>
+              </div>
+              
+              <!-- Price & Duration -->
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <div>
+                  <small class="text-muted d-block">Starts at</small>
+                  <span class="fw-bold text-dark">₹999</span>
+                </div>
+                <div class="text-muted">•</div>
+                <div>
+                  <small class="text-muted d-block">Duration</small>
+                  <span class="fw-bold text-dark">60 mins</span>
+                </div>
+              </div>
+              
+              <!-- Description Bullet Points -->
+              <ul class="small mb-3 ps-3" style="list-style: disc; color: #666;">
+                <li class="mb-2">Professional Swedish massage for complete body relaxation</li>
+                <li class="mb-2">Valid for 6 months with flexible booking options</li>
+              </ul>
+              
+              <!-- Show More Link -->
+              <a href="#" class="text-primary text-decoration-none small fw-semibold open-details-modal">Show more ▼</a>
+            </div>
+            
+            <!-- Right: Image & Button Section -->
+            <div class="order-1 order-md-2 text-center text-md-end" style="min-width: 150px;">
+              <!-- Image -->
+              <div class="mb-3">
+                <img src="https://images.unsplash.com/photo-1598901986949-f593ff2a31a6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fFN3ZWRpc2glMjBNYXNzYWdlfGVufDB8fDB8fHww" alt="Swedish Massage" class="img-fluid rounded-3" style="height: 120px; width: 100%; object-fit: cover;">
+              </div>
+              
+              <!-- Add Button -->
+              <button class="btn btn-primary btn-sm add-to-cart-btn w-100" data-bs-toggle="modal" data-bs-target="#packageModal" 
+                data-service-name="Pack of 4 (Swedish Massage)" 
+                data-service-price="999" 
+                data-service-original="1299"
+                data-service-rating="4.82"
+                data-service-reviews="2441">Add</button>
+            </div>
+
+          </div>
+        </div>
+        <div class="card service-card border-light-custom shadow-sm rounded-4 p-4 mb-4" style="cursor:pointer; transition:all 0.3s;">
+          <div class="d-flex flex-column flex-md-row justify-content-between align-items-start">
+            
+            <!-- Left: Details Section -->
+            <div class="flex-grow-1 pe-md-4 order-2 order-md-1 mt-3 mt-md-0">
+              <!-- Service Title -->
+              <h6 class="fw-bold mb-2">Pack of 4 (Swedish Massage)</h6>
+              
+              <!-- Rating -->
+              <div class="d-flex align-items-center gap-2 mb-2">
+                <a style="text-decoration: none; color: #666;" class="open-reviews-modal">
+                <span class="text-warning">★</span>
+                <small><strong>4.82</strong> (2441 reviews)</small>
+              </a>
+                <small><strong>4.82</strong> (2441 reviews)</small>
+              </div>
+              
+              <!-- Price & Duration -->
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <div>
+                  <small class="text-muted d-block">Starts at</small>
+                  <span class="fw-bold text-dark">₹999</span>
+                </div>
+                <div class="text-muted">•</div>
+                <div>
+                  <small class="text-muted d-block">Duration</small>
+                  <span class="fw-bold text-dark">60 mins</span>
+                </div>
+              </div>
+              
+              <!-- Description Bullet Points -->
+              <ul class="small mb-3 ps-3" style="list-style: disc; color: #666;">
+                <li class="mb-2">Professional Swedish massage for complete body relaxation</li>
+                <li class="mb-2">Valid for 6 months with flexible booking options</li>
+              </ul>
+              
+              <!-- Show More Link -->
+              <a href="#" class="text-primary text-decoration-none small fw-semibold open-details-modal">Show more ▼</a>
             </div>
             
             <!-- Right: Image & Button Section -->
@@ -277,7 +454,7 @@
               </ul>
               
               <!-- Show More Link -->
-              <a href="#" class="text-primary text-decoration-none small fw-semibold">Show more ▼</a>
+              <a href="#" class="text-primary text-decoration-none small fw-semibold open-details-modal">Show more ▼</a>
             </div>
             
             <!-- Right: Image & Button Section -->
@@ -332,7 +509,7 @@
               </ul>
               
               <!-- Show More Link -->
-              <a href="#" class="text-primary text-decoration-none small fw-semibold">Show more ▼</a>
+              <a href="#" class="text-primary text-decoration-none small fw-semibold open-details-modal">Show more ▼</a>
             </div>
             
             <!-- Right: Image & Button Section -->
@@ -387,172 +564,7 @@
               </ul>
               
               <!-- Show More Link -->
-              <a href="#" class="text-primary text-decoration-none small fw-semibold">Show more ▼</a>
-            </div>
-            
-            <!-- Right: Image & Button Section -->
-            <div class="order-1 order-md-2 text-center text-md-end" style="min-width: 150px;">
-              <!-- Image -->
-              <div class="mb-3">
-                <img src="https://images.unsplash.com/photo-1598901986949-f593ff2a31a6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fFN3ZWRpc2glMjBNYXNzYWdlfGVufDB8fDB8fHww" alt="Swedish Massage" class="img-fluid rounded-3" style="height: 120px; width: 100%; object-fit: cover;">
-              </div>
-              
-              <!-- Add Button -->
-              <button class="btn btn-primary btn-sm add-to-cart-btn w-100" data-bs-toggle="modal" data-bs-target="#packageModal" 
-                data-service-name="Pack of 4 (Swedish Massage)" 
-                data-service-price="999" 
-                data-service-original="1299"
-                data-service-rating="4.82"
-                data-service-reviews="2441">Add</button>
-            </div>
-
-          </div>
-        </div>
-        <div class="card service-card border-light-custom shadow-sm rounded-4 p-4 mb-4" style="cursor:pointer; transition:all 0.3s;">
-          <div class="d-flex flex-column flex-md-row justify-content-between align-items-start">
-            
-            <!-- Left: Details Section -->
-            <div class="flex-grow-1 pe-md-4 order-2 order-md-1 mt-3 mt-md-0">
-              <!-- Service Title -->
-              <h6 class="fw-bold mb-2">Pack of 4 (Swedish Massage)</h6>
-              
-              <!-- Rating -->
-              <div class="d-flex align-items-center gap-2 mb-2">
-                <span class="text-warning">★</span>
-                <small><strong>4.82</strong> (2441 reviews)</small>
-              </div>
-              
-              <!-- Price & Duration -->
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <div>
-                  <small class="text-muted d-block">Starts at</small>
-                  <span class="fw-bold text-dark">₹999</span>
-                </div>
-                <div class="text-muted">•</div>
-                <div>
-                  <small class="text-muted d-block">Duration</small>
-                  <span class="fw-bold text-dark">60 mins</span>
-                </div>
-              </div>
-              
-              <!-- Description Bullet Points -->
-              <ul class="small mb-3 ps-3" style="list-style: disc; color: #666;">
-                <li class="mb-2">Professional Swedish massage for complete body relaxation</li>
-                <li class="mb-2">Valid for 6 months with flexible booking options</li>
-              </ul>
-              
-              <!-- Show More Link -->
-              <a href="#" class="text-primary text-decoration-none small fw-semibold">Show more ▼</a>
-            </div>
-            
-            <!-- Right: Image & Button Section -->
-            <div class="order-1 order-md-2 text-center text-md-end" style="min-width: 150px;">
-              <!-- Image -->
-              <div class="mb-3">
-                <img src="https://images.unsplash.com/photo-1598901986949-f593ff2a31a6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fFN3ZWRpc2glMjBNYXNzYWdlfGVufDB8fDB8fHww" alt="Swedish Massage" class="img-fluid rounded-3" style="height: 120px; width: 100%; object-fit: cover;">
-              </div>
-              
-              <!-- Add Button -->
-              <button class="btn btn-primary btn-sm add-to-cart-btn w-100" data-bs-toggle="modal" data-bs-target="#packageModal" 
-                data-service-name="Pack of 4 (Swedish Massage)" 
-                data-service-price="999" 
-                data-service-original="1299"
-                data-service-rating="4.82"
-                data-service-reviews="2441">Add</button>
-            </div>
-
-          </div>
-        </div>
-        <div class="card service-card border-light-custom shadow-sm rounded-4 p-4 mb-4" style="cursor:pointer; transition:all 0.3s;">
-          <div class="d-flex flex-column flex-md-row justify-content-between align-items-start">
-            
-            <!-- Left: Details Section -->
-            <div class="flex-grow-1 pe-md-4 order-2 order-md-1 mt-3 mt-md-0">
-              <!-- Service Title -->
-              <h6 class="fw-bold mb-2">Pack of 4 (Swedish Massage)</h6>
-              
-              <!-- Rating -->
-              <div class="d-flex align-items-center gap-2 mb-2">
-                <span class="text-warning">★</span>
-                <small><strong>4.82</strong> (2441 reviews)</small>
-              </div>
-              
-              <!-- Price & Duration -->
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <div>
-                  <small class="text-muted d-block">Starts at</small>
-                  <span class="fw-bold text-dark">₹999</span>
-                </div>
-                <div class="text-muted">•</div>
-                <div>
-                  <small class="text-muted d-block">Duration</small>
-                  <span class="fw-bold text-dark">60 mins</span>
-                </div>
-              </div>
-              
-              <!-- Description Bullet Points -->
-              <ul class="small mb-3 ps-3" style="list-style: disc; color: #666;">
-                <li class="mb-2">Professional Swedish massage for complete body relaxation</li>
-                <li class="mb-2">Valid for 6 months with flexible booking options</li>
-              </ul>
-              
-              <!-- Show More Link -->
-              <a href="#" class="text-primary text-decoration-none small fw-semibold">Show more ▼</a>
-            </div>
-            
-            <!-- Right: Image & Button Section -->
-            <div class="order-1 order-md-2 text-center text-md-end" style="min-width: 150px;">
-              <!-- Image -->
-              <div class="mb-3">
-                <img src="https://images.unsplash.com/photo-1598901986949-f593ff2a31a6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fFN3ZWRpc2glMjBNYXNzYWdlfGVufDB8fDB8fHww" alt="Swedish Massage" class="img-fluid rounded-3" style="height: 120px; width: 100%; object-fit: cover;">
-              </div>
-              
-              <!-- Add Button -->
-              <button class="btn btn-primary btn-sm add-to-cart-btn w-100" data-bs-toggle="modal" data-bs-target="#packageModal" 
-                data-service-name="Pack of 4 (Swedish Massage)" 
-                data-service-price="999" 
-                data-service-original="1299"
-                data-service-rating="4.82"
-                data-service-reviews="2441">Add</button>
-            </div>
-
-          </div>
-        </div>
-        <div class="card service-card border-light-custom shadow-sm rounded-4 p-4 mb-4" style="cursor:pointer; transition:all 0.3s;">
-          <div class="d-flex flex-column flex-md-row justify-content-between align-items-start">
-            
-            <!-- Left: Details Section -->
-            <div class="flex-grow-1 pe-md-4 order-2 order-md-1 mt-3 mt-md-0">
-              <!-- Service Title -->
-              <h6 class="fw-bold mb-2">Pack of 4 (Swedish Massage)</h6>
-              
-              <!-- Rating -->
-              <div class="d-flex align-items-center gap-2 mb-2">
-                <span class="text-warning">★</span>
-                <small><strong>4.82</strong> (2441 reviews)</small>
-              </div>
-              
-              <!-- Price & Duration -->
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <div>
-                  <small class="text-muted d-block">Starts at</small>
-                  <span class="fw-bold text-dark">₹999</span>
-                </div>
-                <div class="text-muted">•</div>
-                <div>
-                  <small class="text-muted d-block">Duration</small>
-                  <span class="fw-bold text-dark">60 mins</span>
-                </div>
-              </div>
-              
-              <!-- Description Bullet Points -->
-              <ul class="small mb-3 ps-3" style="list-style: disc; color: #666;">
-                <li class="mb-2">Professional Swedish massage for complete body relaxation</li>
-                <li class="mb-2">Valid for 6 months with flexible booking options</li>
-              </ul>
-              
-              <!-- Show More Link -->
-              <a href="#" class="text-primary text-decoration-none small fw-semibold">Show more ▼</a>
+              <a href="#" class="text-primary text-decoration-none small fw-semibold open-details-modal">Show more ▼</a>
             </div>
             
             <!-- Right: Image & Button Section -->
@@ -747,10 +759,14 @@
           </div>
           <div class="col">
             <h5 class="fw-bold mb-1" id="modalServiceName">Service Name</h5>
-            <div class="d-flex gap-3">
-              <div>
-                <span class="badge bg-primary" id="modalServiceRating">4.82</span>
-                <small class="text-muted ms-2">(<span id="modalServiceReviews">1666</span> reviews)</small>
+            <div class="d-flex gap-3 align-items-center">
+              <div class="d-flex align-items-center">
+                <span class="badge bg-primary me-2" id="modalServiceRating">4.82</span>
+                <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1 open-reviews-modal">
+                  <span class="me-1">★</span>
+                  <span id="modalServiceRatingText">4.82</span>
+                  <span class="text-muted ms-1">(<span id="modalServiceReviews">1666</span> reviews)</span>
+                </button>
               </div>
               <small class="text-success">✓ Verified</small>
             </div>
@@ -785,96 +801,6 @@
         <small class="text-muted d-block">• Non-transferable and non-refundable</small>
       </div>
 
-      <!-- Reviews Section -->
-      <div class="mb-4">
-        <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center mb-4 gap-3">
-          <div>
-            <div class="d-flex align-items-center mb-1">
-              <span class="me-2" style="font-size: 1.6rem;">★</span>
-              <span class="fw-bold" style="font-size: 1.6rem;">4.82</span>
-            </div>
-            <small class="text-muted">246K reviews</small>
-          </div>
-          <div class="flex-grow-1 w-100">
-            <!-- Rating distribution -->
-            <div class="d-flex align-items-center mb-1">
-              <small class="me-2">5</small>
-              <div class="progress flex-grow-1 me-2" style="height: 6px;">
-                <div class="progress-bar bg-success" style="width: 90%;"></div>
-              </div>
-              <small class="text-muted">228K</small>
-            </div>
-            <div class="d-flex align-items-center mb-1">
-              <small class="me-2">4</small>
-              <div class="progress flex-grow-1 me-2" style="height: 6px;">
-                <div class="progress-bar bg-success" style="width: 4%;"></div>
-              </div>
-              <small class="text-muted">10K</small>
-            </div>
-            <div class="d-flex align-items-center mb-1">
-              <small class="me-2">3</small>
-              <div class="progress flex-grow-1 me-2" style="height: 6px;">
-                <div class="progress-bar bg-success" style="width: 2%;"></div>
-              </div>
-              <small class="text-muted">4K</small>
-            </div>
-            <div class="d-flex align-items-center mb-1">
-              <small class="me-2">2</small>
-              <div class="progress flex-grow-1 me-2" style="height: 6px;">
-                <div class="progress-bar bg-warning" style="width: 1%;"></div>
-              </div>
-              <small class="text-muted">2K</small>
-            </div>
-            <div class="d-flex align-items-center">
-              <small class="me-2">1</small>
-              <div class="progress flex-grow-1 me-2" style="height: 6px;">
-                <div class="progress-bar bg-danger" style="width: 1%;"></div>
-              </div>
-              <small class="text-muted">3K</small>
-            </div>
-          </div>
-        </div>
-
-        <div class="d-flex justify-content-between align-items-center mb-3">
-          <h6 class="fw-bold mb-0">All reviews</h6>
-          <a href="#" class="text-primary small text-decoration-none">Filter</a>
-        </div>
-
-        <div class="d-flex flex-wrap gap-2 mb-3">
-          <button type="button" class="btn btn-sm btn-outline-dark rounded-pill">Most detailed</button>
-          <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill">In my area</button>
-          <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill">Frequent users</button>
-        </div>
-
-        <!-- Sample review 1 -->
-        <div class="border rounded-3 p-3 mb-3">
-          <div class="d-flex justify-content-between align-items-start mb-1">
-            <div>
-              <div class="fw-semibold">Shraddha Ramteke</div>
-              <small class="text-muted">Feb 23, 2026 • For 60 mins</small>
-            </div>
-            <span class="badge bg-success rounded-pill" style="min-width: 32px;">5</span>
-          </div>
-          <small class="text-muted d-block">
-            Santilata is excellent in her work. Her hands are amazing in massage. Thank you Santilata and thank you Urban Pro for best massage services in Kalwa.
-          </small>
-        </div>
-
-        <!-- Sample review 2 -->
-        <div class="border rounded-3 p-3">
-          <div class="d-flex justify-content-between align-items-start mb-1">
-            <div>
-              <div class="fw-semibold">Lavina</div>
-              <small class="text-muted">Feb 23, 2026 • For 60 mins, Winter Add‑on, Face Massage - 20 mins</small>
-            </div>
-            <span class="badge bg-success rounded-pill" style="min-width: 32px;">5</span>
-          </div>
-          <small class="text-muted d-block">
-            Mayuri did an excellent job, she understood my pain areas and accordingly ensured to provide the right massage and pressure. She was extremely professional and polite.
-          </small>
-        </div>
-      </div>
-
       <!-- Action Buttons -->
       <div class="d-flex gap-2">
         <button type="button" class="btn btn-outline-secondary rounded-3 flex-grow-1" data-bs-dismiss="modal">Cancel</button>
@@ -884,10 +810,182 @@
   </div>
 </div>
 
+<!-- ================= REVIEWS MODAL ================= -->
+<div class="modal fade" id="reviewsModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content border-0 rounded-4 p-4">
+      <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+
+      <div class="mb-3">
+        <div class="d-flex align-items-center mb-1">
+          <span style="font-size: 1.6rem;" class="me-2">★</span>
+          <span class="fw-bold" style="font-size: 1.6rem;" id="reviewsModalRating">4.82</span>
+        </div>
+        <small class="text-muted"><span id="reviewsModalCount">246K</span> reviews</small>
+      </div>
+
+      <!-- Filters tabs -->
+      <div class="mb-2 fw-semibold">Filters</div>
+      <ul class="nav nav-tabs small mb-3" id="reviewsFilterTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="rating-tab" data-bs-toggle="tab" data-bs-target="#ratingTabPane" type="button" role="tab">
+            Rating
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="sort-tab" data-bs-toggle="tab" data-bs-target="#sortTabPane" type="button" role="tab">
+            Sort By
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="services-tab" data-bs-toggle="tab" data-bs-target="#servicesTabPane" type="button" role="tab">
+            Services
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="others-tab" data-bs-toggle="tab" data-bs-target="#othersTabPane" type="button" role="tab">
+            Others
+          </button>
+        </li>
+      </ul>
+
+      <div class="tab-content mb-3" id="reviewsFilterTabsContent">
+        <!-- Rating filter -->
+        <div class="tab-pane fade show active" id="ratingTabPane" role="tabpanel" aria-labelledby="rating-tab">
+          <div class="form-check mb-2">
+            <input class="form-check-input" type="checkbox" value="" id="rating5">
+            <label class="form-check-label" for="rating5">5 Star</label>
+          </div>
+          <div class="form-check mb-2">
+            <input class="form-check-input" type="checkbox" value="" id="rating4">
+            <label class="form-check-label" for="rating4">4 Star</label>
+          </div>
+          <div class="form-check mb-2">
+            <input class="form-check-input" type="checkbox" value="" id="rating3">
+            <label class="form-check-label" for="rating3">3 Star</label>
+          </div>
+          <div class="form-check mb-2">
+            <input class="form-check-input" type="checkbox" value="" id="rating2">
+            <label class="form-check-label" for="rating2">2 Star</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="rating1">
+            <label class="form-check-label" for="rating1">1 Star</label>
+          </div>
+        </div>
+
+        <!-- Sort By filter -->
+        <div class="tab-pane fade" id="sortTabPane" role="tabpanel" aria-labelledby="sort-tab">
+          <div class="form-check mb-2">
+            <input class="form-check-input" type="radio" name="sortByOptions" id="sortRecent" checked>
+            <label class="form-check-label" for="sortRecent">Recent</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="sortByOptions" id="sortDetailed">
+            <label class="form-check-label" for="sortDetailed">Most detailed</label>
+          </div>
+        </div>
+
+        <!-- Services placeholder -->
+        <div class="tab-pane fade" id="servicesTabPane" role="tabpanel" aria-labelledby="services-tab">
+          <small class="text-muted">Filter reviews by specific services (coming soon).</small>
+        </div>
+
+        <!-- Others placeholder -->
+        <div class="tab-pane fade" id="othersTabPane" role="tabpanel" aria-labelledby="others-tab">
+          <small class="text-muted">Additional filters (coming soon).</small>
+        </div>
+      </div>
+
+      <!-- Rating distribution + sample reviews -->
+      <div class="mb-3">
+        <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center mb-3 gap-3">
+          <div>
+            <div class="d-flex align-items-center mb-1">
+              <span class="me-2" style="font-size: 1.4rem;">★</span>
+              <span class="fw-bold" style="font-size: 1.4rem;">4.82</span>
+            </div>
+            <small class="text-muted">170K reviews</small>
+          </div>
+          <div class="flex-grow-1 w-100">
+            <div class="d-flex align-items-center mb-1">
+              <small class="me-2">5</small>
+              <div class="progress flex-grow-1 me-2" style="height: 6px;">
+                <div class="progress-bar bg-success" style="width: 90%;"></div>
+              </div>
+              <small class="text-muted">155K</small>
+            </div>
+            <div class="d-flex align-items-center mb-1">
+              <small class="me-2">4</small>
+              <div class="progress flex-grow-1 me-2" style="height: 6px;">
+                <div class="progress-bar bg-success" style="width: 4%;"></div>
+              </div>
+              <small class="text-muted">6K</small>
+            </div>
+            <div class="d-flex align-items-center mb-1">
+              <small class="me-2">3</small>
+              <div class="progress flex-grow-1 me-2" style="height: 6px;">
+                <div class="progress-bar bg-success" style="width: 2%;"></div>
+              </div>
+              <small class="text-muted">3K</small>
+            </div>
+            <div class="d-flex align-items-center mb-1">
+              <small class="me-2">2</small>
+              <div class="progress flex-grow-1 me-2" style="height: 6px;">
+                <div class="progress-bar bg-warning" style="width: 1%;"></div>
+              </div>
+              <small class="text-muted">1K</small>
+            </div>
+            <div class="d-flex align-items-center">
+              <small class="me-2">1</small>
+              <div class="progress flex-grow-1 me-2" style="height: 6px;">
+                <div class="progress-bar bg-danger" style="width: 1%;"></div>
+              </div>
+              <small class="text-muted">2K</small>
+            </div>
+          </div>
+        </div>
+
+        <h6 class="fw-bold mb-3">All reviews</h6>
+
+        <div class="border rounded-3 p-3 mb-3">
+          <div class="d-flex justify-content-between align-items-start mb-1">
+            <div>
+              <div class="fw-semibold">Debtanu Maji</div>
+              <small class="text-muted">Feb 23, 2026 • For 60 mins, Winter Add‑on</small>
+            </div>
+            <span class="badge bg-success rounded-pill" style="min-width: 32px;">5</span>
+          </div>
+          <small class="text-muted d-block">
+            Very good massage. I had pain in my shoulder and back which is relieved now. She listened to where I had pain and then massaged accordingly as well. Good work from her.
+          </small>
+        </div>
+
+        <div class="border rounded-3 p-3 mb-1">
+          <div class="d-flex justify-content-between align-items-start mb-1">
+            <div>
+              <div class="fw-semibold">Atraye Panchanan</div>
+              <small class="text-muted">Feb 23, 2026 • For 90 mins</small>
+            </div>
+            <span class="badge bg-success rounded-pill" style="min-width: 32px;">5</span>
+          </div>
+          <small class="text-muted d-block">
+            Riya has given a wonderful service. I am feeling very relaxed and my pain knots are almost opened up. She is very well trained and knows the pressure points very well.
+          </small>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-between align-items-center pt-2 border-top mt-3">
+        <button type="button" class="btn btn-link text-decoration-none px-0">Reset</button>
+        <button type="button" class="btn btn-primary rounded-3 px-4">Apply</button>
+      </div>
+    </div>
+  </div>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
 
 <script>
-  // Initialize Splide slider for modal images
+  // Initialize Splide slider & modal behaviors
   document.addEventListener('DOMContentLoaded', function () {
     const splideEl = document.getElementById('serviceModalSplide');
     if (splideEl) {
@@ -898,6 +996,38 @@
         pagination: true,
       }).mount();
     }
+
+    // Open reviews modal when user clicks on review-only button
+    document.addEventListener('click', function (e) {
+      const trigger = e.target.closest('.open-reviews-modal');
+      if (trigger) {
+        const pkgEl = document.getElementById('packageModal');
+        const reviewsEl = document.getElementById('reviewsModal');
+        if (pkgEl) {
+          const pkgInstance = bootstrap.Modal.getInstance(pkgEl);
+          if (pkgInstance) {
+            pkgInstance.hide();
+          }
+        }
+        if (reviewsEl) {
+          const reviewsInstance = new bootstrap.Modal(reviewsEl);
+          reviewsInstance.show();
+        }
+      }
+    });
+
+    // Open detail modal when user clicks "Show more"
+    document.addEventListener('click', function (e) {
+      const link = e.target.closest('.open-details-modal');
+      if (link) {
+        e.preventDefault();
+        const card = link.closest('.service-card');
+        if (!card) return;
+        const addBtn = card.querySelector('.add-to-cart-btn');
+        if (!addBtn) return;
+        openPackageModalFromButton(addBtn);
+      }
+    });
   });
 
   // Initialize packageModal instance once
@@ -907,6 +1037,46 @@
       packageModalInstance = new bootstrap.Modal(document.getElementById('packageModal'));
     }
     return packageModalInstance;
+  }
+
+  function populatePackageModalFromButton(btn) {
+    const serviceName = btn.getAttribute('data-service-name');
+    const servicePrice = btn.getAttribute('data-service-price');
+    const serviceRating = btn.getAttribute('data-service-rating');
+    const serviceReviews = btn.getAttribute('data-service-reviews');
+
+    // Update modal content
+    document.getElementById('modalServiceName').textContent = serviceName;
+    document.getElementById('modalServiceRating').textContent = serviceRating;
+    const ratingTextEl = document.getElementById('modalServiceRatingText');
+    if (ratingTextEl) ratingTextEl.textContent = serviceRating;
+    document.getElementById('modalServiceReviews').textContent = serviceReviews;
+
+    // Generate package options
+    const packages = packageData[serviceName] || packageData['Pack of 4'];
+    const container = document.getElementById('packageOptionsContainer');
+    container.innerHTML = '';
+
+    packages.forEach(pkg => {
+      const col = document.createElement('div');
+      col.className = 'col-6 col-md-4';
+      col.innerHTML = `
+        <div class="card border-2 rounded-3 p-3 text-left package-option" style="cursor: pointer; transition: all 0.3s;">
+          <h6 class="fw-semibold mb-2">${pkg.duration}</h6>
+          <div class="mb-2">
+            <span class="fs-5 fw-bold text-primary">₹${pkg.price}</span>
+            <small class="text-muted text-decoration-line-through ms-2">₹${pkg.original}</small>
+          </div>
+          <button class="btn btn-sm btn-primary package-select-btn rounded-2" style='width:40%'>Add</button>
+        </div>
+      `;
+      container.appendChild(col);
+    });
+  }
+
+  function openPackageModalFromButton(btn) {
+    populatePackageModalFromButton(btn);
+    getPackageModal().show();
   }
 
   // Package data for different services
@@ -925,40 +1095,11 @@
     ]
   };
 
-  // Handle Add button click
+  // Handle Add button click: only populate, Bootstrap handles opening via data attributes
   document.addEventListener('click', function(e) {
     if (e.target.closest('.add-to-cart-btn')) {
       const btn = e.target.closest('.add-to-cart-btn');
-      const serviceName = btn.getAttribute('data-service-name');
-      const servicePrice = btn.getAttribute('data-service-price');
-      const serviceRating = btn.getAttribute('data-service-rating');
-      const serviceReviews = btn.getAttribute('data-service-reviews');
-
-      // Update modal content
-      document.getElementById('modalServiceName').textContent = serviceName;
-      document.getElementById('modalServiceRating').textContent = serviceRating;
-      document.getElementById('modalServiceReviews').textContent = serviceReviews;
-
-      // Generate package options
-      const packages = packageData[serviceName] || packageData['Pack of 4'];
-      const container = document.getElementById('packageOptionsContainer');
-      container.innerHTML = '';
-
-      packages.forEach(pkg => {
-        const col = document.createElement('div');
-        col.className = 'col-6 col-md-4';
-        col.innerHTML = `
-          <div class="card border-2 rounded-3 p-3 text-left package-option" style="cursor: pointer; transition: all 0.3s;">
-            <h6 class="fw-semibold mb-2">${pkg.duration}</h6>
-            <div class="mb-2">
-              <span class="fs-5 fw-bold text-primary">₹${pkg.price}</span>
-              <small class="text-muted text-decoration-line-through ms-2">₹${pkg.original}</small>
-            </div>
-            <button class="btn btn-sm btn-primary package-select-btn rounded-2" style='width:40%'>Add</button>
-          </div>
-        `;
-        container.appendChild(col);
-      });
+      populatePackageModalFromButton(btn);
     }
   });
 
@@ -989,49 +1130,7 @@
     document.body.classList.remove('modal-open');
   });
   
-  // Handle clicks on entire service card
-  document.addEventListener('click', function(e) {
-    const serviceCard = e.target.closest('.service-card');
-    if (serviceCard && !e.target.closest('.qty-counter')) {
-      const addBtn = serviceCard.querySelector('.add-to-cart-btn');
-      if (addBtn) {
-        // Get data attributes from the Add button
-        const serviceName = addBtn.getAttribute('data-service-name');
-        const servicePrice = addBtn.getAttribute('data-service-price');
-        const serviceRating = addBtn.getAttribute('data-service-rating');
-        const serviceReviews = addBtn.getAttribute('data-service-reviews');
-        
-        // Update modal content
-        document.getElementById('modalServiceName').textContent = serviceName;
-        document.getElementById('modalServiceRating').textContent = serviceRating;
-        document.getElementById('modalServiceReviews').textContent = serviceReviews;
-        
-        // Generate package options
-        const packages = packageData[serviceName] || packageData['Pack of 4'];
-        const container = document.getElementById('packageOptionsContainer');
-        container.innerHTML = '';
-        
-        packages.forEach(pkg => {
-          const col = document.createElement('div');
-          col.className = 'col-6 col-md-4';
-          col.innerHTML = `
-            <div class="card border-2 rounded-3 p-3 text-left package-option" style="cursor: pointer; transition: all 0.3s;">
-              <h6 class="fw-semibold mb-2">${pkg.duration}</h6>
-              <div class="mb-2">
-                <span class="fs-5 fw-bold text-primary">₹${pkg.price}</span>
-                <small class="text-muted text-decoration-line-through ms-2">₹${pkg.original}</small>
-              </div>
-              <button class="btn btn-sm btn-primary package-select-btn rounded-2" style='width:40%'>Add</button>
-            </div>
-          `;
-          container.appendChild(col);
-        });
-        
-        // Open the modal using the singleton instance
-        getPackageModal().show();
-      }
-    }
-  });
+  // Note: clicking the service card itself no longer opens the details modal.
 
   // Add hover effect to service cards
   document.addEventListener('mouseover', function(e) {
