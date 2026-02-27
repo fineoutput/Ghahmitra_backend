@@ -314,6 +314,42 @@
                 </div>
             </div>
 
+            <!-- Serviceman Details -->
+<div class="card-box">
+    <h6 class="fw-semibold mb-3">Assigned Professional</h6>
+
+    <div class="d-flex align-items-center gap-3 mb-3">
+        <img src="https://randomuser.me/api/portraits/men/32.jpg"
+             class="rounded-circle"
+             width="70"
+             height="70"
+             style="object-fit:cover;">
+        <div>
+            <div class="fw-semibold">Ramesh Sharma</div>
+            <div class="small text-muted">Senior Electrician</div>
+            <div class="small text-warning">⭐ 4.8 (128 reviews)</div>
+        </div>
+    </div>
+
+    <div class="detail-row">
+        📞 <a href="tel:9461937396" class="text-decoration-none">9461937396</a>
+    </div>
+
+    <div class="detail-row">
+        🧰 Experience: 7+ Years
+    </div>
+
+    <div class="detail-row">
+        ✔ Verified Professional
+    </div>
+
+    <div class="mt-3">
+        <button class="btn btn-outline-primary w-100 rounded-3">
+            Contact Professional
+        </button>
+    </div>
+</div>
+
         </div>
 
     </div>
