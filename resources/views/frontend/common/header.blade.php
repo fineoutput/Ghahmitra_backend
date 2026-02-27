@@ -42,7 +42,7 @@
 
     /* Bottom navigation */
     .bottom-nav { position: fixed; left: 0; right: 0; bottom: 0; background: #fff; border-top: 1px solid #eee; display: none; z-index: 1050; }
-    .bottom-nav-inner { max-width: 960px; margin: 0 auto; display:flex; gap:6px; padding:8px 12px; }
+    .bottom-nav-inner { max-width: 960px; margin: 0 auto; display:flex; gap:6px; padding:0px 12px; }
     .bottom-nav-item { flex:1; text-align:center; padding:6px 4px; font-size:13px; color:#444; }
     .bottom-nav-item .icon { font-size:18px; display:block; margin-bottom:4px; }
     .bottom-nav-item.active { color:#4a7ff3; }
