@@ -8,7 +8,6 @@
 }
 </style>
 
-
 <div class="modal fade" id="categoriesModal" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content border-0 rounded-4 p-4">
@@ -75,7 +74,7 @@
             <button 
                 class="service-box p-3 bg-white rounded shadow-sm border-0 w-100"
                 data-bs-toggle="modal"
-                data-bs-target="#categoriesModal-{{ $service->id }}"
+                data-bs-target="#categoriesModal"
                 data-service="{{ $service->name }}"
                 data-details='@json($service->serviceDetails)'
                 style="cursor: pointer;"
