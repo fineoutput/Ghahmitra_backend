@@ -24,6 +24,7 @@ use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\PartnerServicesController;
 use App\Http\Controllers\Admin\PrivacyPolicyController;
 use App\Http\Controllers\Admin\TCController;
+use App\Http\Controllers\Frontend\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,16 +51,27 @@ Route::group(['prefix' => '/'], function () {
     Route::get('/services', [HomeController::class, 'services'])->name('services');
     Route::get('/cart', [HomeController::class, 'cart'])->name('cart');
     Route::get('/my-requests', [HomeController::class, 'my_requests'])->name('my_requests');
-    Route::get('/profile-user', [HomeController::class, 'profile'])->name('profile');
     Route::get('/payment-history', [HomeController::class, 'payment-history'])->name('payment-history');
     Route::get('/wallet', [HomeController::class, 'wallet'])->name('wallet');
     Route::get('/request_detail', [HomeController::class, 'request_detail'])->name('request_detail');
+
+    Route::post('/send-otp', [AuthController::class, 'sendOtp']);
+    Route::post('/verify-otp', [AuthController::class, 'verifyRegisterOtp']);
+
     // User pages
     // Route::get('/my-requests', function () { return view('my-requests'); })->name('my-requests');
     // Route::get('/profile', function () { return view('profile'); })->name('profile');
     // Route::get('/payment-history', function () { return view('frontend.payment_history'); })->name('payment.history');
     // Route::get('/wallet', function () { return view('frontend.wallet'); })->name('user.wallet');
-    Route::get('/logout-user', function () { Auth::logout(); return redirect('/'); })->name('user.logout');
+    // Route::get('/logout-user', function () { Auth::logout(); return redirect('/'); })->name('user.logout');
+
+});
+
+
+
+Route::prefix('customer')->group(function () {
+    Route::get('/logout', [AuthController::class, 'logout'])->name('customer.logout');
+    Route::get('/profile-user', [HomeController::class, 'profile'])->name('profile');
 
 });
 

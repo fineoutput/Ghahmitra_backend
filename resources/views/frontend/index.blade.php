@@ -2,6 +2,30 @@
 @section('title','home')
 @section('content')
 
+<style>
+  button.service-box.p-3.bg-white.rounded.shadow-sm.border-0.w-100 img {
+    width: 81px;
+}
+</style>
+
+
+<div class="modal fade" id="categoriesModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content border-0 rounded-4 p-4">
+      <!-- Close Button -->
+      <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal"></button>
+      
+      <!-- Title -->
+      <h4 class="fw-bold mb-4" id="categoryTitle">Select Service</h4>
+      
+      <!-- Categories Grid -->
+      <div class="row g-3" id="categoriesGrid">
+        <!-- Will be populated by JS -->
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ================= Title Section ================= -->
 <section class="py-5 bg-light mb-4 text-center nameset d-none d-lg-block">
     <div class="container mb-5">
@@ -46,13 +70,22 @@
 
     <div class="row text-center g-3">
 
-      <div class="col-6 col-md-3 col-lg-2">
-        <button class="service-box p-3 bg-white rounded shadow-sm border-0 w-100" data-bs-toggle="modal" data-bs-target="#categoriesModal" data-service="Salon Services" style="cursor: pointer;">
-          <img src="{{ asset('frontend/images/services/premium-service.png') }}" alt="">
-          <h6 class="mb-0">Salon Services</h6>
-        </button>
-      </div>
-
+      @foreach($services as $service)
+        <div class="col-6 col-md-3 col-lg-2">
+            <button 
+                class="service-box p-3 bg-white rounded shadow-sm border-0 w-100"
+                data-bs-toggle="modal"
+                data-bs-target="#categoriesModal-{{ $service->id }}"
+                data-service="{{ $service->name }}"
+                data-details='@json($service->serviceDetails)'
+                style="cursor: pointer;"
+            >
+                <img src="{{ asset($service->image) }}" alt="">
+                <h6 class="mb-0">{{ $service->name }}</h6>
+            </button>
+        </div>
+        @endforeach
+{{-- 
       <div class="col-6 col-md-3 col-lg-2">
         <button class="service-box p-3 bg-white rounded shadow-sm border-0 w-100" data-bs-toggle="modal" data-bs-target="#categoriesModal" data-service="Appliance Repair" style="cursor: pointer;">
           <img src="{{ asset('frontend/images/services/microwave-oven.png') }}" alt="">
@@ -86,7 +119,7 @@
           <img src="{{ asset('frontend/images/services/house-painting.png') }}" alt="">
           <h6 class="mb-0">Painting</h6>
         </button>
-      </div>
+      </div> --}}
 
     </div>
 
@@ -398,5 +431,54 @@
     </div>
   </div>
 </section>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    document.querySelectorAll(".service-box").forEach(button => {
+
+        button.addEventListener("click", function () {
+
+            let serviceName = this.dataset.service;
+            let details = JSON.parse(this.dataset.details);
+
+            document.getElementById("categoryTitle").innerText = serviceName;
+
+            let grid = document.getElementById("categoriesGrid");
+            grid.innerHTML = "";
+
+            if (details.length > 0) {
+
+                details.forEach(item => {
+
+                    let imageUrl = item.image 
+                        ? "{{ asset('') }}" + item.image 
+                        : "https://via.placeholder.com/100";
+
+                    grid.innerHTML += `
+                        <div class="col-md-4 col-6">
+                            <div class="text-center border rounded p-3 h-100">
+                                <img src="${imageUrl}" class="img-fluid mb-2" style="height:80px; object-fit:contain;">
+                                <h6 class="mb-0">${item.name}</h6>
+                            </div>
+                        </div>
+                    `;
+                });
+
+            } else {
+
+                grid.innerHTML = `
+                    <div class="col-12 text-center">
+                        <p>No services available</p>
+                    </div>
+                `;
+            }
+
+        });
+
+    });
+
+});
+</script>
 
 @endsection

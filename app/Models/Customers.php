@@ -5,9 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Customers extends Model
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+class Customers extends Authenticatable
 {
-    use HasFactory;
+    use HasFactory, Notifiable;
         protected $table = 'customers';
         protected $fillable = [
             'auth',  

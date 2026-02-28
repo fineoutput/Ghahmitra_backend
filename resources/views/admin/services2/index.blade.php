@@ -99,6 +99,7 @@
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger mt-2"
                                     onclick="return confirm('Are you sure you want to delete this service?')">Delete</button>
+                                    </form>
 
                         </td>
                     </tr>

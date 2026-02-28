@@ -15,5 +15,10 @@ class Services extends Model
             'image', 
             'status',
         ];
+
+        public function serviceDetails()
+        {
+            return $this->hasMany(ServicesSe::class, 'services_id', 'id');
+        }
         
 }

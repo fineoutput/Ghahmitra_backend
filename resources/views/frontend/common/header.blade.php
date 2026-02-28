@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Grah Mitra</title>
   <!-- Bootstrap CSS -->
-  <meta name="csrf-token" content="{{ csrf_token() }}">
+ <meta name="csrf-token" content="{{ csrf_token() }}">
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.3/dist/css/splide.min.css">
@@ -90,6 +90,7 @@
       </div>
     </div>
     <!-- Header Start -->
+    
 <header class="border-bottom bg-white py-2">
   <div class="container px-4">
     <div class="d-none d-lg-flex align-items-center justify-content-between">
@@ -141,7 +142,7 @@
         <!-- Test profile dropdown (always visible for testing) -->
         <div class="dropdown d-inline-block">
           <a class="d-flex align-items-center text-dark text-decoration-none" href="#" id="testProfileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-            <div class="rounded-circle bg-primary text-white d-inline-flex justify-content-center align-items-center" style="width:32px;height:32px;font-weight:600;">R</div>
+            {{-- <div class="rounded-circle bg-primary text-white d-inline-flex justify-content-center align-items-center" style="width:32px;height:32px;font-weight:600;">R</div> --}}
           </a>
           <div class="dropdown-menu dropdown-menu-end p-4 shadow-lg rounded-4 raaz" aria-labelledby="testProfileDropdown" style="min-width:280px; border:none;">
             <!-- Header Section -->
@@ -174,14 +175,14 @@
             <hr class="my-3">
             
             <!-- Sign Out -->
-            <a href="{{ route('user.logout') }}" class="dropdown-item rounded-2 px-3 py-2 text-danger text-decoration-none" style="transition:all 0.2s;display:flex;align-items:center;gap:0.75rem;">
+            <a href="{{ route('customer.logout') }}" class="dropdown-item rounded-2 px-3 py-2 text-danger text-decoration-none" style="transition:all 0.2s;display:flex;align-items:center;gap:0.75rem;">
               <i class="fa-solid fa-arrow-right-from-bracket" style="width:18px;text-align:center;"></i>
               <span style="font-size:0.95rem;">Sign out</span>
             </a>
           </div>
         </div>  
         {{-- Profile dropdown: shows when user is authenticated, otherwise opens login modal --}}
-        @auth
+         @if(Auth::guard('customer')->check())
         <div class="dropdown">
           <a class="d-flex align-items-center text-dark text-decoration-none" href="#" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
             <div class="rounded-circle bg-primary text-white d-inline-flex justify-content-center align-items-center" style="width:34px;height:34px;font-weight:600;">{{ strtoupper(substr(auth()->user()->name ?? 'U',0,1)) }}</div>
@@ -193,8 +194,8 @@
           <div class="dropdown-menu dropdown-menu-end p-4 shadow-lg rounded-4" aria-labelledby="profileDropdown" style="min-width:280px; border:none;">
             <!-- Header Section -->
             <div class="mb-3 pb-3 border-bottom">
-              <h6 class="fw-bold mb-1" style="font-size:0.95rem;">{{ auth()->user()->name ?? 'User' }}</h6>
-              <small class="text-muted d-block">{{ auth()->user()->phone ?? '9461937396' }}</small>
+              <h6 class="fw-bold mb-1" style="font-size:0.95rem;">{{ Auth::guard('customer')->user()->name ?? 'User' }}</h6>
+              <small class="text-muted d-block">{{ Auth::guard('customer')->user()->mobile_no ?? '9461937396' }}</small>
             </div>
             
             <!-- Menu Items -->
@@ -221,7 +222,7 @@
             <hr class="my-3">
             
             <!-- Sign Out -->
-            <a href="{{ route('user.logout') }}" class="dropdown-item rounded-2 px-3 py-2 text-danger text-decoration-none" style="transition:all 0.2s;display:flex;align-items:center;gap:0.75rem;">
+            <a href="{{ route('customer.logout') }}" class="dropdown-item rounded-2 px-3 py-2 text-danger text-decoration-none" style="transition:all 0.2s;display:flex;align-items:center;gap:0.75rem;">
               <i class="fa-solid fa-arrow-right-from-bracket" style="width:18px;text-align:center;"></i>
               <span style="font-size:0.95rem;">Sign out</span>
             </a>
@@ -231,7 +232,8 @@
         <a href="#" class="text-dark">
           <i class="fa-regular fa-user fs-5" data-bs-toggle="modal" data-bs-target="#loginModal"></i>
         </a>
-        @endauth
+        @endif
+        
       </div>
 
     </div>
@@ -369,7 +371,7 @@
           <hr class="my-4">
 
           @auth
-          <a href="{{ route('user.logout') }}" class="btn btn-danger w-100">Sign out</a>
+          <a href="{{ route('customer.logout') }}" class="btn btn-danger w-100">Sign out</a>
           @else
           <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#loginModal" data-bs-dismiss="modal">Sign in / Sign up</button>
           @endauth
@@ -450,62 +452,176 @@
 
       <!-- STEP 2 : OTP SECTION (Hidden Initially) -->
       <!-- STEP 2 : OTP SECTION -->
-<div id="otpSection" style="display:none;">
+    <div id="otpSection" style="display:none;">
 
-  <div class="mb-3">
-    <i class="fa-solid fa-shield-halved fa-2x text-primary"></i>
-  </div>
+      <div class="mb-3">
+        <i class="fa-solid fa-shield-halved fa-2x text-primary"></i>
+      </div>
 
-  <h4 class="fw-bold mb-2">Enter OTP</h4>
-  <p class="text-muted small">
-    We sent a code to <span id="displayNumber"></span>
-  </p>
+      <h4 class="fw-bold mb-2">Enter OTP</h4>
+      <p class="text-muted small">
+        We sent a code to <span id="displayNumber"></span>
+      </p>
 
-  <!-- OTP BOXES -->
-  <div class="d-flex justify-content-between gap-2 my-4" id="otpInputs">
-    <input type="text" maxlength="1" class="otp-box form-control text-center">
-    <input type="text" maxlength="1" class="otp-box form-control text-center">
-    <input type="text" maxlength="1" class="otp-box form-control text-center">
-    <input type="text" maxlength="1" class="otp-box form-control text-center">
-    <input type="text" maxlength="1" class="otp-box form-control text-center">
-    <input type="text" maxlength="1" class="otp-box form-control text-center">
-  </div>
+      <!-- OTP BOXES -->
+      <div class="d-flex justify-content-between gap-2 my-4" id="otpInputs">
+        <input type="text" maxlength="1" class="otp-box form-control text-center">
+        <input type="text" maxlength="1" class="otp-box form-control text-center">
+        <input type="text" maxlength="1" class="otp-box form-control text-center">
+        <input type="text" maxlength="1" class="otp-box form-control text-center">
+        <input type="text" maxlength="1" class="otp-box form-control text-center">
+        <input type="text" maxlength="1" class="otp-box form-control text-center">
+      </div>
 
-  <button id="verifyBtn" class="btn btn-secondary w-100 rounded-3" disabled>
-    Verify & Continue
-  </button>
+      <button id="verifyBtn" class="btn btn-secondary w-100 rounded-3" disabled>
+        Verify & Continue
+      </button>
 
-  <p class="small text-muted mt-3 text-center">
-    Didn’t receive code? <a href="#">Resend</a>
-  </p>
+      <p class="small text-muted mt-3 text-center">
+        Didn’t receive code? <a href="#">Resend</a>
+      </p>
 
-</div>
+    </div>
 
     </div>
   </div>
 </div>
 
 <!-- ================= CATEGORIES MODAL ================= -->
-<div class="modal fade" id="categoriesModal" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content border-0 rounded-4 p-4">
-      <!-- Close Button -->
-      <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal"></button>
-      
-      <!-- Title -->
-      <h4 class="fw-bold mb-4" id="categoryTitle">Select Service</h4>
-      
-      <!-- Categories Grid -->
-      <div class="row g-3" id="categoriesGrid">
-        <!-- Will be populated by JS -->
-      </div>
-    </div>
-  </div>
-</div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.3/dist/js/splide.min.js"></script>
 <script src="{{ asset('frontend/script.js') }}"></script>
 <script src="{{ asset('frontend/loader.js') }}"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+console.log("Login modal script loaded");
+    const phoneInput = document.getElementById("phoneInput");
+    const continueBtn = document.getElementById("continueBtn");
+    const phoneSection = document.getElementById("phoneSection");
+    const otpSection = document.getElementById("otpSection");
+    const verifyBtn = document.getElementById("verifyBtn");
+    const otpBoxes = document.querySelectorAll(".otp-box");
+    const displayNumber = document.getElementById("displayNumber");
+    const resendBtn = document.querySelector("#otpSection a");
+
+    // Enable Continue Button
+    phoneInput.addEventListener("input", function () {
+        let valid = /^[0-9]{10}$/.test(this.value);
+        continueBtn.disabled = !valid;
+        continueBtn.classList.toggle("btn-primary", valid);
+        continueBtn.classList.toggle("btn-secondary", !valid);
+    });
+
+    // SEND OTP
+    continueBtn.addEventListener("click", function () {
+
+        continueBtn.innerText = "Sending...";
+        continueBtn.disabled = true;
+
+        fetch("/send-otp", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
+            },
+            body: JSON.stringify({
+                mobile_no: phoneInput.value
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+
+            continueBtn.innerText = "Continue";
+
+            if (data.status === 200) {
+                phoneSection.style.display = "none";
+                otpSection.style.display = "block";
+                displayNumber.innerText = "+91 " + phoneInput.value;
+                otpBoxes[0].focus();
+            } else {
+                alert(data.message);
+                continueBtn.disabled = false;
+            }
+        });
+    });
+
+    // OTP Input Handling
+    otpBoxes.forEach((box, index) => {
+        box.addEventListener("input", function () {
+
+            this.value = this.value.replace(/[^0-9]/g, '');
+
+            if (this.value && index < otpBoxes.length - 1) {
+                otpBoxes[index + 1].focus();
+            }
+
+            let otp = "";
+            otpBoxes.forEach(b => otp += b.value);
+
+            verifyBtn.disabled = otp.length !== 6;
+            verifyBtn.classList.toggle("btn-primary", otp.length === 6);
+            verifyBtn.classList.toggle("btn-secondary", otp.length !== 6);
+        });
+    });
+
+    // VERIFY OTP
+    verifyBtn.addEventListener("click", function () {
+
+        let otp = "";
+        otpBoxes.forEach(b => otp += b.value);
+
+        verifyBtn.innerText = "Verifying...";
+        verifyBtn.disabled = true;
+
+        fetch("/verify-otp", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
+            },
+            body: JSON.stringify({
+                mobile_no: phoneInput.value,
+                otp: otp
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+
+            verifyBtn.innerText = "Verify & Continue";
+
+            if (data.status === 200) {
+                location.reload();
+            } else {
+                alert(data.message);
+                verifyBtn.disabled = false;
+            }
+        });
+    });
+
+    // RESEND OTP
+    resendBtn.addEventListener("click", function(e){
+        e.preventDefault();
+
+        fetch("/send-otp", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
+            },
+            body: JSON.stringify({
+                mobile_no: phoneInput.value
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            alert("OTP Resent Successfully");
+        });
+    });
+
+});
+</script>
 
 <script>
 document.addEventListener('DOMContentLoaded', function(){

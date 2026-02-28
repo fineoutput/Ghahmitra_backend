@@ -58,6 +58,11 @@ return [
             'storage_key' => 'auth',
             'hash' => false,
         ],
+
+          'customer' => [
+                'driver' => 'session',
+                'provider' => 'customers',
+            ],
     ],
 
     /*
@@ -80,7 +85,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\Models\User::class,
+            'model' => App\Models\Customers::class,
         ],
         'admins' => [
             'driver' => 'eloquent',
@@ -95,6 +100,10 @@ return [
             'model' => App\Models\Customers::class,
             // 'table' => 'employee',    
         ],
+         'customers' => [
+                'driver' => 'eloquent',
+                'model' => App\Models\Customers::class,
+            ],
 
         // 'users' => [
         //     'driver' => 'database',
