@@ -17,6 +17,20 @@ use App\Models\ServicesSe;
 class Services2Controller extends Controller
 {
 
+
+    public function updateFields(Request $request, $id)
+    {
+        $serviceSe = ServicesSe::findOrFail($id);
+
+        $serviceSe->most_booked = $request->has('most_booked') ? 1 : 0;
+        $serviceSe->cleaning = $request->has('cleaning') ? 1 : 0;
+        $serviceSe->exclusive_offers = $request->has('exclusive_offers') ? 1 : 0;
+
+        $serviceSe->save();
+
+        return back()->with('success', 'Service fields updated successfully!');
+    }
+
     public function index(Request $request)
     {
         $Services = ServicesSe::orderBy('id', 'DESC')->get();

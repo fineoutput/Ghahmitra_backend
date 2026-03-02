@@ -8,22 +8,84 @@
 }
 </style>
 
-<div class="modal fade" id="categoriesModal" tabindex="-1">
+<div class="modal fade" id="categoriesModal" tabindex="-1" aria-labelledby="categoryTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content border-0 rounded-4 p-4">
+    <div class="modal-content border-0 rounded-4 p-4 shadow-lg">
       <!-- Close Button -->
-      <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal"></button>
+      <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
       
       <!-- Title -->
       <h4 class="fw-bold mb-4" id="categoryTitle">Select Service</h4>
       
       <!-- Categories Grid -->
       <div class="row g-3" id="categoriesGrid">
-        <!-- Will be populated by JS -->
+        <!-- Populated by JS -->
       </div>
     </div>
   </div>
 </div>
+
+<!-- ============================================= -->
+<!-- JAVASCRIPT (place in <script> or .js file)   -->
+<!-- ============================================= -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const modalElement = document.getElementById('categoriesModal');
+
+    modalElement.addEventListener('shown.bs.modal', function (event) {
+
+        const button = event.relatedTarget;
+
+        const serviceName = button.dataset.service || 'Service';
+        const detailsRaw  = button.dataset.details || '[]';
+
+        let details = [];
+        try {
+            details = JSON.parse(detailsRaw);
+        } catch (e) {
+            console.error("JSON parse error:", e);
+        }
+
+        document.getElementById('categoryTitle').textContent = serviceName;
+
+        const grid = document.getElementById('categoriesGrid');
+        grid.innerHTML = '';
+
+        if (details.length > 0) {
+
+            details.forEach(function(item) {
+
+                const imageSrc = item.image 
+                    ? `/${item.image}` 
+                    : "https://via.placeholder.com/100?text=No+Image";
+
+                grid.innerHTML += `
+                    <div class="col-6 col-md-4">
+                        <div class="border rounded-3 p-3 text-center">
+                            <img src="${imageSrc}" 
+                                 class="img-fluid mb-2"
+                                 style="height:90px;width:100%;object-fit:cover;">
+                            <h6>${item.name}</h6>
+                            ${item.description ?? ''}
+                        </div>
+                    </div>
+                `;
+            });
+
+        } else {
+
+            grid.innerHTML = `
+                <div class="col-12 text-center py-4">
+                    <p class="text-muted">No sub-services found</p>
+                </div>
+            `;
+        }
+
+    });
+
+});
+</script>
 
 <!-- ================= Title Section ================= -->
 <section class="py-5 bg-light mb-4 text-center nameset d-none d-lg-block">
@@ -69,21 +131,25 @@
 
     <div class="row text-center g-3">
 
-      @foreach($services as $service)
+
+     @foreach($services as $service)
         <div class="col-6 col-md-3 col-lg-2">
             <button 
-                class="service-box p-3 bg-white rounded shadow-sm border-0 w-100"
+                class="service-box p-3 bg-white rounded-3 shadow-sm border-0 w-100 h-100 text-center"
                 data-bs-toggle="modal"
                 data-bs-target="#categoriesModal"
                 data-service="{{ $service->name }}"
-                data-details='@json($service->serviceDetails)'
+                data-details="{{ json_encode($service->serviceDetails ?? []) }}" 
                 style="cursor: pointer;"
             >
-                <img src="{{ asset($service->image) }}" alt="">
+                <img src="{{ asset($service->image) }}" 
+                     alt="{{ $service->name }}" 
+                     class="img-fluid mb-2" 
+                     style="height: 70px; object-fit: contain;">
                 <h6 class="mb-0">{{ $service->name }}</h6>
             </button>
         </div>
-        @endforeach
+    @endforeach
 {{-- 
       <div class="col-6 col-md-3 col-lg-2">
         <button class="service-box p-3 bg-white rounded shadow-sm border-0 w-100" data-bs-toggle="modal" data-bs-target="#categoriesModal" data-service="Appliance Repair" style="cursor: pointer;">
@@ -133,16 +199,19 @@
         <ul class="splide__list">
 
           <!-- Slide 1 -->
-          <li class="splide__slide">
-            <div class="promo-card" style="background-image:url('https://images.unsplash.com/photo-1562259949-e8e7689d7828');">
+          @foreach ($offer as $item)
+            <li class="splide__slide">
+            <div class="promo-card" style="background-image:url({{ asset($item->image) }});">
               <div class="promo-content">
-                <h4>Home painting & waterproofing</h4>
-                <p>Pay after 100% satisfaction</p>
+                <h4>{{ $item->title }}</h4>
+                {{-- <p>{{ $item->description }}</p> --}}
                 <button class="btn btn-dark btn-sm">Book now</button>
               </div>
             </div>
           </li>
-
+          @endforeach
+          
+{{-- 
           <!-- Slide 2 -->
           <li class="splide__slide">
             <div class="promo-card green" style="background-image:url('https://images.unsplash.com/photo-1581578731548-c64695cc6952');">
@@ -183,7 +252,7 @@
                 <button class="btn btn-light btn-sm">Book now</button>
               </div>
             </div>
-          </li>
+          </li> --}}
 
         </ul>
       </div>
@@ -199,16 +268,18 @@
 
     <div class="row g-4">
 
-      <div class="col-6 col-md-3">
-        <div class="card border-0 shadow-sm">
-          <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952" class="card-img-top">
-          <div class="card-body text-center">
-            <h6>Bathroom Cleaning</h6>
-          </div>
+      @foreach ($most_booked as $service)
+        <div class="col-6 col-md-3">
+          <div class="card border-0 shadow-sm">
+            <img src="{{ asset($service->image) }}" class="card-img-top">
+            <div class="card-body text-center">
+              <h6>{{ $service->name }}</h6>
+            </div>
         </div>
       </div>
+      @endforeach
 
-      <div class="col-6 col-md-3">
+      {{-- <div class="col-6 col-md-3">
         <div class="card border-0 shadow-sm">
           <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c" class="card-img-top">
           <div class="card-body text-center">
@@ -233,7 +304,7 @@
             <h6>Electrician</h6>
           </div>
         </div>
-      </div>
+      </div> --}}
 
     </div>
   </div>
@@ -244,9 +315,9 @@
 <section class="py-5">
   <div class="container">
     <div class="p-5 text-white rounded"
-         style="background: url('https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9') center/cover;">
+         style="background: url({{ asset($banner->image) }}) center/cover;">
       <div class="col-md-6">
-        <h2>Get Professional Salon Services at Home</h2>
+        <h2>{{ $banner->title }}</h2>
         <a href="#" class="btn btn-danger mt-3">Book Now</a>
       </div>
     </div>
@@ -261,16 +332,19 @@
 
     <div class="row g-4">
 
-      <div class="col-6 col-md-3">
-        <div class="card border-0 shadow-sm">
-          <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952" class="card-img-top">
-          <div class="card-body text-center">
-            <h6>Full House Cleaning</h6>
+      @foreach ($cleaning as $service)
+        <div class="col-6 col-md-3">
+          <div class="card border-0 shadow-sm">
+            <img src="{{ asset($service->image) }}" class="card-img-top">
+            <div class="card-body text-center">
+              <h6>{{ $service->name }}</h6>
+            </div>
           </div>
         </div>
-      </div>
+      @endforeach
 
-      <div class="col-6 col-md-3">
+
+      {{-- <div class="col-6 col-md-3">
         <div class="card border-0 shadow-sm">
           <img src="https://plus.unsplash.com/premium_photo-1682126104327-ef7d5f260cf7?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cGVzdCUyMGNvbnRyb2x8ZW58MHx8MHx8fDA%3D" class="card-img-top">
           <div class="card-body text-center">
@@ -295,7 +369,7 @@
             <h6>Deep Cleaning</h6>
           </div>
         </div>
-      </div>
+      </div> --}}
 
     </div>
   </div>
@@ -334,23 +408,26 @@
     <h4 class="fw-bold mb-5 text-center">Exclusive Offers</h4>
     <div class="row g-4">
       <!-- Card 1 -->
+
+      @foreach ($exclusive_offers as $service)
+        
       <div class="col-md-4">
         <div class="card border-0 shadow-sm rounded-4 overflow-hidden h-100">
-          <div style="background-image: url('https://plus.unsplash.com/premium_photo-1661603771539-faa0e3ed7ca6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8U3BhJTIwJTI2JTIwTWFzc2FnZXxlbnwwfHwwfHx8MA%3D%3D'); background-size: cover; background-position: center; height: 180px; position: relative;">
+          <div style="background-image: url({{ asset($service->image) }}); background-size: cover; background-position: center; height: 180px; position: relative;">
             <div class="position-absolute top-0 end-0 p-3">
-              <span class="badge bg-warning text-dark fs-6">50% OFF</span>
+              {{-- <span class="badge bg-warning text-dark fs-6">50% OFF</span> --}}
             </div>
           </div>
           <div class="card-body p-4">
-            <h6 class="fw-bold mb-2">Spa & Massage</h6>
-            <p class="text-muted small mb-3">Relax with our premium spa services at home</p>
+            <h6 class="fw-bold mb-2">{{ $service->name }}</h6>
+            <p class="text-muted small mb-3">{!! Str::limit($service->description, 100) !!}</p>
             <a href="#" class="btn btn-outline-primary btn-sm rounded-3">Explore</a>
           </div>
         </div>
       </div>
-
+    @endforeach
       <!-- Card 2 -->
-      <div class="col-md-4">
+      {{-- <div class="col-md-4">
         <div class="card border-0 shadow-sm rounded-4 overflow-hidden h-100">
           <div style="background-image: url('https://images.unsplash.com/photo-1759772238012-9d5ad59ae637?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8QUMlMjAlMjYlMjBDb29saW5nfGVufDB8fDB8fHww'); background-size: cover; background-position: center; height: 180px; position: relative;">
             <div class="position-absolute top-0 end-0 p-3">
@@ -379,7 +456,7 @@
             <a href="#" class="btn btn-outline-primary btn-sm rounded-3">Explore</a>
           </div>
         </div>
-      </div>
+      </div> --}}
     </div>
   </div>
 </section>

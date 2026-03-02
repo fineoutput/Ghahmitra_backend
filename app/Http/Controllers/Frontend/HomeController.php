@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Banner;
 use App\Models\Services;
 use App\Models\ServicesSe;
 use Illuminate\Http\Request;
@@ -18,10 +19,15 @@ class HomeController extends Controller
     // ============================= START INDEX ============================ 
     public function index(Request $req)
     {
-        $data['services'] = Services::with(['serviceDetails' => function($q){
-        $q->where('status', 1);
-        }])->where('status', 1)->get();
-        $data['services_se'] = ServicesSe::where('status', 1)->get();
+       $data['services'] = Services::with('serviceDetails')
+        ->where('status', 1)
+        ->orderBy('id','desc')
+        ->get();
+        $data['exclusive_offers'] = ServicesSe::orderby('id','desc')->where('exclusive_offers', 1)->where('status', 1)->get();
+        $data['cleaning'] = ServicesSe::orderby('id','desc')->where('cleaning', 1)->where('status', 1)->get();
+        $data['most_booked'] = ServicesSe::orderby('id','desc')->where('most_booked', 1)->where('status', 1)->get();
+        $data['banner'] = Banner::orderby('id','desc')->where('type', 'banner')->where('status', 1)->first();
+        $data['offer'] = Banner::orderby('id','desc')->where('type', 'offer')->where('status', 1)->get();
 
         return view('frontend/index', $data)->withTitle('home');
     }

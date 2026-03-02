@@ -16,9 +16,8 @@ class Services extends Model
             'status',
         ];
 
-        public function serviceDetails()
-        {
-            return $this->hasMany(ServicesSe::class, 'services_id', 'id');
-        }
-        
+public function serviceDetails()
+{
+    return $this->hasMany(ServicesSe::class, 'services_id', 'id');
+}
 }

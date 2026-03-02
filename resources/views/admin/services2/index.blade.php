@@ -67,6 +67,7 @@
                     <th>Description</th>
                     <th>Image</th>
                     <th>Created At</th>
+                    <th>Check Box</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -81,6 +82,24 @@
                             <img src="{{asset($Services->image)}}" width="100" height="100" alt="">
                         </td>
                         <td>{{ $Services->created_at }}</td>
+                        <td>
+                            <form action="{{ route('services2.updateFields', $Services->id) }}" method="POST" class="mt-2">
+                              @csrf
+                              @method('PATCH')
+                              <div class="form-check form-check-inline">
+                                  <input class="form-check-input" type="checkbox" name="most_booked" value="1" {{ $Services->most_booked ? 'checked' : '' }} onchange="this.form.submit()">
+                                  <label class="form-check-label">Most Booked</label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                  <input class="form-check-input" type="checkbox" name="cleaning" value="1" {{ $Services->cleaning ? 'checked' : '' }} onchange="this.form.submit()">
+                                  <label class="form-check-label">Cleaning</label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                  <input class="form-check-input" type="checkbox" name="exclusive_offers" value="1" {{ $Services->exclusive_offers ? 'checked' : '' }} onchange="this.form.submit()">
+                                  <label class="form-check-label">Exclusive Offers</label>
+                              </div>
+                          </form>
+                        </td>
                         <td>
                             <form action="{{ route('services2.updateStatus', $Services->id) }}" method="POST">
                                 @csrf
@@ -100,7 +119,6 @@
                                 <button type="submit" class="btn btn-danger mt-2"
                                     onclick="return confirm('Are you sure you want to delete this service?')">Delete</button>
                                     </form>
-
                         </td>
                     </tr>
                     @endforeach

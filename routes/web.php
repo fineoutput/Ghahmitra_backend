@@ -128,6 +128,7 @@ Route::get('/services2/index', [Services2Controller::class, 'index'])->name('ser
 Route::get('/services2/create', [Services2Controller::class, 'create'])->name('services2.create');
 Route::post('/services2/store', [Services2Controller::class, 'store'])->name('services2.store');
 Route::patch('services2/update-status/{id}', [Services2Controller::class, 'updateStatus'])->name('services2.updateStatus');
+Route::patch('services2/update-fields/{id}', [Services2Controller::class, 'updateFields'])->name('services2.updateFields');
 Route::get('services2/{id}/edit', [Services2Controller::class, 'edit'])->name('services2.edit');
 Route::put('services2/{id}', [Services2Controller::class, 'update'])->name('services2.update');
 Route::delete('services2/{id}', [Services2Controller::class, 'destroy'])->name('services2.destroy');

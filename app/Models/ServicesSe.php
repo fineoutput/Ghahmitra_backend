@@ -15,6 +15,9 @@ class ServicesSe extends Model
             'description',  
             'image', 
             'status',
+            'most_booked',
+            'cleaning',
+            'exclusive_offers',
         ];
         
         
