@@ -9,6 +9,8 @@ use App\Models\Cart;
 use App\Models\City;
 use App\Models\Customers;
 use App\Models\Feedback;
+use App\Models\Order;
+use App\Models\OrderItems;
 use App\Models\Otp;
 use App\Models\PartnerServices;
 use App\Models\ServicePartner;
@@ -248,6 +250,126 @@ public function calculate(Request $request)
     ]);
 }
 
+
+
+public function checkout(Request $request)
+{
+    $customer = Auth::guard('customer_api')->user();
+
+    if (!$customer) {
+        return response()->json([
+            'status' => 401,
+            'message' => 'Unauthorized'
+        ], 401);
+    }
+
+    $cartItems = Cart::with('service')
+        ->where('customers_id', $customer->id)
+        ->where('status', 1)
+        ->get();
+
+    if ($cartItems->isEmpty()) {
+        return response()->json([
+            'status' => 400,
+            'message' => 'Cart is empty'
+        ]);
+    }
+
+    DB::beginTransaction();
+
+    try {
+
+        $subtotal = 0;
+        $tax = 0;
+        $discount = 0;
+
+        // 1️⃣ Calculate subtotal
+        foreach ($cartItems as $item) {
+
+            if (!$item->service) {
+                continue;
+            }
+
+            $price = $item->service->price;
+            $quantity = $item->quantity;
+            $total = $price * $quantity;
+
+            $subtotal += $total;
+        }
+
+        // 2️⃣ Example Tax (5%)
+        $tax = $subtotal * 0.05;
+
+        // 3️⃣ Example Discount (optional)
+        $discount = 0;
+
+        $grandTotal = $subtotal + $tax - $discount;
+
+        // 4️⃣ Create Order
+        $order = Order::create([
+            'order_number'   => 'ORD-' . strtoupper(Str::random(8)),
+            'customer_id'    => $customer->id,
+            'subtotal'       => $subtotal,
+            'tax'            => $tax,
+            'discount'       => $discount,
+            'grand_total'    => $grandTotal,
+            'payment_method' => $request->payment_method ?? 'COD',
+            'payment_status' => 'pending',
+            'order_status'   => 1, // pending
+            'address_id'     => $request->address_id,
+            'notes'          => $request->notes ?? null,
+        ]);
+
+        // 5️⃣ Create Order Items
+        foreach ($cartItems as $item) {
+
+            if (!$item->service) {
+                continue;
+            }
+
+            $price = $item->service->price;
+            $quantity = $item->quantity;
+            $total = $price * $quantity;
+
+            OrderItems::create([
+                'order_id'        => $order->id,
+                'service_id'      => $item->service_id,
+                'service_name'    => $item->service->name,
+                'price'           => $price,
+                'quantity'        => $quantity,
+                'total'           => $total,
+                'availability_id' => $item->availability_id,
+            ]);
+        }
+
+        // 6️⃣ Clear Cart Completely (Delete)
+        Cart::where('customers_id', $customer->id)
+            ->where('status', 1)
+            ->delete();
+
+        DB::commit();
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Order placed successfully',
+            'data' => [
+                'order_id' => $order->id,
+                'order_number' => $order->order_number,
+                'grand_total' => $grandTotal
+            ]
+        ]);
+
+    } catch (\Exception $e) {
+
+        DB::rollBack();
+
+        return response()->json([
+            'status' => 500,
+            'message' => 'Checkout failed',
+            'error' => $e->getMessage()
+        ]);
+    }
+}
 
 public function storeFeedback(Request $request)
 {
