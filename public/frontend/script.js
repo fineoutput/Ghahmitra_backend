@@ -188,10 +188,10 @@ document.addEventListener('mouseout', function(e) {
 });
 
 // Redirect to services page on category click
-document.addEventListener('click', function(e) {
-  if (e.target.closest('.category-item')) {
-    // Get route from data attribute (will be set in the Blade template)
-    const servicesRoute = document.body.getAttribute('data-services-route') || '/services';
-    window.location.href = servicesRoute;
-  }
-});
+// document.addEventListener('click', function(e) {
+//   if (e.target.closest('.category-item')) {
+//     // Get route from data attribute (will be set in the Blade template)
+//     const servicesRoute = document.body.getAttribute('data-services-route') || '/services';
+//     window.location.href = servicesRoute;
+//   }
+// });

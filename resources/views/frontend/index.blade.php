@@ -28,64 +28,7 @@
 <!-- ============================================= -->
 <!-- JAVASCRIPT (place in <script> or .js file)   -->
 <!-- ============================================= -->
-<script>
-document.addEventListener("DOMContentLoaded", function () {
 
-    const modalElement = document.getElementById('categoriesModal');
-
-    modalElement.addEventListener('shown.bs.modal', function (event) {
-
-        const button = event.relatedTarget;
-
-        const serviceName = button.dataset.service || 'Service';
-        const detailsRaw  = button.dataset.details || '[]';
-
-        let details = [];
-        try {
-            details = JSON.parse(detailsRaw);
-        } catch (e) {
-            console.error("JSON parse error:", e);
-        }
-
-        document.getElementById('categoryTitle').textContent = serviceName;
-
-        const grid = document.getElementById('categoriesGrid');
-        grid.innerHTML = '';
-
-        if (details.length > 0) {
-
-            details.forEach(function(item) {
-
-                const imageSrc = item.image 
-                    ? `/${item.image}` 
-                    : "https://via.placeholder.com/100?text=No+Image";
-
-                grid.innerHTML += `
-                    <div class="col-6 col-md-4">
-                        <div class="border rounded-3 p-3 text-center">
-                            <img src="${imageSrc}" 
-                                 class="img-fluid mb-2"
-                                 style="height:90px;width:100%;object-fit:cover;">
-                            <h6>${item.name}</h6>
-                            ${item.description ?? ''}
-                        </div>
-                    </div>
-                `;
-            });
-
-        } else {
-
-            grid.innerHTML = `
-                <div class="col-12 text-center py-4">
-                    <p class="text-muted">No sub-services found</p>
-                </div>
-            `;
-        }
-
-    });
-
-});
-</script>
 
 <!-- ================= Title Section ================= -->
 <section class="py-5 bg-light mb-4 text-center nameset d-none d-lg-block">
@@ -508,6 +451,70 @@ document.addEventListener("DOMContentLoaded", function () {
   </div>
 </section>
 
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const modalElement = document.getElementById('categoriesModal');
+
+    modalElement.addEventListener('shown.bs.modal', function (event) {
+
+        const button = event.relatedTarget;
+
+        const serviceName = button.dataset.service || 'Service';
+        const detailsRaw  = button.dataset.details || '[]';
+
+        let details = [];
+        try {
+            details = JSON.parse(detailsRaw);
+        } catch (e) {
+            console.error("JSON parse error:", e);
+        }
+
+        document.getElementById('categoryTitle').textContent = serviceName;
+
+        const grid = document.getElementById('categoriesGrid');
+        grid.innerHTML = '';
+
+        if (details.length > 0) {
+
+            details.forEach(function(item) {
+
+                const imageSrc = item.image 
+                    ? `/${item.image}` 
+                    : "https://via.placeholder.com/100?text=No+Image";
+   const serviceBaseUrl = "{{ url('/services-detailes') }}";
+                grid.innerHTML += `
+                    <div class="col-6 col-md-4">
+                     <a href="${serviceBaseUrl}/${item.id}" class="text-decoration-none ">
+                        <div class="border rounded-3 p-3 text-center">
+                            <img src="${imageSrc}" 
+                                 class="img-fluid mb-2"
+                                 style="height:90px;width:100%;object-fit:cover;">
+                            <h6>${item.name}</h6>
+                            ${item.description ?? ''}
+                        </div>
+                     </a>
+                    </div>
+                `;
+            });
+
+        } else {
+
+            grid.innerHTML = `
+                <div class="col-12 text-center py-4">
+                    <p class="text-muted">No sub-services found</p>
+                </div>
+            `;
+        }
+
+    });
+
+});
+</script>
+
+
+{{-- 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 
@@ -524,20 +531,23 @@ document.addEventListener("DOMContentLoaded", function () {
             grid.innerHTML = "";
 
             if (details.length > 0) {
-
                 details.forEach(item => {
 
                     let imageUrl = item.image 
                         ? "{{ asset('') }}" + item.image 
                         : "https://via.placeholder.com/100";
+                      const serviceBaseUrl = "{{ url('/services-detailes') }}";
+                                              
 
                     grid.innerHTML += `
+                      <a href="${serviceBaseUrl}/${item.id}" class="text-decoration-none ">
                         <div class="col-md-4 col-6">
                             <div class="text-center border rounded p-3 h-100">
                                 <img src="${imageUrl}" class="img-fluid mb-2" style="height:80px; object-fit:contain;">
                                 <h6 class="mb-0">${item.name}</h6>
                             </div>
                         </div>
+                        </a>
                     `;
                 });
 
@@ -555,6 +565,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
 });
-</script>
+</script> --}}
 
 @endsection

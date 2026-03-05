@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Banner;
 use App\Models\Services;
 use App\Models\ServicesSe;
+use App\Models\Th_Services;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Redirect;
@@ -31,16 +32,30 @@ class HomeController extends Controller
 
         return view('frontend/index', $data)->withTitle('home');
     }
+
+
     public function services(Request $req)
     {
      
         return view('frontend/services')->withTitle('services');
     }
+
+
+
+    public function servicesdetailes(Request $req, $id)
+    {
+            $data['services'] = ServicesSe::orderBy('id','desc')->where('id','!=', $id)->where('status', 1)->get();
+            $data['services_details'] = Th_Services::orderBy('id','desc')->where('services_se_id', $id)->get();
+          return view('frontend/services',$data)->withTitle('services');
+    }
+
     public function cart(Request $req)
     {
      
         return view('frontend/cart')->withTitle('cart');
     }
+
+
     public function my_requests(Request $req)
     {
      

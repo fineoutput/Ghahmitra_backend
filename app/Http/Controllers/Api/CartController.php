@@ -298,7 +298,7 @@ public function checkout(Request $request)
         }
 
         // 2️⃣ Example Tax (5%)
-        $tax = $subtotal * 0.05;
+        $tax = 0;
 
         // 3️⃣ Example Discount (optional)
         $discount = 0;

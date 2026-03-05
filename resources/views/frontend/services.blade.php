@@ -25,100 +25,15 @@
           
           <div class="row g-3">
             <!-- Waxing -->
-            <div class="col-6 col-sm-6">
+            @foreach ($services as $service)
+               <div class="col-6 col-sm-6">
               <div class="text-center p-3 rounded-3 border border-light-custom" style="cursor: pointer; transition: all 0.3s;" onmouseover="this.style.boxShadow='0 4px 15px rgba(0,0,0,0.1)'" onmouseout="this.style.boxShadow='none'">
-                <img src="https://plus.unsplash.com/premium_photo-1661431392914-e3fc8ff0e51a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8V2F4aW5nfGVufDB8fDB8fHww" alt="Waxing" class="img-fluid rounded-2 mb-2" style="height: 50px; object-fit: cover;">
-                <p class="mb-0 fw-semibold small">Waxing</p>
+                <img src="{{ asset($service->image) }}" alt="{{ $service->name }}" class="img-fluid rounded-2 mb-2" style="height: 50px; object-fit: cover;">
+                <p class="mb-0 fw-semibold small">{{ $service->name }}</p>
               </div>
             </div>
-
-            <!-- Premium Waxing -->
-            <div class="col-6 col-sm-6">
-              <div class="text-center p-3 rounded-3 border border-light-custom" style="cursor: pointer; transition: all 0.3s;" onmouseover="this.style.boxShadow='0 4px 15px rgba(0,0,0,0.1)'" onmouseout="this.style.boxShadow='none'">
-                <img src="https://plus.unsplash.com/premium_photo-1675898142438-a18bc5f683d7?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8UHJlbWl1bSUyMFdheGluZ3xlbnwwfHwwfHx8MA%3D%3D" alt="Premium Waxing" class="img-fluid rounded-2 mb-2" style="height: 50px; object-fit: cover;">
-                <p class="mb-0 fw-semibold small">Premium waxing</p>
-              </div>
-            </div>
-
-            <!-- Facial -->
-            <div class="col-6 col-sm-6">
-              <div class="text-center p-3 rounded-3 border border-light-custom" style="cursor: pointer; transition: all 0.3s;" onmouseover="this.style.boxShadow='0 4px 15px rgba(0,0,0,0.1)'" onmouseout="this.style.boxShadow='none'">
-                <img src="https://plus.unsplash.com/premium_photo-1732576711143-c4e619fe7ac6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8S29yZWFuJTIwRmFjaWFsfGVufDB8fDB8fHww" alt="Facial" class="img-fluid rounded-2 mb-2" style="height: 50px; object-fit: cover;">
-                <p class="mb-0 fw-semibold small">Facial</p>
-              </div>
-            </div>
-
-            <!-- Korean Facial -->
-            <div class="col-6 col-sm-6">
-              <div class="text-center p-3 rounded-3 border border-light-custom" style="cursor: pointer; transition: all 0.3s;" onmouseover="this.style.boxShadow='0 4px 15px rgba(0,0,0,0.1)'" onmouseout="this.style.boxShadow='none'">
-                <img src="https://plus.unsplash.com/premium_photo-1732576711152-590d19fe767d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8S29yZWFuJTIwRmFjaWFsfGVufDB8fDB8fHww" alt="Korean Facial" class="img-fluid rounded-2 mb-2" style="height: 50px; object-fit: cover;">
-                <p class="mb-0 fw-semibold small">Korean Facial</p>
-              </div>
-            </div>
-
-            <!-- Clean Up -->
-            <div class="col-6 col-sm-6">
-              <div class="text-center p-3 rounded-3 border border-light-custom" style="cursor: pointer; transition: all 0.3s;" onmouseover="this.style.boxShadow='0 4px 15px rgba(0,0,0,0.1)'" onmouseout="this.style.boxShadow='none'">
-                <img src="https://plus.unsplash.com/premium_photo-1661776092454-c950768cd4e4?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Q2xlYW4lMjBVcCUyMGZhY2V8ZW58MHx8MHx8fDA%3D" alt="Clean Up" class="img-fluid rounded-2 mb-2" style="height: 50px; object-fit: cover;">
-                <p class="mb-0 fw-semibold small">Clean Up</p>
-              </div>
-            </div>
-
-            <!-- Mani Pedi -->
-            <div class="col-6 col-sm-6">
-              <div class="text-center p-3 rounded-3 border border-light-custom" style="cursor: pointer; transition: all 0.3s;" onmouseover="this.style.boxShadow='0 4px 15px rgba(0,0,0,0.1)'" onmouseout="this.style.boxShadow='none'">
-                <img src="https://plus.unsplash.com/premium_photo-1661497566854-7a75d3e98996?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8TWFuaWN1cmV8ZW58MHx8MHx8fDA%3D" alt="Mani Pedi" class="img-fluid rounded-2 mb-2" style="height: 50px; object-fit: cover;">
-                <p class="mb-0 fw-semibold small">Mani Pedi</p>
-              </div>
-            </div>
-
-            <!-- Body Scrub -->
-            <div class="col-6 col-sm-6">
-              <div class="text-center p-3 rounded-3 border border-light-custom" style="cursor: pointer; transition: all 0.3s;" onmouseover="this.style.boxShadow='0 4px 15px rgba(0,0,0,0.1)'" onmouseout="this.style.boxShadow='none'">
-                <img src="https://plus.unsplash.com/premium_photo-1677849925842-92267d6b4293?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Qm9keSUyMFNjcnVifGVufDB8fDB8fHww" alt="Body Scrub" class="img-fluid rounded-2 mb-2" style="height: 50px; object-fit: cover;">
-                <p class="mb-0 fw-semibold small">Body Scrub</p>
-              </div>
-            </div>
-
-            <!-- Treatment -->
-            <div class="col-6 col-sm-6">
-              <div class="text-center p-3 rounded-3 border border-light-custom" style="cursor: pointer; transition: all 0.3s;" onmouseover="this.style.boxShadow='0 4px 15px rgba(0,0,0,0.1)'" onmouseout="this.style.boxShadow='none'">
-                <img src="https://plus.unsplash.com/premium_photo-1661680271644-00e5bdf97627?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8ZmFjaWFsJTIwVHJlYXRtZW50fGVufDB8fDB8fHww" alt="Treatment" class="img-fluid rounded-2 mb-2" style="height: 50px; object-fit: cover;">
-                <p class="mb-0 fw-semibold small">Treatment</p>
-              </div>
-            </div>
-
-            <!-- Detan & Bleach -->
-            <div class="col-6 col-sm-6">
-              <div class="text-center p-3 rounded-3 border border-light-custom" style="cursor: pointer; transition: all 0.3s;" onmouseover="this.style.boxShadow='0 4px 15px rgba(0,0,0,0.1)'" onmouseout="this.style.boxShadow='none'">
-                <img src="https://plus.unsplash.com/premium_photo-1661589976754-f1a669f19e68?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8QmxlYWNofGVufDB8fDB8fHww" alt="Detan & Bleach" class="img-fluid rounded-2 mb-2" style="height: 50px; object-fit: cover;">
-                <p class="mb-0 fw-semibold small">Detan & Bleach</p>
-              </div>
-            </div>
-
-            <!-- Threading & Face Wax -->
-            <div class="col-6 col-sm-6">
-              <div class="text-center p-3 rounded-3 border border-light-custom" style="cursor: pointer; transition: all 0.3s;" onmouseover="this.style.boxShadow='0 4px 15px rgba(0,0,0,0.1)'" onmouseout="this.style.boxShadow='none'">
-                <img src="https://images.unsplash.com/photo-1519415387722-a1c3bbef716c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8VGhyZWFkaW5nfGVufDB8fDB8fHww" alt="Threading & Face Wax" class="img-fluid rounded-2 mb-2" style="height: 50px; object-fit: cover;">
-                <p class="mb-0 fw-semibold small">Threading & Face Wax</p>
-              </div>
-            </div>
-
-            <!-- Hair Colour Application -->
-            <div class="col-6 col-sm-6">
-              <div class="text-center p-3 rounded-3 border border-light-custom" style="cursor: pointer; transition: all 0.3s;" onmouseover="this.style.boxShadow='0 4px 15px rgba(0,0,0,0.1)'" onmouseout="this.style.boxShadow='none'">
-                <img src="https://plus.unsplash.com/premium_photo-1661668935701-2429eb4da878?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8SGFpciUyMENvbG91cnxlbnwwfHwwfHx8MA%3D%3D" alt="Hair Colour Application" class="img-fluid rounded-2 mb-2" style="height: 50px; object-fit: cover;">
-                <p class="mb-0 fw-semibold small">Hair Colour Application</p>
-              </div>
-            </div>
-
-            <!-- Massage -->
-            <div class="col-6 col-sm-6">
-              <div class="text-center p-3 rounded-3 border border-light-custom" style="cursor: pointer; transition: all 0.3s;" onmouseover="this.style.boxShadow='0 4px 15px rgba(0,0,0,0.1)'" onmouseout="this.style.boxShadow='none'">
-                <img src="https://plus.unsplash.com/premium_photo-1677849925842-92267d6b4293?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Qm9keSUyMFNjcnVifGVufDB8fDB8fHww" alt="Massage" class="img-fluid rounded-2 mb-2" style="height: 50px; object-fit: cover;">
-                <p class="mb-0 fw-semibold small">Massage</p>
-              </div>
-            </div>
+            @endforeach
+    
           </div>
         </div>
       </div>>
@@ -131,6 +46,7 @@
       <div class="col-lg-6 services-left">
         
         <!-- Service Card 1 -->
+        @foreach ($services_details as $service_detail)
         <div class="card service-card border-light-custom shadow-sm rounded-4 p-4 mb-4" style="cursor:pointer; transition:all 0.3s;">
           <div class="d-flex flex-column flex-md-row justify-content-between align-items-start">
             
@@ -151,7 +67,7 @@
               <div class="d-flex align-items-center gap-3 mb-3">
                 <div>
                   <small class="text-muted d-block">Starts at</small>
-                  <span class="fw-bold text-dark">₹1,099</span>
+                  <span class="fw-bold text-dark">₹{{ number_format($service_detail->price, 2) }}</span>
                 </div>
                 <div class="text-muted">•</div>
                 <div>
@@ -162,8 +78,7 @@
               
               <!-- Description Bullet Points -->
               <ul class="small mb-3 ps-3" style="list-style: disc; color: #666;">
-                <li class="mb-2">Full body Swedish massage including head, neck & shoulders</li>
-                <li class="mb-2">Relaxation and stress relief from professional therapists</li>
+                <li class="mb-2">{!! $service_detail->description !!}</li>
               </ul>
               
               <!-- Show More Link -->
@@ -174,472 +89,113 @@
             <div class="order-1 order-md-2 text-center text-md-end" style="min-width: 150px;">
               <!-- Image -->
               <div class="mb-3">
-                <img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8U3dlZGlzaCUyME1hc3NhZ2V8ZW58MHx8MHx8fDA%3D" alt="Massage" class="img-fluid rounded-3" style="height: 180px; width: 100%; object-fit: cover;">
+                @if(!empty($service_detail->image[0]))
+                  <img src="{{ asset($service_detail->image[0]) }}" 
+                      alt="{{ $service_detail->name }}"
+                      class="img-fluid rounded-3"
+                      style="height: 180px; width: 100%; object-fit: cover;">
+              @endif
               </div>
               
               <!-- Add Button -->
-              <button class="btn btn-primary btn-sm add-to-cart-btn w-100" data-bs-toggle="modal" data-bs-target="#packageModal" 
-                data-service-name="Pack of 4" 
-                data-service-price="1099" 
-                data-service-original="1449"
+              <button class="btn btn-primary btn-sm add-to-cart-btn w-100" data-bs-toggle="modal" data-bs-target="#packageModal{{ $service_detail->id }}" 
+                data-service-name="{{ $service_detail->name }}" 
+                data-service-price="{{ $service_detail->price }}" 
+                data-service-original="{{ $service_detail->mrp }}"
                 data-service-rating="4.82"
-                data-service-reviews="1666">Add</button>
+                data-service-reviews="4.82">Add</button>
             </div>
 
           </div>
         </div>
 
-        <!-- Service Card 2 -->
-        <div class="card service-card border-light-custom shadow-sm rounded-4 p-4 mb-4" style="cursor:pointer; transition:all 0.3s;">
-          <div class="d-flex flex-column flex-md-row justify-content-between align-items-start">
-            
-            <!-- Left: Details Section -->
-            <div class="flex-grow-1 pe-md-4 order-2 order-md-1 mt-3 mt-md-0">
-              <!-- Service Title -->
-              <h6 class="fw-bold mb-2">Pack of 4 (Swedish Massage)</h6>
-              
-              <!-- Rating -->
-              <div class="d-flex align-items-center gap-2 mb-2">
-                <a style="text-decoration: none; color: #666;" class="open-reviews-modal">
-                <span class="text-warning">★</span>
-                <small><strong>4.82</strong> (2441 reviews)</small>
-              </a>
-              </div>
-              
-              <!-- Price & Duration -->
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <div>
-                  <small class="text-muted d-block">Starts at</small>
-                  <span class="fw-bold text-dark">₹999</span>
-                </div>
-                <div class="text-muted">•</div>
-                <div>
-                  <small class="text-muted d-block">Duration</small>
-                  <span class="fw-bold text-dark">60 mins</span>
-                </div>
-              </div>
-              
-              <!-- Description Bullet Points -->
-              <ul class="small mb-3 ps-3" style="list-style: disc; color: #666;">
-                <li class="mb-2">Professional Swedish massage for complete body relaxation</li>
-                <li class="mb-2">Valid for 6 months with flexible booking options</li>
-              </ul>
-              
-              <!-- Show More Link -->
-              <a href="#" class="text-primary text-decoration-none small fw-semibold open-details-modal">Show more ▼</a>
-            </div>
-            
-            <!-- Right: Image & Button Section -->
-            <div class="order-1 order-md-2 text-center text-md-end" style="min-width: 150px;">
-              <!-- Image -->
-              <div class="mb-3">
-                <img src="https://images.unsplash.com/photo-1598901986949-f593ff2a31a6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fFN3ZWRpc2glMjBNYXNzYWdlfGVufDB8fDB8fHww" alt="Swedish Massage" class="img-fluid rounded-3" style="height: 180px; width: 100%; object-fit: cover;">
-              </div>
-              
-              <!-- Add Button -->
-              <button class="btn btn-primary btn-sm add-to-cart-btn w-100" data-bs-toggle="modal" data-bs-target="#packageModal" 
-                data-service-name="Pack of 4 (Swedish Massage)" 
-                data-service-price="999" 
-                data-service-original="1299"
-                data-service-rating="4.82"
-                data-service-reviews="2441">Add</button>
-            </div>
 
+        {{-- MODEL CODE --}}
+        <div class="modal fade" id="packageModal{{ $service_detail->id }}" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content border-0 rounded-4 p-4">
+      <!-- Close Button -->
+      <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+      <div class="mb-4">
+        <!-- Splide slider inside modal -->
+        <div id="serviceModalSplide" class="splide">
+          <div class="splide__track">
+            <ul class="splide__list">
+               @if(!empty($service_detail->image) && is_array($service_detail->image))
+        @foreach($service_detail->image as $img)
+            <li class="splide__slide">
+                <img src="{{ asset($img) }}"
+                     alt="{{ $service_detail->name }}"
+                     class="w-100 rounded-3"
+                     style="height:300px; object-fit:cover;">
+            </li>
+        @endforeach
+    @else
+        {{-- Fallback image --}}
+        <li class="splide__slide">
+            <img src="https://via.placeholder.com/800x300?text=No+Image"
+                 class="w-100 rounded-3">
+        </li>
+    @endif
+            </ul>
           </div>
         </div>
-        <div class="card service-card border-light-custom shadow-sm rounded-4 p-4 mb-4" style="cursor:pointer; transition:all 0.3s;">
-          <div class="d-flex flex-column flex-md-row justify-content-between align-items-start">
-            
-            <!-- Left: Details Section -->
-            <div class="flex-grow-1 pe-md-4 order-2 order-md-1 mt-3 mt-md-0">
-              <!-- Service Title -->
-              <h6 class="fw-bold mb-2">Pack of 4 (Swedish Massage)</h6>
-              
-              <!-- Rating -->
-              <div class="d-flex align-items-center gap-2 mb-2">
-                <a style="text-decoration: none; color: #666;" class="open-reviews-modal">
-                <span class="text-warning">★</span>
-                <small><strong>4.82</strong> (2441 reviews)</small>
-              </a>
-                <small><strong>4.82</strong> (2441 reviews)</small>
+      </div>
+      <!-- Service Header -->
+      <div class="mb-4 pb-3 border-bottom">
+        <div class="row align-items-center">
+          <div class="col-auto">
+            {{-- <div style="font-size: 3rem;">💆</div> --}}
+          </div>
+          <div class="col">
+            <h5 class="fw-bold mb-1" id="modalServiceName">Service Name</h5>
+            <div class="d-flex gap-3 align-items-center">
+              <div class="d-flex align-items-center">
+                <span class="badge bg-primary me-2" id="modalServiceRating">4.82</span>
+                <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1 open-reviews-modal">
+                  <span class="me-1">★</span>
+                  <span id="modalServiceRatingText">4.82</span>
+                  <span class="text-muted ms-1">(<span id="modalServiceReviews">1666</span> reviews)</span>
+                </button>
               </div>
-              
-              <!-- Price & Duration -->
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <div>
-                  <small class="text-muted d-block">Starts at</small>
-                  <span class="fw-bold text-dark">₹999</span>
-                </div>
-                <div class="text-muted">•</div>
-                <div>
-                  <small class="text-muted d-block">Duration</small>
-                  <span class="fw-bold text-dark">60 mins</span>
-                </div>
-              </div>
-              
-              <!-- Description Bullet Points -->
-              <ul class="small mb-3 ps-3" style="list-style: disc; color: #666;">
-                <li class="mb-2">Professional Swedish massage for complete body relaxation</li>
-                <li class="mb-2">Valid for 6 months with flexible booking options</li>
-              </ul>
-              
-              <!-- Show More Link -->
-              <a href="#" class="text-primary text-decoration-none small fw-semibold open-details-modal">Show more ▼</a>
+              <small class="text-success">✓ Verified</small>
             </div>
-            
-            <!-- Right: Image & Button Section -->
-            <div class="order-1 order-md-2 text-center text-md-end" style="min-width: 150px;">
-              <!-- Image -->
-              <div class="mb-3">
-                <img src="https://images.unsplash.com/photo-1598901986949-f593ff2a31a6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fFN3ZWRpc2glMjBNYXNzYWdlfGVufDB8fDB8fHww" alt="Swedish Massage" class="img-fluid rounded-3" style="height: 180px; width: 100%; object-fit: cover;">
-              </div>
-              
-              <!-- Add Button -->
-              <button class="btn btn-primary btn-sm add-to-cart-btn w-100" data-bs-toggle="modal" data-bs-target="#packageModal" 
-                data-service-name="Pack of 4 (Swedish Massage)" 
-                data-service-price="999" 
-                data-service-original="1299"
-                data-service-rating="4.82"
-                data-service-reviews="2441">Add</button>
-            </div>
-
           </div>
         </div>
-        <div class="card service-card border-light-custom shadow-sm rounded-4 p-4 mb-4" style="cursor:pointer; transition:all 0.3s;">
-          <div class="d-flex flex-column flex-md-row justify-content-between align-items-start">
-            
-            <!-- Left: Details Section -->
-            <div class="flex-grow-1 pe-md-4 order-2 order-md-1 mt-3 mt-md-0">
-              <!-- Service Title -->
-              <h6 class="fw-bold mb-2">Pack of 4 (Swedish Massage)</h6>
-              
-              <!-- Rating -->
-              <div class="d-flex align-items-center gap-2 mb-2">
-                <a style="text-decoration: none; color: #666;" class="open-reviews-modal">
-                <span class="text-warning">★</span>
-                <small><strong>4.82</strong> (2441 reviews)</small>
-              </a>
-              </div>
-              
-              <!-- Price & Duration -->
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <div>
-                  <small class="text-muted d-block">Starts at</small>
-                  <span class="fw-bold text-dark">₹999</span>
-                </div>
-                <div class="text-muted">•</div>
-                <div>
-                  <small class="text-muted d-block">Duration</small>
-                  <span class="fw-bold text-dark">60 mins</span>
-                </div>
-              </div>
-              
-              <!-- Description Bullet Points -->
-              <ul class="small mb-3 ps-3" style="list-style: disc; color: #666;">
-                <li class="mb-2">Professional Swedish massage for complete body relaxation</li>
-                <li class="mb-2">Valid for 6 months with flexible booking options</li>
-              </ul>
-              
-              <!-- Show More Link -->
-              <a href="#" class="text-primary text-decoration-none small fw-semibold open-details-modal">Show more ▼</a>
-            </div>
-            
-            <!-- Right: Image & Button Section -->
-            <div class="order-1 order-md-2 text-center text-md-end" style="min-width: 150px;">
-              <!-- Image -->
-              <div class="mb-3">
-                <img src="https://images.unsplash.com/photo-1598901986949-f593ff2a31a6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fFN3ZWRpc2glMjBNYXNzYWdlfGVufDB8fDB8fHww" alt="Swedish Massage" class="img-fluid rounded-3" style="height: 180px; width: 100%; object-fit: cover;">
-              </div>
-              
-              <!-- Add Button -->
-              <button class="btn btn-primary btn-sm add-to-cart-btn w-100" data-bs-toggle="modal" data-bs-target="#packageModal" 
-                data-service-name="Pack of 4 (Swedish Massage)" 
-                data-service-price="999" 
-                data-service-original="1299"
-                data-service-rating="4.82"
-                data-service-reviews="2441">Add</button>
-            </div>
+      </div>
 
-          </div>
+      <!-- Package Options -->
+      <div class="mb-4">
+        <h6 class="fw-bold mb-3">Select Duration</h6>
+        <div class="row g-3" id="packageOptionsContainer">
+          <!-- Package options will be populated here -->
         </div>
-        <div class="card service-card border-light-custom shadow-sm rounded-4 p-4 mb-4" style="cursor:pointer; transition:all 0.3s;">
-          <div class="d-flex flex-column flex-md-row justify-content-between align-items-start">
-            
-            <!-- Left: Details Section -->
-            <div class="flex-grow-1 pe-md-4 order-2 order-md-1 mt-3 mt-md-0">
-              <!-- Service Title -->
-              <h6 class="fw-bold mb-2">Pack of 4 (Swedish Massage)</h6>
-              
-              <!-- Rating -->
-              <div class="d-flex align-items-center gap-2 mb-2">
-                <a style="text-decoration: none; color: #666;" class="open-reviews-modal">
-                <span class="text-warning">★</span>
-                <small><strong>4.82</strong> (2441 reviews)</small>
-              </a>
-                <small><strong>4.82</strong> (2441 reviews)</small>
-              </div>
-              
-              <!-- Price & Duration -->
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <div>
-                  <small class="text-muted d-block">Starts at</small>
-                  <span class="fw-bold text-dark">₹999</span>
-                </div>
-                <div class="text-muted">•</div>
-                <div>
-                  <small class="text-muted d-block">Duration</small>
-                  <span class="fw-bold text-dark">60 mins</span>
-                </div>
-              </div>
-              
-              <!-- Description Bullet Points -->
-              <ul class="small mb-3 ps-3" style="list-style: disc; color: #666;">
-                <li class="mb-2">Professional Swedish massage for complete body relaxation</li>
-                <li class="mb-2">Valid for 6 months with flexible booking options</li>
-              </ul>
-              
-              <!-- Show More Link -->
-              <a href="#" class="text-primary text-decoration-none small fw-semibold open-details-modal">Show more ▼</a>
-            </div>
-            
-            <!-- Right: Image & Button Section -->
-            <div class="order-1 order-md-2 text-center text-md-end" style="min-width: 150px;">
-              <!-- Image -->
-              <div class="mb-3">
-                <img src="https://images.unsplash.com/photo-1598901986949-f593ff2a31a6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fFN3ZWRpc2glMjBNYXNzYWdlfGVufDB8fDB8fHww" alt="Swedish Massage" class="img-fluid rounded-3" style="height: 180px; width: 100%; object-fit: cover;">
-              </div>
-              
-              <!-- Add Button -->
-              <button class="btn btn-primary btn-sm add-to-cart-btn w-100" data-bs-toggle="modal" data-bs-target="#packageModal" 
-                data-service-name="Pack of 4 (Swedish Massage)" 
-                data-service-price="999" 
-                data-service-original="1299"
-                data-service-rating="4.82"
-                data-service-reviews="2441">Add</button>
-            </div>
+      </div>
 
-          </div>
-        </div>
-        <div class="card service-card border-light-custom shadow-sm rounded-4 p-4 mb-4" style="cursor:pointer; transition:all 0.3s;">
-          <div class="d-flex flex-column flex-md-row justify-content-between align-items-start">
-            
-            <!-- Left: Details Section -->
-            <div class="flex-grow-1 pe-md-4 order-2 order-md-1 mt-3 mt-md-0">
-              <!-- Service Title -->
-              <h6 class="fw-bold mb-2">Pack of 4 (Swedish Massage)</h6>
-              
-              <!-- Rating -->
-              <div class="d-flex align-items-center gap-2 mb-2">
-                <span class="text-warning">★</span>
-                <small><strong>4.82</strong> (2441 reviews)</small>
-              </div>
-              
-              <!-- Price & Duration -->
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <div>
-                  <small class="text-muted d-block">Starts at</small>
-                  <span class="fw-bold text-dark">₹999</span>
-                </div>
-                <div class="text-muted">•</div>
-                <div>
-                  <small class="text-muted d-block">Duration</small>
-                  <span class="fw-bold text-dark">60 mins</span>
-                </div>
-              </div>
-              
-              <!-- Description Bullet Points -->
-              <ul class="small mb-3 ps-3" style="list-style: disc; color: #666;">
-                <li class="mb-2">Professional Swedish massage for complete body relaxation</li>
-                <li class="mb-2">Valid for 6 months with flexible booking options</li>
-              </ul>
-              
-              <!-- Show More Link -->
-              <a href="#" class="text-primary text-decoration-none small fw-semibold open-details-modal">Show more ▼</a>
-            </div>
-            
-            <!-- Right: Image & Button Section -->
-            <div class="order-1 order-md-2 text-center text-md-end" style="min-width: 150px;">
-              <!-- Image -->
-              <div class="mb-3">
-                <img src="https://images.unsplash.com/photo-1598901986949-f593ff2a31a6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fFN3ZWRpc2glMjBNYXNzYWdlfGVufDB8fDB8fHww" alt="Swedish Massage" class="img-fluid rounded-3" style="height: 180px; width: 100%; object-fit: cover;">
-              </div>
-              
-              <!-- Add Button -->
-              <button class="btn btn-primary btn-sm add-to-cart-btn w-100" data-bs-toggle="modal" data-bs-target="#packageModal" 
-                data-service-name="Pack of 4 (Swedish Massage)" 
-                data-service-price="999" 
-                data-service-original="1299"
-                data-service-rating="4.82"
-                data-service-reviews="2441">Add</button>
-            </div>
+      <!-- Additional Details -->
+      <div class="mb-4 p-3 bg-light rounded-3">
+        <h6 class="fw-bold mb-3">What's Included</h6>
+        <ul class="list-unstyled">
+          <li class="mb-2"><small><strong>✓</strong> {!! $service_detail->description_2 !!}</small></li>
+        </ul>
+      </div>
 
-          </div>
-        </div>
-        <div class="card service-card border-light-custom shadow-sm rounded-4 p-4 mb-4" style="cursor:pointer; transition:all 0.3s;">
-          <div class="d-flex flex-column flex-md-row justify-content-between align-items-start">
-            
-            <!-- Left: Details Section -->
-            <div class="flex-grow-1 pe-md-4 order-2 order-md-1 mt-3 mt-md-0">
-              <!-- Service Title -->
-              <h6 class="fw-bold mb-2">Pack of 4 (Swedish Massage)</h6>
-              
-              <!-- Rating -->
-              <div class="d-flex align-items-center gap-2 mb-2">
-                <span class="text-warning">★</span>
-                <small><strong>4.82</strong> (2441 reviews)</small>
-              </div>
-              
-              <!-- Price & Duration -->
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <div>
-                  <small class="text-muted d-block">Starts at</small>
-                  <span class="fw-bold text-dark">₹999</span>
-                </div>
-                <div class="text-muted">•</div>
-                <div>
-                  <small class="text-muted d-block">Duration</small>
-                  <span class="fw-bold text-dark">60 mins</span>
-                </div>
-              </div>
-              
-              <!-- Description Bullet Points -->
-              <ul class="small mb-3 ps-3" style="list-style: disc; color: #666;">
-                <li class="mb-2">Professional Swedish massage for complete body relaxation</li>
-                <li class="mb-2">Valid for 6 months with flexible booking options</li>
-              </ul>
-              
-              <!-- Show More Link -->
-              <a href="#" class="text-primary text-decoration-none small fw-semibold open-details-modal">Show more ▼</a>
-            </div>
-            
-            <!-- Right: Image & Button Section -->
-            <div class="order-1 order-md-2 text-center text-md-end" style="min-width: 150px;">
-              <!-- Image -->
-              <div class="mb-3">
-                <img src="https://images.unsplash.com/photo-1598901986949-f593ff2a31a6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fFN3ZWRpc2glMjBNYXNzYWdlfGVufDB8fDB8fHww" alt="Swedish Massage" class="img-fluid rounded-3" style="height: 180px; width: 100%; object-fit: cover;">
-              </div>
-              
-              <!-- Add Button -->
-              <button class="btn btn-primary btn-sm add-to-cart-btn w-100" data-bs-toggle="modal" data-bs-target="#packageModal" 
-                data-service-name="Pack of 4 (Swedish Massage)" 
-                data-service-price="999" 
-                data-service-original="1299"
-                data-service-rating="4.82"
-                data-service-reviews="2441">Add</button>
-            </div>
+      <!-- Terms -->
+      <div class="mb-4 p-3 bg-light rounded-3">
+        <h6 class="fw-bold mb-2">Terms & Conditions</h6>
+        <small class="text-muted d-block mb-2">• {!! $service_detail->description_3 !!}</small>
+      </div>
 
-          </div>
-        </div>
-        <div class="card service-card border-light-custom shadow-sm rounded-4 p-4 mb-4" style="cursor:pointer; transition:all 0.3s;">
-          <div class="d-flex flex-column flex-md-row justify-content-between align-items-start">
-            
-            <!-- Left: Details Section -->
-            <div class="flex-grow-1 pe-md-4 order-2 order-md-1 mt-3 mt-md-0">
-              <!-- Service Title -->
-              <h6 class="fw-bold mb-2">Pack of 4 (Swedish Massage)</h6>
-              
-              <!-- Rating -->
-              <div class="d-flex align-items-center gap-2 mb-2">
-                <span class="text-warning">★</span>
-                <small><strong>4.82</strong> (2441 reviews)</small>
-              </div>
-              
-              <!-- Price & Duration -->
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <div>
-                  <small class="text-muted d-block">Starts at</small>
-                  <span class="fw-bold text-dark">₹999</span>
-                </div>
-                <div class="text-muted">•</div>
-                <div>
-                  <small class="text-muted d-block">Duration</small>
-                  <span class="fw-bold text-dark">60 mins</span>
-                </div>
-              </div>
-              
-              <!-- Description Bullet Points -->
-              <ul class="small mb-3 ps-3" style="list-style: disc; color: #666;">
-                <li class="mb-2">Professional Swedish massage for complete body relaxation</li>
-                <li class="mb-2">Valid for 6 months with flexible booking options</li>
-              </ul>
-              
-              <!-- Show More Link -->
-              <a href="#" class="text-primary text-decoration-none small fw-semibold open-details-modal">Show more ▼</a>
-            </div>
-            
-            <!-- Right: Image & Button Section -->
-            <div class="order-1 order-md-2 text-center text-md-end" style="min-width: 150px;">
-              <!-- Image -->
-              <div class="mb-3">
-                <img src="https://images.unsplash.com/photo-1598901986949-f593ff2a31a6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fFN3ZWRpc2glMjBNYXNzYWdlfGVufDB8fDB8fHww" alt="Swedish Massage" class="img-fluid rounded-3" style="height: 180px; width: 100%; object-fit: cover;">
-              </div>
-              
-              <!-- Add Button -->
-              <button class="btn btn-primary btn-sm add-to-cart-btn w-100" data-bs-toggle="modal" data-bs-target="#packageModal" 
-                data-service-name="Pack of 4 (Swedish Massage)" 
-                data-service-price="999" 
-                data-service-original="1299"
-                data-service-rating="4.82"
-                data-service-reviews="2441">Add</button>
-            </div>
-
-          </div>
-        </div>
-        <div class="card service-card border-light-custom shadow-sm rounded-4 p-4 mb-4" style="cursor:pointer; transition:all 0.3s;">
-          <div class="d-flex justify-content-between align-items-flex-start">
-            
-            <!-- Left: Details Section -->
-            <div class="flex-grow-1 pe-4">
-              <!-- Service Title -->
-              <h6 class="fw-bold mb-2">Pack of 4 (Swedish Massage)</h6>
-              
-              <!-- Rating -->
-              <div class="d-flex align-items-center gap-2 mb-2">
-                <span class="text-warning">★</span>
-                <small><strong>4.82</strong> (2441 reviews)</small>
-              </div>
-              
-              <!-- Price & Duration -->
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <div>
-                  <small class="text-muted d-block">Starts at</small>
-                  <span class="fw-bold text-dark">₹999</span>
-                </div>
-                <div class="text-muted">•</div>
-                <div>
-                  <small class="text-muted d-block">Duration</small>
-                  <span class="fw-bold text-dark">60 mins</span>
-                </div>
-              </div>
-              
-              <!-- Description Bullet Points -->
-              <ul class="small mb-3 ps-3" style="list-style: disc; color: #666;">
-                <li class="mb-2">Professional Swedish massage for complete body relaxation</li>
-                <li class="mb-2">Valid for 6 months with flexible booking options</li>
-              </ul>
-              
-              <!-- Show More Link -->
-              <a href="#" class="text-primary text-decoration-none small fw-semibold">Show more ▼</a>
-            </div>
-            
-            <!-- Right: Image & Button Section -->
-            <div class="text-end" style="min-width: 150px;">
-              <!-- Image -->
-              <div class="mb-3">
-                <img src="https://images.unsplash.com/photo-1598901986949-f593ff2a31a6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fFN3ZWRpc2glMjBNYXNzYWdlfGVufDB8fDB8fHww" alt="Swedish Massage" class="img-fluid rounded-3" style="height: 180px; width: 100%; object-fit: cover;">
-              </div>
-              
-              <!-- Add Button -->
-              <button class="btn btn-primary btn-sm add-to-cart-btn w-100" data-bs-toggle="modal" data-bs-target="#packageModal" 
-                data-service-name="Pack of 4 (Swedish Massage)" 
-                data-service-price="999" 
-                data-service-original="1299"
-                data-service-rating="4.82"
-                data-service-reviews="2441">Add</button>
-            </div>
-
-          </div>
-        </div>
+      <!-- Action Buttons -->
+      <div class="d-flex gap-2">
+        <button type="button" class="btn btn-outline-secondary rounded-3 flex-grow-1" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary rounded-3 flex-grow-1" onclick="addToCart()">Done</button>
+      </div>
+    </div>
+  </div>
+</div>
+        @endforeach
+       
 
         <!-- Load More -->
         <div class="text-center">
@@ -728,87 +284,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css">
 
 <!-- ================= PACKAGE DETAILS MODAL ================= -->
-<div class="modal fade" id="packageModal" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content border-0 rounded-4 p-4">
-      <!-- Close Button -->
-      <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
-      <div class="mb-4">
-        <!-- Splide slider inside modal -->
-        <div id="serviceModalSplide" class="splide">
-          <div class="splide__track">
-            <ul class="splide__list">
-              <li class="splide__slide">
-                <img class="w-100 rounded-3" src="https://images.unsplash.com/photo-1598901986949-f593ff2a31a6?w=800&auto=format&fit=crop&q=80&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fFN3ZWRpc2glMjBNYXNzYWdlfGVufDB8fDB8fHww" alt="Massage Image 1">
-              </li>
-              <li class="splide__slide">
-                <img class="w-100 rounded-3" src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=800&auto=format&fit=crop&q=80&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8U3dlZGlzaCUyME1hc3NhZ2V8ZW58MHx8MHx8fDA%3D" alt="Massage Image 2">
-              </li>
-              <li class="splide__slide">
-                <img class="w-100 rounded-3" src="https://images.unsplash.com/photo-1598901986903-99a9afbb60fc?w=800&auto=format&fit=crop&q=80&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8U3dlZGlzaCUyME1hc3NhZ2V8ZW58MHx8MHx8fDA%3D" alt="Massage Image 3">
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <!-- Service Header -->
-      <div class="mb-4 pb-3 border-bottom">
-        <div class="row align-items-center">
-          <div class="col-auto">
-            {{-- <div style="font-size: 3rem;">💆</div> --}}
-          </div>
-          <div class="col">
-            <h5 class="fw-bold mb-1" id="modalServiceName">Service Name</h5>
-            <div class="d-flex gap-3 align-items-center">
-              <div class="d-flex align-items-center">
-                <span class="badge bg-primary me-2" id="modalServiceRating">4.82</span>
-                <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1 open-reviews-modal">
-                  <span class="me-1">★</span>
-                  <span id="modalServiceRatingText">4.82</span>
-                  <span class="text-muted ms-1">(<span id="modalServiceReviews">1666</span> reviews)</span>
-                </button>
-              </div>
-              <small class="text-success">✓ Verified</small>
-            </div>
-          </div>
-        </div>
-      </div>
 
-      <!-- Package Options -->
-      <div class="mb-4">
-        <h6 class="fw-bold mb-3">Select Duration</h6>
-        <div class="row g-3" id="packageOptionsContainer">
-          <!-- Package options will be populated here -->
-        </div>
-      </div>
-
-      <!-- Additional Details -->
-      <div class="mb-4 p-3 bg-light rounded-3">
-        <h6 class="fw-bold mb-3">What's Included</h6>
-        <ul class="list-unstyled">
-          <li class="mb-2"><small><strong>✓</strong> Professional therapist</small></li>
-          <li class="mb-2"><small><strong>✓</strong> Premium quality oils</small></li>
-          <li class="mb-2"><small><strong>✓</strong> Fully hygienic environment</small></li>
-          <li class="mb-2"><small><strong>✓</strong> Stress relief guaranteed</small></li>
-        </ul>
-      </div>
-
-      <!-- Terms -->
-      <div class="mb-4 p-3 bg-light rounded-3">
-        <h6 class="fw-bold mb-2">Terms & Conditions</h6>
-        <small class="text-muted d-block mb-2">• Valid for 5-6 months from purchase</small>
-        <small class="text-muted d-block mb-2">• Can be redeemed Monday to Saturday</small>
-        <small class="text-muted d-block">• Non-transferable and non-refundable</small>
-      </div>
-
-      <!-- Action Buttons -->
-      <div class="d-flex gap-2">
-        <button type="button" class="btn btn-outline-secondary rounded-3 flex-grow-1" data-bs-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-primary rounded-3 flex-grow-1" onclick="addToCart()">Done</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 <!-- ================= REVIEWS MODAL ================= -->
 <div class="modal fade" id="reviewsModal" tabindex="-1">
