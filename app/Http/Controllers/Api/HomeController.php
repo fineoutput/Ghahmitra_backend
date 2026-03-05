@@ -245,6 +245,7 @@ public function ServicesDetails(Request $request)
     $data = [
         'id' => $service->id,
         'name' => $service->name,
+        'category_id' => $service->services_se_id,
         'description' => strip_tags($service->description),
         'description_2' => strip_tags($service->description_2),
         'description_3' => strip_tags($service->description_3),
