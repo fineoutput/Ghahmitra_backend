@@ -40,7 +40,7 @@ class CartController extends Controller
     $request->validate([
         'service_id' => 'required',
         'category_id' => 'required',
-        'availability_id' => 'required',
+        'availability_id' => 'nullable',
         'quantity' => 'required|integer|min:1',
     ]);
 
@@ -180,6 +180,7 @@ public function updateCart(Request $request)
         ], 404);
     }
 
+    $cart->availability_id = $request->availability_id;
     $cart->quantity = $request->quantity;
     $cart->save();
 
