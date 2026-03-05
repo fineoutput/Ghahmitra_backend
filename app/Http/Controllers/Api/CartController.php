@@ -400,5 +400,54 @@ public function storeFeedback(Request $request)
     ]);
 }
 
+
+public function ordersList(Request $request)
+{
+    $customer = Auth::guard('customer_api')->user();
+
+    if (!$customer) {
+        return response()->json([
+            'status' => 401,
+            'message' => 'Unauthorized'
+        ], 401);
+    }
+
+    $orders = Order::with('orderItems')
+        ->where('customer_id', $customer->id)
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+    return response()->json([
+        'status' => 200,
+        'message' => 'Orders retrieved successfully',
+        'data' => $orders
+    ]);
     
+}
+
+public function ordersdetails(Request $request)
+{
+    $customer = Auth::guard('customer_api')->user();
+
+    if (!$customer) {
+        return response()->json([
+            'status' => 401,
+            'message' => 'Unauthorized'
+        ], 401);
+    }
+
+    $orders = Order::with('orderItems')
+        ->where('id', $request->order_id)
+        ->where('customer_id', $customer->id)
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+    return response()->json([
+        'status' => 200,
+        'message' => 'Orders retrieved successfully',
+        'data' => $orders
+    ]);
+    
+}
+
 }
