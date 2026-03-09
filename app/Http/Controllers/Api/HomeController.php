@@ -156,6 +156,9 @@ public function homeData()
                 return [
                     'id' => $Service->id,
                     'name' => $Service->name,
+                    'most_booked' => $Service->most_booked,
+                    'cleaning' => $Service->cleaning,
+                    'exclusive_offers' => $Service->exclusive_offers,
                     'description' => strip_tags($Service->description),
                     'image_url' => $Service->image 
                         ? url($Service->image)
