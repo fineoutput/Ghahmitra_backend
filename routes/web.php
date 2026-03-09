@@ -25,6 +25,7 @@ use App\Http\Controllers\Admin\PartnerServicesController;
 use App\Http\Controllers\Admin\PrivacyPolicyController;
 use App\Http\Controllers\Admin\TCController;
 use App\Http\Controllers\Frontend\AuthController;
+use App\Http\Controllers\Frontend\CartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,8 +55,7 @@ Route::group(['prefix' => '/'], function () {
     Route::get('/my-requests', [HomeController::class, 'my_requests'])->name('my_requests');
     Route::get('/payment-history', [HomeController::class, 'payment-history'])->name('payment-history');
     Route::get('/wallet', [HomeController::class, 'wallet'])->name('wallet');
-    Route::get('/request_detail', [HomeController::class, 'request_detail'])->name('request_detail');
-
+   
     Route::post('/send-otp', [AuthController::class, 'sendOtp']);
     Route::post('/verify-otp', [AuthController::class, 'verifyRegisterOtp']);
 
@@ -71,8 +71,16 @@ Route::group(['prefix' => '/'], function () {
 
 
 Route::prefix('customer')->group(function () {
+     Route::get('/get-cities', [CartController::class,'getCities'])->name('customer.cart_state');
+    Route::post('/customer-address/store', [CartController::class,'store'])->name('customer-address.store');
     Route::get('/logout', [AuthController::class, 'logout'])->name('customer.logout');
     Route::get('/profile-user', [HomeController::class, 'profile'])->name('profile');
+    Route::post('/add-to-cart',[CartController::class,'addtocart'])->name('addtocart');
+     Route::post('/update-cart',[CartController::class,'updatecart'])->name('updatecart');
+     Route::post('/select-slot',[CartController::class,'selectslot'])->name('selectslot');
+     Route::post('/remove-cart',[CartController::class,'removecart'])->name('removecart');
+    Route::get('/request_detail', [HomeController::class, 'request_detail'])->name('request_detail');
+
 
 });
 

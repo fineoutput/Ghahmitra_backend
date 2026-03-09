@@ -187,15 +187,15 @@
           <a class="d-flex align-items-center text-dark text-decoration-none" href="#" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
             <div class="rounded-circle bg-primary text-white d-inline-flex justify-content-center align-items-center" style="width:34px;height:34px;font-weight:600;">{{ strtoupper(substr(auth()->user()->name ?? 'U',0,1)) }}</div>
             <div class="ms-2 d-none d-md-block text-start">
-              <div class="fw-bold small">{{ auth()->user()->name ?? 'User' }}</div>
-              <div class="small text-muted">{{ auth()->user()->phone ?? '9461937396' }}</div>
+              <div class="fw-bold small">{{ Auth::guard('customer')->user()->name ?? 'Name Not Found' }}</div>
+              <div class="small text-muted">{{ Auth::guard('customer')->user()->mobile_no ?? 'No mobile number provided' }}</div>
             </div>
           </a>
           <div class="dropdown-menu dropdown-menu-end p-4 shadow-lg rounded-4" aria-labelledby="profileDropdown" style="min-width:280px; border:none;">
             <!-- Header Section -->
             <div class="mb-3 pb-3 border-bottom">
               <h6 class="fw-bold mb-1" style="font-size:0.95rem;">{{ Auth::guard('customer')->user()->name ?? 'User' }}</h6>
-              <small class="text-muted d-block">{{ Auth::guard('customer')->user()->mobile_no ?? '9461937396' }}</small>
+              <small class="text-muted d-block">{{ Auth::guard('customer')->user()->mobile_no ?? 'No mobile number provided' }}</small>
             </div>
             
             <!-- Menu Items -->

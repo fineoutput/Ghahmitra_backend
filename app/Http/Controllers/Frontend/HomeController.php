@@ -4,8 +4,11 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
+use App\Models\Cart;
+use App\Models\CustomerAddresses;
 use App\Models\Services;
 use App\Models\ServicesSe;
+use App\Models\State;
 use App\Models\Th_Services;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -46,13 +49,30 @@ class HomeController extends Controller
     {
             $data['services'] = ServicesSe::orderBy('id','desc')->where('id','!=', $id)->where('status', 1)->get();
             $data['services_details'] = Th_Services::orderBy('id','desc')->where('services_se_id', $id)->get();
+            $user = Auth::guard('customer')->user();
+            if ($user) {
+                $data['cart_items'] = Cart::where('customers_id', $user->id)->where('status', 1)->get();
+            } else {
+                $data['cart_items'] = [];
+            }
           return view('frontend/services',$data)->withTitle('services');
     }
 
     public function cart(Request $req)
     {
-     
-        return view('frontend/cart')->withTitle('cart');
+        $data['customer'] = Auth::guard('customer')->user();
+        if (!$data['customer']) {
+            return redirect()->route('/')->with('error', 'Please login to view your cart.');
+        }
+        $data['states'] = State::all();
+        $data['CustomerAddresses'] = CustomerAddresses::where('customer_id',$data['customer']->id)->get();
+        $data['cart_items'] = Cart::with('service', 'ServicesSe', 'availability')
+            ->where('customers_id', $data['customer']->id)->where('status', 1)->get();
+
+        $data['cart_total'] = $data['cart_items']->sum(function($item) {
+                return ($item->service->price ?? 0) * $item->quantity;});
+
+        return view('frontend/cart', $data)->withTitle('cart');
     }
 
 
@@ -78,10 +98,41 @@ class HomeController extends Controller
      
         return view('frontend/wallet')->withTitle('wallet');
     }
-    public function request_detail(Request $req)
-    {
-     
-        return view('frontend/request_detail')->withTitle('request_detail');
+
+public function request_detail(Request $req)
+{
+    $customer = Auth::guard('customer')->user();
+
+    $cartItems = Cart::with('service')
+        ->where('customers_id', $customer->id)
+        ->where('status', 1)
+        ->get();
+
+    $items = [];
+    $grandTotal = 0;
+
+    foreach ($cartItems as $item) {
+        if (!$item->service) continue;
+
+        $price = $item->service->price;
+        $quantity = $item->quantity;
+        $total = $price * $quantity;
+
+        $grandTotal += $total;
+
+        $items[] = [
+            'cart_id' => $item->id,
+            'service_id' => $item->service_id,
+            'service_name' => $item->service->name,
+            'availability_id' => $item->availability_id,
+            'quantity' => $quantity,
+            'price' => $price,
+            'total' => $total,
+        ];
     }
+
+    return view('frontend/request_detail', compact('customer', 'items', 'grandTotal'))
+           ->withTitle('request_detail');
+}
     
 }

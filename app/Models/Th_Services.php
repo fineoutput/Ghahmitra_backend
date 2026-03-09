@@ -36,4 +36,9 @@ class Th_Services extends Model
         {
             return $this->belongsTo(ServicesSe::class, 'services_se_id');
         }
+
+            public function availability()  
+            {
+                return $this->hasMany(Availability::class, 'services_id');
+            }
 }

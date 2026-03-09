@@ -195,7 +195,7 @@
         <div class="col-lg-7">
 
             <!-- Service Request -->
-            <div class="card-box">
+            {{-- <div class="card-box">
                 <h5 class="section-title">Service Request</h5>
 
                 <div class="d-flex align-items-start gap-3 mb-3">
@@ -233,7 +233,7 @@
                         <div class="fw-semibold" id="endOtpDisplay">—</div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
             <!-- Cancel Message -->
             <div class="alert-cancel">
@@ -253,10 +253,14 @@
             <div class="card-box">
                 <h5 class="section-title">Payment Summary</h5>
 
-                <div class="summary-row">
-                    <span>Item total</span>
-                    <span>₹747</span>
+                @foreach ($items as $value)
+                 <div class="summary-row">
+                    <span>{{$value['service_name']}}</span>
+                    <span>{{$value['quantity']}}</span>
+                    <span>₹{{$value['price']}}</span>
+                    <span>₹{{$value['total']}}</span>
                 </div>
+                @endforeach
 
                 <div class="summary-row">
                     <span>Visiting Charges</span>
@@ -267,14 +271,14 @@
 
                 <div class="summary-row fw-semibold">
                     <span>Total</span>
-                    <span>₹747</span>
+                    <span>₹{{$grandTotal ?? 0}}</span>
                 </div>
 
                 <hr>
 
                 <div class="summary-row">
                     <span>Pay After Consultation</span>
-                    <span>₹747</span>
+                    <span>₹{{$grandTotal ?? 0}}</span>
                 </div>
             </div>
 
@@ -298,7 +302,7 @@
             </div>
 
             <!-- Booking Details -->
-            <div class="card-box">
+            {{-- <div class="card-box">
                 <h6 class="fw-semibold mb-3">Booking Details</h6>
 
                 <div class="detail-row">
@@ -312,10 +316,10 @@
                 <div class="detail-row">
                     📅 Feb 23, 2026, 04:26 PM
                 </div>
-            </div>
+            </div> --}}
 
             <!-- Serviceman Details -->
-<div class="card-box">
+{{-- <div class="card-box">
     <h6 class="fw-semibold mb-3">Assigned Professional</h6>
 
     <div class="d-flex align-items-center gap-3 mb-3">
@@ -348,7 +352,7 @@
             Contact Professional
         </button>
     </div>
-</div>
+</div> --}}
 
         </div>
 

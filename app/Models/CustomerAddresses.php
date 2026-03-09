@@ -24,7 +24,16 @@ class CustomerAddresses extends Model
             'pincode',
             'is_default',
             'status',
-
         ];
+
+        public function cities()
+        {
+            return $this->belongsTo(City::class, 'city_id');
+        }
+        
+        public function state()
+        {
+            return $this->belongsTo(State::class, 'state_id');
+        }
         
 }

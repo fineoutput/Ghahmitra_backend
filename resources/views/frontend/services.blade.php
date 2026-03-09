@@ -189,7 +189,30 @@
       <!-- Action Buttons -->
       <div class="d-flex gap-2">
         <button type="button" class="btn btn-outline-secondary rounded-3 flex-grow-1" data-bs-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-primary rounded-3 flex-grow-1" onclick="addToCart()">Done</button>
+        @php
+          $inCart = collect($cart_items)->where('service_id', $service_detail->id)->first();
+          @endphp
+
+          @if($inCart)
+
+          <button 
+          type="button" 
+          class="btn btn-success rounded-3 flex-grow-1" disabled>
+          Already in Cart
+          </button>
+
+          @else
+
+          <button 
+          type="button" 
+          class="btn btn-primary rounded-3 flex-grow-1 addToCartBtn"
+          data-service-id="{{ $service_detail->id }}"
+          data-category-id="{{ $service_detail->services_se_id }}"
+          onclick="addToCart(this)">
+          Done
+          </button>
+
+          @endif
       </div>
     </div>
   </div>
@@ -460,6 +483,69 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
 
+
+
+
+<script>
+
+function addToCart(button) {
+
+    let service_id = button.dataset.serviceId;
+    let category_id = button.dataset.categoryId;
+
+    fetch("{{ route('addtocart') }}", {
+
+        method: "POST",
+
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": "{{ csrf_token() }}"
+        },
+
+        body: JSON.stringify({
+            service_id: service_id,
+            category_id: category_id,
+            availability_id: null,
+            quantity: 1
+        })
+
+    })
+
+    .then(response => response.json())
+
+    .then(data => {
+
+        if(data.status === 201 || data.status === 200){
+
+            alert(data.message);
+
+            // modal close
+            let modal = document.querySelector('.modal.show');
+
+            if(modal){
+                let modalInstance = bootstrap.Modal.getInstance(modal);
+                modalInstance.hide();
+            }
+
+        }else{
+
+            alert(data.message);
+
+        }
+
+    })
+
+    .catch(error => {
+
+        console.log(error);
+        alert("Something went wrong");
+
+    });
+
+}
+
+</script>
+
 <script>
   // Initialize Splide slider & modal behaviors
   document.addEventListener('DOMContentLoaded', function () {
@@ -594,10 +680,7 @@
     }
   });
   // Add to cart function
-  function addToCart() {
-    alert('Service added to cart!');
-    getPackageModal().hide();
-  }
+ 
 
   // Clean up backdrop when modal is hidden
   document.getElementById('packageModal').addEventListener('hidden.bs.modal', function () {
