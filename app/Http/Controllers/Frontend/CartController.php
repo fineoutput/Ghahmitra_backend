@@ -152,7 +152,7 @@ public function removecart(Request $request){
 
     $cart->delete();
 
-    return redirect()->back()->with('success', 'Slot selected successfully');
+    return redirect()->back()->with('success', 'Cart removed successfully');
 }
 
 public function selectslot(Request $request)

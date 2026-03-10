@@ -500,6 +500,14 @@
 
                             {{-- <div id="cartMessage"></div> --}}
                             <div class="fw-semibold">₹{{ $item->service->price * $item->quantity }}</div>
+                            <form action="{{ route('removecart') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="cart_id" value="{{ $item->id }}">
+
+                                <button type="submit" class="btn btn-sm btn-danger">
+                                    X
+                                </button>
+                            </form>
                         </div>
                     </div>
                     <div class="cart-card">
