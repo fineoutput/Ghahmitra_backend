@@ -92,6 +92,25 @@ class HomeController extends Controller
         return view('frontend/profile')->withTitle('profile')->with($data);
     }
     
+    public function update_profile(Request $req)
+    {
+        $customer = Auth::guard('customer')->user();
+        
+        $req->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'nullable|email|max:255',
+        ]);
+        
+        $customerUpdate = \App\Models\Customers::find($customer->id);
+        if ($customerUpdate) {
+            $customerUpdate->name = $req->name;
+            $customerUpdate->email = $req->email;
+            $customerUpdate->save();
+        }
+        
+        return redirect()->back()->with('success', 'Profile updated successfully.');
+    }
+    
     public function payment_history(Request $req)
     {
      

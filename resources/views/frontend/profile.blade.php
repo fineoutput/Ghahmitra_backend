@@ -3,11 +3,49 @@
 @section('content')
 <section class="py-5">
   <div class="container">
-    <h4 class="mb-4">Profile</h4>
-    <div class="card p-4">
-      <p><strong>Name:</strong> {{ $customer->name ?? 'Name Not Found' }}</p>
-      <p><strong>Phone:</strong> {{ $customer->mobile_no ?? '0000000000' }}</p>
-      <p class="text-muted">Edit profile details here.</p>
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h4 class="mb-0">My Profile</h4>
+            </div>
+
+            @if(session('success'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+
+            <div class="card shadow-sm border-0 rounded-4 p-4">
+                <form action="{{ route('customer.update_profile') }}" method="POST">
+                    @csrf
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label text-muted fw-semibold">Session Phone Number</label>
+                            <input type="text" class="form-control mb-1 bg-light" value="{{ $customer->mobile_no ?? '' }}" readonly disabled>
+                            <small class="text-muted"><i class="fa-solid fa-info-circle me-1"></i> Phone number cannot be changed.</small>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-semibold">Full Name <span class="text-danger">*</span></label>
+                            <input type="text" name="name" class="form-control mb-1" value="{{ old('name', $customer->name ?? '') }}" placeholder="Enter your full name" required>
+                            @error('name')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label class="form-label fw-semibold">Email Address</label>
+                            <input type="email" name="email" class="form-control mb-1" value="{{ old('email', $customer->email ?? '') }}" placeholder="Enter email address (Optional)">
+                            @error('email')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-end mt-3">
+                        <button type="submit" class="btn btn-primary px-4 py-2 fw-semibold rounded-3">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
   </div>
 </section>

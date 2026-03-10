@@ -76,6 +76,7 @@ Route::prefix('customer')->group(function () {
     Route::post('/customer-address/store', [CartController::class,'store'])->name('customer-address.store');
     Route::get('/logout', [AuthController::class, 'logout'])->name('customer.logout');
     Route::get('/profile-user', [HomeController::class, 'profile'])->name('profile');
+    Route::post('/update-profile', [HomeController::class, 'update_profile'])->name('customer.update_profile');
     Route::post('/add-to-cart',[CartController::class,'addtocart'])->name('addtocart');
      Route::post('/update-cart',[CartController::class,'updatecart'])->name('updatecart');
      Route::post('/select-slot',[CartController::class,'selectslot'])->name('selectslot');
