@@ -35,6 +35,10 @@ class Cart extends Model
         {
             return $this->belongsTo(Availability::class, 'availability_id');
         }
+         public function slot()
+        {
+            return $this->belongsTo(Slots::class, 'slot_id');
+        }
 
          public function ServicesSe()
         {
