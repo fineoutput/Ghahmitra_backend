@@ -533,6 +533,7 @@ public function reschedule(Request $request)
         'end_time' => $request->end_time,
         'slot_id' => $request->slot_id,
         'reason' => $request->reason,
+        'status' => 1,
     ]);
 
     $orderItem->update([
