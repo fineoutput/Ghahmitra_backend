@@ -53,7 +53,7 @@
 <section class="mobile_options d-lg-none ">
   <div class="container">
     <div class="d-flex flex-column gap-2 mt-3">
-            <a href="{{ route('my_requests') }}" class="btn btn-light text-start rounded-3 py-3">
+            <a href="{{ route('customer.my_requests') }}" class="btn btn-light text-start rounded-3 py-3">
               <i class="fa-solid fa-list me-2"></i> My requests
             </a>
             <a href="{{ route('profile') }}" class="btn btn-light text-start rounded-3 py-3">

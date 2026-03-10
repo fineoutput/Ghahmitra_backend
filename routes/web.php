@@ -53,7 +53,6 @@ Route::group(['prefix' => '/'], function () {
     Route::get('/services', [HomeController::class, 'services'])->name('services');
     Route::get('/services-detailes/{id}', [HomeController::class, 'servicesdetailes'])->name('services-detailes');
     Route::get('/cart', [HomeController::class, 'cart'])->name('cart');
-    Route::get('/my-requests', [HomeController::class, 'my_requests'])->name('my_requests');
     Route::get('/payment-history', [HomeController::class, 'payment-history'])->name('payment-history');
     Route::get('/wallet', [HomeController::class, 'wallet'])->name('wallet');
    
@@ -85,6 +84,8 @@ Route::prefix('customer')->group(function () {
      Route::post('/remove-cart',[CartController::class,'removecart'])->name('removecart');
     Route::get('/request_detail', [HomeController::class, 'request_detail'])->name('request_detail');
     Route::post('/checkout', [HomeController::class, 'checkout'])->name('checkout');
+    Route::get('/my-requests', [HomeController::class, 'my_requests'])->name('customer.my_requests');
+
 
 
 });

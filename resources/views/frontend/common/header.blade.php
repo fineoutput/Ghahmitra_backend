@@ -323,7 +323,7 @@
 
                             <!-- Menu Items -->
                             <div class="d-flex flex-column gap-2">
-                                <a href="{{ route('my_requests') }}"
+                                <a href="{{ route('customer.my_requests') }}"
                                     class="dropdown-item rounded-2 px-3 py-2 text-dark text-decoration-none"
                                     style="transition:all 0.2s;display:flex;align-items:center;gap:0.75rem;">
                                     <i class="fa-solid fa-list" style="width:18px;text-align:center;"></i>
@@ -388,7 +388,7 @@
 
                                 <!-- Menu Items -->
                                 <div class="d-flex flex-column gap-2">
-                                    <a href="{{ route('my_requests') }}"
+                                    <a href="{{ route('customer.my_requests') }}"
                                         class="dropdown-item rounded-2 px-3 py-2 text-dark text-decoration-none"
                                         style="transition:all 0.2s;display:flex;align-items:center;gap:0.75rem;">
                                         <i class="fa-regular fa-square-list"
@@ -562,7 +562,7 @@
 
                         <!-- Menu Items -->
                         <div class="d-flex flex-column gap-2 mt-3">
-                            <a href="{{ route('my_requests') }}" class="btn btn-light text-start rounded-3 py-3">
+                            <a href="{{ route('customer.my_requests') }}" class="btn btn-light text-start rounded-3 py-3">
                                 <i class="fa-solid fa-list me-2"></i> My requests
                             </a>
                             <a href="{{ route('profile') }}" class="btn btn-light text-start rounded-3 py-3">

@@ -10,6 +10,7 @@
 
     <h2 class="orders-title">My Orders</h2>
 
+    @foreach ($orders as $value)
     <div class="order-card">
 
         <div class="order-top">
@@ -44,6 +45,7 @@
         </div>
 
     </div>
+    @endforeach
 
 </div>
   </div>

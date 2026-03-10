@@ -1103,7 +1103,7 @@
                 <div class="modal-footer border-0 d-flex gap-2">
                     <button type="button" class="btn btn-secondary rounded-2 flex-grow-1"
                         data-bs-dismiss="modal">Back</button>
-                    <a href="{{ route('my_requests') }}"><button type="button"
+                    <a href="{{ route('customer.my_requests') }}"><button type="button"
                             class="btn btn-primary rounded-2 flex-grow-1">View Booking</button></a>
                 </div>
 

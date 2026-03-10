@@ -99,8 +99,14 @@ public function getSlots($day_id)
 
     public function my_requests(Request $req)
     {
-     
-        return view('frontend/my_requests')->withTitle('my_requests');
+        $customer = Auth::guard('customer')->user();
+
+        $data['orders'] = Order::with('orderItems')
+            ->where('customer_id', $customer->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('frontend/my_requests',$data)->withTitle('my_requests');
     }
   
     public function profile(Request $req)
