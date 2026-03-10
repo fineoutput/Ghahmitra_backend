@@ -85,6 +85,7 @@ Route::middleware('customer.auth')->prefix('customer')->group(function () {
  Route::post('feedback/store', [CartController::class, 'storeFeedback']);
  Route::post('calculate', [CartController::class, 'calculate']);
  Route::post('checkout', [CartController::class, 'checkout']);
+ Route::post('reschedule-order', [CartController::class, 'reschedule']);
  Route::get('orders', [CartController::class, 'ordersList']);
  Route::post('orders-details', [CartController::class, 'ordersdetails']);
       

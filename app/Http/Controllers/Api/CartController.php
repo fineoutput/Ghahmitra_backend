@@ -13,6 +13,7 @@ use App\Models\Order;
 use App\Models\OrderItems;
 use App\Models\Otp;
 use App\Models\PartnerServices;
+use App\Models\Reschedule;
 use App\Models\ServicePartner;
 use App\Models\State;
 use App\Models\SubOrder;
@@ -492,6 +493,62 @@ public function ordersdetails(Request $request)
         'data' => $orders
     ]);
     
+}
+
+
+public function reschedule(Request $request)
+{
+    $customer = Auth::guard('customer')->user();
+
+    if (!$customer) {
+        return response()->json([
+            'status' => 401,
+            'message' => 'Unauthorized'
+        ], 401);
+    }
+
+    $request->validate([
+        'order_id' => 'required',
+        'reason' => 'nullable|string|max:500'
+    ]);
+
+    // Get the order items for this order
+    $orderItem = OrderItems::with(['availability', 'slot'])
+        ->where('order_id', $request->order_id)
+        ->first(); // assuming one item for simplicity, loop if multiple
+
+    if (!$orderItem) {
+        return response()->json([
+            'status' => 404,
+            'message' => 'Order item not found'
+        ], 404);
+    }
+
+    // Save reschedule record
+    $reschedule = Reschedule::create([
+        'customer_id' => $customer->id,
+        'availability_id' => $request->availability_id,
+        'order_id' => $request->order_id,
+        'day' => $request->day,
+        'start_time' => $request->start_time,
+        'end_time' => $request->end_time,
+        'slot_id' => $request->slot_id,
+        'reason' => $request->reason,
+    ]);
+
+    $orderItem->update([
+        'availability_id' => $request->availability_id,
+        'day' => $request->day,
+        'start_time' => $request->start_time,
+        'end_time' => $request->end_time,
+        'slot_id' => $request->slot_id,
+    ]);
+
+    return response()->json([
+        'status' => 200,
+        'message' => 'Order rescheduled successfully',
+        'data' => $reschedule
+    ]);
 }
 
 }
