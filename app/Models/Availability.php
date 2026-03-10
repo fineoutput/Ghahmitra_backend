@@ -24,4 +24,10 @@ class Availability extends Model
             return $this->belongsTo(Th_Services::class, 'services_id');
         }
 
+        public function slots()
+         {
+            return $this->hasOne(Slots::class, 'id', 'day_id');
+         }
+
+
 }
