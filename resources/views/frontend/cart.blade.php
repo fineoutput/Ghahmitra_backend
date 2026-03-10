@@ -563,8 +563,9 @@
                                         </div>
 
                                         <input type="hidden" name="cart_item_id" value="{{ $item->id }}">
-                                        <input type="hidden" name="availability_id" id="availabilityInput">
-                                        <input type="hidden" name="slot_id" id="slotInput">
+                                        <input type="hidden" name="availability_id" id="availabilityInput-{{ $item->id }}">
+<input type="hidden" name="slot_id" id="slotInput-{{ $item->id }}">
+
 
                                         <div class="mb-4">
 
@@ -577,10 +578,9 @@
                                                 @foreach ($item->service->availability as $availability)
                                                     <div class="col-auto">
 
-                                                        <div class="date-box card text-center shadow-sm border-0 
-{{ $item->availability_id == $availability->id ? 'active' : '' }}"
-                                                            data-id="{{ $availability->id }}">
-
+                                                        <div class="date-box card 
+                                                        text-center shadow-sm border-0 
+                                                            {{ $item->availability_id == $availability->id ? 'active' : '' }}"data-id="{{ $availability->id }}">
                                                             <div class="card-body p-2">
 
                                                                 <div class="fw-semibold text-primary">
@@ -608,7 +608,7 @@
                                                 Select start time of service
                                             </label>
 
-                                            <div id="slotContainer" class="row g-2"></div>
+                                            <div id="slotContainer-{{ $item->id }}" class="row g-2"></div>
 
                                         </div>
 
@@ -1147,68 +1147,64 @@
     <script>
         let selectedSlot = "{{ isset($item) ? $item->slot_id : '' }}";
 
-        document.querySelectorAll('.date-box').forEach(box => {
+        document.querySelectorAll('[id^="selectSlotModal-"]').forEach(modal => {
+    let itemId = modal.id.split('-')[1];
 
-            box.addEventListener('click', function() {
+    let selectedSlot = modal.dataset.selectedSlot || '';
 
-                document.querySelectorAll('.date-box').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
+    // Date boxes in this modal
+    modal.querySelectorAll('.date-box').forEach(box => {
+        box.addEventListener('click', function(){
 
-                let availability_id = this.dataset.id;
+            modal.querySelectorAll('.date-box').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
 
-                document.getElementById('availabilityInput').value = availability_id;
+            let availability_id = this.dataset.id;
 
-                let slotContainer = document.getElementById('slotContainer');
+            document.getElementById('availabilityInput-' + itemId).value = availability_id;
 
-                slotContainer.innerHTML = "Loading...";
+            let slotContainer = document.getElementById('slotContainer-' + itemId);
 
-                fetch("{{ url('get-slots') }}/" + availability_id)
+            slotContainer.innerHTML = "Loading...";
 
-                    .then(res => res.json())
+            fetch("{{ url('get-slots') }}/"+availability_id)
+            .then(res=>res.json())
+            .then(data=>{
 
-                    .then(data => {
+                slotContainer.innerHTML = '';
 
-                        slotContainer.innerHTML = '';
+                data.data.forEach(slot => {
 
-                        data.data.forEach(slot => {
+                    let col = document.createElement('div');
+                    col.classList.add('col-auto');
 
-                            let col = document.createElement('div');
-                            col.classList.add('col-auto');
+                    let slotBox = document.createElement('div');
+                    slotBox.classList.add('slot-box');
+                    slotBox.dataset.id = slot.id;
+                    slotBox.innerText = slot.start_time + " - " + slot.end_time;
 
-                            let slotBox = document.createElement('div');
-                            slotBox.classList.add('slot-box');
+                    if(selectedSlot == slot.id){
+                        slotBox.classList.add('active');
+                        document.getElementById('slotInput-' + itemId).value = slot.id;
+                    }
 
-                            slotBox.dataset.id = slot.id;
+                    slotBox.onclick = function(){
+                        slotContainer.querySelectorAll('.slot-box').forEach(b => b.classList.remove('active'));
+                        this.classList.add('active');
+                        document.getElementById('slotInput-' + itemId).value = slot.id;
+                    };
 
-                            slotBox.innerText = slot.start_time + " - " + slot.end_time;
+                    col.appendChild(slotBox);
+                    slotContainer.appendChild(col);
 
-                            if (selectedSlot == slot.id) {
-                                slotBox.classList.add('active');
-                                document.getElementById('slotInput').value = slot.id;
-                            }
-
-                            slotBox.onclick = function() {
-
-                                document.querySelectorAll('.slot-box').forEach(b => b
-                                    .classList.remove('active'));
-
-                                this.classList.add('active');
-
-                                document.getElementById('slotInput').value = slot.id;
-
-                            };
-
-                            col.appendChild(slotBox);
-
-                            slotContainer.appendChild(col);
-
-                        });
-
-                    });
+                });
 
             });
 
         });
+    });
+
+});
     </script>
 
 
