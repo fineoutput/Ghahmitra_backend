@@ -63,6 +63,9 @@ public function homeData()
                 return [
                     'id' => $serviceSe->id,
                     'name' => $serviceSe->name,
+                    'exclusive_offers' => $serviceSe->exclusive_offers,
+                    'cleaning' => $serviceSe->cleaning,
+                    'most_booked' => $serviceSe->most_booked,
                     'description' => strip_tags($serviceSe->description),
                     'image_url' => $serviceSe->image 
                         ? url($serviceSe->image)

@@ -16,7 +16,11 @@ class OrderItems extends Model
             'price',
             'quantity',
             'total',
-            'availability_id'
+            'availability_id',
+            'slot_id',
+            'start_time',
+            'end_time',
+            'day',
         ];
         
         

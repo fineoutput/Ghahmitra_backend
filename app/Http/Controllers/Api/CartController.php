@@ -379,6 +379,7 @@ public function checkout(Request $request)
                 'quantity'        => $quantity,
                 'total'           => $total,
                 'availability_id' => $item->availability_id,
+                'slot_id' => $item->slot_id,
             ]);
         }
 
