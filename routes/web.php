@@ -23,6 +23,7 @@ use App\Http\Controllers\Admin\ServicePartnerController;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\PartnerServicesController;
 use App\Http\Controllers\Admin\PrivacyPolicyController;
+use App\Http\Controllers\Admin\SlotController;
 use App\Http\Controllers\Admin\TCController;
 use App\Http\Controllers\Frontend\AuthController;
 use App\Http\Controllers\Frontend\CartController;
@@ -173,6 +174,17 @@ Route::patch('availability/update-status/{id}', [AvailabilityController::class, 
 Route::get('availability/{id}/edit', [AvailabilityController::class, 'edit'])->name('availability.edit');
 Route::put('availability/{id}', [AvailabilityController::class, 'update'])->name('availability.update');
 Route::delete('availability/{id}', [AvailabilityController::class, 'destroy'])->name('availability.destroy');
+
+
+
+Route::get('/slot/index/{id}', [SlotController::class, 'index'])->name('slot.index');
+Route::get('/slot/create/{id}', [SlotController::class, 'create'])->name('slot.create');
+Route::post('/slot/store/{id}', [SlotController::class, 'store'])->name('slot.store');
+Route::patch('slot/update-status/{id}', [SlotController::class, 'updateStatus'])->name('slot.updateStatus');
+
+Route::get('slot/{id}/edit', [SlotController::class, 'edit'])->name('slot.edit');
+Route::put('slot/{id}', [SlotController::class, 'update'])->name('slot.update');
+Route::delete('slot/{id}', [SlotController::class, 'destroy'])->name('slot.destroy');
 
 
 Route::get('/partner-services/index/{id}', [PartnerServicesController::class, 'index'])->name('partnerservice.index');

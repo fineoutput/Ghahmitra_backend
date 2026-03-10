@@ -6,10 +6,10 @@
     <div class="row">
       <div class="col-sm-12">
         <div class="page-title-box">
-          <h4 class="page-title">View Availability</h4>
+          <h4 class="page-title">View Slot</h4>
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="javascript:void(0);">Availability</a></li>
-            <li class="breadcrumb-item active">View Availability</li>
+            <li class="breadcrumb-item"><a href="javascript:void(0);">Slot</a></li>
+            <li class="breadcrumb-item active">View Slot</li>
           </ol>
         </div>
       </div>
@@ -51,9 +51,9 @@
               <!-- End show success and error messages -->
               <div class="row">
                 <div class="col-md-10">
-                  <h4 class="mt-0 header-title">View Availability List</h4>
+                  <h4 class="mt-0 header-title">View Slot List</h4>
                 </div>
-                <div class="col-md-2"> <a class="btn btn-info cticket" href="{{route('availability.create',$thservices->id)}}" role="button" style="margin-left: 20px;"> Add Availability</a></div>
+                <div class="col-md-2"> <a class="btn btn-info cticket" href="{{route('slot.create',$thservices->id)}}" role="button" style="margin-left: 20px;"> Add Slot</a></div>
               </div>
               <hr style="margin-bottom: 50px;background-color: darkgrey;">
               <div class="table-rep-plugin">
@@ -62,26 +62,25 @@
             <thead class="table-success">
                 <tr>
                     <th>ID</th>
-                    <th>Day</th>
-                    {{-- <th>Start Time</th>
-                    <th>End Time</th> --}}
+                    {{-- <th>Day</th> --}}
+                    <th>Start Time</th>
+                    <th>End Time</th>
                     <th>Created At</th>
                     <th>Action</th>
-                    <th>Slotes</th>
                    
                 </tr>
             </thead>
             <tbody>
-                @foreach($Availability as $key => $Services)
+                @foreach($Slots as $key => $Services)
                     <tr>
                         <td>{{ $key+1 }}</td>
-                        <td>{{ $Services->day }}</td>
-                        {{-- <td>{{ $Services->start_time ?? '' }}</td>
-                        <td>{{ $Services->end_time ?? '' }}</td> --}}
+                        {{-- <td>{{ $Services->day }}</td> --}}
+                        <td>{{ $Services->start_time ?? '' }}</td>
+                        <td>{{ $Services->end_time ?? '' }}</td>
 
                         <td>{{ $Services->created_at }}</td>
                         <td>
-                            <form action="{{ route('availability.updateStatus', $Services->id) }}" method="POST">
+                            <form action="{{ route('slot.updateStatus', $Services->id) }}" method="POST">
                                 @csrf
                                 @method('PATCH')
 
@@ -92,16 +91,13 @@
                                     {{ $Services->status == 1 ? 'Active' : 'Inactive' }}
                                 </button>
                             </form>
-                            <a href="{{ route('availability.edit', $Services->id) }}" class="btn btn-primary mt-2">Edit</a>
-                            <form action="{{ route('availability.destroy', $Services->id) }}" method="POST" style="display:inline-block;">
+                            <a href="{{ route('slot.edit', $Services->id) }}" class="btn btn-primary mt-2">Edit</a>
+                            <form action="{{ route('slot.destroy', $Services->id) }}" method="POST" style="display:inline-block;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger mt-2"
                                     onclick="return confirm('Are you sure you want to delete this service?')">Delete</button>
 
-                        </td>
-                        <td>
-                          <a href="{{ route('slot.index', $Services->id) }}" class="btn btn-primary mt-2">Slot</a>
                         </td>
 
                     </tr>
