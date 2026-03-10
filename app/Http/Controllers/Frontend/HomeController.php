@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Banner;
 use App\Models\Cart;
 use App\Models\CustomerAddresses;
+use App\Models\Order;
+use App\Models\OrderItems;
 use App\Models\Services;
 use App\Models\ServicesSe;
 use App\Models\State;
@@ -17,6 +19,8 @@ use Laravel\Sanctum\PersonalAccessToken;
 use DateTime;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class HomeController extends Controller
 {
@@ -134,5 +138,125 @@ public function request_detail(Request $req)
     return view('frontend/request_detail', compact('customer', 'items', 'grandTotal'))
            ->withTitle('request_detail');
 }
-    
+
+
+public function checkout(Request $request)
+{
+    $customer = Auth::guard('customer')->user();
+
+    if (!$customer) {
+        return response()->json([
+            'status' => 401,
+            'message' => 'Unauthorized'
+        ], 401);
+    }
+
+    $cartItems = Cart::with('service')
+        ->where('customers_id', $customer->id)
+        ->where('status', 1)
+        ->get();
+
+    if ($cartItems->isEmpty()) {
+        return response()->json([
+            'status' => 400,
+            'message' => 'Cart is empty'
+        ]);
+    }
+
+    DB::beginTransaction();
+
+    try {
+
+        $subtotal = 0;
+        $tax = 0;
+        $discount = 0;
+
+        // 1️⃣ Calculate subtotal
+        foreach ($cartItems as $item) {
+
+            if (!$item->service) {
+                continue;
+            }
+
+            $price = $item->service->price;
+            $quantity = $item->quantity;
+            $total = $price * $quantity;
+
+            $subtotal += $total;
+        }
+
+        // 2️⃣ Example Tax (5%)
+        $tax = 0;
+
+        // 3️⃣ Example Discount (optional)
+        $discount = 0;
+
+        $grandTotal = $subtotal + $tax - $discount;
+
+        // 4️⃣ Create Order
+        $order = Order::create([
+            'order_number'   => 'ORD-' . strtoupper(Str::random(8)),
+            'customer_id'    => $customer->id,
+            'subtotal'       => $subtotal,
+            'tax'            => $tax,
+            'discount'       => $discount,
+            'grand_total'    => $grandTotal,
+            'payment_method' => $request->payment_method ?? 'COD',
+            'payment_status' => 'pending',
+            'order_status'   => 1, // pending
+            'address_id'     => $request->address_id,
+            'notes'          => $request->notes ?? null,
+            'status'          => 1,
+        ]);
+
+        // 5️⃣ Create Order Items
+        foreach ($cartItems as $item) {
+
+            if (!$item->service) {
+                continue;
+            }
+
+            $price = $item->service->price;
+            $quantity = $item->quantity;
+            $total = $price * $quantity;
+
+            OrderItems::create([
+                'order_id'        => $order->id,
+                'service_id'      => $item->service_id,
+                'service_name'    => $item->service->name,
+                'price'           => $price,
+                'quantity'        => $quantity,
+                'total'           => $total,
+                'availability_id' => $item->availability_id,
+            ]);
+        }
+
+        // 6️⃣ Clear Cart Completely (Delete)
+        Cart::where('customers_id', $customer->id)
+            ->where('status', 1)
+            ->delete();
+
+        DB::commit();
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Order placed successfully',
+            'data' => [
+                'order_id' => $order->id,
+                'order_number' => $order->order_number,
+                'grand_total' => $grandTotal
+            ]
+        ]);
+
+    } catch (\Exception $e) {
+
+        DB::rollBack();
+
+        return response()->json([
+            'status' => 500,
+            'message' => 'Checkout failed',
+            'error' => $e->getMessage()
+        ]);
+    }
+}
 }

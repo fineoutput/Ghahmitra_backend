@@ -81,6 +81,7 @@ Route::prefix('customer')->group(function () {
      Route::post('/select-slot',[CartController::class,'selectslot'])->name('selectslot');
      Route::post('/remove-cart',[CartController::class,'removecart'])->name('removecart');
     Route::get('/request_detail', [HomeController::class, 'request_detail'])->name('request_detail');
+    Route::post('/checkout', [HomeController::class, 'checkout'])->name('checkout');
 
 
 });
