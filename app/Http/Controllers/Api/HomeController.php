@@ -15,6 +15,7 @@ use App\Models\PrivacyPolicy;
 use App\Models\ServicePartner;
 use App\Models\Services;
 use App\Models\ServicesSe;
+use App\Models\Slots;
 use App\Models\State;
 use App\Models\TC;
 use App\Models\Th_Services;
@@ -338,28 +339,40 @@ public function ServicesDetails(Request $request)
 
 
   public function servicesavAvailability(Request $request)
-    {
-        $serviceId = $request->input('service_id');
+{
+    $serviceId = $request->input('service_id');
 
-        $availability = Availability::where('services_id', $serviceId)
-            ->where('status', 1)
-            ->get()
-            ->map(function ($item) {
-                return [
-                    'availability_id' => $item->id,
-                    'day' => $item->day,
-                    'start_time' => $item->start_time,
-                    'end_time' => $item->end_time,
-                    'description' => strip_tags($item->description),
-                    'is_active' => $item->status,
-                ];
-            });
+    $availability = Availability::where('services_id', $serviceId)
+        ->where('status', 1)
+        ->get()
+        ->map(function ($item) {
 
-        return response()->json([
-            'status' => 200,
-            'message' => 'Service availability checked successfully',
-            'data' => $availability,
-        ]);
-    }
+            $slots = Slots::where('day_id', $item->id)
+                ->where('status', 1)
+                ->get()
+                ->map(function ($slot) {
+                    return [
+                        'slot_id' => $slot->id,
+                        'start_time' => $slot->start_time,
+                        'end_time' => $slot->end_time,
+                        'is_active' => $slot->status
+                    ];
+                });
+
+            return [
+                'availability_id' => $item->id,
+                'day' => $item->day,
+                'description' => strip_tags($item->description),
+                'is_active' => $item->status,
+                'slots' => $slots
+            ];
+        });
+
+    return response()->json([
+        'status' => 200,
+        'message' => 'Service availability checked successfully',
+        'data' => $availability,
+    ]);
+}
 
 }

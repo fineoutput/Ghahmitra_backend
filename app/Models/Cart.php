@@ -13,13 +13,13 @@ class Cart extends Model
         protected $fillable = [
             'customers_id',  
             'service_id',  
+            'slot_id',  
             'category_id',  
             'availability_id',  
             'quantity',  
             'ip',
             'status',
         ];
-
 
         
          public function customers()

@@ -181,6 +181,7 @@ public function updateCart(Request $request)
     }
 
     $cart->availability_id = $request->availability_id;
+    $cart->slot_id = $request->slot_id;
     $cart->quantity = $request->quantity;
     $cart->save();
 
