@@ -157,32 +157,35 @@ public function removecart(Request $request){
 
 public function selectslot(Request $request)
 {
-
-
-  $request->validate([
+    $request->validate([
         'cart_item_id' => 'required',
-        'availability_id' => 'required'
+        'availability_id' => 'required',
+        'slot_id' => 'required'
     ]);
 
     $customer = Auth::guard('customer')->user();
 
     if(!$customer){
-
         return response()->json([
             'status' => 401,
             'message' => 'Please login first'
         ]);
-
     }
 
     $cartItems = Cart::where('customers_id', $customer->id)
         ->where('id', $request->cart_item_id)
         ->first();
 
-        $cartItems->update(['availability_id' => $request->availability_id]);
+    if(!$cartItems){
+        return redirect()->back()->with('error','Cart item not found');
+    }
+
+    $cartItems->update([
+        'availability_id' => $request->availability_id,
+        'slot_id' => $request->slot_id
+    ]);
 
     return redirect()->back()->with('success', 'Slot selected successfully');
-    
 }
 
 public function getCities(Request $request)

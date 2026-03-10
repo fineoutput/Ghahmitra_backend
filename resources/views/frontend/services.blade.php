@@ -231,7 +231,7 @@
       <div class="col-lg-3 services-right">
 
         <!-- Cart Card (pre-populated with one item) -->
-        <div class="card border-light-custom shadow-sm rounded-4 p-4 mb-4">
+        {{-- <div class="card border-light-custom shadow-sm rounded-4 p-4 mb-4">
           <div class="mb-3">
             <span class="ms-2 fw-bold">Your Cart</span>
             <div style="font-size: 1.8rem; display:inline-block;">🛒</div>
@@ -258,7 +258,7 @@
             <div class="cart-summary">₹<span >5199</span></div>
             <a href="{{ route('cart') }}" class="btn btn-primary">View Cart</a>
           </div>
-        </div>
+        </div> --}}
 
         <!-- Coupon Offer -->
         <div class="card border-light-custom shadow-sm rounded-4 p-4 mb-4" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">

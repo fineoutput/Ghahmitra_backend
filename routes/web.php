@@ -60,6 +60,8 @@ Route::group(['prefix' => '/'], function () {
 Route::post('/send-otp', [AuthController::class, 'sendOtp'])->name('send.otp');
 Route::post('/verify-otp', [AuthController::class, 'verifyRegisterOtp'])->name('verify.otp');
 
+Route::get('/get-slots/{day_id}', [HomeController::class,'getSlots']);
+
     // User pages
     // Route::get('/my-requests', function () { return view('my-requests'); })->name('my-requests');
     // Route::get('/profile', function () { return view('profile'); })->name('profile');

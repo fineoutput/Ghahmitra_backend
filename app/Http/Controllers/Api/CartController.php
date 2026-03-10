@@ -181,6 +181,7 @@ public function updateCart(Request $request)
     }
 
     $cart->availability_id = $request->availability_id;
+    $cart->slot_id = $request->slot_id;
     $cart->quantity = $request->quantity;
     $cart->save();
 
@@ -378,6 +379,10 @@ public function checkout(Request $request)
                 'quantity'        => $quantity,
                 'total'           => $total,
                 'availability_id' => $item->availability_id,
+                'day' => $item->availability->day,
+                'start_time' => $item->slot->start_time,
+                'end_time' => $item->slot->end_time,
+                'slot_id' => $item->slot_id,
             ]);
         }
 

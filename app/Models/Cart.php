@@ -13,13 +13,13 @@ class Cart extends Model
         protected $fillable = [
             'customers_id',  
             'service_id',  
+            'slot_id',  
             'category_id',  
             'availability_id',  
             'quantity',  
             'ip',
             'status',
         ];
-
 
         
          public function customers()
@@ -34,6 +34,10 @@ class Cart extends Model
          public function availability()
         {
             return $this->belongsTo(Availability::class, 'availability_id');
+        }
+         public function slot()
+        {
+            return $this->belongsTo(Slots::class, 'slot_id');
         }
 
          public function ServicesSe()

@@ -10,6 +10,7 @@ use App\Models\Order;
 use App\Models\OrderItems;
 use App\Models\Services;
 use App\Models\ServicesSe;
+use App\Models\Slots;
 use App\Models\State;
 use App\Models\Th_Services;
 use Illuminate\Http\Request;
@@ -39,6 +40,22 @@ class HomeController extends Controller
 
         return view('frontend/index', $data)->withTitle('home');
     }
+
+
+
+public function getSlots($day_id)
+{
+
+    $slots = Slots::where('day_id',$day_id)
+    ->where('status',1)
+    ->get(['id','start_time','end_time']);
+
+    return response()->json([
+    'status'=>200,
+    'data'=>$slots
+    ]);
+
+}
 
 
     public function services(Request $req)
@@ -247,6 +264,10 @@ public function checkout(Request $request)
                 'quantity'        => $quantity,
                 'total'           => $total,
                 'availability_id' => $item->availability_id,
+                  'day' => $item->availability->day,
+                'start_time' => $item->slot->start_time,
+                'end_time' => $item->slot->end_time,
+                'slot_id' => $item->slot_id,
             ]);
         }
 

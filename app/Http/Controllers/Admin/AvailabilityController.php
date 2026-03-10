@@ -50,15 +50,12 @@ class AvailabilityController extends Controller
 
        $request->validate([
             'day'        => 'required',
-            'start_time' => 'required',
-            'end_time' => 'required',
             'description' => 'nullable',
         ]);
 
         $service->update([
             'day'        => $request->day,
-            'start_time'      => $request->start_time,
-            'end_time'        => $request->end_time,
+
             'services_id' => $id,
             'description' => $request->description,
         ]);
@@ -73,15 +70,12 @@ class AvailabilityController extends Controller
     {
         $request->validate([
             'day'        => 'required',
-            'start_time' => 'required',
-            'end_time' => 'required',
+            
             'description' => 'nullable',
         ]);
 
         Availability::create([
             'day'        => $request->day,
-            'start_time'      => $request->start_time,
-            'end_time'        => $request->end_time,
             'services_id' => $id,
             'description' => $request->description,
             'status'      => 1,

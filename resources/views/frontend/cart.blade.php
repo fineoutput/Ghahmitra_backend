@@ -423,6 +423,31 @@
             }
         }
     </style>
+
+    <style>
+        .slot-box {
+            cursor: pointer;
+            border-radius: 8px;
+            padding: 8px 14px;
+            border: 1px solid #ddd;
+            text-align: center;
+            font-size: 14px;
+            background: #fff;
+            transition: 0.2s;
+        }
+
+        .slot-box:hover {
+            border-color: #0d6efd;
+        }
+
+        .slot-box.active {
+            background: #0d6efd;
+            color: #fff;
+            border-color: #0d6efd;
+        }
+    </style>
+
+    </style>
     <div class="container py-5">
 
         <div class="mobile-stepper d-md-none">
@@ -512,86 +537,102 @@
                     </div>
                     <div class="cart-card">
                         <div class="section-title">Address</div>
-                        <button class="primary-btn" data-bs-toggle="modal" data-bs-target="#selectSlotModal">
+                        <button class="primary-btn" data-bs-toggle="modal" data-bs-target="#selectSlotModal-{{$item->id}}">
                             Select date & time
                         </button>
                     </div>
 
-                    <div class="modal fade" id="selectSlotModal" tabindex="-1">
+                    <div class="modal fade" id="selectSlotModal-{{$item->id}}" tabindex="-1">
                         <div class="modal-dialog modal-dialog-centered">
                             <form action="{{ route('selectslot') }}" method="POST">
                                 @csrf
+
                                 <div class="modal-content slot-modal">
 
                                     <div class="modal-header border-0">
-                                        <h5 class="modal-title fw-semibold">When should the professional arrive?</h5>
+                                        <h5 class="modal-title fw-semibold">
+                                            When should the professional arrive?
+                                        </h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                     </div>
+
                                     <div class="modal-body">
 
-                                        <!-- Service Duration Info -->
                                         <div class="alert alert-info small rounded-2 mb-4">
                                             Service will take approx. 2 hrs & 10 mins
                                         </div>
 
+                                        <input type="hidden" name="cart_item_id" value="{{ $item->id }}">
+                                        <input type="hidden" name="availability_id" id="availabilityInput-{{ $item->id }}">
+<input type="hidden" name="slot_id" id="slotInput-{{ $item->id }}">
+
 
                                         <div class="mb-4">
-                                            <label class="fw-semibold mb-3 d-block">Select a date</label>
-                                            <input type="hidden" name="cart_item_id" value="{{ $item->id }}">
-                                            <select class="form-control date-select">
-                                                <option value="">Select Date</option>
+
+                                            <label class="fw-semibold mb-3 d-block">
+                                                Select a date
+                                            </label>
+
+                                            <div class="row g-2">
+
                                                 @foreach ($item->service->availability as $availability)
-                                                    <option value="{{ $availability->day }}"
-                                                        data-id="{{ $availability->id }}"
-                                                        data-start="{{ $availability->start_time }}"
-                                                        data-end="{{ $availability->end_time }}">
-                                                        {{ $availability->day }}
-                                                    </option>
+                                                    <div class="col-auto">
+
+                                                        <div class="date-box card 
+                                                        text-center shadow-sm border-0 
+                                                            {{ $item->availability_id == $availability->id ? 'active' : '' }}"data-id="{{ $availability->id }}">
+                                                            <div class="card-body p-2">
+
+                                                                <div class="fw-semibold text-primary">
+                                                                    {{ \Carbon\Carbon::parse($availability->day)->format('D') }}
+                                                                </div>
+
+                                                                <div class="small text-muted">
+                                                                    {{ \Carbon\Carbon::parse($availability->day)->format('d M') }}
+                                                                </div>
+
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
                                                 @endforeach
-                                            </select>
+
+                                            </div>
+
                                         </div>
 
                                         <div class="mb-4">
-                                            <label class="fw-semibold mb-3 d-block">Select start time of service</label>
-                                            <select class="form-control time-select" name="availability_id">
-                                                <option value="">Select Time</option>
-                                            </select>
-                                        </div>
 
+                                            <label class="fw-semibold mb-3 d-block">
+                                                Select start time of service
+                                            </label>
 
-                                        <!-- Selected Info Display -->
-                                        <div class="selected-info d-none" id="selectedInfo">
-                                            <div class="selected-info-row">
-                                                <strong>Selected Address:</strong>
-                                                <span id="selectedAddressText">-</span>
-                                            </div>
-                                            <div class="selected-info-row">
-                                                <strong>Selected Date:</strong>
-                                                <span id="selectedDateText">-</span>
-                                            </div>
-                                            <div class="selected-info-row">
-                                                <strong>Selected Time:</strong>
-                                                <span id="selectedTimeText">-</span>
-                                            </div>
+                                            <div id="slotContainer-{{ $item->id }}" class="row g-2"></div>
+
                                         </div>
 
                                     </div>
 
                                     <div class="modal-footer border-0">
-                                        <button type="button" class="btn btn-secondary rounded-2"
-                                            data-bs-dismiss="modal">Back</button>
+
+                                        <button type="button" class="btn btn-secondary rounded-2" data-bs-dismiss="modal">
+                                            Back
+                                        </button>
+
                                         <button type="submit" class="btn btn-primary rounded-2">
                                             Update
                                         </button>
-                                        {{-- <button type="submit" class="btn btn-primary rounded-2" id="proceedCheckoutBtn" onclick="openAddressAfterSlot()" >
-                    Select address
-                    </button> --}}
+
                                     </div>
+
+                                </div>
+
                             </form>
                         </div>
                     </div>
+                @endforeach
             </div>
-            @endforeach
 
             <!-- Payment Summary -->
             <div class="cart-card">
@@ -725,9 +766,9 @@
 
 
                 </div>
-                
+
                 <button type="button" class="proceed-btn" id="proceedBtn" onclick="goToRequestDetail()">
-                Done
+                    Done
                 </button>
 
             </div>
@@ -1102,31 +1143,94 @@
         </div>
     </div>
 
-<script>
 
-function selectAddress(addressId){
+    <script>
+        let selectedSlot = "{{ isset($item) ? $item->slot_id : '' }}";
 
-localStorage.setItem('selected_address_id', addressId);
+        document.querySelectorAll('[id^="selectSlotModal-"]').forEach(modal => {
+    let itemId = modal.id.split('-')[1];
 
-}
+    let selectedSlot = modal.dataset.selectedSlot || '';
 
-function goToRequestDetail(){
+    // Date boxes in this modal
+    modal.querySelectorAll('.date-box').forEach(box => {
+        box.addEventListener('click', function(){
 
-let addressId = localStorage.getItem('selected_address_id');
+            modal.querySelectorAll('.date-box').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
 
-if(addressId){
+            let availability_id = this.dataset.id;
 
-window.location.href = "{{ route('request_detail') }}";
+            document.getElementById('availabilityInput-' + itemId).value = availability_id;
 
-}else{
+            let slotContainer = document.getElementById('slotContainer-' + itemId);
 
-alert("Please select address");
+            slotContainer.innerHTML = "Loading...";
 
-}
+            fetch("{{ url('get-slots') }}/"+availability_id)
+            .then(res=>res.json())
+            .then(data=>{
 
-}
+                slotContainer.innerHTML = '';
 
-</script>
+                data.data.forEach(slot => {
+
+                    let col = document.createElement('div');
+                    col.classList.add('col-auto');
+
+                    let slotBox = document.createElement('div');
+                    slotBox.classList.add('slot-box');
+                    slotBox.dataset.id = slot.id;
+                    slotBox.innerText = slot.start_time + " - " + slot.end_time;
+
+                    if(selectedSlot == slot.id){
+                        slotBox.classList.add('active');
+                        document.getElementById('slotInput-' + itemId).value = slot.id;
+                    }
+
+                    slotBox.onclick = function(){
+                        slotContainer.querySelectorAll('.slot-box').forEach(b => b.classList.remove('active'));
+                        this.classList.add('active');
+                        document.getElementById('slotInput-' + itemId).value = slot.id;
+                    };
+
+                    col.appendChild(slotBox);
+                    slotContainer.appendChild(col);
+
+                });
+
+            });
+
+        });
+    });
+
+});
+    </script>
+
+
+    <script>
+        function selectAddress(addressId) {
+
+            localStorage.setItem('selected_address_id', addressId);
+
+        }
+
+        function goToRequestDetail() {
+
+            let addressId = localStorage.getItem('selected_address_id');
+
+            if (addressId) {
+
+                window.location.href = "{{ route('request_detail') }}";
+
+            } else {
+
+                alert("Please select address");
+
+            }
+
+        }
+    </script>
 
 
     <script>
@@ -1162,34 +1266,6 @@ alert("Please select address");
 
                 }
             });
-
-        });
-    </script>
-
-
-    <script>
-        document.querySelector('.date-select').addEventListener('change', function() {
-
-            let timeSelect = document.querySelector('.time-select');
-
-            let selected = this.options[this.selectedIndex];
-
-            let id = selected.dataset.id;
-            let start = selected.dataset.start;
-            let end = selected.dataset.end;
-
-            timeSelect.innerHTML = '<option value="">Select Time</option>';
-
-            if (id) {
-
-                let option = document.createElement("option");
-
-                option.value = id;
-                option.text = start + " - " + end;
-
-                timeSelect.appendChild(option);
-
-            }
 
         });
     </script>
