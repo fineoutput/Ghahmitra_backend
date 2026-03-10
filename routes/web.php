@@ -56,8 +56,8 @@ Route::group(['prefix' => '/'], function () {
     Route::get('/payment-history', [HomeController::class, 'payment-history'])->name('payment-history');
     Route::get('/wallet', [HomeController::class, 'wallet'])->name('wallet');
    
-    Route::post('/send-otp', [AuthController::class, 'sendOtp']);
-    Route::post('/verify-otp', [AuthController::class, 'verifyRegisterOtp']);
+Route::post('/send-otp', [AuthController::class, 'sendOtp'])->name('send.otp');
+Route::post('/verify-otp', [AuthController::class, 'verifyRegisterOtp'])->name('verify.otp');
 
     // User pages
     // Route::get('/my-requests', function () { return view('my-requests'); })->name('my-requests');
