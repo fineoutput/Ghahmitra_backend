@@ -370,7 +370,7 @@
                                     {{ strtoupper(substr(auth()->user()->name ?? 'U', 0, 1)) }}</div>
                                 <div class="ms-2 d-none d-md-block text-start">
                                     <div class="fw-bold small">
-                                        {{ Auth::guard('customer')->user()->name ?? 'Name Not Found' }}</div>
+                                        {{ Auth::guard('customer')->user()->name ?? 'User' }}</div>
                                     <div class="small text-muted">
                                         {{ Auth::guard('customer')->user()->mobile_no ?? 'No mobile number provided' }}
                                     </div>

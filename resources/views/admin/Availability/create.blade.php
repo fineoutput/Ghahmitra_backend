@@ -52,7 +52,7 @@
                                     </div>
 
                                     
-                                    <div class="col-sm-6 mt-3">
+                                    {{-- <div class="col-sm-6 mt-3">
                                         <label>Start Time <span style="color:red">*</span></label>
                                         <input type="time" class="form-control" name="start_time" required>
                                         @error('start_time') <div style="color:red">{{ $message }}</div> @enderror
@@ -62,7 +62,7 @@
                                         <label>End Time <span style="color:red">*</span></label>
                                         <input type="time" class="form-control" name="end_time" required>
                                         @error('end_time') <div style="color:red">{{ $message }}</div> @enderror
-                                    </div>
+                                    </div> --}}
 
                                     <div class="col-sm-12 mt-3">
                                         <label>Description</label>

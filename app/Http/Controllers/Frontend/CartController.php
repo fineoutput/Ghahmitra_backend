@@ -122,6 +122,39 @@ public function updatecart(Request $request)
 
 }
 
+
+public function removecart(Request $request){
+
+        $customer = Auth::guard('customer')->user();
+
+    if (!$customer) {
+        return response()->json([
+            'status' => 401,
+            'message' => 'Unauthorized'
+        ], 401);
+    }
+
+    $request->validate([
+        'cart_id' => 'required|exists:tbl_cart,id',
+    ]);
+
+    $cart = Cart::where('id', $request->cart_id)
+        ->where('customers_id', $customer->id)
+        ->where('status', 1)
+        ->first();
+
+    if (!$cart) {
+        return response()->json([
+            'status' => 404,
+            'message' => 'Cart item not found'
+        ], 404);
+    }
+
+    $cart->delete();
+
+    return redirect()->back()->with('success', 'Slot selected successfully');
+}
+
 public function selectslot(Request $request)
 {
 

@@ -58,7 +58,7 @@
                                     @error('day') <div style="color:red">{{ $message }}</div> @enderror
                                 </div>
 
-                                {{-- Start Time --}}
+                                {{-- Start Time
                                 <div class="col-sm-6 mt-3">
                                     <label>Start Time <span style="color:red">*</span></label>
                                     <input type="time"
@@ -69,7 +69,7 @@
                                     @error('start_time') <div style="color:red">{{ $message }}</div> @enderror
                                 </div>
 
-                                {{-- End Time --}}
+                                {{-- 
                                 <div class="col-sm-6 mt-3">
                                     <label>End Time <span style="color:red">*</span></label>
                                     <input type="time"
@@ -78,7 +78,7 @@
                                         value="{{ old('end_time', $Availability->end_time) }}"
                                         required>
                                     @error('end_time') <div style="color:red">{{ $message }}</div> @enderror
-                                </div>
+                                </div> --}}
 
                                 {{-- Description --}}
                                 <div class="col-sm-12 mt-3">

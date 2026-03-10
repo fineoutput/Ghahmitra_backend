@@ -63,8 +63,8 @@
                 <tr>
                     <th>ID</th>
                     <th>Day</th>
-                    <th>Start Time</th>
-                    <th>End Time</th>
+                    {{-- <th>Start Time</th>
+                    <th>End Time</th> --}}
                     <th>Created At</th>
                     <th>Action</th>
                    
@@ -75,8 +75,8 @@
                     <tr>
                         <td>{{ $key+1 }}</td>
                         <td>{{ $Services->day }}</td>
-                        <td>{{ $Services->start_time ?? '' }}</td>
-                        <td>{{ $Services->end_time ?? '' }}</td>
+                        {{-- <td>{{ $Services->start_time ?? '' }}</td>
+                        <td>{{ $Services->end_time ?? '' }}</td> --}}
 
                         <td>{{ $Services->created_at }}</td>
                         <td>
