@@ -498,7 +498,7 @@ public function ordersdetails(Request $request)
 
 public function reschedule(Request $request)
 {
-    $customer = Auth::guard('customer')->user();
+    $customer = Auth::guard('customer_api')->user();
 
     if (!$customer) {
         return response()->json([
@@ -513,8 +513,7 @@ public function reschedule(Request $request)
     ]);
 
     // Get the order items for this order
-    $orderItem = OrderItems::with(['availability', 'slot'])
-        ->where('order_id', $request->order_id)
+    $orderItem = OrderItems::where('order_id', $request->order_id)
         ->first(); // assuming one item for simplicity, loop if multiple
 
     if (!$orderItem) {
