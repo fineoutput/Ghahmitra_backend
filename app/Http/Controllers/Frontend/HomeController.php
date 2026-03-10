@@ -245,6 +245,10 @@ public function checkout(Request $request)
                 'quantity'        => $quantity,
                 'total'           => $total,
                 'availability_id' => $item->availability_id,
+                  'day' => $item->availability->day,
+                'start_time' => $item->slot->start_time,
+                'end_time' => $item->slot->end_time,
+                'slot_id' => $item->slot_id,
             ]);
         }
 
