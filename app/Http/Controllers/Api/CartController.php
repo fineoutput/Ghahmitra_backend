@@ -193,6 +193,43 @@ public function updateCart(Request $request)
 
 
 
+public function removecart(Request $request)
+{
+    $customer = Auth::guard('customer_api')->user();
+
+    if (!$customer) {
+        return response()->json([
+            'status' => 401,
+            'message' => 'Unauthorized'
+        ], 401);
+    }
+
+    $request->validate([
+        'cart_id' => 'required|exists:tbl_cart,id',
+    ]);
+
+    $cart = Cart::where('id', $request->cart_id)
+        ->where('customers_id', $customer->id)
+        ->where('status', 1)
+        ->first();
+
+    if (!$cart) {
+        return response()->json([
+            'status' => 404,
+            'message' => 'Cart item not found'
+        ], 404);
+    }
+
+    $cart->delete();
+
+    return response()->json([
+        'status' => 200,
+        'message' => 'Cart removed successfully',
+        'data' => []
+    ]);
+}
+
+
 public function calculate(Request $request)
 {
     $customer = Auth::guard('customer_api')->user();
@@ -319,6 +356,7 @@ public function checkout(Request $request)
             'order_status'   => 1, // pending
             'address_id'     => $request->address_id,
             'notes'          => $request->notes ?? null,
+            'status'          => 1,
         ]);
 
         // 5️⃣ Create Order Items
