@@ -281,7 +281,11 @@
                     <span>₹{{$grandTotal ?? 0}}</span>
                 </div>
             </div>
-
+<div class="mt-3">
+    <button class="btn btn-primary w-100 rounded-3" onclick="checkoutOrder()">
+        Proceed to Checkout
+    </button>
+</div>  
         </div>
 
 
@@ -380,7 +384,51 @@
     <button class="btn btn-primary w-100 rounded-3" onclick="submitReview()">Submit review</button>
   </div>
 </div>
+<script>
 
+function checkoutOrder() {
+
+    let addressId = localStorage.getItem('selected_address_id');
+
+    if(!addressId){
+        alert("Please select an address first");
+        return;
+    }
+
+    fetch("{{ route('checkout') }}", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": "{{ csrf_token() }}"
+        },
+        body: JSON.stringify({
+            address_id: addressId,
+            payment_method: "COD"
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+
+        if(data.status === 200){
+
+            alert("Order placed successfully");
+
+            // optional redirect
+            window.location.href = "/order-success/" + data.data.order_id;
+
+        }else{
+            alert(data.message);
+        }
+
+    })
+    .catch(error => {
+        console.error(error);
+        alert("Something went wrong");
+    });
+
+}
+
+</script>
 <script>
   let selectedRating = 0;
 
