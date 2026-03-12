@@ -302,6 +302,33 @@
 
       </div> --}}
 
+
+        @if($message = Session::get('success'))
+            <div id="success-alert" class="alert alert-success slide-alert">
+                {{ $message }}
+            </div>
+
+            <style>
+                .slide-alert {
+                    transition: all 0.6s ease;
+                }
+                .slide-down {
+                    opacity: 0;
+                    transform: translateY(40px); /* niche slide */
+                }
+            </style>
+
+            <script>
+                setTimeout(function () {
+                    let alert = document.getElementById('success-alert');
+                    if (alert) {
+                        alert.classList.add('slide-down');
+                        setTimeout(() => alert.remove(), 600);
+                    }
+                }, 3000); // 3 seconds
+            </script>
+        @endif
+
                 <!-- Right: Icons -->
                 <div class="d-none d-lg-flex align-items-center gap-3">
                     <a href="{{ route('cart') }}" class="text-dark position-relative">

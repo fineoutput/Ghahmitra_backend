@@ -16,32 +16,31 @@
         <div class="order-top">
             <div class="order-left">
 
-                <h5 class="service-name">Electricians</h5>
+                <h5 class="service-name">#{{$value->id}}</h5>
                 
                 <div class="order-date">
-                    📅 Feb 23, 2026
+                    📅 {{$value->created_at}}
                 </div>
                 
                 <div class="status-pill">
                     <span class="icon">🧰</span>
                     Not Yet Connected
                 </div>
-                <span class="badge-closed">CLOSED</span>
+                {{-- <span class="badge-closed">CLOSED</span> --}}
 
 
             </div>
-
-            <div class="order-image">
-                <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952" alt="">
-            </div>
+<div class="order-image">
+    <img src="{{ asset($value->orderItems->first()->service->image[0] ?? '') }}" alt="">
+</div>
         </div>
 
         <div class="order-bottom">
-          <a href="{{ route('request_detail') }}">
+          {{-- <a href="{{ route('request_detail') }}">
             <button class="view-btn">
                 View Details →
             </button>
-            </a>
+            </a> --}}
         </div>
 
     </div>

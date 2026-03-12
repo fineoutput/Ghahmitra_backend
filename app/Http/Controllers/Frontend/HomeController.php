@@ -101,6 +101,10 @@ public function getSlots($day_id)
     {
         $customer = Auth::guard('customer')->user();
 
+        if(!$customer){
+            return redirect('/');
+        }
+
         $data['orders'] = Order::with('orderItems')
             ->where('customer_id', $customer->id)
             ->orderBy('created_at', 'desc')
@@ -149,10 +153,19 @@ public function request_detail(Request $req)
 {
     $customer = Auth::guard('customer')->user();
 
+    if(!$customer){
+        return redirect('/')->with('success', 'Logout successfully');
+    }
+
     $cartItems = Cart::with('service')
         ->where('customers_id', $customer->id)
         ->where('status', 1)
         ->get();
+
+         if(!$cartItems){
+           return redirect('/')->with('success', 'Your Cart is empty!');
+    }
+
 
     $items = [];
     $grandTotal = 0;
