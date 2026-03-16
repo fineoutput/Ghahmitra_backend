@@ -67,13 +67,32 @@ public function register_partner(Request $request)
         'city_id' => 'required',
         'service_ids' => 'required|array',
         'service_ids.*' => 'required',
+        'image' => 'required|image|mimes:jpg,jpeg,png|max:2048'
     ]);
 
     DB::beginTransaction();
 
     try {
 
-        // 1️⃣ Create Partner
+        // Upload Image
+        $imageName = null;
+
+        if ($request->hasFile('image')) {
+
+            $image = $request->file('image');
+
+            $imageName = time().'_'.$image->getClientOriginalName();
+
+            $destinationPath = public_path('uploads/partners');
+
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0777, true);
+            }
+
+            $image->move($destinationPath, $imageName);
+        }
+
+        // Create Partner
         $partner = ServicePartner::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -82,11 +101,14 @@ public function register_partner(Request $request)
             'district' => $request->district,
             'state_id' => $request->state_id,
             'city_id' => $request->city_id,
+            'image' => $imageName,
             'status' => 0,
             'rank' => 1,
         ]);
 
+        // Insert Partner Services
         foreach ($request->service_ids as $service_id) {
+
             PartnerServices::create([
                 'partner_id' => $partner->id,
                 'service_id' => $service_id,

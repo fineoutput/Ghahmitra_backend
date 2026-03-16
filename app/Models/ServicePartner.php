@@ -15,6 +15,7 @@ class ServicePartner extends Model
             'auth',  
             'email',  
             'phone',  
+            'image',  
             'address',  
             'district',  
             'latitude',  
