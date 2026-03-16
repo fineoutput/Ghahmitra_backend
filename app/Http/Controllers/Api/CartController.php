@@ -426,6 +426,7 @@ private function transferOrder($orderId, $addressId, $serviceId)
         ", [$lat, $lng, $lat])
         ->join('partner_services', 'partner_services.partner_id', '=', 'service_partner.id')
         ->where('partner_services.service_id', $serviceId)
+        ->where('partner_services.status', 1)
         ->orderBy('distance', 'asc')
         ->first();
 
