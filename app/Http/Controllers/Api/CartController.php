@@ -305,7 +305,7 @@ public function checkout(Request $request)
         ], 401);
     }
 
-    $cartItems = Cart::with('service')
+    $cartItems = Cart::with(['service','availability','slot'])
         ->where('customers_id', $customer->id)
         ->where('status', 1)
         ->get();
@@ -321,11 +321,8 @@ public function checkout(Request $request)
 
     try {
 
-        $subtotal = 0;
-        $tax = 0;
-        $discount = 0;
+        $orders = [];
 
-        // 1️⃣ Calculate subtotal
         foreach ($cartItems as $item) {
 
             if (!$item->service) {
@@ -336,44 +333,23 @@ public function checkout(Request $request)
             $quantity = $item->quantity;
             $total = $price * $quantity;
 
-            $subtotal += $total;
-        }
+            // Create separate order
+            $order = Order::create([
+                'order_number'   => 'ORD-' . strtoupper(Str::random(8)),
+                'customer_id'    => $customer->id,
+                'subtotal'       => $total,
+                'tax'            => 0,
+                'discount'       => 0,
+                'grand_total'    => $total,
+                'payment_method' => $request->payment_method ?? 'COD',
+                'payment_status' => 'pending',
+                'order_status'   => 1,
+                'address_id'     => $request->address_id,
+                'notes'          => $request->notes ?? null,
+                'status'         => 1,
+            ]);
 
-        // 2️⃣ Example Tax (5%)
-        $tax = 0;
-
-        // 3️⃣ Example Discount (optional)
-        $discount = 0;
-
-        $grandTotal = $subtotal + $tax - $discount;
-
-        // 4️⃣ Create Order
-        $order = Order::create([
-            'order_number'   => 'ORD-' . strtoupper(Str::random(8)),
-            'customer_id'    => $customer->id,
-            'subtotal'       => $subtotal,
-            'tax'            => $tax,
-            'discount'       => $discount,
-            'grand_total'    => $grandTotal,
-            'payment_method' => $request->payment_method ?? 'COD',
-            'payment_status' => 'pending',
-            'order_status'   => 1, // pending
-            'address_id'     => $request->address_id,
-            'notes'          => $request->notes ?? null,
-            'status'          => 1,
-        ]);
-
-        // 5️⃣ Create Order Items
-        foreach ($cartItems as $item) {
-
-            if (!$item->service) {
-                continue;
-            }
-
-            $price = $item->service->price;
-            $quantity = $item->quantity;
-            $total = $price * $quantity;
-
+            // Create order item
             OrderItems::create([
                 'order_id'        => $order->id,
                 'service_id'      => $item->service_id,
@@ -382,16 +358,23 @@ public function checkout(Request $request)
                 'quantity'        => $quantity,
                 'total'           => $total,
                 'availability_id' => $item->availability_id,
-                'day' => $item->availability->day,
-                'start_time' => $item->slot->start_time,
-                'end_time' => $item->slot->end_time,
-                'slot_id' => $item->slot_id,
+                'day'             => $item->availability->day,
+                'start_time'      => $item->slot->start_time,
+                'end_time'        => $item->slot->end_time,
+                'slot_id'         => $item->slot_id,
             ]);
+
+            // Transfer order to nearest partner
+            $this->transferOrder($order->id, $request->address_id, $item->service_id);
+
+            $orders[] = [
+                'order_id' => $order->id,
+                'order_number' => $order->order_number,
+                'grand_total' => $total
+            ];
         }
 
-    $this->transferOrder($order->id, $request->address_id);
-
-        // 6️⃣ Clear Cart Completely (Delete)
+        // Clear cart
         Cart::where('customers_id', $customer->id)
             ->where('status', 1)
             ->delete();
@@ -400,12 +383,8 @@ public function checkout(Request $request)
 
         return response()->json([
             'status' => 200,
-            'message' => 'Order placed successfully',
-            'data' => [
-                'order_id' => $order->id,
-                'order_number' => $order->order_number,
-                'grand_total' => $grandTotal
-            ]
+            'message' => 'Orders placed successfully',
+            'data' => $orders
         ]);
 
     } catch (\Exception $e) {
@@ -421,7 +400,7 @@ public function checkout(Request $request)
 }
 
 
-private function transferOrder($orderId, $addressId)
+private function transferOrder($orderId, $addressId, $serviceId)
 {
     $address = CustomerAddresses::find($addressId);
 
@@ -432,21 +411,25 @@ private function transferOrder($orderId, $addressId)
     $lat = $address->latitude;
     $lng = $address->longitude;
 
+    // Get partners who provide this service
     $partner = ServicePartner::selectRaw("
-            id,
-            latitude,
-            longitude,
+            service_partner.id,
+            service_partner.latitude,
+            service_partner.longitude,
             ( 6371 * acos(
                 cos(radians(?)) *
-                cos(radians(latitude)) *
-                cos(radians(longitude) - radians(?)) +
+                cos(radians(service_partner.latitude)) *
+                cos(radians(service_partner.longitude) - radians(?)) +
                 sin(radians(?)) *
-                sin(radians(latitude))
+                sin(radians(service_partner.latitude))
             ) ) AS distance
         ", [$lat, $lng, $lat])
+        ->join('partner_services', 'partner_services.partner_id', '=', 'service_partner.id')
+        ->where('partner_services.service_id', $serviceId)
         ->orderBy('distance', 'asc')
         ->first();
 
+    // Agar service wala partner nahi mila to transfer mat karo
     if (!$partner) {
         return;
     }
@@ -464,7 +447,6 @@ private function transferOrder($orderId, $addressId)
         'end_location' => $partner->latitude . ',' . $partner->longitude,
     ]);
 }
-
 
 
 
