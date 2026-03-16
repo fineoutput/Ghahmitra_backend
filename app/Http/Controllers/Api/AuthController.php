@@ -62,7 +62,7 @@ public function register_partner(Request $request)
         'email' => 'required|email|unique:service_partner,email',
         'phone' => 'required|unique:service_partner,phone|regex:/^[0-9]{10}$/',
         'address' => 'required',
-        'district' => 'required',
+        'district' => 'nullable',
         'state_id' => 'required',
         'city_id' => 'required',
         'service_ids' => 'required|array',
