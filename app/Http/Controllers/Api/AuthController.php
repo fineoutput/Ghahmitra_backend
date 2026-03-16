@@ -66,7 +66,7 @@ public function register_partner(Request $request)
         'state_id' => 'required',
         'city_id' => 'required',
         'service_ids' => 'required|array',
-        'service_ids.*' => 'required|exists:services,id',
+        'service_ids.*' => 'required',
     ]);
 
     DB::beginTransaction();
