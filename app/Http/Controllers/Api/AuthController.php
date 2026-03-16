@@ -67,7 +67,7 @@ public function register_partner(Request $request)
         'city_id' => 'required',
         'service_ids' => 'required|array',
         'service_ids.*' => 'required',
-        'image' => 'required|image|mimes:jpg,jpeg,png|max:2048'
+        'image' => 'required'
     ]);
 
     DB::beginTransaction();
