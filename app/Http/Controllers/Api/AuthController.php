@@ -290,7 +290,8 @@ public function register_partner(Request $request)
     );
 
     // Generate OTP
-    $otp = rand(100000, 999999);
+    // $otp = rand(100000, 999999);
+    $otp = 123456;
 
     Otp::updateOrCreate(
         ['contact_no' => $request->mobile_no],
