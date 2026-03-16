@@ -8,11 +8,13 @@ use App\Models\Cart;
 use App\Models\CustomerAddresses;
 use App\Models\Order;
 use App\Models\OrderItems;
+use App\Models\ServicePartner;
 use App\Models\Services;
 use App\Models\ServicesSe;
 use App\Models\Slots;
 use App\Models\State;
 use App\Models\Th_Services;
+use App\Models\TransferOrders;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Redirect;
@@ -290,6 +292,8 @@ public function checkout(Request $request)
             ]);
         }
 
+      $this->transferOrder($order->id, $request->address_id);
+
         // 6️⃣ Clear Cart Completely (Delete)
         Cart::where('customers_id', $customer->id)
             ->where('status', 1)
@@ -318,4 +322,51 @@ public function checkout(Request $request)
         ]);
     }
 }
+
+
+private function transferOrder($orderId, $addressId)
+{
+    $address = CustomerAddresses::find($addressId);
+
+    if (!$address) {
+        return;
+    }
+
+    $lat = $address->latitude;
+    $lng = $address->longitude;
+
+    $partner = ServicePartner::selectRaw("
+            id,
+            latitude,
+            longitude,
+            ( 6371 * acos(
+                cos(radians(?)) *
+                cos(radians(latitude)) *
+                cos(radians(longitude) - radians(?)) +
+                sin(radians(?)) *
+                sin(radians(latitude))
+            ) ) AS distance
+        ", [$lat, $lng, $lat])
+        ->orderBy('distance', 'asc')
+        ->first();
+
+    if (!$partner) {
+        return;
+    }
+
+    TransferOrders::create([
+        'order_id' => $orderId,
+        'partner_id' => $partner->id,
+        'distance' => $partner->distance,
+        'status' => 1,
+        'start_time' => null,
+        'end_time' => null,
+        'ip' => request()->ip(),
+        'accepted_at' => null,
+        'start_location' => $lat . ',' . $lng,
+        'end_location' => $partner->latitude . ',' . $partner->longitude,
+    ]);
+}
+
+
 }

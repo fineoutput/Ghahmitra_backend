@@ -17,6 +17,8 @@ class ServicePartner extends Model
             'phone',  
             'address',  
             'district',  
+            'latitude',  
+            'longitude',  
             'city_id',  
             'state_id',  
             'rank',  

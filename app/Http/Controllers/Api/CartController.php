@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\adminmodel\Team;
 use App\Models\Cart;
 use App\Models\City;
+use App\Models\CustomerAddresses;
 use App\Models\Customers;
 use App\Models\Feedback;
 use App\Models\Order;
@@ -17,6 +18,7 @@ use App\Models\Reschedule;
 use App\Models\ServicePartner;
 use App\Models\State;
 use App\Models\SubOrder;
+use App\Models\TransferOrders;
 use App\Models\UnverifiedCustomer;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
@@ -387,6 +389,8 @@ public function checkout(Request $request)
             ]);
         }
 
+    $this->transferOrder($order->id, $request->address_id);
+
         // 6️⃣ Clear Cart Completely (Delete)
         Cart::where('customers_id', $customer->id)
             ->where('status', 1)
@@ -415,6 +419,54 @@ public function checkout(Request $request)
         ]);
     }
 }
+
+
+private function transferOrder($orderId, $addressId)
+{
+    $address = CustomerAddresses::find($addressId);
+
+    if (!$address) {
+        return;
+    }
+
+    $lat = $address->latitude;
+    $lng = $address->longitude;
+
+    $partner = ServicePartner::selectRaw("
+            id,
+            latitude,
+            longitude,
+            ( 6371 * acos(
+                cos(radians(?)) *
+                cos(radians(latitude)) *
+                cos(radians(longitude) - radians(?)) +
+                sin(radians(?)) *
+                sin(radians(latitude))
+            ) ) AS distance
+        ", [$lat, $lng, $lat])
+        ->orderBy('distance', 'asc')
+        ->first();
+
+    if (!$partner) {
+        return;
+    }
+
+    TransferOrders::create([
+        'order_id' => $orderId,
+        'partner_id' => $partner->id,
+        'distance' => $partner->distance,
+        'status' => 1,
+        'start_time' => now(),
+        'end_time' => null,
+        'ip' => request()->ip(),
+        'accepted_at' => null,
+        'start_location' => $lat . ',' . $lng,
+        'end_location' => $partner->latitude . ',' . $partner->longitude,
+    ]);
+}
+
+
+
 
 public function storeFeedback(Request $request)
 {
