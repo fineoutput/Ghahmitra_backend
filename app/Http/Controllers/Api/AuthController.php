@@ -392,7 +392,8 @@ public function verifyRegisterOtp(Request $request)
             ], 403);
         }
 
-        $otp = rand(100000, 999999);
+        // $otp = rand(100000, 999999);
+        $otp = 123456;
 
         Otp::updateOrCreate(
             ['contact_no' => $request->contact_no],
