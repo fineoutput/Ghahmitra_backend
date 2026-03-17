@@ -19,20 +19,20 @@
                 <h5 class="service-name">#{{$value->id}}</h5>
                 
                 <div class="order-date">
-                    📅 {{$value->created_at}}
+                    📅 {{ $value->created_at->format('d M Y') }}
                 </div>
                 
-                <div class="status-pill">
+                {{-- <div class="status-pill">
                     <span class="icon">🧰</span>
                     Not Yet Connected
-                </div>
+                </div> --}}
                 {{-- <span class="badge-closed">CLOSED</span> --}}
 
 
             </div>
-<div class="order-image">
+{{-- <div class="order-image">
     <img src="{{ asset($value->orderItems->first()->service->image[0] ?? '') }}" alt="">
-</div>
+</div> --}}
         </div>
 
         <div class="order-bottom">

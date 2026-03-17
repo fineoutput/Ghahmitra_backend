@@ -45,7 +45,7 @@
             <tr>
               <th>#</th>
               <th>Product</th>
-              <th>Image</th>
+              {{-- <th>Image</th> --}}
               <th>Price</th>
               <th>Qty</th>
               <th>Total</th>
@@ -68,13 +68,13 @@
 
                 <td>{{ $item->service->name ?? 'N/A' }}</td>
 
-                <td>
+                {{-- <td>
                   <img 
                     src="{{ asset($item->service->image[0] ?? 'default.png') }}" 
                     class="img-fluid rounded" 
                     width="60"
                   >
-                </td>
+                </td> --}}
 
                 <td>₹{{ $price }}</td>
                 <td>{{ $qty }}</td>

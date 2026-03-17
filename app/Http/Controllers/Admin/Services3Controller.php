@@ -63,17 +63,36 @@ public function update(Request $request, $id)
         'images.*'         => 'image',
     ]);
 
-    // Keep existing images
-    $existingImages = $service->image ?? [];
+    // Get existing images safely
+    $existingImages = is_array($service->image) 
+        ? $service->image 
+        : json_decode($service->image, true);
 
-    // Upload new images if any
+    if (!$existingImages) {
+        $existingImages = [];
+    }
+
+    // Upload new images
     if ($request->hasFile('images')) {
+
         foreach ($request->file('images') as $image) {
+
             $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('uploads/services'), $imageName);
+
+            $destinationPath = public_path('uploads/services');
+
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0777, true);
+            }
+
+            $image->move($destinationPath, $imageName);
+
             $existingImages[] = 'uploads/services/' . $imageName;
         }
     }
+
+    // Re-index array (important safety)
+    $existingImages = array_values($existingImages);
 
     $service->update([
         'name'                  => $request->name,
@@ -85,38 +104,47 @@ public function update(Request $request, $id)
         'description'           => $request->description,
         'description_2'         => $request->description_2,
         'description_3'         => $request->description_3,
-        'image'                 => $existingImages, // Model cast handles JSON
+        'image'                 => $existingImages,
     ]);
 
-    return redirect()->route('services3.index')->with('success', 'Record updated successfully.');
+    return redirect()->route('services3.index')
+        ->with('success', 'Record updated successfully.');
 }
-
 
 public function deleteImage($id, $imageName)
 {
     $service = Th_Services::findOrFail($id);
 
-    // Existing images array
-    $images = is_array($service->image) ? $service->image : json_decode($service->image, true);
+    // Get images safely
+    $images = is_array($service->image) 
+        ? $service->image 
+        : json_decode($service->image, true);
+
+    if (!$images) {
+        $images = [];
+    }
 
     $imagePath = 'uploads/services/' . $imageName;
 
     if (($key = array_search($imagePath, $images)) !== false) {
-        unset($images[$key]); // remove from array
+
+        unset($images[$key]);
+
         // Delete physical file
         if (file_exists(public_path($imagePath))) {
             unlink(public_path($imagePath));
         }
     }
 
+    // ✅ VERY IMPORTANT: re-index array
+    $images = array_values($images);
+
     $service->update([
         'image' => $images
     ]);
 
-    return redirect()->back()->with('success', 'Image deleted successfully.');
+    return back()->with('success', 'Image deleted successfully.');
 }
-
-
 
   public function store(Request $request)
 {
