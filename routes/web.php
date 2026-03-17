@@ -172,6 +172,7 @@ Route::delete('services3/{id}', [Services3Controller::class, 'destroy'])->name('
 
 
 
+Route::get('/storeAvailability/index/{id}', [AvailabilityController::class, 'storeAvailability'])->name('storeAvailability.index');
 Route::get('/availability/index/{id}', [AvailabilityController::class, 'index'])->name('availability.index');
 Route::get('/availability/create/{id}', [AvailabilityController::class, 'create'])->name('availability.create');
 Route::post('/availability/store/{id}', [AvailabilityController::class, 'store'])->name('availability.store');

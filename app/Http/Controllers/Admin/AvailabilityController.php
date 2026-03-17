@@ -14,10 +14,41 @@ use App\adminmodel\ProductModal;
 use App\Models\Services;
 use App\Models\ServicesSe;
 use App\Models\Th_Services;
+use Carbon\Carbon;
 use App\Models\Availability;
 
 class AvailabilityController extends Controller
 {
+ 
+  public function storeAvailability($serviceId)
+    {
+        $startOfMonth = Carbon::now()->startOfMonth();
+        $endOfMonth   = Carbon::now()->endOfMonth();
+
+        Availability::where('services_id', $serviceId)
+            ->whereDate('day', '<', $startOfMonth->toDateString())
+            ->delete();
+
+        $currentDate = $startOfMonth->copy();
+
+        while ($currentDate <= $endOfMonth) {
+
+            Availability::firstOrCreate(
+                [
+                    'day' => $currentDate->toDateString(),
+                    'services_id' => $serviceId,
+                ],
+                [
+                    'description' => null,
+                    'status' => 1,
+                ]
+            );
+
+            $currentDate->addDay();
+        }
+
+        return redirect()->back();
+    }
 
     public function index(Request $request, $id)
     {
