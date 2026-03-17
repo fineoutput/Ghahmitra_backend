@@ -60,7 +60,7 @@ public function update(Request $request, $id)
         'price'            => 'required',
         'mrp'              => 'required',
         'description'      => 'nullable',
-        'images.*'         => 'image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+        'images.*'         => 'image',
     ]);
 
     // Keep existing images
@@ -126,7 +126,7 @@ public function deleteImage($id, $imageName)
         'price'            => 'required',
         'mrp'              => 'required',
         'description'      => 'nullable',
-        'images.*'         => 'image|mimes:jpeg,png,jpg,gif,webp|max:2048', // Optional validation for images
+        'images.*'         => 'image', // Optional validation for images
     ]);
 
     $imagePaths = [];

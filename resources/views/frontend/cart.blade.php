@@ -493,7 +493,7 @@
                 </div>
 
                 <!-- Service Process -->
-                <div class="cart-card">
+                {{-- <div class="cart-card">
                     <div class="section-title">Service Process</div>
                     <p class="text-muted">
                         Our service begins with an expert inspection to understand your needs, followed by a transparent
@@ -501,7 +501,7 @@
                         Once approved, we schedule the service at your convenience.
                     </p>
                     <a href="#" class="text-primary">Read full process</a>
-                </div>
+                </div> --}}
 
             </div>
 
@@ -510,6 +510,7 @@
             <div class="col-lg-6 mobile-step mobile-step-2">
 
                 <!-- Product -->
+                @if($cart_items)
                 @foreach ($cart_items as $item)
                     <div class="cart-card d-flex justify-content-between align-items-center">
                         <div>
@@ -558,9 +559,9 @@
 
                                     <div class="modal-body">
 
-                                        <div class="alert alert-info small rounded-2 mb-4">
+                                        {{-- <div class="alert alert-info small rounded-2 mb-4">
                                             Service will take approx. 2 hrs & 10 mins
-                                        </div>
+                                        </div> --}}
 
                                         <input type="hidden" name="cart_item_id" value="{{ $item->id }}">
                                         <input type="hidden" name="availability_id" id="availabilityInput-{{ $item->id }}">
@@ -632,6 +633,7 @@
                         </div>
                     </div>
                 @endforeach
+                @endif
             </div>
 
             <!-- Payment Summary -->
@@ -693,14 +695,14 @@
             </div>
 
             <!-- Notes -->
-            <div class="cart-card note-box">
+            {{-- <div class="cart-card note-box">
                 <div class="section-title">✨ Notes:</div>
                 <ul>
                     <li>The provided cost is an approximate estimate.</li>
                     <li>Final estimation will be provided after inspection.</li>
                     <li>No advance payment required at the time of booking.</li>
                 </ul>
-            </div>
+            </div> --}}
 
             <!-- Promo code trigger -->
             <div class="cart-card d-flex justify-content-between align-items-center">
@@ -790,9 +792,9 @@
                 <div class="modal-body">
 
                     <!-- Service Duration Info -->
-                    <div class="alert alert-info small rounded-2 mb-4">
+                    {{-- <div class="alert alert-info small rounded-2 mb-4">
                         Service will take approx. 2 hrs & 10 mins
-                    </div>
+                    </div> --}}
 
                     <!-- Date Selection -->
                     <div class="mb-4">

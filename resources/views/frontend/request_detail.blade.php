@@ -236,18 +236,18 @@
             </div> --}}
 
             <!-- Cancel Message -->
-            <div class="alert-cancel">
+            {{-- <div class="alert-cancel">
                 Your booking has been cancelled. We hope to have the opportunity to serve you again in the future.
                 <span class="close-x">✕</span>
-            </div>
+            </div> --}}
 
             <!-- Note -->
-            <div class="card-box">
+            {{-- <div class="card-box">
                 <p class="mb-0 text-muted">
                     Note: A professional consultation is required for an accurate estimate. 
                     Our team will review your project details and provide a customized quote tailored to your needs.
                 </p>
-            </div>
+            </div> --}}
 
             <!-- Payment Summary -->
             <div class="card-box">

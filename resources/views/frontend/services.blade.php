@@ -27,16 +27,19 @@
             <!-- Waxing -->
             @foreach ($services as $service)
                <div class="col-6 col-sm-6">
+            <a href="{{url('services-detailes',$service->id)}}">
+
               <div class="text-center p-3 rounded-3 border border-light-custom" style="cursor: pointer; transition: all 0.3s;" onmouseover="this.style.boxShadow='0 4px 15px rgba(0,0,0,0.1)'" onmouseout="this.style.boxShadow='none'">
                 <img src="{{ asset($service->image) }}" alt="{{ $service->name }}" class="img-fluid rounded-2 mb-2" style="height: 50px; object-fit: cover;">
                 <p class="mb-0 fw-semibold small">{{ $service->name }}</p>
               </div>
+              </a>
             </div>
             @endforeach
     
           </div>
         </div>
-      </div>>
+      </div>
       </div>
 
       <!-- ================= SERVICE CATEGORIES SECTION ================= -->
@@ -53,7 +56,7 @@
             <!-- Left: Details Section -->
             <div class="flex-grow-1 pe-md-4 order-2 order-md-1 mt-3 mt-md-0">
               <!-- Service Title -->
-              <h6 class="fw-bold mb-2">Pack of 4</h6>
+              {{-- <h6 class="fw-bold mb-2">Pack of 4</h6> --}}
               
               <!-- Rating -->
               <div class="d-flex align-items-center gap-2 mb-2">
@@ -69,11 +72,11 @@
                   <small class="text-muted d-block">Starts at</small>
                   <span class="fw-bold text-dark">₹{{ number_format($service_detail->price, 2) }}</span>
                 </div>
-                <div class="text-muted">•</div>
-                <div>
+                {{-- <div class="text-muted">•</div> --}}
+                {{-- <div>
                   <small class="text-muted d-block">Duration</small>
                   <span class="fw-bold text-dark">60 mins</span>
-                </div>
+                </div> --}}
               </div>
               
               <!-- Description Bullet Points -->
@@ -82,7 +85,7 @@
               </ul>
               
               <!-- Show More Link -->
-              <a href="#" class="text-primary text-decoration-none small fw-semibold open-details-modal">Show more ▼</a>
+              {{-- <a href="#" class="text-primary text-decoration-none small fw-semibold open-details-modal">Show more ▼</a> --}}
             </div>
             
             <!-- Right: Image & Button Section -->
@@ -223,9 +226,9 @@
        
 
         <!-- Load More -->
-        <div class="text-center">
+        {{-- <div class="text-center">
           <button class="btn btn-outline-dark rounded-3">Load More Services</button>
-        </div>
+        </div> --}}
 
       </div>
 
