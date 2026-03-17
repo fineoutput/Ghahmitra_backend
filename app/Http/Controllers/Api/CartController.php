@@ -23,6 +23,7 @@ use App\Models\UnverifiedCustomer;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 
 class CartController extends Controller
@@ -399,7 +400,6 @@ public function checkout(Request $request)
     }
 }
 
-
 private function transferOrder($orderId, $addressId, $serviceId)
 {
     $address = CustomerAddresses::find($addressId);
@@ -410,8 +410,8 @@ private function transferOrder($orderId, $addressId, $serviceId)
 
     $lat = $address->latitude;
     $lng = $address->longitude;
+    $today = Carbon::today()->toDateString();
 
-    // Get partners who provide this service
     $partner = ServicePartner::selectRaw("
             service_partner.id,
             service_partner.latitude,
@@ -425,12 +425,20 @@ private function transferOrder($orderId, $addressId, $serviceId)
             ) ) AS distance
         ", [$lat, $lng, $lat])
         ->join('partner_services', 'partner_services.partner_id', '=', 'service_partner.id')
+
+        // 🔴 Leave check (important part)
+        ->leftJoin('leave_req', function ($join) use ($today) {
+            $join->on('leave_req.partner_id', '=', 'service_partner.id')
+                 ->whereDate('leave_req.start_date', '<=', $today)
+                 ->whereDate('leave_req.end_date', '>=', $today);
+        })
+
+        ->whereNull('leave_req.partner_id') // agar leave par hai to exclude
         ->where('partner_services.service_id', $serviceId)
         ->where('partner_services.status', 1)
         ->orderBy('distance', 'asc')
         ->first();
 
-    // Agar service wala partner nahi mila to transfer mat karo
     if (!$partner) {
         return;
     }
