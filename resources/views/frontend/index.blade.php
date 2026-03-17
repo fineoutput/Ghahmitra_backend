@@ -479,10 +479,10 @@ document.addEventListener("DOMContentLoaded", function () {
         if (details.length > 0) {
 
             details.forEach(function(item) {
-
-                const imageSrc = item.image 
-                    ? `/${item.image}` 
-                    : "https://via.placeholder.com/100?text=No+Image";
+                const baseUrl = "{{ url('/') }}";
+               const imageSrc = item.image 
+                ? `${baseUrl}/${item.image}` 
+                : "https://via.placeholder.com/100?text=No+Image";
    const serviceBaseUrl = "{{ url('/services-detailes') }}";
                 grid.innerHTML += `
                     <div class="col-6 col-md-4">

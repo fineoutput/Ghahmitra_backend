@@ -165,25 +165,27 @@
       </div>
 
       <!-- Package Options -->
-      <div class="mb-4">
+      {{-- <div class="mb-4">
         <h6 class="fw-bold mb-3">Select Duration</h6>
         <div class="row g-3" id="packageOptionsContainer">
           <!-- Package options will be populated here -->
         </div>
-      </div>
+      </div> --}}
 
       <!-- Additional Details -->
       <div class="mb-4 p-3 bg-light rounded-3">
-        <h6 class="fw-bold mb-3">What's Included</h6>
-        <ul class="list-unstyled">
-          <li class="mb-2"><small><strong>✓</strong> {!! $service_detail->description_2 !!}</small></li>
-        </ul>
+        {{-- <h6 class="fw-bold mb-3">What's Included</h6> --}}
+        {{-- <ul class="list-unstyled">
+          <li class="mb-2"><small><strong>✓</strong> </small></li>
+        </ul> --}}
+        <p>{!! $service_detail->description_2 !!}</p>
       </div>
 
       <!-- Terms -->
       <div class="mb-4 p-3 bg-light rounded-3">
-        <h6 class="fw-bold mb-2">Terms & Conditions</h6>
-        <small class="text-muted d-block mb-2">• {!! $service_detail->description_3 !!}</small>
+        {{-- <h6 class="fw-bold mb-2">Terms & Conditions</h6> --}}
+        {{-- <small class="text-muted d-block mb-2">• </small> --}}
+        {!! $service_detail->description_3 !!}
       </div>
 
       <!-- Action Buttons -->

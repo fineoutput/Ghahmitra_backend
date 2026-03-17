@@ -21,6 +21,7 @@ use App\Http\Controllers\Admin\Services3Controller;
 use App\Http\Controllers\Admin\AvailabilityController;
 use App\Http\Controllers\Admin\ServicePartnerController;
 use App\Http\Controllers\Admin\BannerController;
+use App\Http\Controllers\Admin\CityController;
 use App\Http\Controllers\Admin\PartnerServicesController;
 use App\Http\Controllers\Admin\PrivacyPolicyController;
 use App\Http\Controllers\Admin\SlotController;
@@ -259,6 +260,17 @@ Route::get('/order/complete-index', [OrderController::class, 'completeindex'])->
 Route::get('/order/reject-index', [OrderController::class, 'rejectindex'])->name('order.rejectindex');
 Route::get('/order/items-index/{id}', [OrderController::class, 'itemsindex'])->name('order.itemsindex');
 Route::patch('order/update-status/{id}', [OrderController::class, 'updateStatus'])->name('order.updateStatus');
+
+
+
+Route::get('/city/index', [CityController::class, 'index'])->name('city.index');
+Route::get('/city/create', [CityController::class, 'create'])->name('city.create');
+Route::post('/city/store', [CityController::class, 'store'])->name('city.store');
+Route::patch('city/update-status/{id}', [CityController::class, 'updateStatus'])->name('city.updateStatus');
+Route::get('city/{id}/edit', [CityController::class, 'edit'])->name('city.edit');
+Route::put('city/{id}', [CityController::class, 'update'])->name('city.update');
+Route::delete('city/{id}', [CityController::class, 'destroy'])->name('city.destroy');
+
     });
 
 });
