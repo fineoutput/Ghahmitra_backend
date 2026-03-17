@@ -75,7 +75,8 @@ public function getSlots($day_id)
 
     public function servicesdetailes(Request $req, $id)
     {
-            $data['services'] = ServicesSe::orderBy('id','desc')->where('id','!=', $id)->where('status', 1)->get();
+            $mainservices = ServicesSe::where('id', $id)->first();
+            $data['services'] = ServicesSe::orderBy('id','desc')->where('services_id', $mainservices->services_id)->where('status', 1)->get();
             $data['services_details'] = Th_Services::orderBy('id','desc')->where('services_se_id', $id)->get();
             $user = Auth::guard('customer')->user();
             if ($user) {
