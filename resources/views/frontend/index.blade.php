@@ -48,11 +48,12 @@
           <span class="input-group-text bg-white">
             <i class="fa-solid fa-location-dot text-muted"></i>
           </span>
-          <select style="padding: 20px" class="form-select border-start-0">
-            <option>Ashok Nagar, Jaipur</option>
-            <option>Delhi</option>
-            <option>Mumbai</option>
-          </select>
+          <select id="citySelect" style="padding: 20px" class="form-select border-start-0">
+    <option value="">Select City</option>              
+    @foreach ($ManualCity as $city)
+        <option value="{{ $city->id }}">{{ $city->city_name }}</option>              
+    @endforeach
+</select>
         </div>
 
         <!-- Search -->
@@ -451,6 +452,19 @@
   </div>
 </section>
 
+
+
+<script>
+document.getElementById('citySelect').addEventListener('change', function() {
+    let selectedCity = this.value;
+
+    if (selectedCity) {
+        localStorage.setItem('selectedCity', selectedCity);
+    } else {
+        localStorage.removeItem('selectedCity');
+    }
+});
+</script>
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {

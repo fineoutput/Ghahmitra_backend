@@ -445,6 +445,37 @@
             color: #fff;
             border-color: #0d6efd;
         }
+
+        .tag-btn {
+    border: 2px solid #ccc;
+    padding: 8px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* When radio is checked */
+.tag-btn input:checked + * {
+    border-color: #0d6efd;
+}
+
+/* OR better (recommended) */
+.tag-btn input:checked {
+    display: none;
+}
+
+.tag-btn input:checked + span {
+    border-color: #0d6efd;
+}
+
+.tag-btn input:checked {
+    display: none;
+}
+
+.tag-btn:has(input:checked) {
+    border: 2px solid #0d6efd;
+    background-color: #e7f1ff;
+}
     </style>
 
     </style>
@@ -478,11 +509,21 @@
 
                 <div class="modal-footer border-0">
                     {{-- <button type="button" class="btn btn-secondary rounded-2" data-bs-dismiss="modal">Back</button> --}}
-                    <button type="button" class="btn btn-primary rounded-2" id="proceedCheckoutBtn"
-                        onclick="openAddressAfterSlot()">
+                   @php
+                        $allSelected = collect($cart_items)->every(function($item) {
+                            return !empty($item->availability_id) && !empty($item->slot_id);
+                        });
+                    @endphp
+
+                    <button type="button" 
+                        class="btn btn-primary rounded-2"
+                        onclick="{{ $allSelected ? 'openAddressAfterSlot()' : 'alert(\'Select all cart items slot first\')' }}">
                         Select address
                     </button>
+
                 </div>
+                
+
 
                 <!-- Payment -->
                 <div class="cart-card">
@@ -763,9 +804,8 @@
                                 <strong>{{ ucfirst($addresses->type) }}</strong>
 
                                 <div class="small text-muted">
-                                    {{ $addresses->address_line1 }},
-                                    {{ $addresses->cities->city_name }},
-                                    {{ $addresses->state->state_name }},
+                                    {{ $addresses->address_line1 ?? '' }},
+                                    {{ $addresses->city->city_name ?? '' }},
                                     {{ $addresses->pincode }}
                                 </div>
 
@@ -989,40 +1029,27 @@
 
 
                                 <!-- PINCODE -->
-                                <input type="text" name="pincode" value="{{ old('pincode') }}"
+                                {{-- <input type="text" name="pincode" value="{{ old('pincode') }}"
                                     class="form-control mb-1 @error('pincode') is-invalid @enderror"
                                     placeholder="Pincode">
 
                                 @error('pincode')
                                     <div class="invalid-feedback mb-2">{{ $message }}</div>
-                                @enderror
+                                @enderror --}}
 
 
                                 <!-- STATE -->
-                                <select name="state_id" id="state"
-                                    class="form-select mb-1 @error('state_id') is-invalid @enderror">
-
-                                    <option value="">Select State</option>
-
-                                    @foreach ($states as $state)
-                                        <option value="{{ $state->id }}"
-                                            {{ old('state_id') == $state->id ? 'selected' : '' }}>
-                                            {{ $state->state_name }}
-                                        </option>
-                                    @endforeach
-
-                                </select>
-
-                                @error('state_id')
-                                    <div class="invalid-feedback mb-2">{{ $message }}</div>
-                                @enderror
-
-
-                                <!-- CITY -->
-                                <select name="city_id" id="city"
+                                <select name="city_id" id="city_id"
                                     class="form-select mb-1 @error('city_id') is-invalid @enderror">
 
                                     <option value="">Select City</option>
+
+                                    @foreach ($ManualCity as $ManualCity)
+                                        <option value="{{ $ManualCity->id }}"
+                                            {{ old('city_id') == $ManualCity->id ? 'selected' : '' }}>
+                                            {{ $ManualCity->city_name }}
+                                        </option>
+                                    @endforeach
 
                                 </select>
 
@@ -1031,33 +1058,46 @@
                                 @enderror
 
 
+                                <!-- CITY -->
+                                <select name="pincode" id="pincode"
+                                    class="form-select mb-1 @error('pincode') is-invalid @enderror">
+
+                                    <option value="">Select pincode</option>
+
+                                </select>
+
+                                @error('pincode')
+                                    <div class="invalid-feedback mb-2">{{ $message }}</div>
+                                @enderror
+
+
                                 <!-- TYPE -->
                                 <div class="mb-2 fw-semibold mt-3">Save as</div>
 
-                                <div class="d-flex gap-2 mb-4">
+                               <div class="d-flex gap-2 mb-4">
 
-                                    <label class="tag-btn {{ old('type', 'home') == 'home' ? 'active' : '' }}">
-                                        <input type="radio" name="type" value="home" hidden
-                                            {{ old('type', 'home') == 'home' ? 'checked' : '' }}>
-                                        Home
-                                    </label>
+   <label class="tag-btn" onclick="selectTag(this)">
+        <input type="radio" name="type" value="home" hidden
+            {{ old('type', 'home') == 'home' ? 'checked' : '' }}>
+        Home
+    </label>
 
-                                    <label class="tag-btn {{ old('type') == 'office' ? 'active' : '' }}">
-                                        <input type="radio" name="type" value="office" hidden
-                                            {{ old('type') == 'office' ? 'checked' : '' }}>
-                                        Office
-                                    </label>
+<label class="tag-btn" onclick="selectTag(this)">
+        <input type="radio" name="type" value="office" hidden
+            {{ old('type') == 'office' ? 'checked' : '' }}>
+        Office
+    </label>
 
-                                    <label class="tag-btn {{ old('type') == 'other' ? 'active' : '' }}">
-                                        <input type="radio" name="type" value="other" hidden
-                                            {{ old('type') == 'other' ? 'checked' : '' }}>
-                                        Other
-                                    </label>
+<label class="tag-btn" onclick="selectTag(this)">
+        <input type="radio" name="type" value="other" hidden
+            {{ old('type') == 'other' ? 'checked' : '' }}>
+        Other
+    </label>
 
-                                </div>
+</div>
 
                                 <!-- SUBMIT -->
-                                <button type="submit" class="save-btn w-100">
+                                <button type="submit" class="btn btn-success save-btn w-100">
                                     Save and proceed
                                 </button>
 
@@ -1155,6 +1195,15 @@
 
 
     <script>
+
+function selectTag(el) {
+    document.querySelectorAll('.tag-btn').forEach(btn => btn.classList.remove('active'));
+    el.classList.add('active');
+
+    // select radio inside clicked label
+    el.querySelector('input').checked = true;
+}
+
         let selectedSlot = "{{ isset($item) ? $item->slot_id : '' }}";
 
         document.querySelectorAll('[id^="selectSlotModal-"]').forEach(modal => {
@@ -1249,35 +1298,34 @@
             el.classList.add('active');
         }
 
-        $('#state').change(function() {
+        $('#city_id').change(function() {
 
-            var state_id = $(this).val();
-            var url = "{{ route('customer.cart_state') }}";
+    var city_id = $(this).val();
+    var url = "{{ route('customer.cart_state') }}";
 
-            $.ajax({
-                url: url,
-                type: "GET",
-                data: {
-                    state_id: state_id
-                },
+    $.ajax({
+        url: url,
+        type: "GET",
+        data: {
+            city_id: city_id
+        },
 
-                success: function(data) {
+        success: function(data) {
 
-                    $('#city').html('<option value="">Select City</option>');
+            $('#pincode').html('<option value="">Select pincode</option>');
 
-                    $.each(data, function(key, value) {
+            $.each(data, function(key, value) {
 
-                        $('#city').append(
-                            '<option value="' + value.id + '">' + value.city_name +
-                            '</option>'
-                        );
+                $('#pincode').append(
+                    '<option value="' + value.trim() + '">' + value.trim() + '</option>'
+                );
 
-                    });
-
-                }
             });
 
-        });
+        }
+    });
+
+});
     </script>
 
 

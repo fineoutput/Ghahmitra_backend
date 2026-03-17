@@ -224,26 +224,36 @@
         <button type="button" class="btn btn-outline-secondary rounded-3 flex-grow-1" data-bs-dismiss="modal">Cancel</button>
         @php
           $inCart = collect($cart_items)->where('service_id', $service_detail->id)->first();
+          $hasAvailability = !empty($service_detail->availability) && count($service_detail->availability) > 0;
           @endphp
 
-          @if($inCart)
 
-          <button 
-          type="button" 
-          class="btn btn-success rounded-3 flex-grow-1" disabled>
-          Already in Cart
-          </button>
+          @if(!$hasAvailability)
+
+              <button 
+                  type="button" 
+                  class="btn btn-secondary rounded-3 flex-grow-1" disabled>
+                  Service not available
+              </button>
+
+          @elseif($inCart)
+
+              <button 
+                  type="button" 
+                  class="btn btn-success rounded-3 flex-grow-1" disabled>
+                  Already in Cart
+              </button>
 
           @else
 
-          <button 
-          type="button" 
-          class="btn btn-primary rounded-3 flex-grow-1 addToCartBtn"
-          data-service-id="{{ $service_detail->id }}"
-          data-category-id="{{ $service_detail->services_se_id }}"
-          onclick="addToCart(this)">
-          Done
-          </button>
+              <button 
+                  type="button" 
+                  class="btn btn-primary rounded-3 flex-grow-1 addToCartBtn"
+                  data-service-id="{{ $service_detail->id }}"
+                  data-category-id="{{ $service_detail->services_se_id }}"
+                  onclick="addToCart(this)">
+                  Done
+              </button>
 
           @endif
       </div>

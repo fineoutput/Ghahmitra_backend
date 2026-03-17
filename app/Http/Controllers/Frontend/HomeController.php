@@ -7,6 +7,7 @@ use App\Models\Banner;
 use App\Models\Cart;
 use App\Models\CustomerAddresses;
 use App\Models\Feedback;
+use App\Models\ManualCity;
 use App\Models\Order;
 use App\Models\OrderItems;
 use App\Models\ServicePartner;
@@ -45,7 +46,11 @@ class HomeController extends Controller
         $data['most_booked'] = ServicesSe::orderby('id','desc')->where('most_booked', 1)->where('status', 1)->get();
         $data['banner'] = Banner::orderby('id','desc')->where('type', 'banner')->where('status', 1)->first();
         $data['offer'] = Banner::orderby('id','desc')->where('type', 'offer')->where('status', 1)->get();
+        $data['ManualCity'] = ManualCity::orderby('id','desc')->where('status', 1)->get();
 
+        $customer = Auth::guard('customer')->user();
+
+       
         return view('frontend/index', $data)->withTitle('home');
     }
 
@@ -78,7 +83,7 @@ public function getSlots($day_id)
     {
             $mainservices = ServicesSe::where('id', $id)->first();
             $data['services'] = ServicesSe::orderBy('id','desc')->where('services_id', $mainservices->services_id)->where('status', 1)->get();
-            $data['services_details'] = Th_Services::with('feedback')->orderBy('id','desc')->where('services_se_id', $id)->where('status', 1)->get();
+            $data['services_details'] = Th_Services::with('feedback','availability')->orderBy('id','desc')->where('services_se_id', $id)->where('status', 1)->get();
             $user = Auth::guard('customer')->user();
             if ($user) {
                 $data['cart_items'] = Cart::where('customers_id', $user->id)->where('status', 1)->get();
@@ -95,12 +100,15 @@ public function getSlots($day_id)
             return redirect()->route('/')->with('error', 'Please login to view your cart.');
         }
         $data['states'] = State::all();
-        $data['CustomerAddresses'] = CustomerAddresses::where('customer_id',$data['customer']->id)->get();
+        $data['CustomerAddresses'] = CustomerAddresses::orderBy('id','DESC')->where('customer_id',$data['customer']->id)->get();
         $data['cart_items'] = Cart::with('service', 'ServicesSe', 'availability')
             ->where('customers_id', $data['customer']->id)->where('status', 1)->get();
 
         $data['cart_total'] = $data['cart_items']->sum(function($item) {
                 return ($item->service->price ?? 0) * $item->quantity;});
+
+        $data['ManualCity'] = ManualCity::orderby('id','desc')->where('status', 1)->get();
+
 
         return view('frontend/cart', $data)->withTitle('cart');
     }

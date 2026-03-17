@@ -16,7 +16,7 @@ use Laravel\Sanctum\PersonalAccessToken;
 use DateTime;
 use App\Models\City;
 use App\Models\CustomerAddresses;
-
+use App\Models\ManualCity;
 use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
@@ -190,9 +190,15 @@ public function selectslot(Request $request)
 
 public function getCities(Request $request)
 {
-    $cities = City::where('state_id',$request->state_id)->get();
+    $city = ManualCity::where('id', $request->city_id)->first();
 
-    return response()->json($cities);
+    if ($city && $city->pincode) {
+        $pincodes = explode(',', $city->pincode); // split
+
+        return response()->json($pincodes);
+    }
+
+    return response()->json([]);
 }
 
   public function store(Request $request)
@@ -205,7 +211,7 @@ public function getCities(Request $request)
         'address_line1' => 'required|string|max:255',
         'address_line2' => 'nullable|string|max:255',
         'landmark' => 'nullable|string|max:255',
-        'state_id' => 'required',
+        // 'state_id' => 'required',
         'city_id' => 'required',
         'latitude' => 'nullable|numeric',
         'longitude' => 'nullable|numeric',
@@ -224,7 +230,7 @@ public function getCities(Request $request)
         'address_line2' => $request->address_line2,
         'landmark' => $request->landmark,
         'city_id' => $request->city_id,
-        'state_id' => $request->state_id,
+        // 'state_id' => $request->state_id,
         'latitude' => $request->latitude,
         'longitude' => $request->longitude,
         'pincode' => $request->pincode,
