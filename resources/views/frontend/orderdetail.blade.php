@@ -13,8 +13,8 @@
       <div class="row">
         <div class="col-md-6">
           <p><strong>Order ID:</strong> #{{ $order->id }}</p>
-          <p><strong>Customer Name:</strong> {{ $order->user->name ?? 'N/A' }}</p>
-          <p><strong>Email:</strong> {{ $order->user->email ?? 'N/A' }}</p>
+          <p><strong>Customer Name:</strong> {{ $order->customer->name ?? 'N/A' }}</p>
+          <p><strong>Email:</strong> {{ $order->customer->email ?? 'N/A' }}</p>
         </div>
         <div class="col-md-6">
           <p><strong>Order Date:</strong> {{ $order->created_at->format('d M Y') }}</p>
@@ -45,7 +45,7 @@
             <tr>
               <th>#</th>
               <th>Product</th>
-              <th>Image</th>
+              {{-- <th>Image</th> --}}
               <th>Price</th>
               <th>Qty</th>
               <th>Total</th>
@@ -68,13 +68,13 @@
 
                 <td>{{ $item->service->name ?? 'N/A' }}</td>
 
-                <td>
+                {{-- <td>
                   <img 
                     src="{{ asset($item->service->image[0] ?? 'default.png') }}" 
                     class="img-fluid rounded" 
                     width="60"
                   >
-                </td>
+                </td> --}}
 
                 <td>₹{{ $price }}</td>
                 <td>{{ $qty }}</td>
