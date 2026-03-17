@@ -28,6 +28,11 @@ use Illuminate\Support\Str;
 class HomeController extends Controller
 {
     // ============================= START INDEX ============================ 
+
+    public function ordersuccess(Request $req)
+    {
+      return view('frontend/ordersuccess')->withTitle('home');
+    }
     public function index(Request $req)
     {
        $data['services'] = Services::with('serviceDetails')

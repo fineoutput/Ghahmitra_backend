@@ -22,5 +22,10 @@ class TransferOrders extends Model
             'start_location',  
             'end_location',   
         ];
+
+       public function orders()
+        {
+            return $this->belongsTo(Order::class, 'order_id');
+        }
         
 }

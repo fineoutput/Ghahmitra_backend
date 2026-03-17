@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\CustomerController;
 use App\Http\Controllers\Api\HomeController;
 use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\PartnerController;
+use App\Http\Controllers\Api\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -63,6 +64,8 @@ Route::middleware('partnerapi.auth')->prefix('partner')->group(function () {
     Route::post('/add-document', [PartnerController::class, 'document']);
   Route::get('/profile', [PartnerController::class, 'getProfile']);
     Route::post('/profile/update', [PartnerController::class, 'updateProfile']);
+
+    Route::get('/orders', [OrderController::class, 'getPartnerOrders']);
       
 });
 
