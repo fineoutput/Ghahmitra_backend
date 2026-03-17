@@ -12,14 +12,21 @@
     <div class="card-body">
       <div class="row">
         <div class="col-md-6">
-          <p><strong>Order ID:</strong> #12345</p>
-          <p><strong>Customer Name:</strong> John Doe</p>
-          <p><strong>Email:</strong> john@example.com</p>
+          <p><strong>Order ID:</strong> #{{ $order->id }}</p>
+          <p><strong>Customer Name:</strong> {{ $order->user->name ?? 'N/A' }}</p>
+          <p><strong>Email:</strong> {{ $order->user->email ?? 'N/A' }}</p>
         </div>
         <div class="col-md-6">
-          <p><strong>Order Date:</strong> 17 Mar 2026</p>
-          <p><strong>Status:</strong> <span class="badge bg-success">Delivered</span></p>
-          <p><strong>Payment:</strong> COD</p>
+          <p><strong>Order Date:</strong> {{ $order->created_at->format('d M Y') }}</p>
+
+          <p>
+            <strong>Status:</strong> 
+            <span class="badge bg-success">
+              {{ $order->status ?? 'Pending' }}
+            </span>
+          </p>
+
+          <p><strong>Payment:</strong> {{ $order->payment_method ?? 'N/A' }}</p>
         </div>
       </div>
     </div>
@@ -30,6 +37,7 @@
     <div class="card-header bg-primary text-white">
       <h5 class="mb-0">Order Items</h5>
     </div>
+
     <div class="card-body p-0">
       <div class="table-responsive">
         <table class="table table-bordered mb-0 align-middle text-center">
@@ -43,41 +51,55 @@
               <th>Total</th>
             </tr>
           </thead>
+
           <tbody>
-            <tr>
-              <td>1</td>
-              <td>Product Name 1</td>
-              <td>
-                <img src="https://via.placeholder.com/60" class="img-fluid rounded" width="60">
-              </td>
-              <td>₹500</td>
-              <td>2</td>
-              <td>₹1000</td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>Product Name 2</td>
-              <td>
-                <img src="https://via.placeholder.com/60" class="img-fluid rounded" width="60">
-              </td>
-              <td>₹300</td>
-              <td>1</td>
-              <td>₹300</td>
-            </tr>
+            @php $subtotal = 0; @endphp
+
+            @foreach($order->orderItems as $index => $item)
+              @php
+                $price = $item->price ?? 0;
+                $qty = $item->quantity ?? 1;
+                $total = $price * $qty;
+                $subtotal += $total;
+              @endphp
+
+              <tr>
+                <td>{{ $index + 1 }}</td>
+
+                <td>{{ $item->service->name ?? 'N/A' }}</td>
+
+                <td>
+                  <img 
+                    src="{{ asset($item->service->image[0] ?? 'default.png') }}" 
+                    class="img-fluid rounded" 
+                    width="60"
+                  >
+                </td>
+
+                <td>₹{{ $price }}</td>
+                <td>{{ $qty }}</td>
+                <td>₹{{ $total }}</td>
+              </tr>
+            @endforeach
+
           </tbody>
         </table>
       </div>
     </div>
 
     <!-- Footer Total -->
+    @php
+      $discount = $order->discount ?? 0;
+      $grandTotal = $subtotal - $discount;
+    @endphp
+
     <div class="card-footer text-end">
-      <h5 class="mb-1">Subtotal: ₹1300</h5>
-      <h6 class="mb-1 text-success">Discount: -₹100</h6>
-      <h4 class="fw-bold">Grand Total: ₹1200</h4>
+      <h5 class="mb-1">Subtotal: ₹{{ $subtotal }}</h5>
+      <h6 class="mb-1 text-success">Discount: -₹{{ $discount }}</h6>
+      <h4 class="fw-bold">Grand Total: ₹{{ $grandTotal }}</h4>
     </div>
   </div>
 
 </div>
-
 
 @endsection

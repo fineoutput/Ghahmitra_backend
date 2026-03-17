@@ -366,5 +366,10 @@ private function transferOrder($orderId, $addressId, $serviceId)
     ]);
 }
 
+public function orderDetail($id)
+{
+    $order = Order::with('orderItems.service')->findOrFail($id);
 
+    return view('frontend.orderdetail', compact('order'));
+}
 }

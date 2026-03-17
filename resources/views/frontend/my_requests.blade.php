@@ -41,6 +41,12 @@
                 View Details →
             </button>
             </a> --}}
+
+            <a href="{{ route('orderdetail', $value->id) }}">
+    <button class="view-btn">
+        View Details →
+    </button>
+</a>
         </div>
 
     </div>

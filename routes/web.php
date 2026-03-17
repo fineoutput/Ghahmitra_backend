@@ -261,7 +261,7 @@ Route::get('/order/reject-index', [OrderController::class, 'rejectindex'])->name
 Route::get('/order/items-index/{id}', [OrderController::class, 'itemsindex'])->name('order.itemsindex');
 Route::patch('order/update-status/{id}', [OrderController::class, 'updateStatus'])->name('order.updateStatus');
 
-
+Route::get('/order-detail/{id}', [HomeController::class, 'orderDetail'])->name('orderdetail');
 
 Route::get('/city/index', [CityController::class, 'index'])->name('city.index');
 Route::get('/city/create', [CityController::class, 'create'])->name('city.create');
