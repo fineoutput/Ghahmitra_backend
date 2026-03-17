@@ -26,7 +26,7 @@ class OrderItems extends Model
         
         public function service()
         {
-            return $this->belongsTo(Services::class, 'service_id');
+            return $this->belongsTo(Th_Services::class, 'service_id');
         }
 
 }

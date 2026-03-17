@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\CustomerController;
 use App\Http\Controllers\Api\HomeController;
 use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\PartnerController;
+use App\Http\Controllers\Api\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,12 +57,15 @@ Route::middleware('partnerapi.auth')->prefix('partner')->group(function () {
 
     Route::post('/add-leave-req', [PartnerController::class, 'LeaveReq']);
     Route::get('/get-leave-req', [PartnerController::class, 'getLeaveReq']);
+    Route::post('update-location', [PartnerController::class, 'updateLocation']);
 
     Route::post('/partner-logout', [AuthController::class, 'logoutPartner']);
     Route::post('/delete-account', [PartnerController::class, 'deleteaccount']);
     Route::post('/add-document', [PartnerController::class, 'document']);
   Route::get('/profile', [PartnerController::class, 'getProfile']);
     Route::post('/profile/update', [PartnerController::class, 'updateProfile']);
+
+    Route::get('/orders', [OrderController::class, 'getPartnerOrders']);
       
 });
 

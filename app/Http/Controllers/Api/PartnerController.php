@@ -20,6 +20,38 @@ use Illuminate\Support\Facades\Auth;
 class PartnerController extends Controller
 {
 
+    public function updateLocation(Request $request)
+    {
+        $partner = Auth::guard('partner_api')->user();
+
+        if (!$partner) {
+            return response()->json([
+                'status' => 401,
+                'message' => 'Unauthorized'
+            ], 401);
+        }
+
+        $request->validate([
+            'latitude' => 'required|numeric',
+            'longitude' => 'required|numeric',
+        ]);
+
+        $partner->update([
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
+        ]);
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Location updated successfully',
+            'data' => [
+                'latitude' => $partner->latitude,
+                'longitude' => $partner->longitude
+            ]
+        ]);
+    }
+
+
     public function deleteaccount(Request $request)
     {
         $partner = Auth::guard('partner_api')->user();

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\adminmodel\Team;
 use App\Models\Cart;
 use App\Models\City;
+use App\Models\CustomerAddresses;
 use App\Models\Customers;
 use App\Models\Feedback;
 use App\Models\Order;
@@ -17,10 +18,12 @@ use App\Models\Reschedule;
 use App\Models\ServicePartner;
 use App\Models\State;
 use App\Models\SubOrder;
+use App\Models\TransferOrders;
 use App\Models\UnverifiedCustomer;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 
 class CartController extends Controller
@@ -303,7 +306,7 @@ public function checkout(Request $request)
         ], 401);
     }
 
-    $cartItems = Cart::with('service')
+    $cartItems = Cart::with(['service','availability','slot'])
         ->where('customers_id', $customer->id)
         ->where('status', 1)
         ->get();
@@ -319,11 +322,8 @@ public function checkout(Request $request)
 
     try {
 
-        $subtotal = 0;
-        $tax = 0;
-        $discount = 0;
+        $orders = [];
 
-        // 1️⃣ Calculate subtotal
         foreach ($cartItems as $item) {
 
             if (!$item->service) {
@@ -334,44 +334,23 @@ public function checkout(Request $request)
             $quantity = $item->quantity;
             $total = $price * $quantity;
 
-            $subtotal += $total;
-        }
+            // Create separate order
+            $order = Order::create([
+                'order_number'   => 'ORD-' . strtoupper(Str::random(8)),
+                'customer_id'    => $customer->id,
+                'subtotal'       => $total,
+                'tax'            => 0,
+                'discount'       => 0,
+                'grand_total'    => $total,
+                'payment_method' => $request->payment_method ?? 'COD',
+                'payment_status' => 'pending',
+                'order_status'   => 1,
+                'address_id'     => $request->address_id,
+                'notes'          => $request->notes ?? null,
+                'status'         => 1,
+            ]);
 
-        // 2️⃣ Example Tax (5%)
-        $tax = 0;
-
-        // 3️⃣ Example Discount (optional)
-        $discount = 0;
-
-        $grandTotal = $subtotal + $tax - $discount;
-
-        // 4️⃣ Create Order
-        $order = Order::create([
-            'order_number'   => 'ORD-' . strtoupper(Str::random(8)),
-            'customer_id'    => $customer->id,
-            'subtotal'       => $subtotal,
-            'tax'            => $tax,
-            'discount'       => $discount,
-            'grand_total'    => $grandTotal,
-            'payment_method' => $request->payment_method ?? 'COD',
-            'payment_status' => 'pending',
-            'order_status'   => 1, // pending
-            'address_id'     => $request->address_id,
-            'notes'          => $request->notes ?? null,
-            'status'          => 1,
-        ]);
-
-        // 5️⃣ Create Order Items
-        foreach ($cartItems as $item) {
-
-            if (!$item->service) {
-                continue;
-            }
-
-            $price = $item->service->price;
-            $quantity = $item->quantity;
-            $total = $price * $quantity;
-
+            // Create order item
             OrderItems::create([
                 'order_id'        => $order->id,
                 'service_id'      => $item->service_id,
@@ -380,14 +359,23 @@ public function checkout(Request $request)
                 'quantity'        => $quantity,
                 'total'           => $total,
                 'availability_id' => $item->availability_id,
-                'day' => $item->availability->day,
-                'start_time' => $item->slot->start_time,
-                'end_time' => $item->slot->end_time,
-                'slot_id' => $item->slot_id,
+                'day'             => $item->availability->day,
+                'start_time'      => $item->slot->start_time,
+                'end_time'        => $item->slot->end_time,
+                'slot_id'         => $item->slot_id,
             ]);
+
+            // Transfer order to nearest partner
+            $this->transferOrder($order->id, $request->address_id, $item->service_id);
+
+            $orders[] = [
+                'order_id' => $order->id,
+                'order_number' => $order->order_number,
+                'grand_total' => $total
+            ];
         }
 
-        // 6️⃣ Clear Cart Completely (Delete)
+        // Clear cart
         Cart::where('customers_id', $customer->id)
             ->where('status', 1)
             ->delete();
@@ -396,12 +384,8 @@ public function checkout(Request $request)
 
         return response()->json([
             'status' => 200,
-            'message' => 'Order placed successfully',
-            'data' => [
-                'order_id' => $order->id,
-                'order_number' => $order->order_number,
-                'grand_total' => $grandTotal
-            ]
+            'message' => 'Orders placed successfully',
+            'data' => $orders
         ]);
 
     } catch (\Exception $e) {
@@ -415,6 +399,65 @@ public function checkout(Request $request)
         ]);
     }
 }
+
+private function transferOrder($orderId, $addressId, $serviceId)
+{
+    $address = CustomerAddresses::find($addressId);
+
+    if (!$address) {
+        return;
+    }
+
+    $lat = $address->latitude;
+    $lng = $address->longitude;
+    $today = Carbon::today()->toDateString();
+
+    $partner = ServicePartner::selectRaw("
+            service_partner.id,
+            service_partner.latitude,
+            service_partner.longitude,
+            ( 6371 * acos(
+                cos(radians(?)) *
+                cos(radians(service_partner.latitude)) *
+                cos(radians(service_partner.longitude) - radians(?)) +
+                sin(radians(?)) *
+                sin(radians(service_partner.latitude))
+            ) ) AS distance
+        ", [$lat, $lng, $lat])
+        ->join('partner_services', 'partner_services.partner_id', '=', 'service_partner.id')
+
+        // 🔴 Leave check (important part)
+        ->leftJoin('leave_req', function ($join) use ($today) {
+            $join->on('leave_req.partner_id', '=', 'service_partner.id')
+                 ->whereDate('leave_req.start_date', '<=', $today)
+                 ->whereDate('leave_req.end_date', '>=', $today);
+        })
+
+        ->whereNull('leave_req.partner_id') // agar leave par hai to exclude
+        ->where('partner_services.service_id', $serviceId)
+        ->where('partner_services.status', 1)
+        ->orderBy('distance', 'asc')
+        ->first();
+
+    if (!$partner) {
+        return;
+    }
+
+    TransferOrders::create([
+        'order_id' => $orderId,
+        'partner_id' => $partner->id,
+        'distance' => $partner->distance,
+        'status' => 1,
+        'start_time' => now(),
+        'end_time' => null,
+        'ip' => request()->ip(),
+        'accepted_at' => null,
+        'start_location' => $lat . ',' . $lng,
+        'end_location' => $partner->latitude . ',' . $partner->longitude,
+    ]);
+}
+
+
 
 public function storeFeedback(Request $request)
 {

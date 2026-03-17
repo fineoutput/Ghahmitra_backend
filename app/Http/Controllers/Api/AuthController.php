@@ -62,18 +62,37 @@ public function register_partner(Request $request)
         'email' => 'required|email|unique:service_partner,email',
         'phone' => 'required|unique:service_partner,phone|regex:/^[0-9]{10}$/',
         'address' => 'required',
-        'district' => 'required',
+        'district' => 'nullable',
         'state_id' => 'required',
         'city_id' => 'required',
         'service_ids' => 'required|array',
-        'service_ids.*' => 'required|exists:services,id',
+        'service_ids.*' => 'required',
+        'image' => 'nullable'
     ]);
 
     DB::beginTransaction();
 
     try {
 
-        // 1️⃣ Create Partner
+        // Upload Image
+        $imageName = null;
+
+        if ($request->hasFile('image')) {
+
+            $image = $request->file('image');
+
+            $imageName = time().'_'.$image->getClientOriginalName();
+
+            $destinationPath = public_path('uploads/partners');
+
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0777, true);
+            }
+
+            $image->move($destinationPath, $imageName);
+        }
+
+        // Create Partner
         $partner = ServicePartner::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -82,11 +101,14 @@ public function register_partner(Request $request)
             'district' => $request->district,
             'state_id' => $request->state_id,
             'city_id' => $request->city_id,
+            'image' => $imageName,
             'status' => 0,
             'rank' => 1,
         ]);
 
+        // Insert Partner Services
         foreach ($request->service_ids as $service_id) {
+
             PartnerServices::create([
                 'partner_id' => $partner->id,
                 'service_id' => $service_id,
@@ -290,7 +312,8 @@ public function register_partner(Request $request)
     );
 
     // Generate OTP
-    $otp = rand(100000, 999999);
+    // $otp = rand(100000, 999999);
+    $otp = 123456;
 
     Otp::updateOrCreate(
         ['contact_no' => $request->mobile_no],
@@ -391,7 +414,8 @@ public function verifyRegisterOtp(Request $request)
             ], 403);
         }
 
-        $otp = rand(100000, 999999);
+        // $otp = rand(100000, 999999);
+        $otp = 123456;
 
         Otp::updateOrCreate(
             ['contact_no' => $request->contact_no],

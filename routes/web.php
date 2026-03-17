@@ -60,6 +60,7 @@ Route::post('/send-otp', [AuthController::class, 'sendOtp'])->name('send.otp');
 Route::post('/verify-otp', [AuthController::class, 'verifyRegisterOtp'])->name('verify.otp');
 
 Route::get('/get-slots/{day_id}', [HomeController::class,'getSlots']);
+Route::get('order-success', [HomeController::class,'ordersuccess']);
 
     // User pages
     // Route::get('/my-requests', function () { return view('my-requests'); })->name('my-requests');
@@ -252,6 +253,12 @@ Route::delete('tc/{id}', [TCController::class, 'destroy'])->name('tc.destroy');
 
 Route::get('/feedback/index', [CustomersController::class, 'feedback'])->name('FeedBacks.index');
 
+Route::get('/order/new-index', [OrderController::class, 'index'])->name('order.index');
+Route::get('/order/accept-index', [OrderController::class, 'acceptindex'])->name('order.acceptindex');
+Route::get('/order/complete-index', [OrderController::class, 'completeindex'])->name('order.completeindex');
+Route::get('/order/reject-index', [OrderController::class, 'rejectindex'])->name('order.rejectindex');
+Route::get('/order/items-index/{id}', [OrderController::class, 'itemsindex'])->name('order.itemsindex');
+Route::patch('order/update-status/{id}', [OrderController::class, 'updateStatus'])->name('order.updateStatus');
     });
 
 });

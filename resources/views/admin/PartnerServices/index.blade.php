@@ -71,11 +71,12 @@
                 </tr>
             </thead>
             <tbody>
+              @if($ServicePartner)
                 @foreach($ServicePartner as $key => $Services)
                     <tr>
                         <td>{{ $key+1 }}</td>
-                        <td>{{ $Services->partner->name }}</td>
-                        <td>{{ $Services->service->name }}</td>
+                        <td>{{ $Services->partner->name ?? '' }}</td>
+                        <td>{{ $Services->service->name  ?? '' }}</td>
                         <td>
                             <form action="{{ route('service-partner.updateCommission', $Services->id) }}" method="POST" style="display:flex; gap:5px; align-items:center;">
                                 @csrf
@@ -119,6 +120,7 @@
                         </td>
                     </tr>
                     @endforeach
+                    @endif
             </tbody>
         </table>
                 </div>

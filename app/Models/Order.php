@@ -23,14 +23,18 @@ class Order extends Model
             'notes',
         ];
         
-        
-        public function service()
-        {
-            return $this->belongsTo(Services::class, 'services_id');
-        }
+      
         public function orderItems()
         {
             return $this->hasMany(OrderItems::class, 'order_id');
+        }
+        public function customer()
+        {
+            return $this->belongsTo(Customers::class, 'customer_id');
+        }
+        public function address()
+        {
+            return $this->belongsTo(CustomerAddresses::class, 'address_id');
         }
 
 }
