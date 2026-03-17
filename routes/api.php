@@ -65,7 +65,7 @@ Route::middleware('partnerapi.auth')->prefix('partner')->group(function () {
   Route::get('/profile', [PartnerController::class, 'getProfile']);
     Route::post('/profile/update', [PartnerController::class, 'updateProfile']);
 
-    Route::get('/orders', [OrderController::class, 'getPartnerOrders']);
+    Route::get('/transfer-orders', [OrderController::class, 'getPartnerOrders']);
       
 });
 
