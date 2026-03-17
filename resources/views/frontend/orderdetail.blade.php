@@ -13,8 +13,8 @@
       <div class="row">
         <div class="col-md-6">
           <p><strong>Order ID:</strong> #{{ $order->id }}</p>
-          <p><strong>Customer Name:</strong> {{ $order->user->name ?? 'N/A' }}</p>
-          <p><strong>Email:</strong> {{ $order->user->email ?? 'N/A' }}</p>
+          <p><strong>Customer Name:</strong> {{ $order->customer->name ?? 'N/A' }}</p>
+          <p><strong>Email:</strong> {{ $order->customer->email ?? 'N/A' }}</p>
         </div>
         <div class="col-md-6">
           <p><strong>Order Date:</strong> {{ $order->created_at->format('d M Y') }}</p>
