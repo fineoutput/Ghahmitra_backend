@@ -575,29 +575,37 @@
                                             </label>
 
                                             <div class="row g-2">
+                                                
+@foreach ($item->service->availability as $availability)
+    @php
+        $availabilityDate = \Carbon\Carbon::parse($availability->day);
+    @endphp
 
-                                                @foreach ($item->service->availability as $availability)
-                                                    <div class="col-auto">
+    @if($availabilityDate->isToday() || $availabilityDate->isFuture())
+        <div class="col-auto">
 
-                                                        <div class="date-box card 
-                                                        text-center shadow-sm border-0 
-                                                            {{ $item->availability_id == $availability->id ? 'active' : '' }}"data-id="{{ $availability->id }}">
-                                                            <div class="card-body p-2">
+            <div class="date-box card 
+                text-center shadow-sm border-0 
+                {{ $item->availability_id == $availability->id ? 'active' : '' }}" 
+                data-id="{{ $availability->id }}">
+                
+                <div class="card-body p-2">
 
-                                                                <div class="fw-semibold text-primary">
-                                                                    {{ \Carbon\Carbon::parse($availability->day)->format('D') }}
-                                                                </div>
+                    <div class="fw-semibold text-primary">
+                        {{ $availabilityDate->format('D') }}
+                    </div>
 
-                                                                <div class="small text-muted">
-                                                                    {{ \Carbon\Carbon::parse($availability->day)->format('d M') }}
-                                                                </div>
+                    <div class="small text-muted">
+                        {{ $availabilityDate->format('d M') }}
+                    </div>
 
-                                                            </div>
+                </div>
 
-                                                        </div>
+            </div>
 
-                                                    </div>
-                                                @endforeach
+        </div>
+    @endif
+@endforeach
 
                                             </div>
 

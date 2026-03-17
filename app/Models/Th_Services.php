@@ -32,6 +32,11 @@ class Th_Services extends Model
             return $this->belongsTo(Services::class, 'services_id');
         }
 
+         public function feedback()
+        {
+            return $this->hasMany(Feedback::class,'service_id','id');
+        }
+
         public function serviceSe()
         {
             return $this->belongsTo(ServicesSe::class, 'services_se_id');

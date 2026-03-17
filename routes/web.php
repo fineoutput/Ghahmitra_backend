@@ -63,6 +63,9 @@ Route::post('/verify-otp', [AuthController::class, 'verifyRegisterOtp'])->name('
 Route::get('/get-slots/{day_id}', [HomeController::class,'getSlots']);
 Route::get('order-success', [HomeController::class,'ordersuccess']);
 
+Route::get('/service-reviews/{service}', [HomeController::class, 'serviceReviews'])
+    ->name('service.reviews');
+
     // User pages
     // Route::get('/my-requests', function () { return view('my-requests'); })->name('my-requests');
     // Route::get('/profile', function () { return view('profile'); })->name('profile');
@@ -89,6 +92,7 @@ Route::prefix('customer')->group(function () {
     Route::get('/my-requests', [HomeController::class, 'my_requests'])->name('customer.my_requests');
     Route::get('/order-detail/{id}', [HomeController::class, 'orderDetail'])->name('orderdetail');
 
+Route::post('/reviews/store', [HomeController::class, 'reviewstore'])->name('reviews.store');
 
 
 });

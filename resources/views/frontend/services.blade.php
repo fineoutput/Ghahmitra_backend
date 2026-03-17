@@ -60,9 +60,18 @@
               
               <!-- Rating -->
               <div class="d-flex align-items-center gap-2 mb-2">
-                <a style="text-decoration: none; color: #666;" class="open-reviews-modal">
+                <a style="text-decoration: none; color: #666;" data-bs-target="#reviewsModal{{ $service_detail->id }}" data-bs-toggle="modal" class="open-reviews-modal">
                 <span class="text-warning">★</span>
-                <small><strong>4.82</strong> (1666 reviews)</small>
+               @php
+                  $averageRating = $service_detail->feedback->avg('star') ?? 0;
+                  $reviewCount = $service_detail->feedback->count() ?? 0;
+              @endphp
+
+              <small>
+                  <strong>{{ number_format($averageRating, 2) }}</strong> 
+                  ({{ $reviewCount }} {{ Str::plural('review', $reviewCount) }})
+              </small>
+                {{-- <small><strong>4.82</strong> (1666 reviews)</small> --}}
               </a>
               </div>
               
@@ -121,25 +130,36 @@
       <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
       <div class="mb-4">
         <!-- Splide slider inside modal -->
-        <div id="serviceModalSplide" class="splide">
+        <div id="serviceModalSplide{{ $service_detail->id }}" class="splide">
           <div class="splide__track">
             <ul class="splide__list">
-               @if(!empty($service_detail->image) && is_array($service_detail->image))
-        @foreach($service_detail->image as $img)
-            <li class="splide__slide">
-                <img src="{{ asset($img) }}"
-                     alt="{{ $service_detail->name }}"
-                     class="w-100 rounded-3"
-                     style="height:300px; object-fit:cover;">
-            </li>
-        @endforeach
-    @else
-        {{-- Fallback image --}}
-        <li class="splide__slide">
-            <img src="https://via.placeholder.com/800x300?text=No+Image"
-                 class="w-100 rounded-3">
-        </li>
-    @endif
+              @php
+                  // Check if it's string (JSON) or already array
+                  if (is_string($service_detail->image)) {
+                      $images = json_decode($service_detail->image, true) ?? [];
+                  } elseif (is_array($service_detail->image)) {
+                      $images = $service_detail->image;
+                  } else {
+                      $images = [];
+                  }
+              @endphp
+
+              @if(!empty($images))
+                  @foreach($images as $img)
+                      <li class="splide__slide">
+                          <img src="{{ asset($img) }}"
+                              alt="{{ $service_detail->name }}"
+                              class="w-100 rounded-3"
+                              style="height:300px; object-fit:cover;">
+                      </li>
+                  @endforeach
+              @else
+                  {{-- Fallback image --}}
+                  <li class="splide__slide">
+                      <img src="https://via.placeholder.com/800x300?text=No+Image"
+                          class="w-100 rounded-3">
+                  </li>
+              @endif
             </ul>
           </div>
         </div>
@@ -151,14 +171,22 @@
             {{-- <div style="font-size: 3rem;">💆</div> --}}
           </div>
           <div class="col">
-            <h5 class="fw-bold mb-1" id="modalServiceName">Service Name</h5>
+            <h5 class="fw-bold mb-1" id="modalServiceName">{{$service_detail->name ?? ''}}</h5>
+              @php
+                  $averageRating = $service_detail->feedback->avg('star') ?? 0;
+                  $reviewCount = $service_detail->feedback->count() ?? 0;
+              @endphp
             <div class="d-flex gap-3 align-items-center">
               <div class="d-flex align-items-center">
-                <span class="badge bg-primary me-2" id="modalServiceRating">4.82</span>
-                <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1 open-reviews-modal">
+                <span class="badge bg-primary me-2" id="">{{ number_format($averageRating, 2) }}</span>
+                <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1 open-reviews-modal" data-bs-toggle="modal" data-bs-target="#reviewsModal{{ $service_detail->id }}">
                   <span class="me-1">★</span>
-                  <span id="modalServiceRatingText">4.82</span>
-                  <span class="text-muted ms-1">(<span id="modalServiceReviews">1666</span> reviews)</span>
+                 
+
+              <small>
+                  <strong>{{ number_format($averageRating, 2) }}</strong> 
+                  ({{ $reviewCount }} {{ Str::plural('review', $reviewCount) }})
+              </small>
                 </button>
               </div>
               <small class="text-success">✓ Verified</small>
@@ -222,6 +250,170 @@
     </div>
   </div>
 </div>
+
+<div class="modal fade" id="reviewsModal{{ $service_detail->id }}" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content border-0 rounded-4 p-4">
+            <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+
+            <!-- Dynamic Header -->
+            <div class="mb-3">
+                <div class="d-flex align-items-center mb-1">
+                    <span style="font-size: 1.6rem;" class="me-2">★</span>
+                    <span class="fw-bold" style="font-size: 1.6rem;" id="reviewsModalRating">{{ number_format($averageRating, 2) }}</span>
+                </div>
+                <small class="text-muted"><span id="reviewsModalCount">{{ number_format($reviewCount) }}</span> reviews</small>
+            </div>
+
+            <!-- Filters tabs (Services & Others removed as per your instruction) -->
+            <div class="mb-2 fw-semibold">Filters</div>
+            <ul class="nav nav-tabs small mb-3" id="reviewsFilterTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="rating-tab" data-bs-toggle="tab" data-bs-target="#ratingTabPane" type="button" role="tab">
+                        Rating
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="sort-tab" data-bs-toggle="tab" data-bs-target="#sortTabPane" type="button" role="tab">
+                        Sort By
+                    </button>
+                </li>
+            </ul>
+
+            <div class="tab-content mb-3" id="reviewsFilterTabsContent">
+                <!-- Rating filter (unchanged) -->
+                <div class="tab-pane fade show active" id="ratingTabPane" role="tabpanel" aria-labelledby="rating-tab">
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" value="5" id="rating5">
+                        <label class="form-check-label" for="rating5">5 Star</label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" value="4" id="rating4">
+                        <label class="form-check-label" for="rating4">4 Star</label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" value="3" id="rating3">
+                        <label class="form-check-label" for="rating3">3 Star</label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" value="2" id="rating2">
+                        <label class="form-check-label" for="rating2">2 Star</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="1" id="rating1">
+                        <label class="form-check-label" for="rating1">1 Star</label>
+                    </div>
+                </div>
+
+                <!-- Sort By filter (unchanged) -->
+                <div class="tab-pane fade" id="sortTabPane" role="tabpanel" aria-labelledby="sort-tab">
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="sortByOptions" id="sortRecent" checked>
+                        <label class="form-check-label" for="sortRecent">Recent</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="sortByOptions" id="sortDetailed">
+                        <label class="form-check-label" for="sortDetailed">Most detailed</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rating distribution + dynamic reviews (design exactly same, only dynamic data) -->
+            @php
+                $starCounts = $service_detail->feedback->countBy('star');
+                $fiveStar = $starCounts[5] ?? 0;
+                $fourStar = $starCounts[4] ?? 0;
+                $threeStar = $starCounts[3] ?? 0;
+                $twoStar = $starCounts[2] ?? 0;
+                $oneStar = $starCounts[1] ?? 0;
+
+                $fivePercent = $reviewCount > 0 ? round(($fiveStar / $reviewCount) * 100) : 0;
+                $fourPercent = $reviewCount > 0 ? round(($fourStar / $reviewCount) * 100) : 0;
+                $threePercent = $reviewCount > 0 ? round(($threeStar / $reviewCount) * 100) : 0;
+                $twoPercent = $reviewCount > 0 ? round(($twoStar / $reviewCount) * 100) : 0;
+                $onePercent = $reviewCount > 0 ? round(($oneStar / $reviewCount) * 100) : 0;
+            @endphp
+
+            <div class="mb-3">
+                <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center mb-3 gap-3">
+                    <div>
+                        <div class="d-flex align-items-center mb-1">
+                            <span class="me-2" style="font-size: 1.4rem;">★</span>
+                            <span class="fw-bold" style="font-size: 1.4rem;">{{ number_format($averageRating, 2) }}</span>
+                        </div>
+                        <small class="text-muted">{{ number_format($reviewCount) }} reviews</small>
+                    </div>
+                    <div class="flex-grow-1 w-100">
+                        <!-- 5 Star -->
+                        <div class="d-flex align-items-center mb-1">
+                            <small class="me-2">5</small>
+                            <div class="progress flex-grow-1 me-2" style="height: 6px;">
+                                <div class="progress-bar bg-success" style="width: {{ $fivePercent }}%;"></div>
+                            </div>
+                            <small class="text-muted">{{ number_format($fiveStar) }}</small>
+                        </div>
+                        <!-- 4 Star -->
+                        <div class="d-flex align-items-center mb-1">
+                            <small class="me-2">4</small>
+                            <div class="progress flex-grow-1 me-2" style="height: 6px;">
+                                <div class="progress-bar bg-success" style="width: {{ $fourPercent }}%;"></div>
+                            </div>
+                            <small class="text-muted">{{ number_format($fourStar) }}</small>
+                        </div>
+                        <!-- 3 Star -->
+                        <div class="d-flex align-items-center mb-1">
+                            <small class="me-2">3</small>
+                            <div class="progress flex-grow-1 me-2" style="height: 6px;">
+                                <div class="progress-bar bg-success" style="width: {{ $threePercent }}%;"></div>
+                            </div>
+                            <small class="text-muted">{{ number_format($threeStar) }}</small>
+                        </div>
+                        <!-- 2 Star -->
+                        <div class="d-flex align-items-center mb-1">
+                            <small class="me-2">2</small>
+                            <div class="progress flex-grow-1 me-2" style="height: 6px;">
+                                <div class="progress-bar bg-warning" style="width: {{ $twoPercent }}%;"></div>
+                            </div>
+                            <small class="text-muted">{{ number_format($twoStar) }}</small>
+                        </div>
+                        <!-- 1 Star -->
+                        <div class="d-flex align-items-center">
+                            <small class="me-2">1</small>
+                            <div class="progress flex-grow-1 me-2" style="height: 6px;">
+                                <div class="progress-bar bg-danger" style="width: {{ $onePercent }}%;"></div>
+                            </div>
+                            <small class="text-muted">{{ number_format($oneStar) }}</small>
+                        </div>
+                    </div>
+                </div>
+
+                <h6 class="fw-bold mb-3">All reviews</h6>
+
+                <!-- Dynamic Reviews Loop (only star + description as you mentioned, design 100% same) -->
+                @foreach($service_detail->feedback as $feedback)
+                    <div class="border rounded-3 p-3 mb-3">
+                        <div class="d-flex justify-content-between align-items-start mb-1">
+                            <div>
+                                <div class="fw-semibold">{{ optional($feedback->customers)->name ?? 'Anonymous' }}</div>
+                                <small class="text-muted">{{ $feedback->created_at ? $feedback->created_at->format('M d, Y') : 'Recent' }} • For the service</small>
+                            </div>
+                            <span class="badge bg-success rounded-pill" style="min-width: 32px;">{{ $feedback->star }}</span>
+                        </div>
+                        <small class="text-muted d-block">
+                            {{ $feedback->description }}
+                        </small>
+                    </div>
+                @endforeach
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center pt-2 border-top mt-3">
+                <button type="button" class="btn btn-link text-decoration-none px-0">Reset</button>
+                <button type="button" class="btn btn-primary rounded-3 px-4">Apply</button>
+            </div>
+        </div>
+    </div>
+</div>
+
         @endforeach
        
 
@@ -315,177 +507,7 @@
 
 
 <!-- ================= REVIEWS MODAL ================= -->
-<div class="modal fade" id="reviewsModal" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content border-0 rounded-4 p-4">
-      <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
 
-      <div class="mb-3">
-        <div class="d-flex align-items-center mb-1">
-          <span style="font-size: 1.6rem;" class="me-2">★</span>
-          <span class="fw-bold" style="font-size: 1.6rem;" id="reviewsModalRating">4.82</span>
-        </div>
-        <small class="text-muted"><span id="reviewsModalCount">246K</span> reviews</small>
-      </div>
-
-      <!-- Filters tabs -->
-      <div class="mb-2 fw-semibold">Filters</div>
-      <ul class="nav nav-tabs small mb-3" id="reviewsFilterTabs" role="tablist">
-        <li class="nav-item" role="presentation">
-          <button class="nav-link active" id="rating-tab" data-bs-toggle="tab" data-bs-target="#ratingTabPane" type="button" role="tab">
-            Rating
-          </button>
-        </li>
-        <li class="nav-item" role="presentation">
-          <button class="nav-link" id="sort-tab" data-bs-toggle="tab" data-bs-target="#sortTabPane" type="button" role="tab">
-            Sort By
-          </button>
-        </li>
-        <li class="nav-item" role="presentation">
-          <button class="nav-link" id="services-tab" data-bs-toggle="tab" data-bs-target="#servicesTabPane" type="button" role="tab">
-            Services
-          </button>
-        </li>
-        <li class="nav-item" role="presentation">
-          <button class="nav-link" id="others-tab" data-bs-toggle="tab" data-bs-target="#othersTabPane" type="button" role="tab">
-            Others
-          </button>
-        </li>
-      </ul>
-
-      <div class="tab-content mb-3" id="reviewsFilterTabsContent">
-        <!-- Rating filter -->
-        <div class="tab-pane fade show active" id="ratingTabPane" role="tabpanel" aria-labelledby="rating-tab">
-          <div class="form-check mb-2">
-            <input class="form-check-input" type="checkbox" value="" id="rating5">
-            <label class="form-check-label" for="rating5">5 Star</label>
-          </div>
-          <div class="form-check mb-2">
-            <input class="form-check-input" type="checkbox" value="" id="rating4">
-            <label class="form-check-label" for="rating4">4 Star</label>
-          </div>
-          <div class="form-check mb-2">
-            <input class="form-check-input" type="checkbox" value="" id="rating3">
-            <label class="form-check-label" for="rating3">3 Star</label>
-          </div>
-          <div class="form-check mb-2">
-            <input class="form-check-input" type="checkbox" value="" id="rating2">
-            <label class="form-check-label" for="rating2">2 Star</label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="rating1">
-            <label class="form-check-label" for="rating1">1 Star</label>
-          </div>
-        </div>
-
-        <!-- Sort By filter -->
-        <div class="tab-pane fade" id="sortTabPane" role="tabpanel" aria-labelledby="sort-tab">
-          <div class="form-check mb-2">
-            <input class="form-check-input" type="radio" name="sortByOptions" id="sortRecent" checked>
-            <label class="form-check-label" for="sortRecent">Recent</label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="sortByOptions" id="sortDetailed">
-            <label class="form-check-label" for="sortDetailed">Most detailed</label>
-          </div>
-        </div>
-
-        <!-- Services placeholder -->
-        <div class="tab-pane fade" id="servicesTabPane" role="tabpanel" aria-labelledby="services-tab">
-          <small class="text-muted">Filter reviews by specific services (coming soon).</small>
-        </div>
-
-        <!-- Others placeholder -->
-        <div class="tab-pane fade" id="othersTabPane" role="tabpanel" aria-labelledby="others-tab">
-          <small class="text-muted">Additional filters (coming soon).</small>
-        </div>
-      </div>
-
-      <!-- Rating distribution + sample reviews -->
-      <div class="mb-3">
-        <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center mb-3 gap-3">
-          <div>
-            <div class="d-flex align-items-center mb-1">
-              <span class="me-2" style="font-size: 1.4rem;">★</span>
-              <span class="fw-bold" style="font-size: 1.4rem;">4.82</span>
-            </div>
-            <small class="text-muted">170K reviews</small>
-          </div>
-          <div class="flex-grow-1 w-100">
-            <div class="d-flex align-items-center mb-1">
-              <small class="me-2">5</small>
-              <div class="progress flex-grow-1 me-2" style="height: 6px;">
-                <div class="progress-bar bg-success" style="width: 90%;"></div>
-              </div>
-              <small class="text-muted">155K</small>
-            </div>
-            <div class="d-flex align-items-center mb-1">
-              <small class="me-2">4</small>
-              <div class="progress flex-grow-1 me-2" style="height: 6px;">
-                <div class="progress-bar bg-success" style="width: 4%;"></div>
-              </div>
-              <small class="text-muted">6K</small>
-            </div>
-            <div class="d-flex align-items-center mb-1">
-              <small class="me-2">3</small>
-              <div class="progress flex-grow-1 me-2" style="height: 6px;">
-                <div class="progress-bar bg-success" style="width: 2%;"></div>
-              </div>
-              <small class="text-muted">3K</small>
-            </div>
-            <div class="d-flex align-items-center mb-1">
-              <small class="me-2">2</small>
-              <div class="progress flex-grow-1 me-2" style="height: 6px;">
-                <div class="progress-bar bg-warning" style="width: 1%;"></div>
-              </div>
-              <small class="text-muted">1K</small>
-            </div>
-            <div class="d-flex align-items-center">
-              <small class="me-2">1</small>
-              <div class="progress flex-grow-1 me-2" style="height: 6px;">
-                <div class="progress-bar bg-danger" style="width: 1%;"></div>
-              </div>
-              <small class="text-muted">2K</small>
-            </div>
-          </div>
-        </div>
-
-        <h6 class="fw-bold mb-3">All reviews</h6>
-
-        <div class="border rounded-3 p-3 mb-3">
-          <div class="d-flex justify-content-between align-items-start mb-1">
-            <div>
-              <div class="fw-semibold">Debtanu Maji</div>
-              <small class="text-muted">Feb 23, 2026 • For 60 mins, Winter Add‑on</small>
-            </div>
-            <span class="badge bg-success rounded-pill" style="min-width: 32px;">5</span>
-          </div>
-          <small class="text-muted d-block">
-            Very good massage. I had pain in my shoulder and back which is relieved now. She listened to where I had pain and then massaged accordingly as well. Good work from her.
-          </small>
-        </div>
-
-        <div class="border rounded-3 p-3 mb-1">
-          <div class="d-flex justify-content-between align-items-start mb-1">
-            <div>
-              <div class="fw-semibold">Atraye Panchanan</div>
-              <small class="text-muted">Feb 23, 2026 • For 90 mins</small>
-            </div>
-            <span class="badge bg-success rounded-pill" style="min-width: 32px;">5</span>
-          </div>
-          <small class="text-muted d-block">
-            Riya has given a wonderful service. I am feeling very relaxed and my pain knots are almost opened up. She is very well trained and knows the pressure points very well.
-          </small>
-        </div>
-      </div>
-
-      <div class="d-flex justify-content-between align-items-center pt-2 border-top mt-3">
-        <button type="button" class="btn btn-link text-decoration-none px-0">Reset</button>
-        <button type="button" class="btn btn-primary rounded-3 px-4">Apply</button>
-      </div>
-    </div>
-  </div>
-</div>
 <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
 
 
@@ -554,15 +576,17 @@ function addToCart(button) {
 <script>
   // Initialize Splide slider & modal behaviors
   document.addEventListener('DOMContentLoaded', function () {
-    const splideEl = document.getElementById('serviceModalSplide');
-    if (splideEl) {
-      new Splide('#serviceModalSplide', {
-        type: 'loop',
-        perPage: 1,
-        arrows: true,
-        pagination: true,
-      }).mount();
-    }
+   @foreach($services_details as $service_detail)
+  const splideEl{{ $service_detail->id }} = document.getElementById('serviceModalSplide{{ $service_detail->id }}');
+  if (splideEl{{ $service_detail->id }}) {
+    new Splide('#serviceModalSplide{{ $service_detail->id }}', {
+      type: 'loop',
+      perPage: 1,
+      arrows: true,
+      pagination: true,
+    }).mount();
+  }
+@endforeach
 
     // Open reviews modal when user clicks on review-only button
     document.addEventListener('click', function (e) {

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Banner;
 use App\Models\Cart;
 use App\Models\CustomerAddresses;
+use App\Models\Feedback;
 use App\Models\Order;
 use App\Models\OrderItems;
 use App\Models\ServicePartner;
@@ -77,7 +78,7 @@ public function getSlots($day_id)
     {
             $mainservices = ServicesSe::where('id', $id)->first();
             $data['services'] = ServicesSe::orderBy('id','desc')->where('services_id', $mainservices->services_id)->where('status', 1)->get();
-            $data['services_details'] = Th_Services::orderBy('id','desc')->where('services_se_id', $id)->get();
+            $data['services_details'] = Th_Services::with('feedback')->orderBy('id','desc')->where('services_se_id', $id)->where('status', 1)->get();
             $user = Auth::guard('customer')->user();
             if ($user) {
                 $data['cart_items'] = Cart::where('customers_id', $user->id)->where('status', 1)->get();
@@ -372,4 +373,62 @@ public function orderDetail($id)
 
     return view('frontend.orderdetail', compact('order'));
 }
+
+public function reviewstore(Request $request)
+{
+    $customer = Auth::guard('customer')->user();
+
+    $request->validate([
+        'user_id' => 'required',
+        'service_id' => 'required',
+        'star' => 'required',
+        'description' => 'nullable|string',
+    ]);
+
+    Feedback::create([
+        'user_id' => $customer->id,
+        'service_id' => $request->service_id,
+        'description' => $request->description,
+        'star' => $request->star,
+    ]);
+
+    return redirect()->back()->with('success', 'Review submitted successfully!');
+}
+
+
+public function serviceReviews($serviceId)
+{
+ $service = Th_Services::with('feedback')->findOrFail($serviceId);
+
+    $reviews = $service->feedback->map(function($f) {
+        return [
+            'star' => (int) $f->star,
+            'description' => $f->description,
+            'created_at' => $f->created_at->toDateString(),
+            'user_name' => $f->customer->name ?? 'Anonymous',
+            'service_name' => $f->service->name ?? '',
+        ];
+    });
+
+    $averageRating = $reviews->avg('star') ?? 0;
+    $reviewCount = $reviews->count();
+
+    $ratingDistribution = [
+        5 => $reviews->where('star',5)->count(),
+        4 => $reviews->where('star',4)->count(),
+        3 => $reviews->where('star',3)->count(),
+        2 => $reviews->where('star',2)->count(),
+        1 => $reviews->where('star',1)->count(),
+    ];
+
+    return response()->json([
+        'service' => [
+            'reviews' => $reviews,
+            'averageRating' => $averageRating,
+            'reviewCount' => $reviewCount,
+            'ratingDistribution' => $ratingDistribution,
+        ]
+    ]);
+}
+
 }
