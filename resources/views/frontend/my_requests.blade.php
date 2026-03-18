@@ -54,7 +54,7 @@
 
                     <button 
                         class="btn btn-primary btn-sm flex-fill"
-                        onclick="openReviewModal({{ $value->orderItems->first()->service->id }}, {{ $value->id }})"
+                        onclick="openReviewModal({{ $value->orderItems->first()->service_id }}, {{ $value->id }})"
                     >
                         Add Review
                     </button>
@@ -182,7 +182,7 @@
 
 let selectedStar = 0;
 
-function openReviewModal(userId, serviceId, orderId) {
+function openReviewModal(serviceId, orderId) {
     // Set hidden inputs
     document.getElementById('userId').value = userId;
     document.getElementById('serviceId').value = serviceId;
