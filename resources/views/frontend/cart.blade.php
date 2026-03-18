@@ -1194,6 +1194,27 @@
     </div>
 
 
+    <style>
+        .slot-box {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    background: #fff;
+}
+
+.slot-box.active {
+    background: #0d6efd;
+    color: #fff;
+}
+
+.slot-box.unavailable {
+    background: #f5f5f5;
+    color: #999;
+    cursor: not-allowed;
+}
+    </style>
     <script>
 
 function selectTag(el) {
@@ -1232,31 +1253,65 @@ function selectTag(el) {
 
                 slotContainer.innerHTML = '';
 
-                data.data.forEach(slot => {
+   data.data.forEach(slot => {
 
-                    let col = document.createElement('div');
-                    col.classList.add('col-auto');
+    let col = document.createElement('div');
+    col.classList.add('col-auto');
 
-                    let slotBox = document.createElement('div');
-                    slotBox.classList.add('slot-box');
-                    slotBox.dataset.id = slot.id;
-                    slotBox.innerText = slot.start_time + " - " + slot.end_time;
+    let slotBox = document.createElement('div');
+    slotBox.classList.add('slot-box');
+    slotBox.dataset.id = slot.id;
+    slotBox.innerText = slot.start_time + " - " + slot.end_time;
 
-                    if(selectedSlot == slot.id){
-                        slotBox.classList.add('active');
-                        document.getElementById('slotInput-' + itemId).value = slot.id;
-                    }
+    // ❌ UNAVAILABLE SLOT
+    if(!slot.is_available){
 
-                    slotBox.onclick = function(){
-                        slotContainer.querySelectorAll('.slot-box').forEach(b => b.classList.remove('active'));
-                        this.classList.add('active');
-                        document.getElementById('slotInput-' + itemId).value = slot.id;
-                    };
+        slotBox.classList.add('unavailable');
 
-                    col.appendChild(slotBox);
-                    slotContainer.appendChild(col);
+        // / show karne ke liye
+        slotBox.innerHTML = `
+            <div style="position: relative;">
+                ${slot.start_time} - ${slot.end_time}
+                <span style="
+                    position:absolute;
+                    top:0;
+                    left:0;
+                    width:100%;
+                    height:100%;
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    font-size:20px;
+                    color:red;
+                    font-weight:bold;
+                ">/</span>
+            </div>
+        `;
 
-                });
+        // click disable
+        slotBox.style.pointerEvents = 'none';
+    }
+
+    // ✅ selected slot
+    if(selectedSlot == slot.id && slot.is_available){
+        slotBox.classList.add('active');
+        document.getElementById('slotInput-' + itemId).value = slot.id;
+    }
+
+    // click event
+    slotBox.onclick = function(){
+
+        if(!slot.is_available) return; // extra safety
+
+        slotContainer.querySelectorAll('.slot-box').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        document.getElementById('slotInput-' + itemId).value = slot.id;
+    };
+
+    col.appendChild(slotBox);
+    slotContainer.appendChild(col);
+
+});
 
             });
 

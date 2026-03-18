@@ -114,7 +114,7 @@ class CustomerController extends Controller
                 'address_line2' => $address->address_line2,
                 'landmark' => $address->landmark,
                 'city_id' => $address->city_id,
-                'city_name' => $address->city->city_name ?? '', // ✅ ADD THIS
+                'city_name' => $address->city->city_name ?? '',
                 'pincode' => $address->pincode,
                 'state_id' => $address->state_id,
                 'country' => $address->country,

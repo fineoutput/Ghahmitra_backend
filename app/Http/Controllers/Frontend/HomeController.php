@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Availability;
 use App\Models\Banner;
 use App\Models\Cart;
 use App\Models\CustomerAddresses;
@@ -10,6 +11,7 @@ use App\Models\Feedback;
 use App\Models\ManualCity;
 use App\Models\Order;
 use App\Models\OrderItems;
+use App\Models\PartnerServices;
 use App\Models\ServicePartner;
 use App\Models\Services;
 use App\Models\ServicesSe;
@@ -26,6 +28,7 @@ use DateTime;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 
 class HomeController extends Controller
 {
@@ -56,18 +59,58 @@ class HomeController extends Controller
 
 
 
+// public function getSlots($day_id)
+// {
+
+//     $slots = Slots::where('day_id',$day_id)
+//     ->where('status',1)
+//     ->get(['id','start_time','end_time']);
+
+//     return response()->json([
+//     'status'=>200,
+//     'data'=>$slots
+//     ]);
+
+// }
+
 public function getSlots($day_id)
 {
+    $slots = Slots::where('day_id', $day_id)
+        ->where('status', 1)
+        ->get();
 
-    $slots = Slots::where('day_id',$day_id)
-    ->where('status',1)
-    ->get(['id','start_time','end_time']);
+    $data = [];
+
+    foreach ($slots as $slot) {
+
+        $service_id = optional($slot->day_Availability)->services_id;
+
+        $partnerCount =(int) PartnerServices::where('service_id', $service_id)->count();
+
+
+        $bookedCount =(int) OrderItems::join('orders', 'orders.id', '=', 'order_items.order_id')
+            ->where('order_items.service_id', $service_id)
+            ->where('order_items.slot_id', $slot->id)
+            ->where('orders.order_status', '!=', 4) 
+            ->count();
+             Log::info('partnerCount', [$partnerCount, gettype($partnerCount)]);
+            Log::info('bookedCount', [$bookedCount, gettype($bookedCount)]);
+            Log::info('services_id', [$service_id]);
+
+        $available = ($partnerCount > 0) && ($bookedCount < $partnerCount);
+
+        $data[] = [
+            'id' => $slot->id,
+            'start_time' => $slot->start_time,
+            'end_time' => $slot->end_time,
+            'is_available' => $available
+        ];
+    }
 
     return response()->json([
-    'status'=>200,
-    'data'=>$slots
+        'status' => 200,
+        'data' => $data
     ]);
-
 }
 
 
@@ -108,6 +151,8 @@ public function getSlots($day_id)
                 return ($item->service->price ?? 0) * $item->quantity;});
 
         $data['ManualCity'] = ManualCity::orderby('id','desc')->where('status', 1)->get();
+
+
 
 
         return view('frontend/cart', $data)->withTitle('cart');
