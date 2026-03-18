@@ -78,6 +78,7 @@ Route::middleware('customer.auth')->prefix('customer')->group(function () {
  Route::post('/add-customer-address', [CustomerController::class, 'addcustomeraddress']);
  Route::post('/get-customer-address', [CustomerController::class, 'getcustomeraddress']);
  Route::post('/edit-customer-address', [CustomerController::class, 'editcustomeraddress']);
+ Route::post('/delete-address', [CustomerController::class, 'deleteAddress']);
 
  Route::post('/add-wallet', [CustomerController::class, 'addWallet']);
  Route::get('/wallet', [CustomerController::class, 'getWallet']);
