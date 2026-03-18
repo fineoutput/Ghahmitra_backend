@@ -29,7 +29,7 @@ class HomeController extends Controller
 
 public function getCitiesWithPincode()
 {
-    $cities = ManualCity::select('city_name', 'pincode')->get();
+    $cities = ManualCity::select('id', 'city_name', 'pincode')->get();
 
     $data = $cities->map(function ($city) {
 
