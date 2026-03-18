@@ -455,14 +455,24 @@
 
 
 <script>
-document.getElementById('citySelect').addEventListener('change', function() {
-    let selectedCity = this.value;
+document.addEventListener('DOMContentLoaded', function() {
+    const citySelect = document.getElementById('citySelect');
 
-    if (selectedCity) {
-        localStorage.setItem('selectedCity', selectedCity);
-    } else {
-        localStorage.removeItem('selectedCity');
+    // 1️⃣ Page load par localStorage se selected city le lo
+    const savedCity = localStorage.getItem('selectedCity');
+    if (savedCity) {
+        citySelect.value = savedCity;
     }
+
+    // 2️⃣ Change hone par localStorage update karo
+    citySelect.addEventListener('change', function() {
+        const selectedCity = this.value;
+        if (selectedCity) {
+            localStorage.setItem('selectedCity', selectedCity);
+        } else {
+            localStorage.removeItem('selectedCity');
+        }
+    });
 });
 </script>
 
