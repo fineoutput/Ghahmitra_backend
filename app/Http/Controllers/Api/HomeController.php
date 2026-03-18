@@ -34,6 +34,7 @@ public function getCitiesWithPincode()
     $data = $cities->map(function ($city) {
 
         return [
+            'id' => $city->id,
             'city_name' => $city->city_name,
             'pincode' => $city->pincode 
                 ? array_map('trim', explode(',', $city->pincode)) 
