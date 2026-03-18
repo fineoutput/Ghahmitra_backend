@@ -468,7 +468,7 @@
         </div> --}}
 
         <!-- Coupon Offer -->
-        <div class="card border-light-custom shadow-sm rounded-4 p-4 mb-4" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+        {{-- <div class="card border-light-custom shadow-sm rounded-4 p-4 mb-4" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
           <div class="text-white">
             <div class="d-flex justify-content-between align-items-start mb-3">
               <div>
@@ -479,7 +479,7 @@
             </div>
             <a href="#" class="text-white text-decoration-none" style="font-size: 0.85rem;">View More Offers ▼</a>
           </div>
-        </div>
+        </div> --}}
 
         <!-- UC Promise -->
         <div class="card border-light-custom shadow-sm rounded-4 p-4">

@@ -10,6 +10,7 @@ use App\Models\Availability;
 use App\Models\Banner;
 use App\Models\City;
 use App\Models\Customers;
+use App\Models\ManualCity;
 use App\Models\Otp;
 use App\Models\PrivacyPolicy;
 use App\Models\ServicePartner;
@@ -24,6 +25,27 @@ use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
+
+
+public function getCitiesWithPincode()
+{
+    $cities = ManualCity::select('city_name', 'pincode')->get();
+
+    $data = $cities->map(function ($city) {
+
+        return [
+            'city_name' => $city->city_name,
+            'pincode' => $city->pincode 
+                ? array_map('trim', explode(',', $city->pincode)) 
+                : []
+        ];
+    });
+
+    return response()->json([
+        'status' => true,
+        'data' => $data
+    ]);
+}
 
 
 public function homeData()

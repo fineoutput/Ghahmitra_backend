@@ -40,6 +40,7 @@ use App\Http\Controllers\Api\OrderController;
     Route::post('/services-th', [HomeController::class, 'ServicesTh']);
 
     Route::get('/home', [HomeController::class, 'homeData']);
+    Route::get('/get-cities-Pincode', [HomeController::class, 'getCitiesWithPincode']);
 
     Route::post('/services-details', [HomeController::class, 'ServicesDetails']);
     Route::post('/services-availability', [HomeController::class, 'servicesavAvailability']);
