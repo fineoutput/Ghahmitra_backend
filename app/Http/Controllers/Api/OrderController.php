@@ -34,7 +34,7 @@ class OrderController extends Controller
         ], 401);
     }
 
-    $orders = TransferOrders::with('order') 
+    $orders = TransferOrders::with('orders') 
         ->where('partner_id', $partner->id)
         ->get();
 
@@ -312,4 +312,34 @@ public function endService(Request $request)
     }
 }
         
+
+
+public function getPartnerDocuments()
+{
+    $partner = Auth::guard('partner_api')->user();
+
+    if (!$partner) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Unauthorized'
+        ], 401);
+    }
+
+    $documents = PartnerDocuments::where('partner_id', $partner->id)
+        ->get()
+        ->map(function ($doc) {
+            return [
+                'partner_id' => $doc->partner_id,
+                'document_type' => $doc->document_type,
+                'document_file' => url($doc->document_file) // ✅ full URL
+            ];
+        });
+
+    return response()->json([
+        'status' => 200,
+        'message' => 'Documents fetched successfully',
+        'data' => $documents
+    ]);
+}
+
 }

@@ -69,6 +69,7 @@ Route::middleware('partnerapi.auth')->prefix('partner')->group(function () {
     Route::get('/transfer-orders', [OrderController::class, 'getPartnerOrders']);
     Route::post('/send-Service-Otp', [OrderController::class, 'sendServiceOtp']);
     Route::post('/verify-service-otp', [OrderController::class, 'verifyServiceOtp']);
+    Route::get('/get-Partner-Documents', [OrderController::class, 'getPartnerDocuments']);
       
 });
 
