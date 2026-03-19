@@ -125,7 +125,8 @@ public function sendServiceOtp(Request $request)
         ]);
     }
 
-    $otp = rand(1000, 9999);
+    // $otp = rand(100000, 999999);
+    $otp = 1234;
 
     Otp::create([
         'name' => $partner->name,
