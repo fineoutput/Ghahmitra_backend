@@ -23,6 +23,7 @@ class Otp extends Model
         'otp',
         'ip',
         'is_active',
+        'service_id',
         'date',
     ];
 
