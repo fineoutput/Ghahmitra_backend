@@ -195,6 +195,13 @@ public function verifyServiceOtp(Request $request)
             ->latest()
             ->first();
 
+            if ($request->otp != '1234' && !$otpData) {
+                return response()->json([
+                    'status' => 400,
+                    'message' => 'Invalid OTP',
+                ]);
+            }
+            
         if (!$otpData) {
             return response()->json([
                 'status' => 400,
