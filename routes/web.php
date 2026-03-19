@@ -264,6 +264,7 @@ Route::get('/order/new-index', [OrderController::class, 'index'])->name('order.i
 Route::get('/order/accept-index', [OrderController::class, 'acceptindex'])->name('order.acceptindex');
 Route::get('/order/complete-index', [OrderController::class, 'completeindex'])->name('order.completeindex');
 Route::get('/order/reject-index', [OrderController::class, 'rejectindex'])->name('order.rejectindex');
+Route::get('/order/start-index', [OrderController::class, 'startindex'])->name('order.startindex');
 Route::get('/order/items-index/{id}', [OrderController::class, 'itemsindex'])->name('order.itemsindex');
 Route::patch('order/update-status/{id}', [OrderController::class, 'updateStatus'])->name('order.updateStatus');
 

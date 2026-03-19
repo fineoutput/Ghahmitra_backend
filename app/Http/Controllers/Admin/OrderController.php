@@ -44,6 +44,11 @@ class OrderController extends Controller
         $Order = Order::where('order_status',4)->orderBy('id', 'DESC')->get();
         return view('admin.order.index', compact('Order'));
     }
+    public function startindex(Request $request)
+    {
+        $Order = Order::where('order_status',5)->orderBy('id', 'DESC')->get();
+        return view('admin.order.index', compact('Order'));
+    }
 
     public function itemsindex($id)
     {
