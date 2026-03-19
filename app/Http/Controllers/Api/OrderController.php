@@ -52,7 +52,7 @@ class OrderController extends Controller
             'order_id' => $item->order_id,
             'status' => $item->status,
             'distance' => $item->distance,
-            'order' => $item->order // Order table ka data
+            'order' => $item->orders // Order table ka data
         ];
 
         if ($item->orders->order_status == 1) {
