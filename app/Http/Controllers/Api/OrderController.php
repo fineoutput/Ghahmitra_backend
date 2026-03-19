@@ -216,8 +216,8 @@ if ($otpData) {
         // }
 
         // OTP used → deactivate
-        $otpData->is_active = 0;
-        $otpData->save();
+        // $otpData->is_active = 0;
+        // $otpData->save();
 
         // ✅ START SERVICE
         if ($request->type == 'start') {
