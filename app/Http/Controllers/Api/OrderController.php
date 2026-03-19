@@ -201,13 +201,13 @@ public function verifyServiceOtp(Request $request)
                     'message' => 'Invalid OTP',
                 ]);
             }
-            
-        if (!$otpData) {
-            return response()->json([
-                'status' => 400,
-                'message' => 'Invalid OTP',
-            ]);
-        }
+
+        // if (!$otpData) {
+        //     return response()->json([
+        //         'status' => 400,
+        //         'message' => 'Invalid OTP',
+        //     ]);
+        // }
 
         // OTP used → deactivate
         $otpData->is_active = 0;
