@@ -74,9 +74,9 @@ class OrderController extends Controller
 }
 
 
-public function startService(Request $request)
+public function sendServiceOtp(Request $request)
 {
-     $partner = Auth::guard('partner_api')->user();
+    $partner = Auth::guard('partner_api')->user();
 
     if (!$partner) {
         return response()->json([
@@ -87,6 +87,66 @@ public function startService(Request $request)
 
     $validator = Validator::make($request->all(), [
         'transfer_order_id' => 'required|exists:transfer_orders,id',
+        'type' => 'required|in:start,end'
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json([
+            'status' => 201,
+            'message' => $validator->errors()->first(),
+        ]);
+    }
+
+    $transferOrder = TransferOrders::where('id', $request->transfer_order_id)
+        ->where('partner_id', $partner->id)
+        ->first();
+
+    if (!$transferOrder) {
+        return response()->json([
+            'status' => 201,
+            'message' => 'Transfer order not found',
+        ]);
+    }
+
+    $otp = rand(1000, 9999);
+
+    Otp::create([
+        'name' => $partner->name,
+        'contact_no' => $partner->mobile ?? '',
+        'email' => $partner->email ?? '',
+        'otp' => $otp,
+        'ip' => $request->ip(),
+        'is_active' => 1,
+        'service_id' => $transferOrder->id,
+    ]);
+
+    // 👉 yaha SMS / WhatsApp / log kar sakte ho
+    // Log::info("OTP: ".$otp);
+
+    return response()->json([
+        'status' => 200,
+        'message' => 'OTP sent successfully',
+        'otp' => $otp // ⚠️ remove in production
+    ]);
+}
+
+
+
+public function verifyServiceOtp(Request $request)
+{
+    $partner = Auth::guard('partner_api')->user();
+
+    if (!$partner) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Unauthorized'
+        ], 401);
+    }
+
+    $validator = Validator::make($request->all(), [
+        'transfer_order_id' => 'required|exists:transfer_orders,id',
+        'otp' => 'required',
+        'type' => 'required|in:start,end'
     ]);
 
     if ($validator->fails()) {
@@ -100,7 +160,9 @@ public function startService(Request $request)
 
     try {
 
-        $transferOrder = TransferOrders::where('id',$request->transfer_order_id)->where('partner_id',$partner->id)->first();
+        $transferOrder = TransferOrders::where('id', $request->transfer_order_id)
+            ->where('partner_id', $partner->id)
+            ->first();
 
         if (!$transferOrder) {
             return response()->json([
@@ -109,24 +171,64 @@ public function startService(Request $request)
             ]);
         }
 
-        $transferOrder->start_time = now()->setTimezone('Asia/Kolkata')->format('Y-m-d H:i:s');
-        $transferOrder->status = 5;
-        $transferOrder->save();
+        $otpData = Otp::where('service_id', $transferOrder->id)
+            ->where('otp', $request->otp)
+            ->where('is_active', 1)
+            ->latest()
+            ->first();
 
-        if ($transferOrder->order_id) {
-            $order = Order::find($transferOrder->order_id);
+        if (!$otpData) {
+            return response()->json([
+                'status' => 400,
+                'message' => 'Invalid OTP',
+            ]);
+        }
 
-            if ($order) {
-                $order->order_status = 5;
-                $order->save();
+        // OTP used → deactivate
+        $otpData->is_active = 0;
+        $otpData->save();
+
+        // ✅ START SERVICE
+        if ($request->type == 'start') {
+
+            $transferOrder->start_time = now()->setTimezone('Asia/Kolkata')->format('Y-m-d H:i:s');
+            $transferOrder->status = 5;
+            $transferOrder->save();
+
+            if ($transferOrder->order_id) {
+                $order = Order::find($transferOrder->order_id);
+                if ($order) {
+                    $order->order_status = 5;
+                    $order->save();
+                }
             }
+
+            $message = 'Service started successfully';
+        }
+
+        // ✅ END SERVICE
+        if ($request->type == 'end') {
+
+            $transferOrder->end_time = now()->setTimezone('Asia/Kolkata')->format('Y-m-d H:i:s');
+            $transferOrder->status = 3;
+            $transferOrder->save();
+
+            if ($transferOrder->order_id) {
+                $order = Order::find($transferOrder->order_id);
+                if ($order) {
+                    $order->order_status = 3;
+                    $order->save();
+                }
+            }
+
+            $message = 'Service ended successfully';
         }
 
         DB::commit();
 
         return response()->json([
             'status' => 200,
-            'message' => 'Service started successfully',
+            'message' => $message,
         ]);
 
     } catch (\Exception $e) {
