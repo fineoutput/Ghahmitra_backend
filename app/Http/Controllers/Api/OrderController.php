@@ -55,13 +55,13 @@ class OrderController extends Controller
             'order' => $item->order // Order table ka data
         ];
 
-        if ($item->order->order_status == 1) {
+        if ($item->orders->order_status == 1) {
             $data['new_order'][] = $orderData;
-        } elseif ($item->order->order_status == 2) {
+        } elseif ($item->orders->order_status == 2) {
             $data['accept'][] = $orderData;
-        } elseif ($item->order->order_status == 3) {
+        } elseif ($item->orders->order_status == 3) {
             $data['complete'][] = $orderData;
-        } elseif ($item->order->order_status == 4) {
+        } elseif ($item->orders->order_status == 4) {
             $data['reject'][] = $orderData;
         }
     }
