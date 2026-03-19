@@ -18,7 +18,7 @@ use App\Models\UnverifiedCustomer;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Validator;
+use Illuminate\Support\Facades\Validator;
 
 class OrderController extends Controller
 {
