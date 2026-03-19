@@ -188,19 +188,25 @@ public function verifyServiceOtp(Request $request)
                 'message' => 'Transfer order not found',
             ]);
         }
+$otpData = Otp::where('service_id', $transferOrder->id)
+    ->where('otp', $request->otp)
+    ->where('is_active', 1)
+    ->latest()
+    ->first();
 
-        $otpData = Otp::where('service_id', $transferOrder->id)
-            ->where('otp', $request->otp)
-            ->where('is_active', 1)
-            ->latest()
-            ->first();
+// OTP validation
+if ($request->otp != '1234' && !$otpData) {
+    return response()->json([
+        'status' => 400,
+        'message' => 'Invalid OTP',
+    ]);
+}
 
-            if ($request->otp != '1234' && !$otpData) {
-                return response()->json([
-                    'status' => 400,
-                    'message' => 'Invalid OTP',
-                ]);
-            }
+// deactivate only if real OTP
+if ($otpData) {
+    $otpData->is_active = 0;
+    $otpData->save();
+}
 
         // if (!$otpData) {
         //     return response()->json([
