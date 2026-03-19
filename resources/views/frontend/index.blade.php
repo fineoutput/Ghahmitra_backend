@@ -255,6 +255,7 @@
 
 
 <!-- ================= SALON PROMO BANNER ================= -->
+@if($banner)
 <section class="py-5">
   <div class="container">
     <div class="p-5 text-white rounded"
@@ -266,7 +267,7 @@
     </div>
   </div>
 </section>
-
+@endif
 
 <!-- ================= CLEANING & PEST SERVICES ================= -->
 <section class="py-4 bg-light">
