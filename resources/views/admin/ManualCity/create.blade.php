@@ -41,19 +41,23 @@
                             <h4 class="mt-0 header-title">{{ isset($interest) ? 'Edit' : 'Add' }} {{$tital}} Form</h4>
 
                             <hr style="margin-bottom: 50px;background-color: darkgrey;">
-                           <form action="{{ route('tc.store') }}" method="POST" enctype="multipart/form-data">
+                           <form action="{{ route('city.store') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
 
                                 <div class="form-group row">
-                                    <div class="col-sm-12">
+                                    <div class="col-sm-6">
                                         <label>City Name <span style="color:red">*</span></label>
                                         <input type="text" class="form-control" name="city_name" value="{{ old('city_name') }}" required>
                                         @error('city_name') <div style="color:red">{{ $message }}</div> @enderror
                                     </div>
-                                    <div class="col-sm-12 mt-3">
-                                        <label>Content <span style="color:red">*</span></label>
-                                        <textarea name="content" id="content" cols="30" rows="10"></textarea>
-                                        @error('type') <div style="color:red">{{ $message }}</div> @enderror
+                                    <div class="col-sm-6">
+                                        <label>PinCode <span style="color:red">*</span></label>
+                                        <select name="pincode[]" class="form-control" id="pincode" multiple>
+                                            {{-- Options will be loaded via JS --}}
+                                        </select>
+                                        @error('pincode')
+                                            <div style="color:red">{{ $message }}</div>
+                                        @enderror
                                     </div>
 
                                 </div>
@@ -72,6 +76,23 @@
         <!-- end page content-->
     </div> <!-- container-fluid -->
 </div> <!-- content -->
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.full.min.js"></script>
+
+<script>
+    $('#pincode').select2({
+        tags: true,
+        placeholder: "Select Pincode", 
+        allowClear: true 
+    });
+
+    $('#show').on('click', function(e) {
+        alert($('#pincode').val()); 
+    });
+</script>
 
 <script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
 <script>

@@ -37,7 +37,7 @@ class CustomerController extends Controller
             'address_line2' => 'nullable|string|max:255',
             'landmark' => 'nullable|string|max:255',
             'city_id' => 'required|string|max:100',
-            'state_id' => 'required|string|max:100',
+            'state_id' => 'nullable',
             'country' => 'nullable|string|max:100',
             'pincode' => 'required|string|max:10',
             'latitude' => 'nullable|string',
@@ -59,7 +59,7 @@ class CustomerController extends Controller
             'address_line2' => $request->address_line2,
             'landmark' => $request->landmark,
             'city_id' => $request->city_id,
-            'state_id' => $request->state_id,
+            // 'state_id' => $request->state_id,
             'pincode' => $request->pincode,
             'latitude' => $request->latitude,
             'longitude' => $request->longitude,
@@ -99,15 +99,39 @@ class CustomerController extends Controller
         }
 
         // Get addresses
-        $addresses = CustomerAddresses::where('customer_id', $customer->id)
+       $addresses = CustomerAddresses::with('city:id,city_name')
+            ->where('customer_id', $customer->id)
             ->where('status', 1)
             ->orderByDesc('is_default')
             ->get();
 
+        $data = $addresses->map(function ($address) {
+            return [
+                'id' => $address->id,
+                'name' => $address->name,
+                'mobile_no' => $address->mobile_no,
+                'address_line1' => $address->address_line1,
+                'address_line2' => $address->address_line2,
+                'landmark' => $address->landmark,
+                'city_id' => $address->city_id,
+                'city_name' => $address->city->city_name ?? '',
+                'pincode' => $address->pincode,
+                'state_id' => $address->state_id,
+                'country' => $address->country,
+                'latitude' => $address->latitude,
+                'longitude' => $address->longitude,
+                'type' => $address->type,
+                'is_default' => $address->is_default,
+                'status' => $address->status,
+                'created_at' => $address->created_at,
+                'updated_at' => $address->updated_at,
+            ];
+        });
+
         return response()->json([
             'status' => 200,
             'message' => 'Customer address retrieved successfully',
-            'data' => $addresses
+            'data' => $data
         ]);
     }
 
@@ -140,7 +164,7 @@ class CustomerController extends Controller
             'address_line2' => 'nullable|string|max:255',
             'landmark' => 'nullable|string|max:255',
             'city_id' => 'required|string|max:100',
-            'state_id' => 'required|string|max:100',
+            'state_id' => 'nullable',
             'pincode' => 'required|string|max:10',
             'latitude' => 'nullable|string',
             'longitude' => 'nullable|string',
@@ -160,7 +184,7 @@ class CustomerController extends Controller
             'address_line2' => $request->address_line2,
             'landmark' => $request->landmark,
             'city_id' => $request->city_id,
-            'state_id' => $request->state_id,
+            // 'state_id' => $request->state_id,
             'pincode' => $request->pincode,
             'latitude' => $request->latitude,
             'longitude' => $request->longitude,
@@ -174,6 +198,51 @@ class CustomerController extends Controller
         ]);
     }
 
+
+
+    public function deleteAddress(Request $request)
+{
+    $token = $request->bearerToken();
+
+    if (!$token) {
+        return response()->json([
+            'status' => 401,
+            'message' => 'Token not provided'
+        ], 401);
+    }
+
+    // Authenticate customer
+    $customer = Customers::where('auth', $token)
+        ->where('status', 1)
+        ->first();
+
+    if (!$customer) {
+        return response()->json([
+            'status' => 401,
+            'message' => 'Unauthorized'
+        ], 401);
+    }
+
+    // Find address
+    $address = CustomerAddresses::where('id', $request->address_id)
+        ->where('customer_id', $customer->id)
+        ->first();
+
+    if (!$address) {
+        return response()->json([
+            'status' => 404,
+            'message' => 'Address not found'
+        ], 404);
+    }
+
+    // Delete (soft delete if enabled)
+    $address->delete();
+
+    return response()->json([
+        'status' => 200,
+        'message' => 'Address deleted successfully'
+    ]);
+}
 
 
   public function addWallet(Request $request)

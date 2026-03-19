@@ -62,8 +62,8 @@
             <thead class="table-success">
                 <tr>
                     <th>ID</th>
-                    <th>Title</th>
-                    <th>Content</th>
+                    <th>City Name</th>
+                    <th>Pincode</th>
                     <th>Created At</th>
                     <th>Action</th>
                 </tr>
@@ -72,13 +72,13 @@
                 @foreach($AboutUs as $key => $Services)
                     <tr>
                         <td>{{ $key+1 }}</td>
-                        <td>{{ $Services->title }}</td>
+                        <td>{{ $Services->city_name }}</td>
                         <td>
-                            {{ \Illuminate\Support\Str::limit(strip_tags($Services->content), 50) }}
+                            {{ $Services->pincode }}
                         </td>
                         <td>{{ $Services->created_at }}</td>
                         <td>
-                            <form action="{{ route('tc.updateStatus', $Services->id) }}" method="POST">
+                            <form action="{{ route('city.updateStatus', $Services->id) }}" method="POST">
                                 @csrf
                                 @method('PATCH')
 
@@ -89,8 +89,8 @@
                                     {{ $Services->status == 1 ? 'Active' : 'Inactive' }}
                                 </button>
                             </form>
-                            <a href="{{ route('tc.edit', $Services->id) }}" class="btn btn-primary mt-2">Edit</a>
-                            <form action="{{ route('tc.destroy', $Services->id) }}" method="POST" style="display:inline-block;">
+                            <a href="{{ route('city.edit', $Services->id) }}" class="btn btn-primary mt-2">Edit</a>
+                            <form action="{{ route('city.destroy', $Services->id) }}" method="POST" style="display:inline-block;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger mt-2"

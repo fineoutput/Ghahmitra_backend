@@ -26,11 +26,10 @@ class CustomerAddresses extends Model
             'status',
         ];
 
-        public function cities()
+        public function city()
         {
-            return $this->belongsTo(City::class, 'city_id');
+            return $this->belongsTo(ManualCity::class, 'city_id', 'id');
         }
-        
         public function state()
         {
             return $this->belongsTo(State::class, 'state_id');

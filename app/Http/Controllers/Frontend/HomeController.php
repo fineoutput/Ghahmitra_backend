@@ -3,11 +3,15 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Availability;
 use App\Models\Banner;
 use App\Models\Cart;
 use App\Models\CustomerAddresses;
+use App\Models\Feedback;
+use App\Models\ManualCity;
 use App\Models\Order;
 use App\Models\OrderItems;
+use App\Models\PartnerServices;
 use App\Models\ServicePartner;
 use App\Models\Services;
 use App\Models\ServicesSe;
@@ -24,6 +28,7 @@ use DateTime;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 
 class HomeController extends Controller
 {
@@ -44,24 +49,68 @@ class HomeController extends Controller
         $data['most_booked'] = ServicesSe::orderby('id','desc')->where('most_booked', 1)->where('status', 1)->get();
         $data['banner'] = Banner::orderby('id','desc')->where('type', 'banner')->where('status', 1)->first();
         $data['offer'] = Banner::orderby('id','desc')->where('type', 'offer')->where('status', 1)->get();
+        $data['ManualCity'] = ManualCity::orderby('id','desc')->where('status', 1)->get();
 
+        $customer = Auth::guard('customer')->user();
+
+       
         return view('frontend/index', $data)->withTitle('home');
     }
 
 
 
+// public function getSlots($day_id)
+// {
+
+//     $slots = Slots::where('day_id',$day_id)
+//     ->where('status',1)
+//     ->get(['id','start_time','end_time']);
+
+//     return response()->json([
+//     'status'=>200,
+//     'data'=>$slots
+//     ]);
+
+// }
+
 public function getSlots($day_id)
 {
+    $slots = Slots::where('day_id', $day_id)
+        ->where('status', 1)
+        ->get();
 
-    $slots = Slots::where('day_id',$day_id)
-    ->where('status',1)
-    ->get(['id','start_time','end_time']);
+    $data = [];
+
+    foreach ($slots as $slot) {
+
+        $service_id = optional($slot->day_Availability)->services_id;
+
+        $partnerCount =(int) PartnerServices::where('service_id', $service_id)->count();
+
+
+        $bookedCount =(int) OrderItems::join('orders', 'orders.id', '=', 'order_items.order_id')
+            ->where('order_items.service_id', $service_id)
+            ->where('order_items.slot_id', $slot->id)
+            ->where('orders.order_status', '!=', 4) 
+            ->count();
+             Log::info('partnerCount', [$partnerCount, gettype($partnerCount)]);
+            Log::info('bookedCount', [$bookedCount, gettype($bookedCount)]);
+            Log::info('services_id', [$service_id]);
+
+        $available = ($partnerCount > 0) && ($bookedCount < $partnerCount);
+
+        $data[] = [
+            'id' => $slot->id,
+            'start_time' => $slot->start_time,
+            'end_time' => $slot->end_time,
+            'is_available' => $available
+        ];
+    }
 
     return response()->json([
-    'status'=>200,
-    'data'=>$slots
+        'status' => 200,
+        'data' => $data
     ]);
-
 }
 
 
@@ -77,7 +126,7 @@ public function getSlots($day_id)
     {
             $mainservices = ServicesSe::where('id', $id)->first();
             $data['services'] = ServicesSe::orderBy('id','desc')->where('services_id', $mainservices->services_id)->where('status', 1)->get();
-            $data['services_details'] = Th_Services::orderBy('id','desc')->where('services_se_id', $id)->get();
+            $data['services_details'] = Th_Services::with('feedback','availability')->orderBy('id','desc')->where('services_se_id', $id)->where('status', 1)->get();
             $user = Auth::guard('customer')->user();
             if ($user) {
                 $data['cart_items'] = Cart::where('customers_id', $user->id)->where('status', 1)->get();
@@ -94,12 +143,17 @@ public function getSlots($day_id)
             return redirect()->route('/')->with('error', 'Please login to view your cart.');
         }
         $data['states'] = State::all();
-        $data['CustomerAddresses'] = CustomerAddresses::where('customer_id',$data['customer']->id)->get();
+        $data['CustomerAddresses'] = CustomerAddresses::orderBy('id','DESC')->where('customer_id',$data['customer']->id)->get();
         $data['cart_items'] = Cart::with('service', 'ServicesSe', 'availability')
             ->where('customers_id', $data['customer']->id)->where('status', 1)->get();
 
         $data['cart_total'] = $data['cart_items']->sum(function($item) {
                 return ($item->service->price ?? 0) * $item->quantity;});
+
+        $data['ManualCity'] = ManualCity::orderby('id','desc')->where('status', 1)->get();
+
+
+
 
         return view('frontend/cart', $data)->withTitle('cart');
     }
@@ -372,4 +426,62 @@ public function orderDetail($id)
 
     return view('frontend.orderdetail', compact('order'));
 }
+
+public function reviewstore(Request $request)
+{
+    $customer = Auth::guard('customer')->user();
+
+    $request->validate([
+        'user_id' => 'required',
+        'service_id' => 'required',
+        'star' => 'required',
+        'description' => 'nullable|string',
+    ]);
+
+    Feedback::create([
+        'user_id' => $customer->id,
+        'service_id' => $request->service_id,
+        'description' => $request->description,
+        'star' => $request->star,
+    ]);
+
+    return redirect()->back()->with('success', 'Review submitted successfully!');
+}
+
+
+public function serviceReviews($serviceId)
+{
+ $service = Th_Services::with('feedback')->findOrFail($serviceId);
+
+    $reviews = $service->feedback->map(function($f) {
+        return [
+            'star' => (int) $f->star,
+            'description' => $f->description,
+            'created_at' => $f->created_at->toDateString(),
+            'user_name' => $f->customer->name ?? 'Anonymous',
+            'service_name' => $f->service->name ?? '',
+        ];
+    });
+
+    $averageRating = $reviews->avg('star') ?? 0;
+    $reviewCount = $reviews->count();
+
+    $ratingDistribution = [
+        5 => $reviews->where('star',5)->count(),
+        4 => $reviews->where('star',4)->count(),
+        3 => $reviews->where('star',3)->count(),
+        2 => $reviews->where('star',2)->count(),
+        1 => $reviews->where('star',1)->count(),
+    ];
+
+    return response()->json([
+        'service' => [
+            'reviews' => $reviews,
+            'averageRating' => $averageRating,
+            'reviewCount' => $reviewCount,
+            'ratingDistribution' => $ratingDistribution,
+        ]
+    ]);
+}
+
 }

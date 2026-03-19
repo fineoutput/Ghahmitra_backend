@@ -239,6 +239,17 @@
         .address-picker-footer img {
             height: 14px;
         }
+        ..cart-count.position-absolute.top-0.z-0 {
+    background: red;
+    height: 23px;
+    width: 23px;
+    border-radius: 101px;
+    margin-top: -5px;
+    right: -7px;
+    color: black !important;
+    font-size: 11px;
+
+}
     </style>
 
     <!-- Add Toastr JS -->
@@ -333,6 +344,9 @@
                 <div class="d-none d-lg-flex align-items-center gap-3">
                     <a href="{{ route('cart') }}" class="text-dark position-relative">
                         <i class="fa-solid fa-cart-shopping fs-5"></i>
+                        <div class="cart-count position-absolute top-0 z-0">
+                            <p class="">{{ $cartCount }}</p>
+                        </div>
                     </a>
                     <!-- Test profile dropdown (always visible for testing) -->
                     <div class="dropdown d-inline-block">

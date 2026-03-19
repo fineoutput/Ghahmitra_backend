@@ -33,10 +33,10 @@ class CityController extends Controller
 
     public function edit($id)
     {
-        $AboutUs = ManualCity::findOrFail($id);
+        $ManualCity = ManualCity::findOrFail($id);
         $tital = 'City';
 
-        return view('admin.ManualCity.edit', compact('AboutUs', 'tital'));
+        return view('admin.ManualCity.edit', compact('ManualCity', 'tital'));
     }
 
 
@@ -44,36 +44,36 @@ class CityController extends Controller
     {
         $service = ManualCity::findOrFail($id);
 
-        $request->validate([
-            'title'        => 'required',
-            'content'        => 'required',
+       $request->validate([
+            'city_name'        => 'required',
+            'pincode'        => 'required',
         ]);
 
 
         $service->update([
-            'title'        => $request->title,
-            'content'        => $request->content,
+            'city_name'        => $request->city_name,
+            'pincode'        =>  implode(',', $request->pincode),
             // 'status'      => $request->status,
         ]);
 
-        return redirect()->route('tc.index')->with('success', 'Record updated successfully.');
+        return redirect()->route('city.index')->with('success', 'Record updated successfully.');
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'title'        => 'required',
-            'content'        => 'required',
+            'city_name'        => 'required',
+            'pincode'        => 'required',
         ]);
 
 
         ManualCity::create([
-            'title'        => $request->title,
-            'content'        => $request->content,
+            'city_name'        => $request->city_name,
+            'pincode'        =>  implode(',', $request->pincode),
             'status'      => 1,
         ]);
 
-        return redirect()->route('tc.index')->with('success', 'Record added successfully.');
+        return redirect()->route('city.index')->with('success', 'Record added successfully.');
     }
 
     public function destroy($id)

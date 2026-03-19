@@ -445,6 +445,37 @@
             color: #fff;
             border-color: #0d6efd;
         }
+
+        .tag-btn {
+    border: 2px solid #ccc;
+    padding: 8px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* When radio is checked */
+.tag-btn input:checked + * {
+    border-color: #0d6efd;
+}
+
+/* OR better (recommended) */
+.tag-btn input:checked {
+    display: none;
+}
+
+.tag-btn input:checked + span {
+    border-color: #0d6efd;
+}
+
+.tag-btn input:checked {
+    display: none;
+}
+
+.tag-btn:has(input:checked) {
+    border: 2px solid #0d6efd;
+    background-color: #e7f1ff;
+}
     </style>
 
     </style>
@@ -478,11 +509,21 @@
 
                 <div class="modal-footer border-0">
                     {{-- <button type="button" class="btn btn-secondary rounded-2" data-bs-dismiss="modal">Back</button> --}}
-                    <button type="button" class="btn btn-primary rounded-2" id="proceedCheckoutBtn"
-                        onclick="openAddressAfterSlot()">
+                   @php
+                        $allSelected = collect($cart_items)->every(function($item) {
+                            return !empty($item->availability_id) && !empty($item->slot_id);
+                        });
+                    @endphp
+
+                    <button type="button" 
+                        class="btn btn-primary rounded-2"
+                        onclick="{{ $allSelected ? 'openAddressAfterSlot()' : 'alert(\'Select all cart items slot first\')' }}">
                         Select address
                     </button>
+
                 </div>
+                
+
 
                 <!-- Payment -->
                 <div class="cart-card">
@@ -575,29 +616,37 @@
                                             </label>
 
                                             <div class="row g-2">
+                                                
+@foreach ($item->service->availability as $availability)
+    @php
+        $availabilityDate = \Carbon\Carbon::parse($availability->day);
+    @endphp
 
-                                                @foreach ($item->service->availability as $availability)
-                                                    <div class="col-auto">
+    @if($availabilityDate->isToday() || $availabilityDate->isFuture())
+        <div class="col-auto">
 
-                                                        <div class="date-box card 
-                                                        text-center shadow-sm border-0 
-                                                            {{ $item->availability_id == $availability->id ? 'active' : '' }}"data-id="{{ $availability->id }}">
-                                                            <div class="card-body p-2">
+            <div class="date-box card 
+                text-center shadow-sm border-0 
+                {{ $item->availability_id == $availability->id ? 'active' : '' }}" 
+                data-id="{{ $availability->id }}">
+                
+                <div class="card-body p-2">
 
-                                                                <div class="fw-semibold text-primary">
-                                                                    {{ \Carbon\Carbon::parse($availability->day)->format('D') }}
-                                                                </div>
+                    <div class="fw-semibold text-primary">
+                        {{ $availabilityDate->format('D') }}
+                    </div>
 
-                                                                <div class="small text-muted">
-                                                                    {{ \Carbon\Carbon::parse($availability->day)->format('d M') }}
-                                                                </div>
+                    <div class="small text-muted">
+                        {{ $availabilityDate->format('d M') }}
+                    </div>
 
-                                                            </div>
+                </div>
 
-                                                        </div>
+            </div>
 
-                                                    </div>
-                                                @endforeach
+        </div>
+    @endif
+@endforeach
 
                                             </div>
 
@@ -755,9 +804,8 @@
                                 <strong>{{ ucfirst($addresses->type) }}</strong>
 
                                 <div class="small text-muted">
-                                    {{ $addresses->address_line1 }},
-                                    {{ $addresses->cities->city_name }},
-                                    {{ $addresses->state->state_name }},
+                                    {{ $addresses->address_line1 ?? '' }},
+                                    {{ $addresses->city->city_name ?? '' }},
                                     {{ $addresses->pincode }}
                                 </div>
 
@@ -981,40 +1029,27 @@
 
 
                                 <!-- PINCODE -->
-                                <input type="text" name="pincode" value="{{ old('pincode') }}"
+                                {{-- <input type="text" name="pincode" value="{{ old('pincode') }}"
                                     class="form-control mb-1 @error('pincode') is-invalid @enderror"
                                     placeholder="Pincode">
 
                                 @error('pincode')
                                     <div class="invalid-feedback mb-2">{{ $message }}</div>
-                                @enderror
+                                @enderror --}}
 
 
                                 <!-- STATE -->
-                                <select name="state_id" id="state"
-                                    class="form-select mb-1 @error('state_id') is-invalid @enderror">
-
-                                    <option value="">Select State</option>
-
-                                    @foreach ($states as $state)
-                                        <option value="{{ $state->id }}"
-                                            {{ old('state_id') == $state->id ? 'selected' : '' }}>
-                                            {{ $state->state_name }}
-                                        </option>
-                                    @endforeach
-
-                                </select>
-
-                                @error('state_id')
-                                    <div class="invalid-feedback mb-2">{{ $message }}</div>
-                                @enderror
-
-
-                                <!-- CITY -->
-                                <select name="city_id" id="city"
+                                <select name="city_id" id="city_id"
                                     class="form-select mb-1 @error('city_id') is-invalid @enderror">
 
                                     <option value="">Select City</option>
+
+                                    @foreach ($ManualCity as $ManualCity)
+                                        <option value="{{ $ManualCity->id }}"
+                                            {{ old('city_id') == $ManualCity->id ? 'selected' : '' }}>
+                                            {{ $ManualCity->city_name }}
+                                        </option>
+                                    @endforeach
 
                                 </select>
 
@@ -1023,33 +1058,46 @@
                                 @enderror
 
 
+                                <!-- CITY -->
+                                <select name="pincode" id="pincode"
+                                    class="form-select mb-1 @error('pincode') is-invalid @enderror">
+
+                                    <option value="">Select pincode</option>
+
+                                </select>
+
+                                @error('pincode')
+                                    <div class="invalid-feedback mb-2">{{ $message }}</div>
+                                @enderror
+
+
                                 <!-- TYPE -->
                                 <div class="mb-2 fw-semibold mt-3">Save as</div>
 
-                                <div class="d-flex gap-2 mb-4">
+                               <div class="d-flex gap-2 mb-4">
 
-                                    <label class="tag-btn {{ old('type', 'home') == 'home' ? 'active' : '' }}">
-                                        <input type="radio" name="type" value="home" hidden
-                                            {{ old('type', 'home') == 'home' ? 'checked' : '' }}>
-                                        Home
-                                    </label>
+   <label class="tag-btn" onclick="selectTag(this)">
+        <input type="radio" name="type" value="home" hidden
+            {{ old('type', 'home') == 'home' ? 'checked' : '' }}>
+        Home
+    </label>
 
-                                    <label class="tag-btn {{ old('type') == 'office' ? 'active' : '' }}">
-                                        <input type="radio" name="type" value="office" hidden
-                                            {{ old('type') == 'office' ? 'checked' : '' }}>
-                                        Office
-                                    </label>
+<label class="tag-btn" onclick="selectTag(this)">
+        <input type="radio" name="type" value="office" hidden
+            {{ old('type') == 'office' ? 'checked' : '' }}>
+        Office
+    </label>
 
-                                    <label class="tag-btn {{ old('type') == 'other' ? 'active' : '' }}">
-                                        <input type="radio" name="type" value="other" hidden
-                                            {{ old('type') == 'other' ? 'checked' : '' }}>
-                                        Other
-                                    </label>
+<label class="tag-btn" onclick="selectTag(this)">
+        <input type="radio" name="type" value="other" hidden
+            {{ old('type') == 'other' ? 'checked' : '' }}>
+        Other
+    </label>
 
-                                </div>
+</div>
 
                                 <!-- SUBMIT -->
-                                <button type="submit" class="save-btn w-100">
+                                <button type="submit" class="btn btn-success save-btn w-100">
                                     Save and proceed
                                 </button>
 
@@ -1146,7 +1194,37 @@
     </div>
 
 
+    <style>
+        .slot-box {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    background: #fff;
+}
+
+.slot-box.active {
+    background: #0d6efd;
+    color: #fff;
+}
+
+.slot-box.unavailable {
+    background: #f5f5f5;
+    color: #999;
+    cursor: not-allowed;
+}
+    </style>
     <script>
+
+function selectTag(el) {
+    document.querySelectorAll('.tag-btn').forEach(btn => btn.classList.remove('active'));
+    el.classList.add('active');
+
+    // select radio inside clicked label
+    el.querySelector('input').checked = true;
+}
+
         let selectedSlot = "{{ isset($item) ? $item->slot_id : '' }}";
 
         document.querySelectorAll('[id^="selectSlotModal-"]').forEach(modal => {
@@ -1175,31 +1253,65 @@
 
                 slotContainer.innerHTML = '';
 
-                data.data.forEach(slot => {
+   data.data.forEach(slot => {
 
-                    let col = document.createElement('div');
-                    col.classList.add('col-auto');
+    let col = document.createElement('div');
+    col.classList.add('col-auto');
 
-                    let slotBox = document.createElement('div');
-                    slotBox.classList.add('slot-box');
-                    slotBox.dataset.id = slot.id;
-                    slotBox.innerText = slot.start_time + " - " + slot.end_time;
+    let slotBox = document.createElement('div');
+    slotBox.classList.add('slot-box');
+    slotBox.dataset.id = slot.id;
+    slotBox.innerText = slot.start_time + " - " + slot.end_time;
 
-                    if(selectedSlot == slot.id){
-                        slotBox.classList.add('active');
-                        document.getElementById('slotInput-' + itemId).value = slot.id;
-                    }
+    // ❌ UNAVAILABLE SLOT
+    if(!slot.is_available){
 
-                    slotBox.onclick = function(){
-                        slotContainer.querySelectorAll('.slot-box').forEach(b => b.classList.remove('active'));
-                        this.classList.add('active');
-                        document.getElementById('slotInput-' + itemId).value = slot.id;
-                    };
+        slotBox.classList.add('unavailable');
 
-                    col.appendChild(slotBox);
-                    slotContainer.appendChild(col);
+        // / show karne ke liye
+        slotBox.innerHTML = `
+            <div style="position: relative;">
+                ${slot.start_time} - ${slot.end_time}
+                <span style="
+                    position:absolute;
+                    top:0;
+                    left:0;
+                    width:100%;
+                    height:100%;
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    font-size:20px;
+                    color:red;
+                    font-weight:bold;
+                ">/</span>
+            </div>
+        `;
 
-                });
+        // click disable
+        slotBox.style.pointerEvents = 'none';
+    }
+
+    // ✅ selected slot
+    if(selectedSlot == slot.id && slot.is_available){
+        slotBox.classList.add('active');
+        document.getElementById('slotInput-' + itemId).value = slot.id;
+    }
+
+    // click event
+    slotBox.onclick = function(){
+
+        if(!slot.is_available) return; // extra safety
+
+        slotContainer.querySelectorAll('.slot-box').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        document.getElementById('slotInput-' + itemId).value = slot.id;
+    };
+
+    col.appendChild(slotBox);
+    slotContainer.appendChild(col);
+
+});
 
             });
 
@@ -1241,35 +1353,34 @@
             el.classList.add('active');
         }
 
-        $('#state').change(function() {
+        $('#city_id').change(function() {
 
-            var state_id = $(this).val();
-            var url = "{{ route('customer.cart_state') }}";
+    var city_id = $(this).val();
+    var url = "{{ route('customer.cart_state') }}";
 
-            $.ajax({
-                url: url,
-                type: "GET",
-                data: {
-                    state_id: state_id
-                },
+    $.ajax({
+        url: url,
+        type: "GET",
+        data: {
+            city_id: city_id
+        },
 
-                success: function(data) {
+        success: function(data) {
 
-                    $('#city').html('<option value="">Select City</option>');
+            $('#pincode').html('<option value="">Select pincode</option>');
 
-                    $.each(data, function(key, value) {
+            $.each(data, function(key, value) {
 
-                        $('#city').append(
-                            '<option value="' + value.id + '">' + value.city_name +
-                            '</option>'
-                        );
+                $('#pincode').append(
+                    '<option value="' + value.trim() + '">' + value.trim() + '</option>'
+                );
 
-                    });
-
-                }
             });
 
-        });
+        }
+    });
+
+});
     </script>
 
 

@@ -10,7 +10,10 @@ use App\Models\Availability;
 use App\Models\Banner;
 use App\Models\City;
 use App\Models\Customers;
+use App\Models\ManualCity;
+use App\Models\OrderItems;
 use App\Models\Otp;
+use App\Models\PartnerServices;
 use App\Models\PrivacyPolicy;
 use App\Models\ServicePartner;
 use App\Models\Services;
@@ -24,6 +27,28 @@ use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
+
+
+public function getCitiesWithPincode()
+{
+    $cities = ManualCity::select('id', 'city_name', 'pincode')->get();
+
+    $data = $cities->map(function ($city) {
+
+        return [
+            'id' => $city->id,
+            'city_name' => $city->city_name,
+            'pincode' => $city->pincode 
+                ? array_map('trim', explode(',', $city->pincode)) 
+                : []
+        ];
+    });
+
+    return response()->json([
+        'status' => true,
+        'data' => $data
+    ]);
+}
 
 
 public function homeData()
@@ -341,24 +366,76 @@ public function ServicesDetails(Request $request)
 
 
 
-  public function servicesavAvailability(Request $request)
+//   public function servicesavAvailability(Request $request)
+// {
+//     $serviceId = $request->input('service_id');
+
+//     $availability = Availability::where('services_id', $serviceId)
+//         ->where('status', 1)
+//         ->get()
+//         ->map(function ($item) {
+
+//             $slots = Slots::where('day_id', $item->id)
+//                 ->where('status', 1)
+//                 ->get()
+//                 ->map(function ($slot) {
+//                     return [
+//                         'slot_id' => $slot->id,
+//                         'start_time' => $slot->start_time,
+//                         'end_time' => $slot->end_time,
+//                         'is_active' => $slot->status
+//                     ];
+//                 });
+
+//             return [
+//                 'availability_id' => $item->id,
+//                 'day' => $item->day,
+//                 'description' => strip_tags($item->description),
+//                 'is_active' => $item->status,
+//                 'slots' => $slots
+//             ];
+//         });
+
+//     return response()->json([
+//         'status' => 200,
+//         'message' => 'Service availability checked successfully',
+//         'data' => $availability,
+//     ]);
+// }
+
+public function servicesavAvailability(Request $request)
 {
     $serviceId = $request->input('service_id');
 
     $availability = Availability::where('services_id', $serviceId)
         ->where('status', 1)
         ->get()
-        ->map(function ($item) {
+        ->map(function ($item) use ($serviceId) {
 
             $slots = Slots::where('day_id', $item->id)
                 ->where('status', 1)
                 ->get()
-                ->map(function ($slot) {
+                ->map(function ($slot) use ($serviceId) {
+
+                    // ✅ Partner count for this service
+                    $partnerCount = (int) PartnerServices::where('service_id', $serviceId)->count();
+
+                    // ✅ Booked count for this slot
+                    $bookedCount = (int) OrderItems::join('orders', 'orders.id', '=', 'order_items.order_id')
+                        ->where('order_items.service_id', $serviceId)
+                        ->where('order_items.slot_id', $slot->id)
+                        ->where('orders.order_status', '!=', 4)
+                        ->count();
+
+                    // ✅ Available if partnerCount > 0 and bookedCount < partnerCount
+                    $available = ($partnerCount > 0) && ($bookedCount < $partnerCount) ? 1 : 0;
+
                     return [
                         'slot_id' => $slot->id,
                         'start_time' => $slot->start_time,
                         'end_time' => $slot->end_time,
-                        'is_active' => $slot->status
+                        'is_active' => $slot->status,
+                        'available' => $available
                     ];
                 });
 
