@@ -34,7 +34,7 @@ class OrderController extends Controller
         ], 401);
     }
 
-    $orders = TransferOrders::with('orders') 
+    $orders = TransferOrders::with('orders.address') 
         ->where('partner_id', $partner->id)
         ->get();
 
@@ -45,26 +45,43 @@ class OrderController extends Controller
         'reject' => []
     ];
 
-    foreach ($orders as $item) {
+foreach ($orders as $item) {
 
-        $orderData = [
-            'transfer_id' => $item->id,
-            'order_id' => $item->order_id,
-            'status' => $item->status,
-            'distance' => $item->distance,
-            'order' => $item->orders // Order table ka data
-        ];
+    $order = $item->orders;
 
-        if ($item->orders->order_status == 1) {
-            $data['new_order'][] = $orderData;
-        } elseif ($item->orders->order_status == 2) {
-            $data['accept'][] = $orderData;
-        } elseif ($item->orders->order_status == 3) {
-            $data['complete'][] = $orderData;
-        } elseif ($item->orders->order_status == 4) {
-            $data['reject'][] = $orderData;
-        }
+    $orderData = [
+        'transfer_id' => $item->id,
+        'order_id' => $item->order_id,
+        'status' => $item->status,
+        'distance' => $item->distance,
+        'order' => [
+            'id' => $order->id,
+            'order_number' => $order->order_number,
+            'customer_id' => $order->customer_id,
+            'subtotal' => $order->subtotal,
+            'tax' => $order->tax,
+            'discount' => $order->discount,
+            'grand_total' => $order->grand_total,
+            'payment_method' => $order->payment_method,
+            'payment_status' => $order->payment_status,
+            'order_status' => $order->order_status,
+            'notes' => $order->notes,
+
+            // ✅ address_id hata ke full address
+            'address' => $order->address
+        ]
+    ];
+
+    if ($order->order_status == 1) {
+        $data['new_order'][] = $orderData;
+    } elseif ($order->order_status == 2) {
+        $data['accept'][] = $orderData;
+    } elseif ($order->order_status == 3) {
+        $data['complete'][] = $orderData;
+    } elseif ($order->order_status == 4) {
+        $data['reject'][] = $orderData;
     }
+}
 
     return response()->json([
         'status' => true,
