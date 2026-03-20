@@ -80,6 +80,8 @@ foreach ($orders as $item) {
         $data['complete'][] = $orderData;
     } elseif ($order->order_status == 4) {
         $data['reject'][] = $orderData;
+    } elseif ($order->order_status == 5) {
+        $data['start'][] = $orderData;
     }
 }
 
