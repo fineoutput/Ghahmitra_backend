@@ -240,6 +240,23 @@ if ($otpData) {
         // ✅ END SERVICE
         if ($request->type == 'end') {
 
+         if ($request->hasFile('images')) {
+
+                foreach ($request->file('images') as $image) {
+
+                    $imageName = time() . '_' . rand(1000,9999) . '.' . $image->getClientOriginalExtension();
+
+                    $image->move(public_path('uploads/service_images'), $imageName);
+
+                    DB::table('service_images')->insert([
+                        'transfer_order_id' => $transferOrder->id,
+                        'image' => 'uploads/service_images/' . $imageName,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+                }
+            }
+
             $transferOrder->end_time = now()->setTimezone('Asia/Kolkata')->format('Y-m-d H:i:s');
             $transferOrder->status = 3;
             $transferOrder->save();

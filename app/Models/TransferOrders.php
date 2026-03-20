@@ -17,6 +17,7 @@ class TransferOrders extends Model
             'start_time',  
             'distance',  
             'end_time',  
+            'images',  
             'ip',  
             'accepted_at',  
             'start_location',  
