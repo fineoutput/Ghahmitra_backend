@@ -81,6 +81,7 @@ public function homeData()
                             'description_3' => strip_tags($serviceTh->description_3),
                             'price' => $serviceTh->price,
                             'mrp' => $serviceTh->mrp,
+                            'register_availability' => $serviceTh->register_availability,
                             'images' => $images,
                         ];
                     });
