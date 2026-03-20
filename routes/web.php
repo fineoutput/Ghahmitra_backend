@@ -22,6 +22,7 @@ use App\Http\Controllers\Admin\AvailabilityController;
 use App\Http\Controllers\Admin\ServicePartnerController;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\CityController;
+use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\PartnerServicesController;
 use App\Http\Controllers\Admin\PrivacyPolicyController;
 use App\Http\Controllers\Admin\SlotController;
@@ -276,6 +277,12 @@ Route::patch('city/update-status/{id}', [CityController::class, 'updateStatus'])
 Route::get('city/{id}/edit', [CityController::class, 'edit'])->name('city.edit');
 Route::put('city/{id}', [CityController::class, 'update'])->name('city.update');
 Route::delete('city/{id}', [CityController::class, 'destroy'])->name('city.destroy');
+
+
+
+Route::get('/notifications/index', [NotificationController::class, 'index'])->name('notifications.index');
+Route::get('/notifications/create', [NotificationController::class, 'create'])->name('notifications.create');
+Route::post('/notifications/store', [NotificationController::class, 'store'])->name('notifications.store');
 
     });
 
