@@ -425,6 +425,7 @@ public function servicesavAvailability(Request $request)
                         ->where('order_items.service_id', $serviceId)
                         ->where('order_items.slot_id', $slot->id)
                         ->where('orders.order_status', '!=', 4)
+                        ->where('orders.order_status', '!=', 3)
                         ->count();
 
                     // ✅ Available if partnerCount > 0 and bookedCount < partnerCount

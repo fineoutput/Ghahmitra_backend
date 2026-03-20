@@ -92,6 +92,7 @@ public function getSlots($day_id)
             ->where('order_items.service_id', $service_id)
             ->where('order_items.slot_id', $slot->id)
             ->where('orders.order_status', '!=', 4) 
+            ->where('orders.order_status', '!=', 3) 
             ->count();
              Log::info('partnerCount', [$partnerCount, gettype($partnerCount)]);
             Log::info('bookedCount', [$bookedCount, gettype($bookedCount)]);
