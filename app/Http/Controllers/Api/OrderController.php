@@ -42,7 +42,8 @@ class OrderController extends Controller
         'new_order' => [],
         'accept' => [],
         'complete' => [],
-        'reject' => []
+        'reject' => [],
+        'start' => [],
     ];
 
 foreach ($orders as $item) {
