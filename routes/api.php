@@ -67,6 +67,9 @@ Route::middleware('partnerapi.auth')->prefix('partner')->group(function () {
     Route::post('/profile/update', [PartnerController::class, 'updateProfile']);
 
     Route::get('/transfer-orders', [OrderController::class, 'getPartnerOrders']);
+    Route::post('/accept-orders', [OrderController::class, 'acceptOrder']);
+    Route::post('/reject-orders', [OrderController::class, 'rejectOrder']);
+
     Route::post('/send-Service-Otp', [OrderController::class, 'sendServiceOtp']);
     Route::post('/verify-service-otp', [OrderController::class, 'verifyServiceOtp']);
     Route::get('/get-Partner-Documents', [OrderController::class, 'getPartnerDocuments']);

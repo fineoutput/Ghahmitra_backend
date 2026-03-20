@@ -91,6 +91,145 @@ foreach ($orders as $item) {
 }
 
 
+
+public function acceptOrder(Request $request)
+{
+    $partner = Auth::guard('partner_api')->user();
+
+    if (!$partner) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Unauthorized'
+        ], 401);
+    }
+
+    $validator = Validator::make($request->all(), [
+        'transfer_id' => 'required',
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json([
+            'status' => 201,
+            'message' => $validator->errors()->first(),
+        ]);
+    }
+
+    DB::beginTransaction();
+
+    try {
+
+        $transferOrder = TransferOrders::where('id', $request->transfer_id)
+            ->where('partner_id', $partner->id)
+            ->first();
+
+        if (!$transferOrder) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Transfer order not found',
+            ]);
+        }
+
+        // ✅ Update TransferOrders
+        $transferOrder->status = 2;
+        $transferOrder->save();
+
+        // ✅ Update Order
+        if ($transferOrder->order_id) {
+            $order = Order::find($transferOrder->order_id);
+            if ($order) {
+                $order->order_status = 2;
+                $order->save();
+            }
+        }
+
+        DB::commit();
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Order accepted successfully',
+        ]);
+
+    } catch (\Exception $e) {
+
+        DB::rollBack();
+
+        return response()->json([
+            'status' => 500,
+            'message' => $e->getMessage(),
+        ]);
+    }
+}
+
+
+public function rejectOrder(Request $request)
+{
+    $partner = Auth::guard('partner_api')->user();
+
+    if (!$partner) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Unauthorized'
+        ], 401);
+    }
+
+    $validator = Validator::make($request->all(), [
+        'transfer_id' => 'required',
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json([
+            'status' => 201,
+            'message' => $validator->errors()->first(),
+        ]);
+    }
+
+    DB::beginTransaction();
+
+    try {
+
+        $transferOrder = TransferOrders::where('id', $request->transfer_id)
+            ->where('partner_id', $partner->id)
+            ->first();
+
+        if (!$transferOrder) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Transfer order not found',
+            ]);
+        }
+
+        // ❌ Update TransferOrders
+        $transferOrder->status = 4;
+        $transferOrder->save();
+
+        // ❌ Update Order
+        if ($transferOrder->order_id) {
+            $order = Order::find($transferOrder->order_id);
+            if ($order) {
+                $order->order_status = 4;
+                $order->save();
+            }
+        }
+
+        DB::commit();
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Order rejected successfully',
+        ]);
+
+    } catch (\Exception $e) {
+
+        DB::rollBack();
+
+        return response()->json([
+            'status' => 500,
+            'message' => $e->getMessage(),
+        ]);
+    }
+}
+
+
 public function sendServiceOtp(Request $request)
 {
     $partner = Auth::guard('partner_api')->user();
