@@ -500,17 +500,24 @@ public function ordersList(Request $request)
         ], 401);
     }
 
-    $orders = Order::with('orderItems')
+    $orders = Order::with(['orderItems.service'])
         ->where('customer_id', $customer->id)
         ->orderBy('created_at', 'desc')
         ->get();
+
+    $orders->transform(function ($order) {
+        $order->orderItems->transform(function ($item) {
+            $item->service_image = $item->service->single_image ?? null;
+            return $item;
+        });
+        return $order;
+    });
 
     return response()->json([
         'status' => 200,
         'message' => 'Orders retrieved successfully',
         'data' => $orders
     ]);
-    
 }
 
 public function ordersdetails(Request $request)
