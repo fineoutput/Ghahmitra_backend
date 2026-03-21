@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Notification;
 use Illuminate\Support\Facades\Validator;
 
+use App\Services\FirebaseService;
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\Messaging\CloudMessage;
 use Kreait\Firebase\Messaging\Notification as FirebaseNotification;
@@ -14,28 +15,35 @@ use Kreait\Firebase\Messaging\Notification as FirebaseNotification;
 class NotificationController extends Controller
 {
 
-    function sendPushNotification($title, $message, $topic, $image = null)
+    protected $firebaseService;
+
+    public function __construct(FirebaseService $firebaseService)
     {
-        $path = config('app.firebase_credentials') 
-            ? base_path(config('app.firebase_credentials')) 
-            : base_path('storage/app/firebase/grahmitra-partner-firebase-adminsdk-fbsvc-1d6e9ba7b1.json');
-
-             if (!file_exists($path)) {
-            throw new \Exception('Firebase JSON file not found: ' . $path);
-        }
-
-
-        $factory = (new Factory)->withServiceAccount($path);
-            dd(config('app.firebase_credentials'));
-        $messaging = $factory->createMessaging();
-
-        $notification = FirebaseNotification::create($title, $message, $image);
-
-        $message = CloudMessage::withTarget('topic', strtolower($topic))
-            ->withNotification($notification);
-
-        return $messaging->send($message);
+        $this->firebaseService = $firebaseService;
     }
+
+    // function sendPushNotification($title, $message, $topic, $image = null)
+    // {
+    //     $path = config('app.firebase_credentials') 
+    //         ? base_path(config('app.firebase_credentials')) 
+    //         : base_path('storage/app/firebase/grahmitra-partner-firebase-adminsdk-fbsvc-1d6e9ba7b1.json');
+
+    //          if (!file_exists($path)) {
+    //         throw new \Exception('Firebase JSON file not found: ' . $path);
+    //     }
+
+
+    //     $factory = (new Factory)->withServiceAccount($path);
+    //         dd(config('app.firebase_credentials'));
+    //     $messaging = $factory->createMessaging();
+
+    //     $notification = FirebaseNotification::create($title, $message, $image);
+
+    //     $message = CloudMessage::withTarget('topic', strtolower($topic))
+    //         ->withNotification($notification);
+
+    //     return $messaging->send($message);
+    // }
 
     public function index() {
         $data['notification'] = Notification::orderBy('id','DESC')->get();
@@ -50,7 +58,7 @@ class NotificationController extends Controller
 
 
 
-  public function store(Request $request)
+public function store(Request $request)
 {
     $validator = Validator::make($request->all(), [
         'title' => 'required',
@@ -66,7 +74,7 @@ class NotificationController extends Controller
         ]);
     }
 
-    // ✅ Upload Image (public folder)
+    // ✅ Upload Image
     $imagePath = null;
 
     if ($request->hasFile('image')) {
@@ -77,47 +85,29 @@ class NotificationController extends Controller
         $imagePath = 'uploads/notifications/' . $imageName;
     }
 
-    // ✅ Save DB
-    $notification = Notification::create([
-        'title' => $request->title,
-        'message' => $request->message,
-        'topic' => $request->topic,
-        'image' => $imagePath
-    ]);
+    // ✅ Image URL
+    $imageUrl = $imagePath ? url($imagePath) : null;
 
     try {
 
-        // ✅ Firebase Setup (CONFIG BASED)
-        $factory = (new Factory)->withServiceAccount(
-            base_path(config('app.firebase_credentials'))
+        // ✅ Send Notification (ONLY SERVICE)
+        $this->firebaseService->sendToTopic(
+            $request->title,
+            $request->message,
+            $request->topic,
+            $imageUrl,
+            [
+                'screen' => 'Notification'
+            ]
         );
 
-        $messaging = $factory->createMessaging();
-
-        // ✅ Full Image URL
-        $imageUrl = $imagePath ? url($imagePath) : null;
-
-        // ✅ Notification Payload
-        $notificationPayload = [
+        // ✅ Save DB
+        Notification::create([
             'title' => $request->title,
-            'body' => $request->message,
-            'image' => $imageUrl,
-        ];
-
-        // ✅ Data Payload (extra info)
-        $dataPayload = [
-            'image' => $imageUrl,
-            'type' => $request->topic,
-            'screen' => 'Notification'
-        ];
-
-        // ✅ Cloud Message
-        $cloudMessage = CloudMessage::withTarget('topic', strtolower($request->topic))
-            ->withNotification($notificationPayload)
-            ->withData($dataPayload);
-
-        // ✅ Send
-        $messaging->send($cloudMessage);
+            'message' => $request->message,
+            'topic' => $request->topic,
+            'image' => $imagePath
+        ]);
 
         return redirect()->route('notifications.index')
             ->with('success', 'Notification sent successfully');
