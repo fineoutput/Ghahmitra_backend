@@ -8,9 +8,6 @@ use App\Models\Notification;
 use Illuminate\Support\Facades\Validator;
 
 use App\Services\FirebaseService;
-use Kreait\Firebase\Factory;
-use Kreait\Firebase\Messaging\CloudMessage;
-use Kreait\Firebase\Messaging\Notification as FirebaseNotification;
 
 class NotificationController extends Controller
 {
