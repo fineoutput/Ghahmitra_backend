@@ -522,9 +522,13 @@ public function ordersList(Request $request)
 
             'order_items' => $order->orderItems->map(function ($item) {
 
-                $images = is_array($item->service->image)
-                    ? $item->service->image
-                    : json_decode($item->service->image, true);
+                $images = [];
+
+                if ($item->service && !empty($item->service->image)) {
+                    $images = is_array($item->service->image)
+                        ? $item->service->image
+                        : json_decode($item->service->image, true);
+                }
 
                 return [
                     'id' => $item->id,
@@ -535,10 +539,13 @@ public function ordersList(Request $request)
                     'quantity' => $item->quantity,
                     'total' => $item->total,
                     'day' => $item->day,
+                    'availability_id' => $item->availability_id,
+                    'slot_id' => $item->slot_id,
                     'start_time' => $item->start_time,
                     'end_time' => $item->end_time,
-
-                    'service_image' => $images[0] ?? null,
+                    'service_image' => !empty($images) && isset($images[0])
+                                ? asset($images[0])
+                                : null,
                 ];
             }),
         ];
