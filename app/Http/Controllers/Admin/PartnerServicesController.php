@@ -24,9 +24,59 @@ class PartnerServicesController extends Controller
 
     public function index(Request $request,$id)
     {
-        $ServicePartner  = PartnerServices::where('partner_id',$id)->orderBy('id', 'DESC')->get();
-        return view('admin.PartnerServices.index', compact('ServicePartner'));
+        $data['partner'] = ServicePartner::find($id);
+        $data['ServicePartner']  = PartnerServices::where('partner_id',$id)->orderBy('id', 'DESC')->get();
+        return view('admin.PartnerServices.index',$data);
     }
+
+    public function create(Request $request, $id)
+    {
+         $data['partner'] = ServicePartner::find($id);
+        $servicePartnerIds = PartnerServices::where('partner_id', $id)
+            ->orderBy('id', 'DESC')
+            ->pluck('service_id') // or 'id' depending on your schema
+            ->toArray();
+
+        $data['Th_Services'] = Th_Services::whereNotIn('id', $servicePartnerIds)
+            ->where('status', 1)
+            ->orderBy('id', 'DESC')
+            ->get();
+
+        $data['tital'] = 'Partner Service';
+
+        return view('admin.PartnerServices.create', $data);
+    }
+
+
+    public function store(Request $request, $id)
+    {
+        // Validate input
+        $request->validate([
+            'service_id' => 'nullable',
+        ]);
+
+        PartnerServices::create([
+            'status' => 1,
+            'partner_id' => $id,
+            'service_id' => $request->service_id,
+            'commission_percentage' => 0,
+        ]);
+
+        return redirect()
+            ->route('partnerservice.index', $id)
+            ->with('success', 'Data Inserted Successfully!');
+    }
+
+
+   public function destroy($id)
+    {
+        $service = PartnerServices::findOrFail($id);
+
+        $service->delete();
+
+        return redirect()->back()->with('success', 'Record deleted successfully.');
+    }
+
 
 
     public function updateCommission(Request $request, $id)

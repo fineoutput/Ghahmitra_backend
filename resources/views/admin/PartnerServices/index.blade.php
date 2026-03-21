@@ -53,7 +53,7 @@
                 <div class="col-md-10">
                   <h4 class="mt-0 header-title">View Partner Services List</h4>
                 </div>
-                {{-- <div class="col-md-2"> <a class="btn btn-info cticket" href="{{route('services.create')}}" role="button" style="margin-left: 20px;"> Add Services</a></div> --}}
+                <div class="col-md-2"> <a class="btn btn-info cticket" href="{{route('partnerservice.create',$partner->id)}}" role="button" style="margin-left: 20px;"> Add Services</a></div>
               </div>
               <hr style="margin-bottom: 50px;background-color: darkgrey;">
               <div class="table-rep-plugin">
@@ -64,7 +64,7 @@
                     <th>ID</th>
                     <th>Partner</th>
                     <th>Service</th>
-                    <th>Commission</th>
+                    <th>Commission Percentage</th>
                     <th>Commission Price</th>
                     <th>Created At</th>
                     <th>Action</th>
@@ -116,6 +116,13 @@
                             </form>
 {{-- 
                             <a href="{{ route('service-partner-document.index', $Services->id) }}" class="btn btn-primary mt-2">Partner Document</a> --}}
+
+                             <form action="{{ route('partnerservice.destroy', $Services->id) }}" method="POST" style="display:inline-block;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger mt-2"
+                                    onclick="return confirm('Are you sure you want to delete this service?')">Delete</button>
+                            </form>
                           
                         </td>
                     </tr>

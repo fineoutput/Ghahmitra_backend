@@ -201,6 +201,9 @@ Route::delete('slot/{id}', [SlotController::class, 'destroy'])->name('slot.destr
 
 
 Route::get('/partner-services/index/{id}', [PartnerServicesController::class, 'index'])->name('partnerservice.index');
+Route::get('/partner-services/create/{id}', [PartnerServicesController::class, 'create'])->name('partnerservice.create');
+Route::post('/partner-services/store/{id}', [PartnerServicesController::class, 'store'])->name('partnerservice.store');
+Route::delete('partner-services/{id}', [PartnerServicesController::class, 'destroy'])->name('partnerservice.destroy');
 
 
 Route::patch('partnerservices/update-status/{id}', [PartnerServicesController::class, 'updateStatus'])->name('partnerservices.updateStatus');
