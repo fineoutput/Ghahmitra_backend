@@ -500,17 +500,48 @@ public function ordersList(Request $request)
         ], 401);
     }
 
-    $orders = Order::with(['orderItems.service'])
-        ->where('customer_id', $customer->id)
-        ->orderBy('created_at', 'desc')
-        ->get();
+   $orders = Order::with(['orderItems.service'])
+    ->where('customer_id', $customer->id)
+    ->orderBy('created_at', 'desc')
+    ->get()
+    ->map(function ($order) {
 
-    $orders->transform(function ($order) {
-        $order->orderItems->transform(function ($item) {
-            $item->service_image = $item->service->single_image ?? null;
-            return $item;
-        });
-        return $order;
+        return [
+            'id' => $order->id,
+            'order_number' => $order->order_number,
+            'customer_id' => $order->customer_id,
+            'subtotal' => $order->subtotal,
+            'tax' => $order->tax,
+            'discount' => $order->discount,
+            'grand_total' => $order->grand_total,
+            'payment_method' => $order->payment_method,
+            'payment_status' => $order->payment_status,
+            'order_status' => $order->order_status,
+            'address_id' => $order->address_id,
+            'created_at' => $order->created_at,
+
+            'order_items' => $order->orderItems->map(function ($item) {
+
+                $images = is_array($item->service->image)
+                    ? $item->service->image
+                    : json_decode($item->service->image, true);
+
+                return [
+                    'id' => $item->id,
+                    'order_id' => $item->order_id,
+                    'service_id' => $item->service_id,
+                    'service_name' => $item->service_name,
+                    'price' => $item->price,
+                    'quantity' => $item->quantity,
+                    'total' => $item->total,
+                    'day' => $item->day,
+                    'start_time' => $item->start_time,
+                    'end_time' => $item->end_time,
+
+                    'service_image' => $images[0] ?? null,
+                ];
+            }),
+        ];
     });
 
     return response()->json([
