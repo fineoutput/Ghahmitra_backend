@@ -21,9 +21,29 @@
 
           <p>
             <strong>Status:</strong> 
-            <span class="badge bg-success">
-              {{ $order->status ?? 'Pending' }}
-            </span>
+           <span class="badge 
+            @if($order->order_status == 1) bg-warning
+            @elseif($order->order_status == 2) bg-info
+            @elseif($order->order_status == 3) bg-success
+            @elseif($order->order_status == 4) bg-danger
+            @elseif($order->order_status == 5) bg-primary
+            @else bg-secondary
+            @endif
+        ">
+            @if($order->order_status == 1)
+                Pending
+            @elseif($order->order_status == 2)
+                Accept
+            @elseif($order->order_status == 3)
+                Complete
+            @elseif($order->order_status == 4)
+                Reject
+            @elseif($order->order_status == 5)
+                Start Service
+            @else
+                Unknown
+            @endif
+        </span>
           </p>
 
           <p><strong>Payment:</strong> {{ $order->payment_method ?? 'N/A' }}</p>
@@ -49,6 +69,9 @@
               <th>Price</th>
               <th>Qty</th>
               <th>Total</th>
+
+              <th>Date</th>
+              <th>Start Time</th>
             </tr>
           </thead>
 
@@ -79,6 +102,9 @@
                 <td>₹{{ $price }}</td>
                 <td>{{ $qty }}</td>
                 <td>₹{{ $total }}</td>
+                <td>{{ $item->day ?? 'N/A' }}</td>
+                <td>{{ $item->start_time ?? 'N/A' }}</td>
+
               </tr>
             @endforeach
 

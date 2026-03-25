@@ -28,6 +28,10 @@ class Order extends Model
         {
             return $this->hasMany(OrderItems::class, 'order_id');
         }
+        public function transferOrder()
+        {
+            return $this->hasMany(TransferOrders::class, 'order_id');
+        }
         public function customer()
         {
             return $this->belongsTo(Customers::class, 'customer_id');
