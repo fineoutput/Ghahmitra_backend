@@ -11,6 +11,7 @@ use App\adminmodel\Order1Modal;
 use App\adminmodel\UserModal;
 use App\adminmodel\CategoryModal;
 use App\adminmodel\ProductModal;
+use App\Models\Cart;
 use App\Models\Services;
 use App\Models\ServicesSe;
 use App\Models\Th_Services;
@@ -190,6 +191,10 @@ public function deleteImage($id, $imageName)
     public function destroy($id)
     {
         $service = Th_Services::findOrFail($id);
+        $cart = Cart::where('service_id',$id)->get();
+        if($cart){
+            $cart->delete();
+        }
 
         // if ($service->image && file_exists(public_path($service->image))) {
         //     unlink(public_path($service->image));
