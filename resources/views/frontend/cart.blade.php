@@ -588,9 +588,10 @@
         {{ $item->slot->start_time }} - {{ $item->slot->end_time }}
     </div>
 @endif
-<button class="" data-bs-toggle="modal" data-bs-target="#selectSlotModal-{{$item->id}}">
-    {{ $item->slot_id ? ':' : ':' }}
-</button>
+<a class="" data-bs-toggle="modal" data-bs-target="#selectSlotModal-{{$item->id}}">
+    <i class="fas fa-edit">
+    {{ $item->slot_id ? ':' : ':' }}</i>
+</a>
 </div>
                     <div class="cart-card">
                         <div class="section-title">Address</div>
