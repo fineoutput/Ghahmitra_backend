@@ -552,7 +552,9 @@
 
                 <!-- Product -->
                 @if($cart_items)
+                
                 @foreach ($cart_items as $item)
+                @if($item->service)
                     <div class="cart-card d-flex justify-content-between align-items-center">
                         <div>
                             <div class="fw-semibold">{{ $item->service->name ?? 'Service not found' }}</div>
@@ -577,6 +579,19 @@
                             </form>
                         </div>
                     </div>
+                    <div class="cart-card  d-flex justify-content-between align-items-center">
+                    @if($item->availability && $item->slot)
+    <div class="mt-2 small text-success">
+        Selected: 
+        {{ \Carbon\Carbon::parse($item->availability->day)->format('D, d M') }}
+        |
+        {{ $item->slot->start_time }} - {{ $item->slot->end_time }}
+    </div>
+@endif
+<button class="" data-bs-toggle="modal" data-bs-target="#selectSlotModal-{{$item->id}}">
+    {{ $item->slot_id ? ':' : ':' }}
+</button>
+</div>
                     <div class="cart-card">
                         <div class="section-title">Address</div>
                         <button class="primary-btn" data-bs-toggle="modal" data-bs-target="#selectSlotModal-{{$item->id}}">
@@ -681,6 +696,7 @@
                             </form>
                         </div>
                     </div>
+                    @endif
                 @endforeach
                 @endif
             </div>
