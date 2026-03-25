@@ -52,12 +52,14 @@
                         View Details →
                     </a>
 
+                    @if($value->order_status == 3)
                     <button 
                         class="btn btn-primary btn-sm flex-fill"
                         onclick="openReviewModal({{ $value->orderItems->first()->service_id }}, {{ $value->id }})"
                     >
                         Add Review
                     </button>
+                    @endif
                 </div>
             </div>
 

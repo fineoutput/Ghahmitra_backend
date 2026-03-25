@@ -71,6 +71,8 @@
                     <th>Grand Total</th>
                     <th>Payment Method</th>
                     <th>Address</th>
+                    <th> Partner</th>
+                    <th width="200">Transfer Partner</th>
                     <th>Created At</th>
                     <th>Status</th>
                 </tr>
@@ -89,6 +91,24 @@
                         <td>{{ $Order->grand_total ?? 'No Data Found' }}</td>
                         <td>{{ $Order->payment_method ?? 'No Data Found' }}</td>
                         <td>{{ $Order->address->address_line1 ?? '' }},{{ $Order->address->address_line2 ?? '' }},{{ $Order->address->landmark ?? '' }},{{ $Order->address->cities->city_name ?? '' }},{{ $Order->address->state->state_name ?? '' }},{{ $Order->address->pincode ?? '' }}</td>
+                         <td>{{ $Order->transferOrder->first()->partner->name ?? 'No Transfer' }}</td>
+                         <td width="200px">
+                            <form action="{{ route('order.assignPartner', $Order->id) }}" method="POST">
+                                @csrf
+
+                                <select  class="form-control" name="partner_id" onchange="this.form.submit()">
+                                    <option value="">Select Partner</option>
+
+                                    @foreach($servicePartner as $partner)
+                                        <option value="{{ $partner->id }}"
+                                            {{ optional($Order->transferOrder->first())->partner_id == $partner->id ? 'selected' : '' }}>
+                                            
+                                            {{ $partner->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </form>
+                        </td>
                         <td>{{ $Order->created_at }}</td>
                         <td>
                             <div class="dropdown">

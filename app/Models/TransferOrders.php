@@ -28,5 +28,9 @@ class TransferOrders extends Model
         {
             return $this->belongsTo(Order::class, 'order_id');
         }
+       public function partner()
+        {
+            return $this->belongsTo(ServicePartner::class, 'partner_id');
+        }
         
 }

@@ -264,6 +264,8 @@ Route::delete('tc/{id}', [TCController::class, 'destroy'])->name('tc.destroy');
 
 Route::get('/feedback/index', [CustomersController::class, 'feedback'])->name('FeedBacks.index');
 
+Route::post('/assign-partner/{id}', [OrderController::class, 'assignPartner'])
+    ->name('order.assignPartner');
 Route::get('/order/new-index', [OrderController::class, 'index'])->name('order.index');
 Route::get('/order/accept-index', [OrderController::class, 'acceptindex'])->name('order.acceptindex');
 Route::get('/order/complete-index', [OrderController::class, 'completeindex'])->name('order.completeindex');
