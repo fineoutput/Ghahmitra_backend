@@ -594,11 +594,15 @@
 </a>
 </div>
                     <div class="cart-card">
-                        <div class="section-title">Address</div>
-                        <button class="primary-btn" data-bs-toggle="modal" data-bs-target="#selectSlotModal-{{$item->id}}">
-                            Select date & time
-                        </button>
-                    </div>
+    <div class="section-title">Address</div>
+
+    @if(!$item->slot_id)
+        <button class="primary-btn" data-bs-toggle="modal" data-bs-target="#selectSlotModal-{{$item->id}}">
+            Select date & time
+        </button>
+    @endif
+
+</div>
 
                     <div class="modal fade" id="selectSlotModal-{{$item->id}}" tabindex="-1">
                         <div class="modal-dialog modal-dialog-centered">
