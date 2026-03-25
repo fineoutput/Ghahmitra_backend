@@ -168,7 +168,7 @@ public function getSlots($day_id)
             return redirect('/');
         }
 
-        $data['orders'] = Order::with('orderItems')
+        $data['orders'] = Order::with('orderItems','transferOrder')
             ->where('customer_id', $customer->id)
             ->orderBy('created_at', 'desc')
             ->get();

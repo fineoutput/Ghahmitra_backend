@@ -15,6 +15,8 @@
           <p><strong>Order ID:</strong> #{{ $order->id }}</p>
           <p><strong>Customer Name:</strong> {{ $order->customer->name ?? 'N/A' }}</p>
           <p><strong>Email:</strong> {{ $order->customer->email ?? 'N/A' }}</p>
+          <p><strong>Service Partner Name:</strong> {{ $order->transferOrder->first()->partner->name ?? 'N/A' }}</p>
+          <p><strong>Service Partner Phone:</strong> {{ $order->transferOrder->first()->partner->phone ?? 'N/A' }}</p>
         </div>
         <div class="col-md-6">
           <p><strong>Order Date:</strong> {{ $order->created_at->format('d M Y') }}</p>
