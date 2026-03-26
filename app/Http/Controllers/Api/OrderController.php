@@ -125,41 +125,38 @@ public function getPartnerOrders()
     foreach ($orders as $item) {
 
         $order = $item->orders;
-        $transfer = $order->transferOrder; // 👈 relation access
+    $transfer = $item; // ✅ FIX
 
-        $orderData = [
-            'transfer_id' => $item->id,
-            'order_id' => $item->order_id,
-            'status' => $item->status,
-            'distance' => $item->distance,
+    $orderData = [
+        'transfer_id' => $item->id,
+        'order_id' => $item->order_id,
+        'status' => $item->status,
+        'distance' => $item->distance,
 
-          
+        'order' => [
+            'id' => $order->id,
+            'order_number' => $order->order_number,
+            'customer_id' => $order->customer_id,
+            'subtotal' => $order->subtotal,
+            'tax' => $order->tax,
+            'discount' => $order->discount,
+            'grand_total' => $order->grand_total,
+            'payment_method' => $order->payment_method,
+            'payment_status' => $order->payment_status,
+            'order_status' => $order->order_status,
+            'notes' => $order->notes,
 
-            'order' => [
-                'id' => $order->id,
-                'order_number' => $order->order_number,
-                'customer_id' => $order->customer_id,
-                'subtotal' => $order->subtotal,
-                'tax' => $order->tax,
-                'discount' => $order->discount,
-                'grand_total' => $order->grand_total,
-                'payment_method' => $order->payment_method,
-                'payment_status' => $order->payment_status,
-                'order_status' => $order->order_status,
-                'notes' => $order->notes,
+            // ✅ NOW PERFECT
+            'start_time' => $transfer->start_time,
+            'end_time' => $transfer->end_time,
 
-                // ❌ REMOVE from here (wrong table)
-                // 'start_time' => $order->start_time,
-                // 'end_time' => $order->end_time,
-                 'start_time' => $transfer->start_time ?? null,
-            'end_time' => $transfer->end_time ?? null,
-
-            'time_slot' => ($transfer && $transfer->start_time && $transfer->end_time)
+            'time_slot' => ($transfer->start_time && $transfer->end_time)
                 ? date('H', strtotime($transfer->start_time)) . '-' . date('H', strtotime($transfer->end_time))
                 : null,
-                'address' => $order->address
-            ]
-        ];
+
+            'address' => $order->address
+        ]
+    ];
 
         if ($order->order_status == 1) {
             $data['new_order'][] = $orderData;
