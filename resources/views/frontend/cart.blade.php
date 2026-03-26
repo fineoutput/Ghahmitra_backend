@@ -1352,19 +1352,37 @@ function selectTag(el) {
 
         function goToRequestDetail() {
 
-            let addressId = localStorage.getItem('selected_address_id');
+    let addressId = localStorage.getItem('selected_address_id');
 
-            if (addressId) {
+    if (!addressId) {
+        alert("Please select address");
+        return;
+    }
 
-                window.location.href = "{{ route('request_detail') }}";
+    // Get selected radio
+    let selectedRadio = document.querySelector('input[name="address"]:checked');
 
-            } else {
+    if (selectedRadio) {
+        let label = selectedRadio.closest('.address-option').querySelector('label');
 
-                alert("Please select address");
+        selectedAddressData = {
+            tag: label.querySelector('strong').innerText,
+            fullAddress: label.querySelector('.small').innerText
+        };
 
-            }
+        // Show booking details UI
+        document.getElementById('bookingDetailsCard').style.display = 'block';
+        document.getElementById('displaySelectedAddress').textContent =
+            selectedAddressData.tag + ' - ' + selectedAddressData.fullAddress;
 
-        }
+        // Enable confirm button if slot also selected
+        checkIfComplete();
+    }
+
+    // ✅ ONLY close modal
+    let modal = bootstrap.Modal.getInstance(document.getElementById('savedAddressModal'));
+    modal.hide();
+}
     </script>
 
 
@@ -1722,13 +1740,9 @@ function selectTag(el) {
 
         // Edit address
         function editAddress() {
-            // Close slot modal and open address modal
-            const slotModal = bootstrap.Modal.getInstance(document.getElementById('selectSlotModal'));
-            if (slotModal) slotModal.hide();
-
-            const addressModal = new bootstrap.Modal(document.getElementById('savedAddressModal'));
-            addressModal.show();
-        }
+    const addressModal = new bootstrap.Modal(document.getElementById('savedAddressModal'));
+    addressModal.show();
+}
 
         // Edit slot
         function editSlot() {
@@ -1751,30 +1765,25 @@ function selectTag(el) {
 
         // Confirm and Book function with animation
         function confirmAndBook() {
-            const selectedDate = document.querySelector('.date-btn.active');
-            const selectedTime = document.querySelector('.time-btn.active');
 
-            // Only proceed if all selections are made
-            if (!selectedDate || !selectedTime || !selectedAddressData.tag) {
-                alert('Please select address and time slot first');
-                return;
-            }
+    const selectedDate = document.querySelector('.date-btn.active');
+    const selectedTime = document.querySelector('.time-btn.active');
+    let addressId = localStorage.getItem('selected_address_id');
 
-            // Get the booking details
-            const dayNum = selectedDate.querySelectorAll('div')[1].textContent;
-            const dayName = selectedDate.querySelector('div').textContent;
-            const selectedTime_val = selectedTime.getAttribute('data-time');
+    if (!selectedDate || !selectedTime || !addressId) {
+        alert('Please select address and time slot first');
+        return;
+    }
 
-            // Populate confirmation modal
-            document.getElementById('confirmationAddress').textContent = selectedAddressData.tag + ' - ' +
-                selectedAddressData.fullAddress;
-            document.getElementById('confirmationDateTime').textContent = dayName + ' ' + dayNum + ' at ' +
-                selectedTime_val;
+    // Optional: show animation first
+    const confirmationModal = new bootstrap.Modal(document.getElementById('bookingConfirmationModal'));
+    confirmationModal.show();
 
-            // Show confirmation modal with animation
-            const confirmationModal = new bootstrap.Modal(document.getElementById('bookingConfirmationModal'));
-            confirmationModal.show();
-        }
+    // ✅ Redirect after 2 sec (or directly if you want)
+    setTimeout(() => {
+        window.location.href = "{{ route('request_detail') }}";
+    }, 2000);
+}
 
         // Mobile two-step flow helpers
         function goToMobileStep2() {
