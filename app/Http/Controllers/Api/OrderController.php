@@ -125,7 +125,7 @@ public function getPartnerOrders()
     foreach ($orders as $item) {
 
         $order = $item->orders;
-    $transfer = $item; // ✅ FIX
+        $transfer = $item; 
 
     $orderData = [
         'transfer_id' => $item->id,
@@ -145,15 +145,11 @@ public function getPartnerOrders()
             'payment_status' => $order->payment_status,
             'order_status' => $order->order_status,
             'notes' => $order->notes,
-
-            // ✅ NOW PERFECT
             'start_time' => $transfer->start_time,
             'end_time' => $transfer->end_time,
-
             'time_slot' => ($transfer->start_time && $transfer->end_time)
             ? date('H:i:s', strtotime($transfer->start_time)) . '-' . date('H:i:s', strtotime($transfer->end_time))
             : null,
-
             'address' => $order->address
         ]
     ];
