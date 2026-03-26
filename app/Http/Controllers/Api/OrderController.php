@@ -151,8 +151,8 @@ public function getPartnerOrders()
             'end_time' => $transfer->end_time,
 
             'time_slot' => ($transfer->start_time && $transfer->end_time)
-                ? date('H', strtotime($transfer->start_time)) . '-' . date('H', strtotime($transfer->end_time))
-                : null,
+            ? date('H:i:s', strtotime($transfer->start_time)) . '-' . date('H:i:s', strtotime($transfer->end_time))
+            : null,
 
             'address' => $order->address
         ]
