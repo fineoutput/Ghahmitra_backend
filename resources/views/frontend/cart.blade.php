@@ -507,14 +507,14 @@
                 </div>
 
 
-                <div class="modal-footer border-0">
+                <div class="modal-footer border-0 justify-content-between" style="padding: 20px">
                     {{-- <button type="button" class="btn btn-secondary rounded-2" data-bs-dismiss="modal">Back</button> --}}
                    @php
                         $allSelected = collect($cart_items)->every(function($item) {
                             return !empty($item->availability_id) && !empty($item->slot_id);
                         });
                     @endphp
-
+                    <p><b>Add Your Address</b></p>
                     <button type="button" 
                         class="btn btn-primary rounded-2"
                         onclick="{{ $allSelected ? 'openAddressAfterSlot()' : 'alert(\'Select all cart items slot first\')' }}">
