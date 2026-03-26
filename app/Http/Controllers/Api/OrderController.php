@@ -58,8 +58,6 @@ foreach ($orders as $item) {
         'order' => [
             'id' => $order->id,
             'order_number' => $order->order_number,
-            'start_time' => $order->orderItems->start_time,
-            'day' => $order->orderItems->day,
             'customer_id' => $order->customer_id,
             'subtotal' => $order->subtotal,
             'tax' => $order->tax,
