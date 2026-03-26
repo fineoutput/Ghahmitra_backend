@@ -34,7 +34,7 @@ class OrderController extends Controller
         ], 401);
     }
 
-    $orders = TransferOrders::with('orders.address') 
+    $orders = TransferOrders::with(['orders.orderItems', 'orders.address']) 
         ->where('partner_id', $partner->id)
         ->get();
 
