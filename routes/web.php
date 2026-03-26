@@ -217,6 +217,9 @@ Route::get('/service-partner/index', [ServicePartnerController::class, 'index'])
 
 Route::get('/active-service-partner/index', [ServicePartnerController::class, 'activeindex'])->name('activeservice-partner.index');
 
+Route::patch('/partner/work/{id}', [ServicePartnerController::class, 'updateWork'])
+    ->name('partner.work.update');
+
 Route::get('/partner-leave/index/{id}', [ServicePartnerController::class, 'leaveindex'])->name('partner-leave.index');
 
 Route::get('/block-service-partner/index', [ServicePartnerController::class, 'blockindex'])->name('blockservice-partner.index');

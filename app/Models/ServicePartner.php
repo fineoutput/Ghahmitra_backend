@@ -22,8 +22,14 @@ class ServicePartner extends Model
             'longitude',  
             'city_id',  
             'state_id',  
+            'work_id',  
             'rank',  
             'status',  
         ];
+
+        public function ManualCity()
+        {
+            return $this->belongsTo(ManualCity::class, 'work_id', 'id');
+        }
         
 }

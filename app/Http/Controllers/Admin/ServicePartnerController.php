@@ -16,27 +16,51 @@ use App\Models\ServicesSe;
 use App\Models\Th_Services;
 use App\Models\Availability;
 use App\Models\LeaveReq;
+use App\Models\ManualCity;
 use App\Models\PartnerDocuments;
 use App\Models\ServicePartner;
 
 class ServicePartnerController extends Controller
 {
 
+    public function updateWork(Request $request, $id)
+    {
+        $request->validate([
+            'work_id' => 'required'
+        ]);
+
+        $partner = ServicePartner::find($id);
+
+        if (!$partner) {
+            return back()->with('error', 'Partner not found');
+        }
+
+        $partner->work_id = $request->work_id;
+        $partner->save();
+
+        return back()->with('success', 'Work updated successfully');
+    }
+
     public function index(Request $request)
     {
         $ServicePartner  = ServicePartner::where('status',0)->orderBy('id', 'DESC')->get();
-        return view('admin.ServicePartner.index', compact('ServicePartner'));
+        $works = ManualCity::all();
+        return view('admin.ServicePartner.index', compact('ServicePartner','works'));
     }
     public function activeindex(Request $request)
     {
         $ServicePartner  = ServicePartner::where('status',1)->orderBy('id', 'DESC')->get();
-        return view('admin.ServicePartner.index', compact('ServicePartner'));
+        $works = ManualCity::all();
+
+        return view('admin.ServicePartner.index', compact('ServicePartner','works'));
     }
   
     public function blockindex(Request $request)
     {
         $ServicePartner  = ServicePartner::where('status',2)->orderBy('id', 'DESC')->get();
-        return view('admin.ServicePartner.index', compact('ServicePartner'));
+        $works = ManualCity::all();
+
+        return view('admin.ServicePartner.index', compact('ServicePartner','works'));
     }
   
     public function document(Request $request,$id)

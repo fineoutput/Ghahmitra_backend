@@ -67,6 +67,7 @@ public function register_partner(Request $request)
         'city_id' => 'required',
         'service_ids' => 'required|array',
         'service_ids.*' => 'required',
+        'work_id' => 'required',
         'image' => 'nullable'
     ]);
 
@@ -102,6 +103,7 @@ public function register_partner(Request $request)
             'state_id' => $request->state_id,
             'city_id' => $request->city_id,
             'image' => $imageName,
+            'work_id' => $request->work_id,
             'status' => 0,
             'rank' => 1,
         ]);

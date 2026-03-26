@@ -66,6 +66,8 @@
                     <th>Email</th>
                     <th>Phone</th>
                     <th>Address</th>
+                    <th>Work City</th>
+                    <th>Update Work City</th>
                     <th>Created At</th>
                     <th>Action</th>
                     <th>Rank</th>
@@ -79,6 +81,25 @@
                         <td>{{ $Services->email }}</td>
                         <td>{{ $Services->phone }}</td>
                         <td>{{ $Services->address }}</td>
+                        <td>{{ $Services->ManualCity->city_name }}</td>
+                        <td>
+                            <form action="{{ route('partner.work.update', $Services->id) }}" method="POST"
+                                style="display:flex; gap:5px; align-items:center;">
+                                @csrf
+                                @method('PATCH')
+
+                                <select name="work_id" class="form-select form-select-sm" style="width:140px;">
+                                    @foreach($works as $work)
+                                        <option value="{{ $work->id }}" 
+                                            {{ $Services->work_id == $work->id ? 'selected' : '' }}>
+                                            {{ $work->city_name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+
+                                <button type="submit" class="btn btn-sm btn-primary">Update</button>
+                            </form>
+                        </td>
                         <td>{{ $Services->created_at }}</td>
                         <td>
                           @php
