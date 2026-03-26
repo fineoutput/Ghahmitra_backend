@@ -110,7 +110,7 @@ public function getPartnerOrders()
         ], 401);
     }
 
-    $orders = TransferOrders::with('orders.address') 
+    $orders = TransferOrders::with('orders.address', 'orders.transferOrder') 
         ->where('partner_id', $partner->id)
         ->get();
 
@@ -125,6 +125,7 @@ public function getPartnerOrders()
     foreach ($orders as $item) {
 
         $order = $item->orders;
+        $transfer = $order->transferOrder; // 👈 relation access
 
         $orderData = [
             'transfer_id' => $item->id,
@@ -132,14 +133,7 @@ public function getPartnerOrders()
             'status' => $item->status,
             'distance' => $item->distance,
 
-            // ✅ FIXED (from transfer_orders table)
-            'start_time' => $item->start_time,
-            'end_time' => $item->end_time,
-
-            // ✅ time slot
-            'time_slot' => $item->start_time && $item->end_time
-                ? date('H', strtotime($item->start_time)) . '-' . date('H', strtotime($item->end_time))
-                : null,
+          
 
             'order' => [
                 'id' => $order->id,
@@ -157,7 +151,12 @@ public function getPartnerOrders()
                 // ❌ REMOVE from here (wrong table)
                 // 'start_time' => $order->start_time,
                 // 'end_time' => $order->end_time,
+                 'start_time' => $transfer->start_time ?? null,
+            'end_time' => $transfer->end_time ?? null,
 
+            'time_slot' => ($transfer && $transfer->start_time && $transfer->end_time)
+                ? date('H', strtotime($transfer->start_time)) . '-' . date('H', strtotime($transfer->end_time))
+                : null,
                 'address' => $order->address
             ]
         ];
