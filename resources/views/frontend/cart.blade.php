@@ -529,8 +529,10 @@
                 <div class="cart-card">
                     <div class="section-title">Cash on Service</div>
                     <p class="text-muted small">(Pay after service via UPI, cash, card, or other payment methods.)</p>
-                    <button class="confirm-btn" id="confirmBookBtn" disabled onclick="confirmAndBook()">Confirm & Book
-                        Now</button>
+                    <button class="confirm-btn" >
+                        <a href="{{route('request_detail')}}">Confirm & Book
+                        Now</a>
+                    </button>
                 </div>
 
                 <!-- Service Process -->
