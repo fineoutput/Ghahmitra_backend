@@ -708,6 +708,25 @@
                 @endif
             </div>
 
+            <div class="cart-card" id="bookingDetailsCard" style="">
+                <div class="section-title">📍 Booking Details</div>
+                <div class="summary-row align-items-center">
+                    <div>
+                        <span><strong>Selected Address:</strong></span><br>
+                        <span id="displaySelectedAddress" class="small text-muted">-</span>
+                    </div>
+                    <button class="btn btn-sm btn-outline-primary rounded-2" onclick="editAddress()"
+                        style="white-space: nowrap;">Edit</button>
+                </div>
+                {{-- <div class="summary-row align-items-center">
+                    <div>
+                        <span><strong>Selected Date & Time:</strong></span><br>
+                        <span id="displaySelectedDateTime" class="small text-muted">-</span>
+                    </div>
+                    <button class="btn btn-sm btn-outline-primary rounded-2" onclick="editSlot()"
+                        style="white-space: nowrap;">Edit</button>
+                </div> --}}
+            </div>
             <!-- Payment Summary -->
             <div class="cart-card">
                 <div class="section-title">Payment summary</div>
@@ -746,25 +765,7 @@
             </div>
 
             <!-- Selected Booking Details -->
-            <div class="cart-card" id="bookingDetailsCard" style="display:none;">
-                <div class="section-title">📍 Booking Details</div>
-                <div class="summary-row align-items-center">
-                    <div>
-                        <span><strong>Selected Address:</strong></span><br>
-                        <span id="displaySelectedAddress" class="small text-muted">-</span>
-                    </div>
-                    <button class="btn btn-sm btn-outline-primary rounded-2" onclick="editAddress()"
-                        style="white-space: nowrap;">Edit</button>
-                </div>
-                <div class="summary-row align-items-center">
-                    <div>
-                        <span><strong>Selected Date & Time:</strong></span><br>
-                        <span id="displaySelectedDateTime" class="small text-muted">-</span>
-                    </div>
-                    <button class="btn btn-sm btn-outline-primary rounded-2" onclick="editSlot()"
-                        style="white-space: nowrap;">Edit</button>
-                </div>
-            </div>
+ 
 
             <!-- Notes -->
             {{-- <div class="cart-card note-box">
