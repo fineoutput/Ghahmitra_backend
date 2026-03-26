@@ -23,7 +23,83 @@ use Illuminate\Support\Facades\Validator;
 class OrderController extends Controller
 {
 
-   public function getPartnerOrders()
+//    public function getPartnerOrders()
+// {
+//     $partner = Auth::guard('partner_api')->user();
+
+//     if (!$partner) {
+//         return response()->json([
+//             'status' => false,
+//             'message' => 'Unauthorized'
+//         ], 401);
+//     }
+
+//     $orders = TransferOrders::with('orders.address') 
+//         ->where('partner_id', $partner->id)
+//         ->get();
+
+//     $data = [
+//         'new_order' => [],
+//         'accept' => [],
+//         'complete' => [],
+//         'reject' => [],
+//         'start' => [],
+//     ];
+
+// foreach ($orders as $item) {
+
+//     $order = $item->orders;
+
+//     $orderData = [
+//         'transfer_id' => $item->id,
+//         'order_id' => $item->order_id,
+//         'status' => $item->status,
+//         'distance' => $item->distance,
+//         'order' => [
+//             'id' => $order->id,
+//             'order_number' => $order->order_number,
+//             'customer_id' => $order->customer_id,
+//             'subtotal' => $order->subtotal,
+//             'tax' => $order->tax,
+//             'discount' => $order->discount,
+//             'grand_total' => $order->grand_total,
+//             'payment_method' => $order->payment_method,
+//             'payment_status' => $order->payment_status,
+//             'order_status' => $order->order_status,
+//             'notes' => $order->notes,
+//             'start_time' => $order->start_time,
+//             'end_time' => $order->end_time,
+
+//             'time_slot' => $order->start_time && $order->end_time 
+//                 ? date('H', strtotime($order->start_time)) . '-' . date('H', strtotime($order->end_time))
+//                 : null,
+//             // ✅ address_id hata ke full address
+//             'address' => $order->address
+//         ]
+//     ];
+
+//     if ($order->order_status == 1) {
+//         $data['new_order'][] = $orderData;
+//     } elseif ($order->order_status == 2) {
+//         $data['accept'][] = $orderData;
+//     } elseif ($order->order_status == 3) {
+//         $data['complete'][] = $orderData;
+//     } elseif ($order->order_status == 4) {
+//         $data['reject'][] = $orderData;
+//     } elseif ($order->order_status == 5) {
+//         $data['start'][] = $orderData;
+//     }
+// }
+
+//     return response()->json([
+//         'status' => true,
+//         'message' => 'Orders fetched successfully',
+//         'data' => $data
+//     ]);
+// }
+
+
+public function getPartnerOrders()
 {
     $partner = Auth::guard('partner_api')->user();
 
@@ -46,50 +122,58 @@ class OrderController extends Controller
         'start' => [],
     ];
 
-foreach ($orders as $item) {
+    foreach ($orders as $item) {
 
-    $order = $item->orders;
+        $order = $item->orders;
 
-    $orderData = [
-        'transfer_id' => $item->id,
-        'order_id' => $item->order_id,
-        'status' => $item->status,
-        'distance' => $item->distance,
-        'order' => [
-            'id' => $order->id,
-            'order_number' => $order->order_number,
-            'customer_id' => $order->customer_id,
-            'subtotal' => $order->subtotal,
-            'tax' => $order->tax,
-            'discount' => $order->discount,
-            'grand_total' => $order->grand_total,
-            'payment_method' => $order->payment_method,
-            'payment_status' => $order->payment_status,
-            'order_status' => $order->order_status,
-            'notes' => $order->notes,
-            'start_time' => $order->start_time,
-            'end_time' => $order->end_time,
+        $orderData = [
+            'transfer_id' => $item->id,
+            'order_id' => $item->order_id,
+            'status' => $item->status,
+            'distance' => $item->distance,
 
-            'time_slot' => $order->start_time && $order->end_time 
-                ? date('H', strtotime($order->start_time)) . '-' . date('H', strtotime($order->end_time))
+            // ✅ FIXED (from transfer_orders table)
+            'start_time' => $item->start_time,
+            'end_time' => $item->end_time,
+
+            // ✅ time slot
+            'time_slot' => $item->start_time && $item->end_time
+                ? date('H', strtotime($item->start_time)) . '-' . date('H', strtotime($item->end_time))
                 : null,
-            // ✅ address_id hata ke full address
-            'address' => $order->address
-        ]
-    ];
 
-    if ($order->order_status == 1) {
-        $data['new_order'][] = $orderData;
-    } elseif ($order->order_status == 2) {
-        $data['accept'][] = $orderData;
-    } elseif ($order->order_status == 3) {
-        $data['complete'][] = $orderData;
-    } elseif ($order->order_status == 4) {
-        $data['reject'][] = $orderData;
-    } elseif ($order->order_status == 5) {
-        $data['start'][] = $orderData;
+            'order' => [
+                'id' => $order->id,
+                'order_number' => $order->order_number,
+                'customer_id' => $order->customer_id,
+                'subtotal' => $order->subtotal,
+                'tax' => $order->tax,
+                'discount' => $order->discount,
+                'grand_total' => $order->grand_total,
+                'payment_method' => $order->payment_method,
+                'payment_status' => $order->payment_status,
+                'order_status' => $order->order_status,
+                'notes' => $order->notes,
+
+                // ❌ REMOVE from here (wrong table)
+                // 'start_time' => $order->start_time,
+                // 'end_time' => $order->end_time,
+
+                'address' => $order->address
+            ]
+        ];
+
+        if ($order->order_status == 1) {
+            $data['new_order'][] = $orderData;
+        } elseif ($order->order_status == 2) {
+            $data['accept'][] = $orderData;
+        } elseif ($order->order_status == 3) {
+            $data['complete'][] = $orderData;
+        } elseif ($order->order_status == 4) {
+            $data['reject'][] = $orderData;
+        } elseif ($order->order_status == 5) {
+            $data['start'][] = $orderData;
+        }
     }
-}
 
     return response()->json([
         'status' => true,
@@ -97,9 +181,6 @@ foreach ($orders as $item) {
         'data' => $data
     ]);
 }
-
-
-
 public function acceptOrder(Request $request)
 {
     $partner = Auth::guard('partner_api')->user();
