@@ -68,8 +68,24 @@ foreach ($orders as $item) {
             'order_status' => $order->order_status,
             'notes' => $order->notes,
 
-            // ✅ address_id hata ke full address
-            'address' => $order->address
+            // ✅ address
+            'address' => $order->address,
+
+            // ✅ NEW: order items formatted
+            'order_items' => $order->orderItems->map(function ($item) {
+                return [
+                    'service_id' => $item->service_id,
+                    'service_name' => $item->service_name,
+                    'price' => $item->price,
+                    'quantity' => $item->quantity,
+                    'total' => $item->total,
+                    'availability_id' => $item->availability_id,
+                    'slot_id' => $item->slot_id,
+                    'start_time' => $item->start_time,
+                    'end_time' => $item->end_time,
+                    'day' => $item->day,
+                ];
+            })->values()
         ]
     ];
 
