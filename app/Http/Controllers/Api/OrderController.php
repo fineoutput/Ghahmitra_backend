@@ -34,7 +34,7 @@ class OrderController extends Controller
         ], 401);
     }
 
-    $orders = TransferOrders::with(['orders.orderItems', 'orders.address']) 
+    $orders = TransferOrders::with('orders.address') 
         ->where('partner_id', $partner->id)
         ->get();
 
@@ -58,6 +58,8 @@ foreach ($orders as $item) {
         'order' => [
             'id' => $order->id,
             'order_number' => $order->order_number,
+            'start_time' => $order->orderItems->start_time,
+            'day' => $order->orderItems->day,
             'customer_id' => $order->customer_id,
             'subtotal' => $order->subtotal,
             'tax' => $order->tax,
@@ -68,24 +70,8 @@ foreach ($orders as $item) {
             'order_status' => $order->order_status,
             'notes' => $order->notes,
 
-            // ✅ address
-            'address' => $order->address,
-
-            // ✅ NEW: order items formatted
-            'order_items' => $order->orderItems->map(function ($item) {
-                return [
-                    'service_id' => $item->service_id,
-                    'service_name' => $item->service_name,
-                    'price' => $item->price,
-                    'quantity' => $item->quantity,
-                    'total' => $item->total,
-                    'availability_id' => $item->availability_id,
-                    'slot_id' => $item->slot_id,
-                    'start_time' => $item->start_time,
-                    'end_time' => $item->end_time,
-                    'day' => $item->day,
-                ];
-            })->values()
+            // ✅ address_id hata ke full address
+            'address' => $order->address
         ]
     ];
 
