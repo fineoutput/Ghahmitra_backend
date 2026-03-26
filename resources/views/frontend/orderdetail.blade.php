@@ -49,7 +49,8 @@
           </p>
 
           <p><strong>Payment:</strong> {{ $order->payment_method ?? 'N/A' }}</p>
-        </div>
+          <p><strong>Start OTP:</strong> {{ $startotp->otp ?? 'N/A' }}</p>
+          <p><strong>End OTP??</strong> {{ $endotp->otp ?? 'N/A' }}</p></div>
       </div>
     </div>
   </div>

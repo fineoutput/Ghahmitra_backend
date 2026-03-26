@@ -11,6 +11,7 @@ use App\Models\Feedback;
 use App\Models\ManualCity;
 use App\Models\Order;
 use App\Models\OrderItems;
+use App\Models\Otp;
 use App\Models\PartnerServices;
 use App\Models\ServicePartner;
 use App\Models\Services;
@@ -423,9 +424,13 @@ private function transferOrder($orderId, $addressId, $serviceId)
 
 public function orderDetail($id)
 {
+    $customer = Auth::guard('customer')->user();
     $order = Order::with('orderItems.service')->findOrFail($id);
+    $order_detailes = OrderItems::where('order_id',$id)->first();
+    $startotp = Otp::where('contact_no',$customer->mobile_no)->where('service_id',$order_detailes->service_id)->where('type','start')->first();
+    $endotp = Otp::where('contact_no',$customer->mobile_no)->where('service_id',$order_detailes->service_id)->where('type','end')->first();
 
-    return view('frontend.orderdetail', compact('order'));
+    return view('frontend.orderdetail', compact('order','startotp','endotp'));
 }
 
 public function reviewstore(Request $request)
