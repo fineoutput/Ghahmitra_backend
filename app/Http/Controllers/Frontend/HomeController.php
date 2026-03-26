@@ -417,6 +417,7 @@ private function transferOrder($orderId, $addressId, $serviceId)
         ->whereNull('leave_req.partner_id') // agar leave par hai to exclude
         ->where('partner_services.service_id', $serviceId)
         ->where('partner_services.status', 1)
+        ->where('service_partner.work_id', $address->city_id)
         ->orderBy('distance', 'asc')
         ->first();
 
