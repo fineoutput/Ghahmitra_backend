@@ -35,6 +35,22 @@ class HomeController extends Controller
 {
     // ============================= START INDEX ============================ 
 
+    public function getAddress($id)
+{
+    $address = CustomerAddresses::find($id);
+
+    if (!$address) {
+        return response()->json([
+            'status' => false
+        ]);
+    }
+
+    return response()->json([
+        'status' => true,
+        'data' => $address
+    ]);
+}
+
     public function ordersuccess(Request $req)
     {
       return view('frontend/ordersuccess')->withTitle('home');

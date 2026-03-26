@@ -67,6 +67,8 @@ Route::get('order-success', [HomeController::class,'ordersuccess']);
 Route::get('/service-reviews/{service}', [HomeController::class, 'serviceReviews'])
     ->name('service.reviews');
 
+    Route::get('/get-address/{id}', [HomeController::class, 'getAddress']);
+
     // User pages
     // Route::get('/my-requests', function () { return view('my-requests'); })->name('my-requests');
     // Route::get('/profile', function () { return view('profile'); })->name('profile');

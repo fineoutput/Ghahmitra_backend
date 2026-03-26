@@ -1218,6 +1218,32 @@
     </div>
 
 
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+    let addressId = localStorage.getItem("selected_address_id");
+
+    if (addressId) {
+        fetch(`/get-address/${addressId}`)
+            .then(res => res.json())
+            .then(response => {
+                if (response.status) {
+                    let a = response.data;
+
+                    let fullAddress = `
+                        ${a.name} (${a.mobile_no})<br>
+                        ${a.address_line1}, ${a.address_line2 ?? ''}<br>
+                        ${a.landmark ?? ''}<br>
+                        Pincode: ${a.pincode}
+                    `;
+
+                    document.getElementById("displaySelectedAddress").innerHTML = fullAddress;
+                }
+            });
+    }
+});
+</script>
+
+
     <style>
         .slot-box {
     padding: 8px 12px;
@@ -1375,8 +1401,8 @@ function selectTag(el) {
 
         // Show booking details UI
         document.getElementById('bookingDetailsCard').style.display = 'block';
-        document.getElementById('displaySelectedAddress').textContent =
-            selectedAddressData.tag + ' - ' + selectedAddressData.fullAddress;
+        // document.getElementById('displaySelectedAddress').textContent =
+        //     selectedAddressData.tag + ' - ' + selectedAddressData.fullAddress;
 
         // Enable confirm button if slot also selected
         checkIfComplete();
