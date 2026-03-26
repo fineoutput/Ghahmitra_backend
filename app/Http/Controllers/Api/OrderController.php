@@ -68,6 +68,11 @@ foreach ($orders as $item) {
             'order_status' => $order->order_status,
             'notes' => $order->notes,
             'start_time' => $order->start_time,
+            'end_time' => $order->end_time,
+
+            'time_slot' => $order->start_time && $order->end_time 
+                ? date('H', strtotime($order->start_time)) . '-' . date('H', strtotime($order->end_time))
+                : null,
             // ✅ address_id hata ke full address
             'address' => $order->address
         ]
