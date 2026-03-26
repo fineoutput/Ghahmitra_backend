@@ -568,6 +568,9 @@ public function ordersdetails(Request $request)
             'message' => 'Unauthorized'
         ], 401);
     }
+        $order_detailes = OrderItems::where('order_id',$id)->first();
+    $startotp = Otp::where('contact_no',$customer->mobile_no)->where('service_id',$order_detailes->service_id)->where('type','start')->first();
+    $endotp = Otp::where('contact_no',$customer->mobile_no)->where('service_id',$order_detailes->service_id)->where('type','end')->first();
 
    $orders = Order::with(['orderItems.service'])
     ->where('customer_id', $customer->id)
@@ -624,7 +627,9 @@ public function ordersdetails(Request $request)
     return response()->json([
         'status' => 200,
         'message' => 'Orders retrieved successfully',
-        'data' => $orders
+        'data' => $orders,
+        'endotp' => $endotp,
+        'startotp' => $startotp,
     ]);
     
 }

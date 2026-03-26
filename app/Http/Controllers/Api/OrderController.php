@@ -278,6 +278,7 @@ public function sendServiceOtp(Request $request)
         'ip' => $request->ip(),
         'is_active' => 1,
         'service_id' => $transferOrder->id,
+        'type' => $request->type,
     ]);
 
     // 👉 yaha SMS / WhatsApp / log kar sakte ho

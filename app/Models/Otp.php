@@ -21,6 +21,7 @@ class Otp extends Model
         'contact_no',
         'email',
         'otp',
+        'type',
         'ip',
         'is_active',
         'service_id',
