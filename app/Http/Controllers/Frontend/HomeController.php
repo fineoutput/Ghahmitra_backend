@@ -170,9 +170,6 @@ public function getSlots($day_id)
 
         $data['ManualCity'] = ManualCity::orderby('id','desc')->where('status', 1)->get();
 
-
-
-
         return view('frontend/cart', $data)->withTitle('cart');
     }
 

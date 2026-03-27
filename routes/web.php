@@ -62,12 +62,12 @@ Route::post('/send-otp', [AuthController::class, 'sendOtp'])->name('send.otp');
 Route::post('/verify-otp', [AuthController::class, 'verifyRegisterOtp'])->name('verify.otp');
 
 Route::get('/get-slots/{day_id}', [HomeController::class,'getSlots']);
-Route::get('order-success', [HomeController::class,'ordersuccess']);
+Route::get('order-success', [HomeController::class,'ordersuccess'])->name('order_success');
 
 Route::get('/service-reviews/{service}', [HomeController::class, 'serviceReviews'])
     ->name('service.reviews');
 
-    Route::get('/get-address/{id}', [HomeController::class, 'getAddress']);
+    Route::get('/get-address/{id}', [HomeController::class, 'getAddress'])->name('get_address');
 
     // User pages
     // Route::get('/my-requests', function () { return view('my-requests'); })->name('my-requests');

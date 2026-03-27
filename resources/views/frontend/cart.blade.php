@@ -447,35 +447,35 @@
         }
 
         .tag-btn {
-    border: 2px solid #ccc;
-    padding: 8px 15px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: 0.3s;
-}
+            border: 2px solid #ccc;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
 
-/* When radio is checked */
-.tag-btn input:checked + * {
-    border-color: #0d6efd;
-}
+        /* When radio is checked */
+        .tag-btn input:checked+* {
+            border-color: #0d6efd;
+        }
 
-/* OR better (recommended) */
-.tag-btn input:checked {
-    display: none;
-}
+        /* OR better (recommended) */
+        .tag-btn input:checked {
+            display: none;
+        }
 
-.tag-btn input:checked + span {
-    border-color: #0d6efd;
-}
+        .tag-btn input:checked+span {
+            border-color: #0d6efd;
+        }
 
-.tag-btn input:checked {
-    display: none;
-}
+        .tag-btn input:checked {
+            display: none;
+        }
 
-.tag-btn:has(input:checked) {
-    border: 2px solid #0d6efd;
-    background-color: #e7f1ff;
-}
+        .tag-btn:has(input:checked) {
+            border: 2px solid #0d6efd;
+            background-color: #e7f1ff;
+        }
     </style>
 
     </style>
@@ -509,31 +509,23 @@
 
                 <div class="modal-footer border-0 justify-content-between" style="padding: 20px">
                     {{-- <button type="button" class="btn btn-secondary rounded-2" data-bs-dismiss="modal">Back</button> --}}
-                   @php
-                        $allSelected = collect($cart_items)->every(function($item) {
+                    @php
+                        $allSelected = collect($cart_items)->every(function ($item) {
                             return !empty($item->availability_id) && !empty($item->slot_id);
                         });
                     @endphp
                     <p><b>Add Your Address</b></p>
-                    <button type="button" 
-                        class="btn btn-primary rounded-2"
+                    <button type="button" class="btn btn-primary rounded-2"
                         onclick="{{ $allSelected ? 'openAddressAfterSlot()' : 'alert(\'Select all cart items slot first\')' }}">
                         Select address
                     </button>
 
                 </div>
-                
+
 
 
                 <!-- Payment -->
-                <div class="cart-card">
-                    <div class="section-title">Cash on Service</div>
-                    <p class="text-muted small">(Pay after service via UPI, cash, card, or other payment methods.)</p>
-                    <button class="confirm-btn" >
-                        <a href="{{route('request_detail')}}">Confirm & Book
-                        Now</a>
-                    </button>
-                </div>
+
 
                 <!-- Service Process -->
                 {{-- <div class="cart-card">
@@ -553,158 +545,164 @@
             <div class="col-lg-6 mobile-step mobile-step-2">
 
                 <!-- Product -->
-                @if($cart_items)
-                
-                @foreach ($cart_items as $item)
-                @if($item->service)
-                    <div class="cart-card d-flex justify-content-between align-items-center">
-                        <div>
-                            <div class="fw-semibold">{{ $item->service->name ?? 'Service not found' }}</div>
-                        </div>
-                        <div class="d-flex align-items-center gap-3">
-                            <div class="qty-box" data-service-id="{{ $item->service->id }}"
-                                data-category-id="{{ $item->service->services_se_id }}">
-                                <button onclick="changeQty(-1,this)">-</button>
-                                <span class="qty">{{ $item->quantity }}</span>
-                                <button onclick="changeQty(1,this)">+</button>
-                            </div>
+                @if ($cart_items)
 
-                            {{-- <div id="cartMessage"></div> --}}
-                            <div class="fw-semibold">₹{{ $item->service->price * $item->quantity }}</div>
-                            <form action="{{ route('removecart') }}" method="POST">
-                                @csrf
-                                <input type="hidden" name="cart_id" value="{{ $item->id }}">
-
-                                <button type="submit" class="btn btn-sm btn-danger">
-                                    X
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="cart-card  d-flex justify-content-between align-items-center">
-                    @if($item->availability && $item->slot)
-    <div class="mt-2 small text-success">
-        Selected: 
-        {{ \Carbon\Carbon::parse($item->availability->day)->format('D, d M') }}
-        |
-        {{ $item->slot->start_time }} - {{ $item->slot->end_time }}
-    </div>
-@endif
-<a class="" data-bs-toggle="modal" data-bs-target="#selectSlotModal-{{$item->id}}">
-    <i class="fas fa-edit">
-    {{ $item->slot_id ? ':' : ':' }}</i>
-</a>
-</div>
-                    <div class="cart-card">
-    <div class="section-title">Address</div>
-
-    @if(!$item->slot_id)
-        <button class="primary-btn" data-bs-toggle="modal" data-bs-target="#selectSlotModal-{{$item->id}}">
-            Select date & time
-        </button>
-    @endif
-
-</div>
-
-                    <div class="modal fade" id="selectSlotModal-{{$item->id}}" tabindex="-1">
-                        <div class="modal-dialog modal-dialog-centered">
-                            <form action="{{ route('selectslot') }}" method="POST">
-                                @csrf
-
-                                <div class="modal-content slot-modal">
-
-                                    <div class="modal-header border-0">
-                                        <h5 class="modal-title fw-semibold">
-                                            When should the professional arrive?
-                                        </h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    @foreach ($cart_items as $item)
+                        @if ($item->service)
+                            <div class="cart-card d-flex justify-content-between align-items-center">
+                                <div>
+                                    <div class="fw-semibold">{{ $item->service->name ?? 'Service not found' }}</div>
+                                </div>
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="qty-box" data-service-id="{{ $item->service->id }}"
+                                        data-category-id="{{ $item->service->services_se_id }}">
+                                        <button onclick="changeQty(-1,this)">-</button>
+                                        <span class="qty">{{ $item->quantity }}</span>
+                                        <button onclick="changeQty(1,this)">+</button>
                                     </div>
 
-                                    <div class="modal-body">
+                                    {{-- <div id="cartMessage"></div> --}}
+                                    <div class="fw-semibold">₹{{ $item->service->price * $item->quantity }}</div>
+                                    <form action="{{ route('removecart') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="cart_id" value="{{ $item->id }}">
 
-                                        {{-- <div class="alert alert-info small rounded-2 mb-4">
+                                        <button type="submit" class="btn btn-sm btn-danger">
+                                            X
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="cart-card  d-flex justify-content-between align-items-center">
+                                @if ($item->availability && $item->slot)
+                                    <div class="mt-2 small text-success">
+                                        Selected:
+                                        {{ \Carbon\Carbon::parse($item->availability->day)->format('D, d M') }}
+                                        |
+                                        {{ $item->slot->start_time }} - {{ $item->slot->end_time }}
+                                    </div>
+                                @endif
+                                <a class="" data-bs-toggle="modal"
+                                    data-bs-target="#selectSlotModal-{{ $item->id }}">
+                                    <i class="fas fa-edit">
+                                        {{ $item->slot_id ? ':' : ':' }}</i>
+                                </a>
+                            </div>
+                            <div class="cart-card">
+                                <div class="section-title">Address</div>
+
+                                @if (!$item->slot_id)
+                                    <button class="primary-btn" data-bs-toggle="modal"
+                                        data-bs-target="#selectSlotModal-{{ $item->id }}">
+                                        Select date & time
+                                    </button>
+                                @endif
+
+                            </div>
+
+                            <div class="modal fade" id="selectSlotModal-{{ $item->id }}" tabindex="-1">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <form action="{{ route('selectslot') }}" method="POST">
+                                        @csrf
+
+                                        <div class="modal-content slot-modal">
+
+                                            <div class="modal-header border-0">
+                                                <h5 class="modal-title fw-semibold">
+                                                    When should the professional arrive?
+                                                </h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                            </div>
+
+                                            <div class="modal-body">
+
+                                                {{-- <div class="alert alert-info small rounded-2 mb-4">
                                             Service will take approx. 2 hrs & 10 mins
                                         </div> --}}
 
-                                        <input type="hidden" name="cart_item_id" value="{{ $item->id }}">
-                                        <input type="hidden" name="availability_id" id="availabilityInput-{{ $item->id }}">
-<input type="hidden" name="slot_id" id="slotInput-{{ $item->id }}">
+                                                <input type="hidden" name="cart_item_id" value="{{ $item->id }}">
+                                                <input type="hidden" name="availability_id"
+                                                    id="availabilityInput-{{ $item->id }}">
+                                                <input type="hidden" name="slot_id" id="slotInput-{{ $item->id }}">
 
 
-                                        <div class="mb-4">
+                                                <div class="mb-4">
 
-                                            <label class="fw-semibold mb-3 d-block">
-                                                Select a date
-                                            </label>
+                                                    <label class="fw-semibold mb-3 d-block">
+                                                        Select a date
+                                                    </label>
 
-                                            <div class="row g-2">
-                                                
-@foreach ($item->service->availability as $availability)
-    @php
-        $availabilityDate = \Carbon\Carbon::parse($availability->day);
-    @endphp
+                                                    <div class="row g-2">
 
-    @if($availabilityDate->isToday() || $availabilityDate->isFuture())
-        <div class="col-auto">
+                                                        @foreach ($item->service->availability as $availability)
+                                                            @php
+                                                                $availabilityDate = \Carbon\Carbon::parse(
+                                                                    $availability->day,
+                                                                );
+                                                            @endphp
 
-            <div class="date-box card 
+                                                            @if ($availabilityDate->isToday() || $availabilityDate->isFuture())
+                                                                <div class="col-auto">
+
+                                                                    <div class="date-box card 
                 text-center shadow-sm border-0 
-                {{ $item->availability_id == $availability->id ? 'active' : '' }}" 
-                data-id="{{ $availability->id }}">
-                
-                <div class="card-body p-2">
+                {{ $item->availability_id == $availability->id ? 'active' : '' }}"
+                                                                        data-id="{{ $availability->id }}">
 
-                    <div class="fw-semibold text-primary">
-                        {{ $availabilityDate->format('D') }}
-                    </div>
+                                                                        <div class="card-body p-2">
 
-                    <div class="small text-muted">
-                        {{ $availabilityDate->format('d M') }}
-                    </div>
+                                                                            <div class="fw-semibold text-primary">
+                                                                                {{ $availabilityDate->format('D') }}
+                                                                            </div>
 
-                </div>
+                                                                            <div class="small text-muted">
+                                                                                {{ $availabilityDate->format('d M') }}
+                                                                            </div>
 
-            </div>
+                                                                        </div>
 
-        </div>
-    @endif
-@endforeach
+                                                                    </div>
+
+                                                                </div>
+                                                            @endif
+                                                        @endforeach
+
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="mb-4">
+
+                                                    <label class="fw-semibold mb-3 d-block">
+                                                        Select start time of service
+                                                    </label>
+
+                                                    <div id="slotContainer-{{ $item->id }}" class="row g-2"></div>
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="modal-footer border-0">
+
+                                                <button type="button" class="btn btn-secondary rounded-2"
+                                                    data-bs-dismiss="modal">
+                                                    Back
+                                                </button>
+
+                                                <button type="submit" class="btn btn-primary rounded-2">
+                                                    Update
+                                                </button>
 
                                             </div>
 
                                         </div>
 
-                                        <div class="mb-4">
-
-                                            <label class="fw-semibold mb-3 d-block">
-                                                Select start time of service
-                                            </label>
-
-                                            <div id="slotContainer-{{ $item->id }}" class="row g-2"></div>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="modal-footer border-0">
-
-                                        <button type="button" class="btn btn-secondary rounded-2" data-bs-dismiss="modal">
-                                            Back
-                                        </button>
-
-                                        <button type="submit" class="btn btn-primary rounded-2">
-                                            Update
-                                        </button>
-
-                                    </div>
-
+                                    </form>
                                 </div>
-
-                            </form>
-                        </div>
-                    </div>
-                    @endif
-                @endforeach
+                            </div>
+                        @endif
+                    @endforeach
                 @endif
             </div>
 
@@ -765,7 +763,7 @@
             </div>
 
             <!-- Selected Booking Details -->
- 
+
 
             <!-- Notes -->
             {{-- <div class="cart-card note-box">
@@ -787,6 +785,15 @@
                     Add promo code
                 </button>
             </div>
+
+                            <div class="cart-card">
+                    <div class="section-title">Cash on Service</div>
+                    <p class="text-muted small">(Pay after service via UPI, cash, card, or other payment methods.)</p>
+                    <button class="confirm-btn">
+                        <a href="{{ route('request_detail') }}">Confirm & Book
+                            Now</a>
+                    </button>
+                </div>
 
             <!-- Mobile: continue to payment (second tab) -->
             <button class="primary-btn d-md-none mt-2" id="mobileContinueBtn" disabled>
@@ -1098,27 +1105,27 @@
                                 <!-- TYPE -->
                                 <div class="mb-2 fw-semibold mt-3">Save as</div>
 
-                               <div class="d-flex gap-2 mb-4">
+                                <div class="d-flex gap-2 mb-4">
 
-   <label class="tag-btn" onclick="selectTag(this)">
-        <input type="radio" name="type" value="home" hidden
-            {{ old('type', 'home') == 'home' ? 'checked' : '' }}>
-        Home
-    </label>
+                                    <label class="tag-btn" onclick="selectTag(this)">
+                                        <input type="radio" name="type" value="home" hidden
+                                            {{ old('type', 'home') == 'home' ? 'checked' : '' }}>
+                                        Home
+                                    </label>
 
-<label class="tag-btn" onclick="selectTag(this)">
-        <input type="radio" name="type" value="office" hidden
-            {{ old('type') == 'office' ? 'checked' : '' }}>
-        Office
-    </label>
+                                    <label class="tag-btn" onclick="selectTag(this)">
+                                        <input type="radio" name="type" value="office" hidden
+                                            {{ old('type') == 'office' ? 'checked' : '' }}>
+                                        Office
+                                    </label>
 
-<label class="tag-btn" onclick="selectTag(this)">
-        <input type="radio" name="type" value="other" hidden
-            {{ old('type') == 'other' ? 'checked' : '' }}>
-        Other
-    </label>
+                                    <label class="tag-btn" onclick="selectTag(this)">
+                                        <input type="radio" name="type" value="other" hidden
+                                            {{ old('type') == 'other' ? 'checked' : '' }}>
+                                        Other
+                                    </label>
 
-</div>
+                                </div>
 
                                 <!-- SUBMIT -->
                                 <button type="submit" class="btn btn-success save-btn w-100">
@@ -1219,11 +1226,15 @@
 
 
     <script>
-document.addEventListener("DOMContentLoaded", function () {
-    let addressId = localStorage.getItem("selected_address_id");
+        document.addEventListener("DOMContentLoaded", function() {
+            let addressId = localStorage.getItem("selected_address_id");
 
-    if (addressId) {
-        fetch(`/get-address/${addressId}`)
+  if (addressId) {
+
+        // Use Laravel route name
+        let url = "{{ route('get_address', ['id' => ':id']) }}".replace(':id', addressId);
+
+        fetch(url)
             .then(res => res.json())
             .then(response => {
                 if (response.status) {
@@ -1241,39 +1252,41 @@ document.addEventListener("DOMContentLoaded", function () {
             });
     }
 });
-</script>
+    </script>
 
 
     <style>
         .slot-box {
-    padding: 8px 12px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    background: #fff;
-}
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            cursor: pointer;
+            position: relative;
+            background: #fff;
+        }
 
-.slot-box.active {
-    background: #0d6efd;
-    color: #fff;
-}
+        .slot-box.active {
+            background: #0d6efd;
+            color: #fff;
+        }
 
-.slot-box.unavailable {
-    background: #f5f5f5;
-    color: #999;
-    cursor: not-allowed;
-}
+        .slot-box.unavailable {
+            background: #f5f5f5;
+            color: #999;
+            cursor: not-allowed;
+        }
     </style>
-    <script>
 
-function selectTag(el) {
-    document.querySelectorAll('.tag-btn').forEach(btn => btn.classList.remove('active'));
-    el.classList.add('active');
 
-    // select radio inside clicked label
-    el.querySelector('input').checked = true;
-}
+    {{-- <script>
+
+    function selectTag(el) {
+        document.querySelectorAll('.tag-btn').forEach(btn => btn.classList.remove('active'));
+        el.classList.add('active');
+
+        // select radio inside clicked label
+        el.querySelector('input').checked = true;
+    }
 
         let selectedSlot = "{{ isset($item) ? $item->slot_id : '' }}";
 
@@ -1361,10 +1374,126 @@ function selectTag(el) {
     col.appendChild(slotBox);
     slotContainer.appendChild(col);
 
-});
+    });
+
+                });
 
             });
+        });
 
+    });
+</script> --}}
+<style>
+.date-box {
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.date-box.active {
+    background-color: #8fb3e9; /* blue background */
+    color: white;
+    border-radius: 0.25rem;
+}
+</style>
+
+    <script>
+        function selectTag(el) {
+            document.querySelectorAll('.tag-btn').forEach(btn => btn.classList.remove('active'));
+            el.classList.add('active');
+
+            // select radio inside clicked label
+            el.querySelector('input').checked = true;
+        }
+
+        // Loop through all modals
+      document.querySelectorAll('[id^="selectSlotModal-"]').forEach(modal => {
+
+    let itemId = modal.id.split('-')[1];
+    let selectedSlot = modal.dataset.selectedSlot || '';
+
+    // Date boxes in this modal
+    modal.querySelectorAll('.date-box').forEach(box => {
+        box.addEventListener('click', function() {
+
+            // 1️⃣ Remove previous active class from all date-boxes
+            modal.querySelectorAll('.date-box').forEach(b => b.classList.remove('active'));
+
+            // 2️⃣ Add active to clicked date-box
+            this.classList.add('active');
+
+            // 3️⃣ Set hidden input value
+            let availability_id = this.dataset.id;
+            document.getElementById('availabilityInput-' + itemId).value = availability_id;
+
+            // 4️⃣ Load slots for this date
+            let slotContainer = document.getElementById('slotContainer-' + itemId);
+            slotContainer.innerHTML = "Loading...";
+
+            fetch("{{ url('get-slots') }}/" + availability_id)
+                .then(res => res.json())
+                .then(data => {
+                    slotContainer.innerHTML = '';
+                    let now = new Date();
+
+                    data.data.forEach(slot => {
+                        let col = document.createElement('div');
+                        col.classList.add('col-auto');
+
+                        let slotBox = document.createElement('div');
+                        slotBox.classList.add('slot-box');
+                        slotBox.dataset.id = slot.id;
+
+                        // Check if slot is past
+                        let slotStart = new Date();
+                        let [hours, minutes] = slot.start_time.split(':');
+                        slotStart.setHours(parseInt(hours), parseInt(minutes), 0, 0);
+                        let isPast = slotStart < now;
+
+                        slotBox.innerText = slot.start_time + " - " + slot.end_time;
+
+                        // Unavailable or past slots
+                        if (!slot.is_available || isPast) {
+                            slotBox.classList.add('unavailable');
+                            slotBox.innerHTML = `
+                                <div style="position: relative;">
+                                    ${slot.start_time} - ${slot.end_time}
+                                    <span style="
+                                        position:absolute;
+                                        top:0;
+                                        left:0;
+                                        width:100%;
+                                        height:100%;
+                                        display:flex;
+                                        align-items:center;
+                                        justify-content:center;
+                                        font-size:20px;
+                                        color:red;
+                                        font-weight:bold;
+                                    ">/</span>
+                                </div>
+                            `;
+                            slotBox.style.pointerEvents = 'none';
+                        }
+
+                        // Pre-select if it matches selectedSlot and is available & future
+                        if (selectedSlot == slot.id && slot.is_available && !isPast) {
+                            slotBox.classList.add('active');
+                            document.getElementById('slotInput-' + itemId).value = slot.id;
+                        }
+
+                        // Click event for selectable slots
+                        slotBox.onclick = function() {
+                            if (!slot.is_available || isPast) return;
+
+                            slotContainer.querySelectorAll('.slot-box').forEach(b => b.classList.remove('active'));
+                            this.classList.add('active');
+                            document.getElementById('slotInput-' + itemId).value = slot.id;
+                        };
+
+                        col.appendChild(slotBox);
+                        slotContainer.appendChild(col);
+                    });
+                });
         });
     });
 
@@ -1381,37 +1510,37 @@ function selectTag(el) {
 
         function goToRequestDetail() {
 
-    let addressId = localStorage.getItem('selected_address_id');
+            let addressId = localStorage.getItem('selected_address_id');
 
-    if (!addressId) {
-        alert("Please select address");
-        return;
-    }
+            if (!addressId) {
+                alert("Please select address");
+                return;
+            }
 
-    // Get selected radio
-    let selectedRadio = document.querySelector('input[name="address"]:checked');
+            // Get selected radio
+            let selectedRadio = document.querySelector('input[name="address"]:checked');
 
-    if (selectedRadio) {
-        let label = selectedRadio.closest('.address-option').querySelector('label');
+            if (selectedRadio) {
+                let label = selectedRadio.closest('.address-option').querySelector('label');
 
-        selectedAddressData = {
-            tag: label.querySelector('strong').innerText,
-            fullAddress: label.querySelector('.small').innerText
-        };
+                selectedAddressData = {
+                    tag: label.querySelector('strong').innerText,
+                    fullAddress: label.querySelector('.small').innerText
+                };
 
-        // Show booking details UI
-        document.getElementById('bookingDetailsCard').style.display = 'block';
-        // document.getElementById('displaySelectedAddress').textContent =
-        //     selectedAddressData.tag + ' - ' + selectedAddressData.fullAddress;
+                // Show booking details UI
+                document.getElementById('bookingDetailsCard').style.display = 'block';
+                // document.getElementById('displaySelectedAddress').textContent =
+                //     selectedAddressData.tag + ' - ' + selectedAddressData.fullAddress;
 
-        // Enable confirm button if slot also selected
-        checkIfComplete();
-    }
+                // Enable confirm button if slot also selected
+                checkIfComplete();
+            }
 
-    // ✅ ONLY close modal
-    let modal = bootstrap.Modal.getInstance(document.getElementById('savedAddressModal'));
-    modal.hide();
-}
+            // ✅ ONLY close modal
+            let modal = bootstrap.Modal.getInstance(document.getElementById('savedAddressModal'));
+            modal.hide();
+        }
     </script>
 
 
@@ -1423,32 +1552,33 @@ function selectTag(el) {
 
         $('#city_id').change(function() {
 
-    var city_id = $(this).val();
-    var url = "{{ route('customer.cart_state') }}";
+            var city_id = $(this).val();
+            var url = "{{ route('customer.cart_state') }}";
 
-    $.ajax({
-        url: url,
-        type: "GET",
-        data: {
-            city_id: city_id
-        },
+            $.ajax({
+                url: url,
+                type: "GET",
+                data: {
+                    city_id: city_id
+                },
 
-        success: function(data) {
+                success: function(data) {
 
-            $('#pincode').html('<option value="">Select pincode</option>');
+                    $('#pincode').html('<option value="">Select pincode</option>');
 
-            $.each(data, function(key, value) {
+                    $.each(data, function(key, value) {
 
-                $('#pincode').append(
-                    '<option value="' + value.trim() + '">' + value.trim() + '</option>'
-                );
+                        $('#pincode').append(
+                            '<option value="' + value.trim() + '">' + value.trim() +
+                            '</option>'
+                        );
 
+                    });
+
+                }
             });
 
-        }
-    });
-
-});
+        });
     </script>
 
 
@@ -1769,9 +1899,9 @@ function selectTag(el) {
 
         // Edit address
         function editAddress() {
-    const addressModal = new bootstrap.Modal(document.getElementById('savedAddressModal'));
-    addressModal.show();
-}
+            const addressModal = new bootstrap.Modal(document.getElementById('savedAddressModal'));
+            addressModal.show();
+        }
 
         // Edit slot
         function editSlot() {
@@ -1795,24 +1925,24 @@ function selectTag(el) {
         // Confirm and Book function with animation
         function confirmAndBook() {
 
-    const selectedDate = document.querySelector('.date-btn.active');
-    const selectedTime = document.querySelector('.time-btn.active');
-    let addressId = localStorage.getItem('selected_address_id');
+            const selectedDate = document.querySelector('.date-btn.active');
+            const selectedTime = document.querySelector('.time-btn.active');
+            let addressId = localStorage.getItem('selected_address_id');
 
-    if (!selectedDate || !selectedTime || !addressId) {
-        alert('Please select address and time slot first');
-        return;
-    }
+            if (!selectedDate || !selectedTime || !addressId) {
+                alert('Please select address and time slot first');
+                return;
+            }
 
-    // Optional: show animation first
-    const confirmationModal = new bootstrap.Modal(document.getElementById('bookingConfirmationModal'));
-    confirmationModal.show();
+            // Optional: show animation first
+            const confirmationModal = new bootstrap.Modal(document.getElementById('bookingConfirmationModal'));
+            confirmationModal.show();
 
-    // ✅ Redirect after 2 sec (or directly if you want)
-    setTimeout(() => {
-        window.location.href = "{{ route('request_detail') }}";
-    }, 2000);
-}
+            // ✅ Redirect after 2 sec (or directly if you want)
+            setTimeout(() => {
+                window.location.href = "{{ route('request_detail') }}";
+            }, 2000);
+        }
 
         // Mobile two-step flow helpers
         function goToMobileStep2() {

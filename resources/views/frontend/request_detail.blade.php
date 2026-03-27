@@ -414,7 +414,7 @@ function checkoutOrder() {
             alert("Order placed successfully");
 
             // optional redirect
-            window.location.href = "/order-success";
+            window.location.href = "{{ route('order_success') }}";
 
         }else{
             alert(data.message);
