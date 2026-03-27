@@ -239,7 +239,7 @@
         .address-picker-footer img {
             height: 14px;
         }
-        ..cart-count.position-absolute.top-0.z-0 {
+        .cart-count.position-absolute.top-0.z-0 {
     background: red;
     height: 23px;
     width: 23px;
@@ -249,6 +249,31 @@
     color: black !important;
     font-size: 11px;
 
+}
+.cart-icon-wrapper {
+    position: relative;
+    display: inline-block;
+    color: #000;
+}
+
+.cart-icon {
+    font-size: 20px;
+}
+
+.cart-badge {
+    position: absolute;
+    top: -6px;
+    right: -8px;
+    background: #ff3b3b;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 50px;
+    line-height: 1;
+    min-width: 18px;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 }
     </style>
 
@@ -342,12 +367,13 @@
 
                 <!-- Right: Icons -->
                 <div class="d-none d-lg-flex align-items-center gap-3">
-                    <a href="{{ route('cart') }}" class="text-dark position-relative">
-                        <i class="fa-solid fa-cart-shopping fs-5"></i>
-                        <div class="cart-count position-absolute top-0 z-0">
-                            <p class="">{{ $cartCount }}</p>
-                        </div>
-                    </a>
+    <a href="{{ route('cart') }}" class="cart-icon-wrapper">
+        <i class="fa-solid fa-cart-shopping cart-icon"></i>
+
+        @if($cartCount > 0)
+            <span class="cart-badge">{{ $cartCount }}</span>
+        @endif
+    </a>
                     <!-- Test profile dropdown (always visible for testing) -->
                     <div class="dropdown d-inline-block">
                         <a class="d-flex align-items-center text-dark text-decoration-none" href="#"
