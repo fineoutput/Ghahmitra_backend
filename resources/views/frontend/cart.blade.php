@@ -826,6 +826,7 @@
                     </div>
 
                     @foreach ($CustomerAddresses as $addresses)
+                    <div class="d-flex justify-content-between align-items-center">
                         <div class="address-option mt-2">
 
                             <input type="radio" name="address" value="{{ $addresses->id }}"
@@ -841,17 +842,18 @@
                                 </div>
 
                             </label>
-                            <form action="{{ route('delete_address', $addresses->id) }}" method="POST" style="display:inline;">
-    @csrf
-    @method('DELETE')
-
-    <button type="submit" class="btn btn-sm btn-danger">
-        X
-    </button>
-</form>
+                            
                         </div>
-                    @endforeach
+                        <form action="{{ route('delete_address', $addresses->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
 
+                                <button type="submit" class="btn btn-sm btn-danger">
+                                    X
+                                </button>
+                            </form>
+                    @endforeach
+                            </div>
 
                 </div>
 
