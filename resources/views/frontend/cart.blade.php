@@ -790,10 +790,9 @@
                             <div class="cart-card">
                     <div class="section-title">Cash on Service</div>
                     <p class="text-muted small">(Pay after service via UPI, cash, card, or other payment methods.)</p>
-                    <button class="confirm-btn">
-                        <a href="{{ route('request_detail') }}">Confirm & Book
-                            Now</a>
-                    </button>
+                    <button class="confirm-btn" id="confirmBookBtn">
+    Confirm & Book Now
+</button>
                 </div>
 
             <!-- Mobile: continue to payment (second tab) -->
@@ -1397,110 +1396,176 @@
 }
 </style>
 
-    <script>
-        function selectTag(el) {
-            document.querySelectorAll('.tag-btn').forEach(btn => btn.classList.remove('active'));
-            el.classList.add('active');
+<script>
+    let selectedDateTime = null;   // Will store full Date object of selected slot
+    let selectedAddressData = {
+        tag: '',
+        fullAddress: ''
+    };
 
-            // select radio inside clicked label
-            el.querySelector('input').checked = true;
-        }
+    // ==================== SLOT SELECTION LOGIC ====================
 
-        // Loop through all modals
-      document.querySelectorAll('[id^="selectSlotModal-"]').forEach(modal => {
+    document.querySelectorAll('[id^="selectSlotModal-"]').forEach(modal => {
+        let itemId = modal.id.split('-')[1];
 
-    let itemId = modal.id.split('-')[1];
-    let selectedSlot = modal.dataset.selectedSlot || '';
+        modal.querySelectorAll('.date-box').forEach(box => {
+            box.addEventListener('click', function() {
 
-    // Date boxes in this modal
-    modal.querySelectorAll('.date-box').forEach(box => {
-        box.addEventListener('click', function() {
+                // Remove active from all dates
+                modal.querySelectorAll('.date-box').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
 
-            // 1️⃣ Remove previous active class from all date-boxes
-            modal.querySelectorAll('.date-box').forEach(b => b.classList.remove('active'));
+                let availability_id = this.dataset.id;
+                document.getElementById('availabilityInput-' + itemId).value = availability_id;
 
-            // 2️⃣ Add active to clicked date-box
-            this.classList.add('active');
+                let slotContainer = document.getElementById('slotContainer-' + itemId);
+                slotContainer.innerHTML = "Loading...";
 
-            // 3️⃣ Set hidden input value
-            let availability_id = this.dataset.id;
-            document.getElementById('availabilityInput-' + itemId).value = availability_id;
+                fetch("{{ url('get-slots') }}/" + availability_id)
+                    .then(res => res.json())
+                    .then(data => {
+                        slotContainer.innerHTML = '';
+                        const now = new Date();
 
-            // 4️⃣ Load slots for this date
-            let slotContainer = document.getElementById('slotContainer-' + itemId);
-            slotContainer.innerHTML = "Loading...";
+                        data.data.forEach(slot => {
+                            let col = document.createElement('div');
+                            col.classList.add('col-auto');
 
-            fetch("{{ url('get-slots') }}/" + availability_id)
-                .then(res => res.json())
-                .then(data => {
-                    slotContainer.innerHTML = '';
-                    let now = new Date();
+                            let slotBox = document.createElement('div');
+                            slotBox.classList.add('slot-box');
+                            slotBox.dataset.id = slot.id;
 
-                    data.data.forEach(slot => {
-                        let col = document.createElement('div');
-                        col.classList.add('col-auto');
+                            // Create full datetime for this slot
+                            let [hours, minutes] = slot.start_time.split(':');
+                            let slotDateTime = new Date();
+                            slotDateTime.setHours(parseInt(hours), parseInt(minutes), 0, 0);
 
-                        let slotBox = document.createElement('div');
-                        slotBox.classList.add('slot-box');
-                        slotBox.dataset.id = slot.id;
+                            // Check if slot is in past
+                            let isPast = slotDateTime < now;
 
-                        // Check if slot is past
-                        let slotStart = new Date();
-                        let [hours, minutes] = slot.start_time.split(':');
-                        slotStart.setHours(parseInt(hours), parseInt(minutes), 0, 0);
-                        let isPast = slotStart < now;
+                            slotBox.innerText = `${slot.start_time} - ${slot.end_time}`;
 
-                        slotBox.innerText = slot.start_time + " - " + slot.end_time;
+                            if (!slot.is_available || isPast) {
+                                slotBox.classList.add('unavailable');
+                                slotBox.innerHTML = `
+                                    <div style="position: relative;">
+                                        ${slot.start_time} - ${slot.end_time}
+                                        ${isPast ? '<span style="position:absolute; top:0; left:0; width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:18px; color:red; font-weight:bold;">Past</span>' : '<span style="position:absolute; top:0; left:0; width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:20px; color:red; font-weight:bold;">/</span>'}
+                                    </div>
+                                `;
+                                slotBox.style.pointerEvents = 'none';
+                            }
 
-                        // Unavailable or past slots
-                        if (!slot.is_available || isPast) {
-                            slotBox.classList.add('unavailable');
-                            slotBox.innerHTML = `
-                                <div style="position: relative;">
-                                    ${slot.start_time} - ${slot.end_time}
-                                    <span style="
-                                        position:absolute;
-                                        top:0;
-                                        left:0;
-                                        width:100%;
-                                        height:100%;
-                                        display:flex;
-                                        align-items:center;
-                                        justify-content:center;
-                                        font-size:20px;
-                                        color:red;
-                                        font-weight:bold;
-                                    ">/</span>
-                                </div>
-                            `;
-                            slotBox.style.pointerEvents = 'none';
-                        }
+                            // Pre-select if already chosen
+                            if (slot.id == "{{ $item->slot_id ?? '' }}" && !isPast && slot.is_available) {
+                                slotBox.classList.add('active');
+                                document.getElementById('slotInput-' + itemId).value = slot.id;
+                                selectedDateTime = slotDateTime;
+                            }
 
-                        // Pre-select if it matches selectedSlot and is available & future
-                        if (selectedSlot == slot.id && slot.is_available && !isPast) {
-                            slotBox.classList.add('active');
-                            document.getElementById('slotInput-' + itemId).value = slot.id;
-                        }
+                            // Click handler
+                            slotBox.onclick = function() {
+                                if (!slot.is_available || isPast) return;
 
-                        // Click event for selectable slots
-                        slotBox.onclick = function() {
-                            if (!slot.is_available || isPast) return;
+                                // Deselect all
+                                slotContainer.querySelectorAll('.slot-box').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
 
-                            slotContainer.querySelectorAll('.slot-box').forEach(b => b.classList.remove('active'));
-                            this.classList.add('active');
-                            document.getElementById('slotInput-' + itemId).value = slot.id;
-                        };
+                                document.getElementById('slotInput-' + itemId).value = slot.id;
+                                selectedDateTime = slotDateTime;   // ← Important: Store selected datetime
 
-                        col.appendChild(slotBox);
-                        slotContainer.appendChild(col);
+                                checkIfComplete();
+                            };
+
+                            col.appendChild(slotBox);
+                            slotContainer.appendChild(col);
+                        });
                     });
-                });
+            });
         });
     });
 
-});
-    </script>
+    // ==================== CONFIRM & BOOK VALIDATION ====================
 
+    function confirmAndBook() {
+        const addressId = localStorage.getItem('selected_address_id');
+
+        if (!selectedDateTime) {
+            alert("Please select a date and time slot first.");
+            return;
+        }
+
+        // Critical Check: Prevent past slots
+        if (selectedDateTime < new Date()) {
+            alert("❌ Selected time slot is in the past. Please choose a future time slot.");
+            return;
+        }
+
+        if (!addressId) {
+            alert("Please select an address.");
+            return;
+        }
+
+        // Show confirmation animation
+        const confirmationModal = new bootstrap.Modal(document.getElementById('bookingConfirmationModal'));
+        confirmationModal.show();
+
+        // Redirect after animation
+        setTimeout(() => {
+            window.location.href = "{{ route('request_detail') }}";
+        }, 2000);
+    }
+
+    // ==================== HELPER FUNCTIONS ====================
+
+    function checkIfComplete() {
+        const confirmBtn = document.querySelector('.confirm-btn a') ? 
+                          document.querySelector('.confirm-btn a').parentElement : null;
+
+        if (selectedDateTime && selectedDateTime >= new Date() && localStorage.getItem('selected_address_id')) {
+            if (confirmBtn) {
+                confirmBtn.classList.add('enabled');
+                confirmBtn.disabled = false;
+            }
+        } else {
+            if (confirmBtn) {
+                confirmBtn.classList.remove('enabled');
+            }
+        }
+    }
+
+    function openAddressAfterSlot() {
+        const slotModal = bootstrap.Modal.getInstance(document.getElementById('selectSlotModal'));
+        if (slotModal) slotModal.hide();
+
+        const addressModal = new bootstrap.Modal(document.getElementById('savedAddressModal'));
+        addressModal.show();
+    }
+
+    function editAddress() {
+        const addressModal = new bootstrap.Modal(document.getElementById('savedAddressModal'));
+        addressModal.show();
+    }
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        // Check completion status on load
+        setTimeout(checkIfComplete, 800);
+
+        // Make Confirm & Book button call our validation function
+        const confirmButtonContainer = document.querySelector('.confirm-btn');
+        if (confirmButtonContainer) {
+            const link = confirmButtonContainer.querySelector('a');
+            if (link) {
+                link.href = "#";                    // Remove direct navigation
+                link.onclick = function(e) {
+                    e.preventDefault();
+                    confirmAndBook();
+                };
+            }
+        }
+    });
+</script>
 
     <script>
         function selectAddress(addressId) {
