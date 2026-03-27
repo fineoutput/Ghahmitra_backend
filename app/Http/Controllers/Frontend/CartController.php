@@ -235,7 +235,7 @@ public function getCities(Request $request)
 
     ]);
 
-      return redirect()->route('request_detail')->with('success','Address Added');
+      return redirect()->back()->with('success','Address Added');
 
     }
 

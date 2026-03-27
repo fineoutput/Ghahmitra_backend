@@ -1571,6 +1571,7 @@
         function selectAddress(addressId) {
 
             localStorage.setItem('selected_address_id', addressId);
+            window.location.reload();
 
         }
 
@@ -1608,6 +1609,21 @@
             modal.hide();
         }
     </script>
+
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    let savedAddressId = localStorage.getItem('selected_address_id');
+
+    if (savedAddressId) {
+        let radio = document.querySelector(`input[name="address"][value="${savedAddressId}"]`);
+        if (radio) {
+            radio.checked = true;
+        }
+    }
+
+});
+</script>
 
 
     <script>
