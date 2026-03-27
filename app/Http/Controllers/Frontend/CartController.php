@@ -28,12 +28,10 @@ class CartController extends Controller
     $customer = Auth::guard('customer')->user();
 
     if (!$customer) {
-
         return response()->json([
             'status' => 401,
-            'message' => 'Unauthorized'
-        ],401);
-
+            'message' => 'Login First'
+        ], 401);
     }
 
     $request->validate([

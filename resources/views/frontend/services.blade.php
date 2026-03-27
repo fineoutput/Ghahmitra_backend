@@ -522,66 +522,114 @@
 
 
 
-
 <script>
-
 function addToCart(button) {
-
     let service_id = button.dataset.serviceId;
     let category_id = button.dataset.categoryId;
 
     fetch("{{ route('addtocart') }}", {
-
         method: "POST",
-
         headers: {
             "Content-Type": "application/json",
             "X-CSRF-TOKEN": "{{ csrf_token() }}"
         },
-
         body: JSON.stringify({
             service_id: service_id,
             category_id: category_id,
             availability_id: null,
             quantity: 1
         })
-
     })
-
     .then(response => response.json())
-
     .then(data => {
 
-        if(data.status === 201 || data.status === 200){
+        // Remove old toast if exists
+        let oldToast = document.getElementById('ajax-toast');
+        if(oldToast) oldToast.remove();
 
-            alert(data.message);
+        // Determine toast color
+        let bgColor = 'bg-success'; // default success
+        if(data.status === 401 || data.status === 400) bgColor = 'bg-danger';
+        else if(data.status === 200) bgColor = 'bg-info';
 
-            // modal close
-            let modal = document.querySelector('.modal.show');
+        // Create toast container
+        let toastDiv = document.createElement('div');
+        toastDiv.id = 'ajax-toast';
+        toastDiv.className = `toast align-items-center text-white ${bgColor} border-0`;
+        toastDiv.role = 'alert';
+        toastDiv.ariaLive = 'assertive';
+        toastDiv.ariaAtomic = 'true';
+        toastDiv.style.position = 'fixed';
+        toastDiv.style.top = '20px';
+        toastDiv.style.right = '20px';
+        toastDiv.style.zIndex = '9999';
+        toastDiv.style.minWidth = '250px';
 
-            if(modal){
-                let modalInstance = bootstrap.Modal.getInstance(modal);
-                modalInstance.hide();
-            }
+        // Toast content
+        toastDiv.innerHTML = `
+            <div class="d-flex">
+                <div class="toast-body">
+                    ${data.message}
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        `;
 
-        }else{
+        document.body.appendChild(toastDiv);
 
-            alert(data.message);
+        // Show bootstrap toast
+        let bsToast = new bootstrap.Toast(toastDiv, { delay: 3000 });
+        bsToast.show();
 
+        // Close modal if open
+        let modal = document.querySelector('.modal.show');
+        if(modal){
+            let modalInstance = bootstrap.Modal.getInstance(modal);
+            modalInstance.hide();
         }
 
     })
-
     .catch(error => {
-
         console.log(error);
-        alert("Something went wrong");
 
+        // Show error toast
+        let oldToast = document.getElementById('ajax-toast');
+        if(oldToast) oldToast.remove();
+
+        let toastDiv = document.createElement('div');
+        toastDiv.className = 'toast align-items-center text-white bg-danger border-0';
+        toastDiv.role = 'alert';
+        toastDiv.ariaLive = 'assertive';
+        toastDiv.ariaAtomic = 'true';
+        toastDiv.style.position = 'fixed';
+        toastDiv.style.top = '20px';
+        toastDiv.style.right = '20px';
+        toastDiv.style.zIndex = '9999';
+        toastDiv.style.minWidth = '250px';
+
+        toastDiv.innerHTML = `
+            <div class="d-flex">
+                <div class="toast-body">
+                    Something went wrong
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        `;
+
+        document.body.appendChild(toastDiv);
+        let bsToast = new bootstrap.Toast(toastDiv, { delay: 3000 });
+        bsToast.show();
     });
 
 }
-
 </script>
+<style>
+/* Slide-down animation */
+.slide-alert.slide-down {
+    opacity: 0;
+    transform: translateY(40px);
+}
+</style>
 
 <script>
   // Initialize Splide slider & modal behaviors
