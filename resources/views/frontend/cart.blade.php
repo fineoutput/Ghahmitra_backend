@@ -1457,7 +1457,7 @@
                                 slotBox.innerHTML = `
                                     <div style="position: relative;">
                                         ${slot.start_time} - ${slot.end_time}
-                                        ${isPast ? '<span style="position:absolute; top:0; left:0; width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:18px; color:red; font-weight:bold;">Past</span>' : '<span style="position:absolute; top:0; left:0; width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:20px; color:red; font-weight:bold;">/</span>'}
+                                        ${isPast ? '<span style="position:absolute; top:0; left:0; width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:18px; color:red; font-weight:bold;">/</span>' : '<span style="position:absolute; top:0; left:0; width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:20px; color:red; font-weight:bold;">/</span>'}
                                     </div>
                                 `;
                                 slotBox.style.pointerEvents = 'none';
@@ -1578,6 +1578,7 @@
         function selectAddress(addressId) {
 
             localStorage.setItem('selected_address_id', addressId);
+            window.location.reload();
 
         }
 
@@ -1615,6 +1616,21 @@
             modal.hide();
         }
     </script>
+
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    let savedAddressId = localStorage.getItem('selected_address_id');
+
+    if (savedAddressId) {
+        let radio = document.querySelector(`input[name="address"][value="${savedAddressId}"]`);
+        if (radio) {
+            radio.checked = true;
+        }
+    }
+
+});
+</script>
 
 
     <script>

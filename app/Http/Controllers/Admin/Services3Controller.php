@@ -188,22 +188,18 @@ public function deleteImage($id, $imageName)
 
 
 
-    public function destroy($id)
-    {
-        $service = Th_Services::findOrFail($id);
-        $cart = Cart::where('service_id',$id)->get();
-        if($cart){
-            $cart->delete();
-        }
+public function destroy($id)
+{
+    $service = Th_Services::findOrFail($id);
 
-        // if ($service->image && file_exists(public_path($service->image))) {
-        //     unlink(public_path($service->image));
-        // }
+    // delete related cart records
+    Cart::where('service_id', $id)->delete();
 
-        $service->delete();
+    // delete service
+    $service->delete();
 
-        return redirect()->back()->with('success', 'Record deleted successfully.');
-    }
+    return redirect()->back()->with('success', 'Record deleted successfully.');
+}
 
     public function updateStatus(Request $request, $id)
     {
