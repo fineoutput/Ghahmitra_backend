@@ -239,5 +239,30 @@ public function getCities(Request $request)
 
     }
 
-
+public function deleteAddress($id)
+{
+    $customer = Auth::guard('customer')->user();
+ 
+    if (!$customer) {
+        return response()->json([
+            'status' => 401,
+            'message' => 'Login required'
+        ], 401);
+    }
+ 
+    $address = CustomerAddresses::where('id', $id)
+        ->where('customer_id', $customer->id) // security check
+        ->first();
+ 
+    if (!$address) {
+        return response()->json([
+            'status' => 404,
+            'message' => 'Address not found'
+        ]);
+    }
+ 
+    $address->delete();
+ 
+    return redirect()->route('request_detail')->with('success','Address Added');
+}
 }

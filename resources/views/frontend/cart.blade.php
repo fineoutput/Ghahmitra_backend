@@ -841,7 +841,14 @@
                                 </div>
 
                             </label>
+                            <form action="{{ route('delete_address', $addresses->id) }}" method="POST" style="display:inline;">
+    @csrf
+    @method('DELETE')
 
+    <button type="submit" class="btn btn-sm btn-danger">
+        X
+    </button>
+</form>
                         </div>
                     @endforeach
 

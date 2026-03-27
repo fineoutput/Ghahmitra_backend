@@ -94,7 +94,7 @@ Route::prefix('customer')->group(function () {
     Route::post('/checkout', [HomeController::class, 'checkout'])->name('checkout');
     Route::get('/my-requests', [HomeController::class, 'my_requests'])->name('customer.my_requests');
     Route::get('/order-detail/{id}', [HomeController::class, 'orderDetail'])->name('orderdetail');
-
+    Route::delete('/delete-address/{id}', [CartController::class, 'deleteAddress'])->name('delete_address');
 Route::post('/reviews/store', [HomeController::class, 'reviewstore'])->name('reviews.store');
 
 
