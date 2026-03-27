@@ -1450,7 +1450,7 @@
                                 slotBox.innerHTML = `
                                     <div style="position: relative;">
                                         ${slot.start_time} - ${slot.end_time}
-                                        ${isPast ? '<span style="position:absolute; top:0; left:0; width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:18px; color:red; font-weight:bold;">Past</span>' : '<span style="position:absolute; top:0; left:0; width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:20px; color:red; font-weight:bold;">/</span>'}
+                                        ${isPast ? '<span style="position:absolute; top:0; left:0; width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:18px; color:red; font-weight:bold;">/</span>' : '<span style="position:absolute; top:0; left:0; width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:20px; color:red; font-weight:bold;">/</span>'}
                                     </div>
                                 `;
                                 slotBox.style.pointerEvents = 'none';
